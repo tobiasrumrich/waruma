@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.graphics.Point;
 
 public class MainWindow {
 
@@ -49,12 +50,14 @@ public class MainWindow {
 		shlRushHour.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Menu menu = new Menu(shlRushHour, SWT.BAR);
+		menu.setLocation(new Point(0, 0));
 		shlRushHour.setMenuBar(menu);
 		
 		MenuItem mntmRushhour = new MenuItem(menu, SWT.CASCADE);
 		mntmRushhour.setText("Datei");
 		
 		Menu menu_1 = new Menu(mntmRushhour);
+		menu_1.setLocation(new Point(0, 0));
 		mntmRushhour.setMenu(menu_1);
 		
 		MenuItem mntmSpielLaden = new MenuItem(menu_1, SWT.NONE);
