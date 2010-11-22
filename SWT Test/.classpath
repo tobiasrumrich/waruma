@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Users/Tobias Rumrich/Downloads/eclipse-SDK-3.6.1-win32-x86_64/eclipse/plugins/org.eclipse.swt.win32.win32.x86_64_3.6.1.v3655c.jar" sourcepath="C:/Users/Tobias Rumrich/Downloads/eclipse-SDK-3.6.1-win32-x86_64/eclipse/plugins/org.eclipse.swt.win32.win32.x86_64.source_3.6.1.v3655c.jar"/>
-	<classpathentry kind="lib" path="D:/- Development -/Java/Eclipse Java EE/plugins/org.eclipse.swt.win32.win32.x86_3.6.1.v3655c.jar"/>
-	<classpathentry kind="lib" path="D:/- Development -/Java/Eclipse Java EE/plugins/com.instantiations.designer.rcp.swing2swt_8.1.0.r36x201010220731.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="swing2swt.jar"/>
+	<classpathentry kind="lib" path="org.eclipse.swt.win32.win32.x86_3.6.1.v3655c.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
