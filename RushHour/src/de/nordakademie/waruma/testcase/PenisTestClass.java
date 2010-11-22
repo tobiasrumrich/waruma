@@ -1,6 +1,6 @@
 package de.nordakademie.waruma.testcase;
 
 public class PenisTestClass {
-
-	rammeln();
+	private String test999;
+	private int length;
 }
