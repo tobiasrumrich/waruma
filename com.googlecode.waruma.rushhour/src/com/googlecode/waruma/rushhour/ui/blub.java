@@ -3,6 +3,7 @@ package com.googlecode.waruma.rushhour.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Group;
 
 public class blub {
 
@@ -45,5 +46,4 @@ public class blub {
 		shell.setText("SWT Application");
 
 	}
-
 }
