@@ -20,7 +20,7 @@ public class TestStandardCar extends TestCase {
 	}
 
 	/**
-	 * Dieser Test prüft das Verhalten des Konstruktors
+	 * Dieser Test prŸft das Verhalten des Konstruktors
 	 */
 	public void testStandardCar() {
 		assertEquals(collisionMap, car.getCollisionMap());
@@ -39,7 +39,7 @@ public class TestStandardCar extends TestCase {
 	}
 	
 	public void testMoveWithZero () {
-		boolean thrownException = true;
+		boolean thrownException = false;
 		try {
 			car.move(0);
 		}
