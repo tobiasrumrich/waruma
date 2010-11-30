@@ -10,6 +10,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(TestMove.class);
 		suite.addTestSuite(TestStandardCar.class);
+		suite.addTestSuite(TestPlayerCar.class);
 		//$JUnit-END$
 		return suite;
 	}
