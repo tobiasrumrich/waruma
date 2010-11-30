@@ -2,7 +2,7 @@ package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
 
-public abstract class AbstractMoveable extends AbstractGameBoardObject {
+public abstract class AbstractMoveable extends AbstractGameBoardObject implements IMoveable {
 
 	public AbstractMoveable(Boolean[][] collisionMap, Point position,
 			Enum<Orientation> orientation) {
