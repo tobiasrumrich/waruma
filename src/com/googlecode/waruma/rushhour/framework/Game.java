@@ -9,7 +9,7 @@ public class Game {
   private GameBoard gameBoard;
 
     public GameBoard myGameBoard;
-      public IPlayerCar myIPlayerCar;
+      public IPlayer myIPlayerCar;
 
   public void start() {
   }
