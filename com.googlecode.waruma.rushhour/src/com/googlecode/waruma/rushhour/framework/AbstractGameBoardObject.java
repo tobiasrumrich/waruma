@@ -3,8 +3,7 @@ package com.googlecode.waruma.rushhour.framework;
 import java.awt.Point;
 
 
-public abstract class AbstractGameBoardObject implements IGameBoardObject,
-		IMoveable {
+public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	private Boolean[][] collisionMap;
 	private Point position;
 	private Enum<Orientation> orientation;

@@ -1,15 +1,18 @@
 package com.googlecode.waruma.rushhour.tests;
 
+import com.googlecode.waruma.rushhour.framework.GameBoard;
+
 import junit.framework.TestCase;
 
 public class TestGameBoard extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		
 	}
 
 	public void testGameBoard() {
-		fail("Not yet implemented");
+		GameBoard gameBoard = new GameBoard(collisionDetector)
 	}
 
 	public void testGetGameBoardObjects() {
