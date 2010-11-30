@@ -3,7 +3,6 @@ package com.googlecode.waruma.rushhour.game;
 import java.awt.Point;
 
 import com.googlecode.waruma.rushhour.framework.GameBoard;
-import com.googlecode.waruma.rushhour.framework.GameStorage;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class RushHourBoardCreationController {

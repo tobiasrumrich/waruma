@@ -3,11 +3,8 @@ package com.googlecode.waruma.rushhour.game;
 import java.util.List;
 
 import com.googlecode.waruma.rushhour.framework.Game;
-import com.googlecode.waruma.rushhour.framework.GameBoard;
-import com.googlecode.waruma.rushhour.framework.GameStorage;
 import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IMoveable;
-import com.googlecode.waruma.rushhour.framework.ISolver;
 
 public class RushHourGameplayController {
 
