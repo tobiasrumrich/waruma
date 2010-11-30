@@ -1,5 +1,5 @@
 package com.googlecode.waruma.rushhour.framework;
-public interface IPlayerCar {
+public interface IPlayer {
 
   
   public void registerReachedDestination(Object eventTarget);

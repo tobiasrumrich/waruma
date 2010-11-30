@@ -3,6 +3,6 @@ public interface IMove {
    
   public IMoveable getMoveable();
 
-  public Integer getDistance();
+  public int getDistance();
 
 }

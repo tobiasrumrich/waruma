@@ -10,6 +10,6 @@ public interface IGameBoardObject {
 
   public Point getPosition();
 
-  public Point setPositon();
+  public void setPosition(Point position);
 
 }
