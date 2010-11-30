@@ -11,11 +11,6 @@ public class GameBoard {
 
   private Stack<IMove> moveHistory;
 
-    public IGameBoardObject myIGameBoardObject;
-    public IMoveable myIMoveable;
-      public IMove myIMove;
-          public ICollisionDetector myICollisionDetector;
-
   public void move(IMove move) {
   }
 
