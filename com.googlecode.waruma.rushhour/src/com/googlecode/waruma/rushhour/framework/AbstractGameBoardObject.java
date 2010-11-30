@@ -37,5 +37,9 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	public Boolean[][] getCollisionMap() {
 		return collisionMap;
 	}
+	
+	public void setCollisionMap(Boolean[][] collisionMap) {
+		this.collisionMap = collisionMap;
+	}
 
 }
