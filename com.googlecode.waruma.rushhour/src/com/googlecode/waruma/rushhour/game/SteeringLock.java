@@ -1,15 +1,12 @@
 package com.googlecode.waruma.rushhour.game;
 
-import java.awt.Point;
-
 import com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality;
-import com.googlecode.waruma.rushhour.framework.Orientation;
+import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
 
 public class SteeringLock extends AbstractAdditionalFunctionality {
 
-	public SteeringLock(Boolean[][] collisionMap, Point position,
-			Enum<Orientation> orientation) {
-		super(collisionMap, position, orientation);
+	public SteeringLock(AbstractMoveable moveable) {
+		super(moveable);
 		// TODO Auto-generated constructor stub
 	}
 
