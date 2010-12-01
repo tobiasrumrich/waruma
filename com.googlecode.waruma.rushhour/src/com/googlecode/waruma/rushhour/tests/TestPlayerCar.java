@@ -117,5 +117,10 @@ public class TestPlayerCar extends TestCase {
 	public void testRegisterReachedDestination() {
 		fail("Not yet implemented");
 	}
+	
+	public void ObserverPattern() {
+		car.setPosition(new Point(5,5));
+		car.setOrientation(Orientation.NORTH);
+	}
 
 }
