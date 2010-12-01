@@ -9,6 +9,11 @@ import com.googlecode.waruma.rushhour.game.StandardCar;
 
 import junit.framework.TestCase;
 
+/**
+ * 
+ * @author tobias
+ * 
+ */
 public class TestStandardCar extends TestCase {
 
 	public Boolean[][] collisionMap;
