@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 /**
  * 
- * @author tobias
+ * @author WaRuMa
  * 
  */
 public class TestPlayerCar extends TestCase {
