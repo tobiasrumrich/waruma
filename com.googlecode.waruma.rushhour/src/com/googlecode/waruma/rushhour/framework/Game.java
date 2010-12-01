@@ -2,14 +2,11 @@ package com.googlecode.waruma.rushhour.framework;
 
 import java.util.Date;
 
-public class Game {
+public class Game implements IReachedDestinationObserver{
 
   private Date gameStartTime;
-
   private GameBoard gameBoard;
-
-    public GameBoard myGameBoard;
-      public IPlayer myIPlayerCar;
+  private IPlayer player;
 
   public void start() {
   }
@@ -19,5 +16,12 @@ public class Game {
 
   public void reset() {
   }
-
+  
+  public void updateReachedDestination(IPlayer player) {
+	  
+  }
+  
+  public void registerGameWon() {
+	  
+  }
 }

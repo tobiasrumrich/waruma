@@ -9,6 +9,14 @@ import com.googlecode.waruma.rushhour.game.SteeringLock;
 
 import junit.framework.TestCase;
 
+
+/**
+ * 
+ * @author fabian
+ * 
+ */
+
+
 public class TestSteeringCar extends TestCase {
 
 	private Boolean[][] collisionMap;

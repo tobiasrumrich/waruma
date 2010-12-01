@@ -3,10 +3,11 @@ package com.googlecode.waruma.rushhour.game;
 import java.util.List;
 
 import com.googlecode.waruma.rushhour.framework.Game;
+import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
 import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IMoveable;
 
-public class RushHourGameplayController {
+public class RushHourGameplayController implements IGameWonObserver {
 
 	private Game game;
 
@@ -24,7 +25,7 @@ public class RushHourGameplayController {
 		return null;
 	}
 
-	public void registerGameWon() {
+	public void updateGameWon() {
 	}
 
 	public void moveCar(IMove move) {
