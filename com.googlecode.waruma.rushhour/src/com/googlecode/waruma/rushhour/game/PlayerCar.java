@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.Game;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
@@ -28,7 +29,7 @@ public class PlayerCar extends StandardCar implements IPlayer {
 		this.destination = destination;
 	}
 
-	public void move(Integer distance) {
+	public void move(Integer distance) throws IllegalMoveException {
 	}
 
 	public void registerReachedDestination (IReachedDestinationObserver eventTarget) {
