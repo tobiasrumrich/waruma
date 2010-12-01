@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+
 public class GameBoard {
 
 	private ICollisionDetector collisionDetector;
@@ -24,10 +27,11 @@ public class GameBoard {
 		return moveHistory;
 	}
 
-	public void move(IMove move) {
+	public void move(IMove move) throws IllegalMoveException {
 	}
 
-	public void addGameBoardObject(IGameBoardObject gameBoardObject) {
+	public void addGameBoardObject(IGameBoardObject gameBoardObject)
+			throws IllegalBoardPositionException {
 	}
 
 }
