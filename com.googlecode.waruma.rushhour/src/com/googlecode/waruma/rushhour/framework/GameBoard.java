@@ -24,10 +24,6 @@ public class GameBoard {
 		return moveHistory;
 	}
 
-	public void setCollisionDetector(ICollisionDetector collisionDetector) {
-		this.collisionDetector = collisionDetector;
-	}
-
 	public void move(IMove move) {
 	}
 
