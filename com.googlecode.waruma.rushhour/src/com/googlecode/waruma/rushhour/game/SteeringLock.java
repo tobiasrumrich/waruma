@@ -11,8 +11,6 @@ public class SteeringLock extends AbstractAdditionalFunctionality {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AbstractAdditionalFunctionality myAbstractAdditionalFunctionality;
-
 	public void move(int distance) throws IllegalMoveException {
 	}
 
