@@ -3,6 +3,8 @@ package com.googlecode.waruma.rushhour.tests;
 import java.awt.Point;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+import com.googlecode.waruma.rushhour.framework.IPlayer;
+import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
 
@@ -114,13 +116,27 @@ public class TestPlayerCar extends TestCase {
 		assertTrue(thrownException);
 	}
 
-	public void testRegisterReachedDestination() {
-		fail("Not yet implemented");
+	private class MockObserver implements IReachedDestinationObserver{
+		private boolean called = false;
+				
+		@Override
+		public void updateReachedDestination(IPlayer player) {
+			called = true;
+		}
 	}
 	
-	public void ObserverPattern() {
-		car.setPosition(new Point(5,5));
-		car.setOrientation(Orientation.NORTH);
+	public void testReachedDestination() throws IllegalMoveException {
+		car.setPosition(new Point(0, 2));
+		car.setDestination(new Point(5, 2));
+		car.setOrientation(Orientation.EAST);
+		
+		MockObserver mockObserver1 = new MockObserver();
+		MockObserver mockObserver2 = new MockObserver();
+		car.registerReachedDestination(mockObserver1);
+		car.registerReachedDestination(mockObserver2);
+		car.move(4);
+		
+		assertTrue(mockObserver1.called);
+		assertTrue(mockObserver2.called);
 	}
-
 }
