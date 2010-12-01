@@ -1,19 +1,25 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.googlecode.waruma.rushhour.framework.Game;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
+import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class PlayerCar extends StandardCar implements IPlayer {
 
 	private Point destination;
+	private List<IReachedDestinationObserver> observers;
 
 
 	public PlayerCar(Boolean[][] collisionMap, Point position,
 			Enum<Orientation> orientation) {
 		super(collisionMap, position, orientation);
+		
+		observers = new ArrayList<IReachedDestinationObserver>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,7 +31,7 @@ public class PlayerCar extends StandardCar implements IPlayer {
 	public void move(Integer distance) {
 	}
 
-	public void registerReachedDestination (Game eventTarget) {
+	public void registerReachedDestination (IReachedDestinationObserver eventTarget) {
 	}
 
 }
