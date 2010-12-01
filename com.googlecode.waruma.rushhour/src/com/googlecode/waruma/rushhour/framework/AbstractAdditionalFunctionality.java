@@ -1,5 +1,7 @@
 package com.googlecode.waruma.rushhour.framework;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+
 public abstract class AbstractAdditionalFunctionality extends AbstractMoveable{
 	public AbstractMoveable abstractMoveable;
 	
@@ -9,7 +11,7 @@ public abstract class AbstractAdditionalFunctionality extends AbstractMoveable{
 
 	
 
-	public abstract void move(int distance);
+	public abstract void move(int distance) throws IllegalMoveException;
 
 
 
