@@ -24,19 +24,16 @@ public class TestPlayerCar extends TestCase {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
 
-		car = new PlayerCar(collisionMap, new Point(3, 1), Orientation.NORTH);
+		car = new PlayerCar(collisionMap, new Point(5,5), Orientation.NORTH);
 	}
 
 	public void testPlayerCar() {
 		assertEquals(collisionMap, car.getCollisionMap());
-		assertEquals(new Point(3,1),car.getPosition());
+		assertEquals(new Point(5,5),car.getPosition());
 		assertEquals(Orientation.NORTH,car.getOrientation());
 	}
 
 	public void testMoveWithNorth() throws IllegalMoveException{
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Norden aus
-		car.setOrientation(Orientation.NORTH);
-		car.setPosition(new Point(5,5));
 		
 		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
 		car.move(3);
@@ -52,7 +49,6 @@ public class TestPlayerCar extends TestCase {
 	public void testMoveWithSouth() throws IllegalMoveException {
 		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Süden aus
 		car.setOrientation(Orientation.SOUTH);
-		car.setPosition(new Point(5,5));
 		
 		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
 		car.move(3);
@@ -69,7 +65,6 @@ public class TestPlayerCar extends TestCase {
 	public void testMoveWithWest() throws IllegalMoveException {
 		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass zu den alten Bundesländern aus
 		car.setOrientation(Orientation.WEST);
-		car.setPosition(new Point(5,5));
 		
 		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
 		car.move(3);
@@ -86,7 +81,6 @@ public class TestPlayerCar extends TestCase {
 	public void testMoveWithEast() throws IllegalMoveException {
 		//Wir positionieren unser Auto auf (5,5), es wurde offensichtlich gestohlen und ist Richtung Polen ausgerichtet
 		car.setOrientation(Orientation.EAST);
-		car.setPosition(new Point(5,5));
 		
 		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
 		car.move(3);
@@ -102,10 +96,6 @@ public class TestPlayerCar extends TestCase {
 
 	public void testMoveWithZero () throws IllegalMoveException {
 		thrownException = false;
-		
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Norden aus
-		car.setOrientation(Orientation.NORTH);
-		car.setPosition(new Point(5,5));
 		
 		try {
 			car.move(0);
@@ -126,9 +116,6 @@ public class TestPlayerCar extends TestCase {
 	}
 	
 	public void testReachedDestination() throws IllegalMoveException {
-		car.setPosition(new Point(0, 2));
-		car.setDestination(new Point(5, 2));
-		car.setOrientation(Orientation.EAST);
 		
 		MockObserver mockObserver1 = new MockObserver();
 		MockObserver mockObserver2 = new MockObserver();
