@@ -2,7 +2,7 @@ package com.googlecode.waruma.rushhour.framework;
 
 import java.util.Date;
 
-public class Game implements IReachedDestinationObserver, IGameWonSubject{
+public class GameState implements IReachedDestinationObserver, IGameWonSubject{
 
   private Date gameStartTime;
   private GameBoard gameBoard;
