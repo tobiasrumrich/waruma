@@ -14,4 +14,9 @@ public abstract class AbstractMoveable extends AbstractGameBoardObject implement
 
 	public abstract void move(int distance) throws IllegalMoveException;
 
+	
+	
+	
 }
+
+

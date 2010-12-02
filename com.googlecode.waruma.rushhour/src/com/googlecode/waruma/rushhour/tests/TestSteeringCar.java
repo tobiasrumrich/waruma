@@ -3,6 +3,10 @@ package com.googlecode.waruma.rushhour.tests;
 import java.awt.Point;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
+import com.googlecode.waruma.rushhour.framework.IMoveable;
+import com.googlecode.waruma.rushhour.framework.IPlayer;
+import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.StandardCar;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
@@ -144,29 +148,38 @@ public class TestSteeringCar extends TestCase {
 	
 	
 	
-	//Wir testen, ob wir nicht zwei mal Vor- oder Zurückfahren können
-	public void testLock() throws IllegalMoveException{
+	private class MockMoveableObject extends AbstractMoveable{
 		
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Norden aus
-		car.setOrientation(Orientation.NORTH);
-		car.setPosition(new Point(5,5));
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (5,2) stehen
-		assertEquals(new Point(5,2),car.getPosition());
-		
-		//Wir stehen auf (5,2) und versuchen, 6 Felder rückwärts zu fahren
-		try {
-			car.move(-6);		
-		} 
-		//Wir erwarten eine Illegal Move Exception
-		catch (IllegalMoveException e) {
-			thrownException = true;
+	
+		public MockMoveableObject(Boolean[][] collisionMap, Point position,
+				Enum<Orientation> orientation) {
+			super(collisionMap, position, orientation);
+			// TODO Auto-generated constructor stub
 		}
-		assertTrue(thrownException);
+
+		public void move(int distance) throws IllegalMoveException {
+			// wird eh nicht genutzt, da von SteeringLock überschrieben
+			
+		}
+			
+		
+	//Wir testen, ob wir nicht zwei mal fahren können	
+	public void testLock() throws IllegalMoveException{
+		thrownException=false;
+		
+		SteeringLock car = new SteeringLock(new MockMoveableObject(collisionMap, new Point(5,5), Orientation.NORTH));
+		car.move(1);
+		try {
+			car.move(1);
+		}
+			catch(IllegalMoveException e){
+				thrownException=true;
+			}
 		
 		
 		
 	}
+		
+	}
+	
 }
