@@ -19,12 +19,20 @@ public class TestPlayerCar extends TestCase {
 	public Boolean[][] collisionMap;
 	private PlayerCar car;
 	private boolean thrownException;
+	private MockObserver mockObserver1;
+	private MockObserver mockObserver2;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
-
 		car = new PlayerCar(collisionMap, new Point(5,5), Orientation.NORTH);
+		car.setDestination(new Point(4,2));
+		
+		mockObserver1 = new MockObserver();
+		mockObserver2 = new MockObserver();
+		
+		car.registerReachedDestination(mockObserver1);
+		car.registerReachedDestination(mockObserver2);
 	}
 
 	public void testPlayerCar() {
@@ -33,7 +41,7 @@ public class TestPlayerCar extends TestCase {
 		assertEquals(Orientation.NORTH,car.getOrientation());
 	}
 
-	public void testMoveWithNorth() throws IllegalMoveException{
+	public void testMoveNotReachedDestination() throws IllegalMoveException{
 		
 		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
 		car.move(3);
@@ -44,55 +52,10 @@ public class TestPlayerCar extends TestCase {
 		car.move(-6);
 		//Wir sollten nun auf (5,8) stehen
 		assertEquals(new Point(5,8),car.getPosition());
+		
+		assertFalse(mockObserver2.called);
 	}
 	
-	public void testMoveWithSouth() throws IllegalMoveException {
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Süden aus
-		car.setOrientation(Orientation.SOUTH);
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (5,8) stehen
-		assertEquals(new Point(5,8),car.getPosition());
-		
-		//Wir stehen auf (5,8) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (5,2) stehen
-		assertEquals(new Point(5,2),car.getPosition());
-		
-	}
-	
-	public void testMoveWithWest() throws IllegalMoveException {
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass zu den alten Bundesländern aus
-		car.setOrientation(Orientation.WEST);
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (2,5) stehen
-		assertEquals(new Point(2,5),car.getPosition());
-		
-		//Wir stehen auf (2,5) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (8,5) stehen
-		assertEquals(new Point(8,5),car.getPosition());
-		
-	}
-	
-	public void testMoveWithEast() throws IllegalMoveException {
-		//Wir positionieren unser Auto auf (5,5), es wurde offensichtlich gestohlen und ist Richtung Polen ausgerichtet
-		car.setOrientation(Orientation.EAST);
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (8,5) stehen
-		assertEquals(new Point(8,5),car.getPosition());
-		
-		//Wir stehen auf (8,5) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (2,5) stehen
-		assertEquals(new Point(2,5),car.getPosition());
-		
-	}
 
 	public void testMoveWithZero () throws IllegalMoveException {
 		thrownException = false;
@@ -117,12 +80,10 @@ public class TestPlayerCar extends TestCase {
 	
 	public void testReachedDestination() throws IllegalMoveException {
 		
-		MockObserver mockObserver1 = new MockObserver();
-		MockObserver mockObserver2 = new MockObserver();
-		car.registerReachedDestination(mockObserver1);
-		car.registerReachedDestination(mockObserver2);
-		car.move(4);
-		
+		car.setOrientation(Orientation.EAST);
+		car.setPosition(new Point (2,2));
+		car.setDestination(new Point(4,2));
+		car.move(2);
 		assertTrue(mockObserver1.called);
 		assertTrue(mockObserver2.called);
 	}
