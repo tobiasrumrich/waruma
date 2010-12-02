@@ -1,5 +1,5 @@
 package com.googlecode.waruma.rushhour.framework;
-public class GameStorage {
+public class GameBoardStorage {
 
         
   public GameBoard loadGameBoard(String location) {
