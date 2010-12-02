@@ -26,13 +26,15 @@ public class TestSteeringCar extends TestCase {
 	private Boolean[][] collisionMap;
 	private SteeringLock car;
 	private boolean thrownException;
+	private MockMoveableObject mockMoveableObject;
+
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
+		mockMoveableObject = new MockMoveableObject(collisionMap, new Point(5,5), Orientation.NORTH);
+		car = new SteeringLock(mockMoveableObject);
 		thrownException = false;
-	 
-		car = new SteeringLock(new StandardCar(collisionMap,new Point(3,1), Orientation.NORTH));
 	}
 
 	public void testSteeringCarInit() {
@@ -42,114 +44,10 @@ public class TestSteeringCar extends TestCase {
 	}
 	
 	
-	//Wir testen, ob wir das einmalige Vor- und Zurückfahren jeweils funktioniert
-	
-	public void testMoveWithNorthForwardOnce()  throws IllegalMoveException{
-		
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Norden aus
-		car.setOrientation(Orientation.NORTH);
-		car.setPosition(new Point(5,5));
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (5,2) stehen
-		assertEquals(new Point(5,2),car.getPosition());
-	}
-	
-	public void testMoveWithNorthBackwardOnce() throws IllegalMoveException {
-		
-		//Wir positionieren unser Auto auf (5,2) und richten es mit unserem Kompass nach Norden aus
-		car.setOrientation(Orientation.NORTH);
-		car.setPosition(new Point(5,2));
-		
-		//Wir stehen auf (5,2) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (5,8) stehen
-		assertEquals(new Point(5,8),car.getPosition());
-	}
-	
-	public void testMoveWithSouthForwardOnce() throws IllegalMoveException{
-		
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass nach Süden aus
-		car.setOrientation(Orientation.SOUTH);
-		car.setPosition(new Point(5,5));
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (5,8) stehen
-		assertEquals(new Point(5,8),car.getPosition());		
-	}
-	
-	public void testMoveWithSouthBackwardOnce() throws IllegalMoveException{
-		
-		//Wir positionieren unser Auto auf (5,8) und richten es mit unserem Kompass nach Süden aus
-		car.setOrientation(Orientation.SOUTH);
-		car.setPosition(new Point(5,8));
-
-		//Wir stehen auf (5,8) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (5,2) stehen
-		assertEquals(new Point(5,2),car.getPosition());
-		
-	}
-	
-	public void testMoveWithWestForwardOnce() throws IllegalMoveException {
-		
-		//Wir positionieren unser Auto auf (5,5) und richten es mit unserem Kompass zu den alten Bundesländern aus
-		car.setOrientation(Orientation.WEST);
-		car.setPosition(new Point(5,5));
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (2,5) stehen
-		assertEquals(new Point(2,5),car.getPosition());
-	}
-	
-	
-	public void testMoveWithWestBackwardOnce() throws IllegalMoveException {
-		
-		//Wir positionieren unser Auto auf (2,5) und richten es mit unserem Kompass zu den alten Bundesländern aus
-		car.setOrientation(Orientation.WEST);
-		car.setPosition(new Point(2,5));
-
-		
-		//Wir stehen auf (2,5) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (8,5) stehen
-		assertEquals(new Point(8,5),car.getPosition());
-		
-	}
-	
-	
-	public void testMoveWithEastForwardOnce() throws IllegalMoveException {
-				
-		//Wir positionieren unser Auto auf (5,5), es wurde offensichtlich gestohlen und ist Richtung Polen ausgerichtet
-		car.setOrientation(Orientation.EAST);
-		car.setPosition(new Point(5,5));
-		
-		//Wir stehen auf (5,5) und fahren 3 Felder vorwärts
-		car.move(3);
-		//Wir sollten nun auf (8,5) stehen
-		assertEquals(new Point(8,5),car.getPosition());
-	}
-	
-	
-	public void testMoveWithEastBackwardOnce() throws IllegalMoveException {
-		
-		//Wir positionieren unser Auto auf (8,5), es wurde offensichtlich gestohlen und ist Richtung Polen ausgerichtet
-		car.setOrientation(Orientation.EAST);
-		car.setPosition(new Point(8,5));
-		
-		//Wir stehen auf (8,5) und fahren 6 Felder rückwärts
-		car.move(-6);
-		//Wir sollten nun auf (2,5) stehen
-		assertEquals(new Point(2,5),car.getPosition());
-	}
-	
-	
-	
 	private class MockMoveableObject extends AbstractMoveable{
-		
+	
+		private boolean called;
+		private int distance;
 	
 		public MockMoveableObject(Boolean[][] collisionMap, Point position,
 				Enum<Orientation> orientation) {
@@ -158,16 +56,23 @@ public class TestSteeringCar extends TestCase {
 		}
 
 		public void move(int distance) throws IllegalMoveException {
-			// wird eh nicht genutzt, da von SteeringLock überschrieben
-			
+			called = true;
+			this.distance = distance;
 		}
+	}
 			
 		
-	//Wir testen, ob wir nicht zwei mal fahren können	
+	//Wir testen, ob wir move() aufrufen, wenn sich das Objekt noch einmal bewegen darf.
+	public void testMoveOnce() throws IllegalMoveException{
+		car.move(1);
+		assertTrue(mockMoveableObject.called);
+		assertEquals(1, mockMoveableObject.distance);
+	}
+	
+	
+	//Wir testen, ob wir nicht zwei mal in die gleiche Richtung fahren können	
 	public void testLock() throws IllegalMoveException{
-		thrownException=false;
-		
-		SteeringLock car = new SteeringLock(new MockMoveableObject(collisionMap, new Point(5,5), Orientation.NORTH));
+	
 		car.move(1);
 		try {
 			car.move(1);
@@ -175,11 +80,20 @@ public class TestSteeringCar extends TestCase {
 			catch(IllegalMoveException e){
 				thrownException=true;
 			}
-		
-		
-		
-	}
-		
+		assertTrue(thrownException);
 	}
 	
+	
+	//Wir testen, ob wir nicht in zwei unterschiedliche Richtungen fahren können	
+	public void testLockDiffDirections() throws IllegalMoveException{
+	
+		car.move(2);
+		try {
+			car.move(-1);
+		}
+			catch(IllegalMoveException e){
+				thrownException=true;
+			}
+		assertTrue(thrownException);
+	}
 }
