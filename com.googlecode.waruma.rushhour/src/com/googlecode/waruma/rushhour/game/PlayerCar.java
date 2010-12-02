@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
-import com.googlecode.waruma.rushhour.framework.Game;
+import com.googlecode.waruma.rushhour.framework.GameState;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;

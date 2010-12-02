@@ -1,15 +1,19 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.util.List;
+import java.util.Timer;
 
-import com.googlecode.waruma.rushhour.framework.Game;
+import com.googlecode.waruma.rushhour.framework.GameBoard;
+import com.googlecode.waruma.rushhour.framework.GameState;
 import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
 import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IMoveable;
 
 public class RushHourGameplayController implements IGameWonObserver {
 
-	private Game game;
+	private GameState gameState;
+	private Timer gameTimer;
+	private GameBoard gameBoard;
 
 	public void loadGame(String location) {
 	}
