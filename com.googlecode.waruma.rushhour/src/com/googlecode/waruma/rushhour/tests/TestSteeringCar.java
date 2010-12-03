@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 /**
  * 
- * @author RuMa
+ * @author Fabian
  * 
  */
 
