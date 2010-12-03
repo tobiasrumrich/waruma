@@ -19,6 +19,7 @@ import com.googlecode.waruma.rushhour.game.PlayerCar;
 import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
 import com.googlecode.waruma.rushhour.game.StandardCar;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
+import com.googlecode.waruma.rushhour.tests.TestGameBoard.MockMoveable;
 
 import junit.framework.TestCase;
 
@@ -30,6 +31,7 @@ public class TestGameBoard extends TestCase {
 	private MockMoveable moveableTruck;
 	private GameBoard gameBoard;
 	private MockCollisionDetector mockCollisionDetector;
+	private MockMoveable moveableCar2;
 
 	private class MockCollisionDetector implements ICollisionDetector {
 		boolean calledCheckCollision = false;
@@ -76,12 +78,12 @@ public class TestGameBoard extends TestCase {
 		collisionMapTrucks = new Boolean[][] {{true, true, true}};
 		
 		moveableCar = new MockMoveable(collisionMapCar, new Point(0,0), Orientation.EAST);
-		moveableTruck = new MockMoveable(collisionMapTrucks, new Point(0,0), Orientation.EAST);
+		moveableCar2 = new MockMoveable(collisionMapCar, new Point(1000,500), Orientation.EAST);
+		moveableTruck = new MockMoveable(collisionMapTrucks, new Point(-500,-1000), Orientation.EAST);
 
 		mockCollisionDetector = new MockCollisionDetector();
 		
 		gameBoard = new GameBoard(mockCollisionDetector);
-		gameBoard.addGameBoardObject(moveableCar);
 	}
 	
 	public void testGameBoardInitialization() {
@@ -89,138 +91,50 @@ public class TestGameBoard extends TestCase {
 		assertTrue(gameBoard.getMoveHistory() instanceof Stack<?>);
 	}
 
-	public void testAddGameBoardObject() throws IllegalBoardPositionException {
-		
+	public void testAddGameBoardObjectCollisionDelegation() throws IllegalBoardPositionException {
+		// Auto1
+		gameBoard.addGameBoardObject(moveableCar);
 		assertTrue(mockCollisionDetector.calledAddGameBoardObject);
 		assertEquals(moveableCar, mockCollisionDetector.gameBoardObject);
+		
+		// Auto2
+		mockCollisionDetector.calledAddGameBoardObject = false;
+		mockCollisionDetector.gameBoardObject = null;
+		gameBoard.addGameBoardObject(moveableCar2);
+		assertTrue(mockCollisionDetector.calledAddGameBoardObject);
+		assertEquals(moveableCar2, mockCollisionDetector.gameBoardObject);
+		
+		// Auto3
+		mockCollisionDetector.calledAddGameBoardObject = false;
+		mockCollisionDetector.gameBoardObject = null;
+		gameBoard.addGameBoardObject(moveableTruck);
+		assertTrue(mockCollisionDetector.calledAddGameBoardObject);
+		assertEquals(moveableTruck, mockCollisionDetector.gameBoardObject);
+	}
+	
+	public void testAddGameBoardObjectCollectionTest() {
+		gameBoard.addGameBoardObject(moveableCar);
+		gameBoard.addGameBoardObject(moveableCar2);
+		gameBoard.addGameBoardObject(moveableTruck);
+	
+		Set<IGameBoardObject> gameBoardObjects = gameBoard.getGameBoardObjects();
+		assertEquals(3, gameBoardObjects.size());
+		
+		assertTrue(gameBoardObjects.contains(moveableCar));
+		assertTrue(gameBoardObjects.contains(moveableCar2));
+		assertTrue(gameBoardObjects.contains(moveableTruck));
 	}
 	
 	public void testMove() throws IllegalMoveException {
 		IMove move = new Move(moveableCar, 1);
+		gameBoard.addGameBoardObject(moveableCar);
 		gameBoard.move(move);
 		assertTrue(mockCollisionDetector.calledCheckCollision);
-		assertEquals(mockCollisionDetector.move, move);		
-	}
-	
-	
-	public void testAddGameBoardObjects() throws IllegalBoardPositionException {
-		GameBoard gameBoard = new GameBoard(new RushHourCollisionDetector(6));
-		Boolean[][] collisionMap = { { true, true } };
-
-		StandardCar car1 = new StandardCar(collisionMap, new Point(1, 1),
-				Orientation.SOUTH);
-		PlayerCar car2 = new PlayerCar(collisionMap, new Point(3, 1),
-				Orientation.EAST);
-		SteeringLock car3 = new SteeringLock(new StandardCar(collisionMap,
-				new Point(4, 4), Orientation.WEST));
-
-		gameBoard.addGameBoardObject(car1);
-		gameBoard.addGameBoardObject(car2);
-		gameBoard.addGameBoardObject(car3);
-
-		Set<IGameBoardObject> gameBoardObjects = gameBoard
-				.getGameBoardObjects();
-
-		assertEquals(3, gameBoardObjects.size());
-		assertTrue(gameBoardObjects.contains(car1));
-		assertTrue(gameBoardObjects.contains(car2));
-		assertTrue(gameBoardObjects.contains(car3));
+		assertEquals(mockCollisionDetector.move, move);	
 	}
 
-	public void testAddGameBoardCollision()
-			throws IllegalBoardPositionException {
-		GameBoard gameBoard = new GameBoard(new RushHourCollisionDetector(6));
-		Boolean[][] collisionMap = { { true, true } };
 
-		// Kollidieren
-		StandardCar car1 = new StandardCar(collisionMap, new Point(1, 1),
-				Orientation.SOUTH);
-		PlayerCar car2 = new PlayerCar(collisionMap, new Point(1, 2),
-				Orientation.EAST);
 
-		Boolean exceptionThrown = false;
-		gameBoard.addGameBoardObject(car1);
 
-		try {
-			gameBoard.addGameBoardObject(car2);
-		} catch (IllegalBoardPositionException e) {
-			exceptionThrown = true;
-		}
-
-		assertTrue(exceptionThrown);
-	}
-
-	public void testAddGameBoardOutsideOfBoard() {
-		GameBoard gameBoard = new GameBoard(new RushHourCollisionDetector(6));
-		Boolean[][] collisionMap = { { true, true } };
-		// Reicht über ein 6x6 Feld hinaus
-		StandardCar car = new StandardCar(collisionMap, new Point(5, 6),
-				Orientation.WEST);
-
-		Boolean exceptionThrown = false;
-		try {
-			gameBoard.addGameBoardObject(car);
-		} catch (IllegalBoardPositionException e) {
-			exceptionThrown = true;
-		}
-
-		assertTrue(exceptionThrown);
-	}
-
-	public void testGetMoveHistory() {
-		fail("Not yet implemented");
-	}
-
-	public void testMoveOutsideOfBoard() throws IllegalBoardPositionException {
-		GameBoard gameBoard = new GameBoard(new RushHourCollisionDetector(6));
-		Boolean[][] collisionMap = { { true, true } };
-
-		// 1 1 2 2 X X //
-		AbstractMoveable moveable1 = new StandardCar(collisionMap, new Point(2,
-				2), Orientation.WEST);
-		AbstractMoveable moveable2 = new StandardCar(collisionMap, new Point(0,
-				2), Orientation.EAST);
-
-		gameBoard.addGameBoardObject(moveable1);
-		gameBoard.addGameBoardObject(moveable2);
-
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, -1));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, -2));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, -1000));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 5));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 6));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 1000));
-	}
-
-	public void testMoveCollision() throws IllegalBoardPositionException {
-		GameBoard gameBoard = new GameBoard(new RushHourCollisionDetector(6));
-		Boolean[][] collisionMap = { { true, true } };
-
-		// 1 1 2 2 X X //
-		AbstractMoveable moveable1 = new StandardCar(collisionMap, new Point(2,
-				2), Orientation.WEST);
-		AbstractMoveable moveable2 = new StandardCar(collisionMap, new Point(0,
-				2), Orientation.EAST);
-
-		gameBoard.addGameBoardObject(moveable1);
-		gameBoard.addGameBoardObject(moveable2);
-
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 1));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 2));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 3));
-		assertTrue(MoveThrowsIllegalMoveException(gameBoard, moveable2, 4));
-
-	}
-
-	private boolean MoveThrowsIllegalMoveException(GameBoard board,
-			IMoveable moveable, int distance) {
-		IMove move = new Move(moveable, distance);
-		try {
-			board.move(move);
-		} catch (IllegalMoveException e) {
-			return true;
-		}
-		return false;
-	}
 
 }

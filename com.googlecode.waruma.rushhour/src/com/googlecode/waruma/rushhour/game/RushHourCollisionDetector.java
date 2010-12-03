@@ -1,5 +1,7 @@
 package com.googlecode.waruma.rushhour.game;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
@@ -15,10 +17,10 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 		this.collisionMap = new Boolean[width-1][height-1];
 	}
 
-	public void checkCollision(IMove move) {
+	public void move(IMove move) throws IllegalMoveException {
 	}
 	
-	public void addGameBoardObject(IGameBoardObject gameBoardObject) {
+	public void addGameBoardObject(IGameBoardObject gameBoardObject) throws IllegalBoardPositionException {
 		
 	}
 
