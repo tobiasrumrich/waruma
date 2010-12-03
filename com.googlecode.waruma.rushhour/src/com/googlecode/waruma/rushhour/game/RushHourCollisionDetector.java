@@ -7,11 +7,12 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
+import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
  * Diese Klasse implementiert die RushHour-Spezifische Kollisionserkennung,
  * die sich um die Performance des Solvers nicht zu beeinträchtigen nur eine
- * eindimensionale Pro-Objekt Kollisionskarte beinhaltet
+ * eindimensionale auf Arraylänge Pro-Objekt Kollisionskarte beinhaltet
  * @author Florian
  */
 public class RushHourCollisionDetector implements ICollisionDetector {
@@ -39,7 +40,25 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 		return collisionMap[x][y];
 	}
 	
-	
+	private boolean gameBoardObjectDoesNotCollide(IGameBoardObject gameBoardObject){
+		Point position = gameBoardObject.getPosition();
+		int size = gameBoardObject.getCollisionMap().length;
+		Orientation orientation = gameBoardObject.getOrientation();
+		
+		for(int i = 0; i < gameBoardObject.getCollisionMap().length; i++){
+			
+			switch (gameBoardObject.getOrientation()) {
+			case Orientation.EAST:
+				
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+		return true;
+	}
 	
 	public void addGameBoardObject(IGameBoardObject gameBoardObject) throws IllegalBoardPositionException {
 		

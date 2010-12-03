@@ -6,12 +6,12 @@ import java.awt.Point;
 public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	private Boolean[][] collisionMap;
 	private Point position;
-	private Enum<Orientation> orientation;
+	private Orientation orientation;
 	
 	// TODO Andere Konstruktoren
 	
 	public AbstractGameBoardObject(Boolean[][] collisionMap, Point position,
-			Enum<Orientation> orientation) {
+			Orientation orientation) {
 		// TODO Prüfungen
 		this.collisionMap = collisionMap;
 		this.position = position;
@@ -26,11 +26,11 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject {
 		this.position = position;
 	}
 
-	public Enum<Orientation> getOrientation() {
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
-	public void setOrientation(Enum<Orientation> orientation) {
+	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 
