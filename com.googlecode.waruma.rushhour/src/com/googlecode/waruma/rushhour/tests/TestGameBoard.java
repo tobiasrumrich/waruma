@@ -81,6 +81,7 @@ public class TestGameBoard extends TestCase {
 		mockCollisionDetector = new MockCollisionDetector();
 		
 		gameBoard = new GameBoard(mockCollisionDetector);
+		gameBoard.addGameBoardObject(moveableCar);
 	}
 	
 	public void testGameBoardInitialization() {
@@ -89,14 +90,16 @@ public class TestGameBoard extends TestCase {
 	}
 
 	public void testAddGameBoardObject() throws IllegalBoardPositionException {
-		gameBoard.addGameBoardObject(moveableCar);
+		
 		assertTrue(mockCollisionDetector.calledAddGameBoardObject);
 		assertEquals(moveableCar, mockCollisionDetector.gameBoardObject);
 	}
 	
-	public void testCheckCollision() throws IllegalMoveException {
-		
-		
+	public void testMove() throws IllegalMoveException {
+		IMove move = new Move(moveableCar, 1);
+		gameBoard.move(move);
+		assertTrue(mockCollisionDetector.calledCheckCollision);
+		assertEquals(mockCollisionDetector.move, move);		
 	}
 	
 	
