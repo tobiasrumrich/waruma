@@ -10,6 +10,7 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	
 	// TODO Andere Konstruktoren
 	
+	
 	public AbstractGameBoardObject(Boolean[][] collisionMap, Point position,
 			Orientation orientation) {
 		// TODO Prüfungen
