@@ -4,10 +4,11 @@ import java.awt.Point;
 import java.util.Set;
 import java.util.Stack;
 
+import junit.framework.TestCase;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.AbstractGameBoardObject;
-import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
@@ -15,13 +16,6 @@ import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IMoveable;
 import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
-import com.googlecode.waruma.rushhour.game.PlayerCar;
-import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
-import com.googlecode.waruma.rushhour.game.StandardCar;
-import com.googlecode.waruma.rushhour.game.SteeringLock;
-import com.googlecode.waruma.rushhour.tests.TestGameBoard.MockMoveable;
-
-import junit.framework.TestCase;
 
 public class TestGameBoard extends TestCase {
 
@@ -112,7 +106,7 @@ public class TestGameBoard extends TestCase {
 		assertEquals(moveableTruck, mockCollisionDetector.gameBoardObject);
 	}
 	
-	public void testAddGameBoardObjectCollectionTest() {
+	public void testAddGameBoardObjectCollectionTest() throws IllegalBoardPositionException {
 		gameBoard.addGameBoardObject(moveableCar);
 		gameBoard.addGameBoardObject(moveableCar2);
 		gameBoard.addGameBoardObject(moveableTruck);
@@ -125,7 +119,7 @@ public class TestGameBoard extends TestCase {
 		assertTrue(gameBoardObjects.contains(moveableTruck));
 	}
 	
-	public void testMove() throws IllegalMoveException {
+	public void testMove() throws IllegalMoveException, IllegalBoardPositionException {
 		IMove move = new Move(moveableCar, 1);
 		gameBoard.addGameBoardObject(moveableCar);
 		gameBoard.move(move);
