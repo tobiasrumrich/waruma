@@ -6,7 +6,7 @@ public interface IGameBoardObject {
     
   public Boolean[][] getCollisionMap();
 
-  public Enum<Orientation> getOrientation();
+  public Orientation getOrientation();
 
   public Point getPosition();
 
