@@ -40,7 +40,7 @@ public class TestGameBoard extends TestCase {
 		IGameBoardObject gameBoardObject;
 
 		@Override
-		public void checkCollision(IMove move) {
+		public void move(IMove move) {
 			this.move = move;
 			calledCheckCollision = true;
 
@@ -133,8 +133,20 @@ public class TestGameBoard extends TestCase {
 		assertEquals(mockCollisionDetector.move, move);	
 	}
 
+	public void testMoveHistory() throws IllegalMoveException {
+		gameBoard.move(new Move(moveableCar, 2));
+		gameBoard.move(new Move(moveableCar2, -3));
+		IMove move = new Move(moveableTruck, 1);
+		gameBoard.move(move);
+		gameBoard.move(new Move(moveableCar, 1));
+		gameBoard.move(new Move(moveableCar2, 2));
+		
+		Stack<IMove> history = gameBoard.getMoveHistory();		
+		assertEquals(5, history.size());
 
-
-
-
+		history.pop();
+		history.pop();
+		
+		assertEquals(move, history.pop());
+	}
 }
