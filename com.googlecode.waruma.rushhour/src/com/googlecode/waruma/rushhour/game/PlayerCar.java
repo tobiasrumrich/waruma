@@ -17,7 +17,7 @@ public class PlayerCar extends StandardCar implements IPlayer {
 
 
 	public PlayerCar(Boolean[][] collisionMap, Point position,
-			Enum<Orientation> orientation) {
+			Orientation orientation) {
 		super(collisionMap, position, orientation);
 		
 		observers = new ArrayList<IReachedDestinationObserver>();
