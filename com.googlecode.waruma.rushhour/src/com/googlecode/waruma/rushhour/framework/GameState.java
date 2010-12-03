@@ -7,37 +7,25 @@ public class GameState implements IReachedDestinationObserver, IGameWonSubject{
   private Set<IGameWonObserver> observers;
   private Set<IPlayer> players;
   
-  
-  //fügt einen zu überwachenden Player hinzu
+  //Ein zukünftigt zu übwachender Player wird hinzugefügt
   public void addPlayer(IPlayer player) {
 	  players.add(player);
 	  player.registerReachedDestination(this);
   }
 
 
-  //registriert einen GameWon-Observer
   public void registerGameWon(IGameWonObserver eventTrigger) {
 	  observers.add(eventTrigger);
   }
 
   //ReachedDestination Event wird behandelt
   public void updateReachedDestination(IPlayer player) {
-	for (IPlayer currentPlayer : players) {
-		if(currentPlayer==player) {
-			players.remove(player);
-			checkWhetherLast();
-		}	
-	}	
-  }
-  
-  //prüft, ob das ReachedDestiantion Event das letzte war und informiert in diesem Fall die GameWonObserver
-  public void checkWhetherLast() {
+	  players.remove(player);
+	
 	  if(players.isEmpty())
-		  for (IGameWonObserver currentobserver : observers) {
+		 for (IGameWonObserver currentobserver : observers) {
 			  currentobserver.updateGameWon();
-		  }
+		 }
   }
-  
-  
-
 }
+  
