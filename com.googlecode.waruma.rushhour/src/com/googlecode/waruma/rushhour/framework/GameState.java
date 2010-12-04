@@ -1,11 +1,12 @@
 package com.googlecode.waruma.rushhour.framework;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
 public class GameState implements IReachedDestinationObserver, IGameWonSubject{
-  private Set<IGameWonObserver> observers;
-  private Set<IPlayer> players;
+  private Set<IGameWonObserver> observers = new HashSet<IGameWonObserver>();
+  private Set<IPlayer> players = new HashSet<IPlayer>();
   
   //Ein zukünftigt zu übwachender Player wird hinzugefügt
   public void addPlayer(IPlayer player) {
