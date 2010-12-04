@@ -8,25 +8,18 @@ import com.googlecode.waruma.rushhour.game.RushHourGameplayController;
 
 /**
  * Testet das Verhalten des RushHourGamePlayController
+ * 
  * @author dep18237
- *
+ * 
  */
 public class TestRushHourGameplayController extends TestCase {
 
-	private RushHourGameplayController controller;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		controller = new RushHourGameplayController();
-	}
-
-	private class MockGameBoardStorage implements IObjectStorage{
+	private class MockGameBoardStorage implements IObjectStorage {
 		private Boolean calledLoad = false;
 		private Boolean calledSave = false;
 		private String location;
 		private GameBoard gameBoard;
 
-		
 		public GameBoard loadGameBoard(String location) {
 			this.location = location;
 			calledLoad = true;
@@ -39,8 +32,24 @@ public class TestRushHourGameplayController extends TestCase {
 			calledSave = true;
 		}
 	}
-	
+
+	private RushHourGameplayController controller;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		controller = new RushHourGameplayController();
+	}
+
+	public void testGetCars() {
+		fail("Not yet implemented");
+	}
+
 	public void testLoadGame() {
+		fail("Not yet implemented");
+	}
+
+	public void testMoveCar() {
 		fail("Not yet implemented");
 	}
 
@@ -52,15 +61,7 @@ public class TestRushHourGameplayController extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testGetCars() {
-		fail("Not yet implemented");
-	}
-
 	public void testUpdateGameWon() {
-		fail("Not yet implemented");
-	}
-
-	public void testMoveCar() {
 		fail("Not yet implemented");
 	}
 

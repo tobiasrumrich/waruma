@@ -7,21 +7,24 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class RushHourBoardCreationController {
 
-  private GameBoard gameBoard;
+	private GameBoard gameBoard;
 
-  public void createPlayerCar(Point position, Point destinaton, Enum<Orientation> orientation) {
-  }
+	public void createCar(Point position, Enum<Orientation> orientation,
+			Boolean steeringLock) {
+	}
 
-  public void createCar(Point position, Enum<Orientation> orientation, Boolean steeringLock) {
-  }
+	public void createPlayerCar(Point position, Point destinaton,
+			Enum<Orientation> orientation) {
+	}
 
-  public void createTruck(Point position, Enum<Orientation> orientation, Boolean steeringLock) {
-  }
+	public void createTruck(Point position, Enum<Orientation> orientation,
+			Boolean steeringLock) {
+	}
 
-  public void getGameBoard() {
-  }
+	public void getGameBoard() {
+	}
 
-  public void saveGameBoard(String location) {
-  }
+	public void saveGameBoard(String location) {
+	}
 
 }

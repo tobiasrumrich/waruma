@@ -1,17 +1,14 @@
 package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
-import java.util.Arrays;
-
 
 public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	private Boolean[][] collisionMap;
 	private Point position;
 	private Orientation orientation;
-	
+
 	// TODO Andere Konstruktoren
-	
-	
+
 	public AbstractGameBoardObject(Boolean[][] collisionMap, Point position,
 			Orientation orientation) {
 		// TODO Prüfungen
@@ -20,30 +17,32 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject {
 		this.orientation = orientation;
 	}
 
+	@Override
+	public Boolean[][] getCollisionMap() {
+		return collisionMap;
+	}
+
+	@Override
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	@Override
 	public Point getPosition() {
 		return position;
 	}
 
-	public void setPosition(Point position) {
-		this.position = position;
-	}
-
-	public Orientation getOrientation() {
-		return orientation;
+	public void setCollisionMap(Boolean[][] collisionMap) {
+		this.collisionMap = collisionMap;
 	}
 
 	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 
-	public Boolean[][] getCollisionMap() {
-		return collisionMap;
+	@Override
+	public void setPosition(Point position) {
+		this.position = position;
 	}
-	
-	public void setCollisionMap(Boolean[][] collisionMap) {
-		this.collisionMap = collisionMap;
-	}
-
-	
 
 }
