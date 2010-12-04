@@ -1,5 +1,6 @@
 package com.googlecode.waruma.rushhour.framework;
 
+import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -7,6 +8,11 @@ import java.util.Stack;
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
+/**
+ * 
+ * @author dep18237
+ * 
+ */
 public class GameBoard {
 
 	private ICollisionDetector collisionDetector;
@@ -27,11 +33,47 @@ public class GameBoard {
 		return moveHistory;
 	}
 
+	/**
+	 * Diese Methode führt einen Spielzug anhand des übergebenen IMove Objektes
+	 * aus.
+	 * 
+	 * @param move
+	 * @throws IllegalMoveException
+	 */
 	public void move(IMove move) throws IllegalMoveException {
+		if (!gameBoardObjects.contains(move.getMoveable()) || !(move instanceof IMoveable)) {
+			throw new IllegalMoveException();
+		}
+		
+		//throws IllegalMoveException
+		collisionDetector.move(move);
+		
+		//Der Collision Detector hat keine Exception geworfen, also machen wir weiter
+		for (IGameBoardObject gameBoardObject : gameBoardObjects) {
+			if (gameBoardObject.equals(move.getMoveable())) {
+				if (gameBoardObject instanceof IMoveable) { 
+				((IMoveable) gameBoardObject).move(move.getDistance());
+				}
+				else {
+					throw new IllegalMoveException();
+				}
+			}
+		}
 	}
 
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
+		Point position = gameBoardObject.getPosition();
+
+		collisionDetector.addGameBoardObject(gameBoardObject);
+		
+		if (position.getX() < 0 || position.getY() < 0) {
+			gameBoardObjects.add(gameBoardObject);
+		}
+		else {
+			throw new IllegalBoardPositionException();
+		}
+		
 	}
 
 }
