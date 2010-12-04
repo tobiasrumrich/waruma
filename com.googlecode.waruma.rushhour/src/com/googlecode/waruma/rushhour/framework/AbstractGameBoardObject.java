@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
+import java.util.Arrays;
 
 
 public abstract class AbstractGameBoardObject implements IGameBoardObject {
@@ -42,5 +43,7 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject {
 	public void setCollisionMap(Boolean[][] collisionMap) {
 		this.collisionMap = collisionMap;
 	}
+
+	
 
 }

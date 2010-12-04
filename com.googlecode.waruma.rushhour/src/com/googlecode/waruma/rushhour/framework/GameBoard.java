@@ -60,7 +60,7 @@ public class GameBoard {
 			}
 		}
 		
-		//moveHistory.push(move);
+		moveHistory.push(move);
 	}
 
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
