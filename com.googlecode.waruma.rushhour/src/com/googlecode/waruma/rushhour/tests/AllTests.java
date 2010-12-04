@@ -11,6 +11,7 @@ public class AllTests {
 		suite.addTestSuite(TestMove.class);
 		suite.addTestSuite(TestStandardCar.class);
 		suite.addTestSuite(TestPlayerCar.class);
+		suite.addTestSuite(TestGameBoard.class);
 		//$JUnit-END$
 		return suite;
 	}

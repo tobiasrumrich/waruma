@@ -7,7 +7,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 public abstract class AbstractMoveable extends AbstractGameBoardObject implements IMoveable {
 
 	public AbstractMoveable(Boolean[][] collisionMap, Point position,
-			Enum<Orientation> orientation) {
+			Orientation orientation) {
 		super(collisionMap, position, orientation);
 		// TODO Auto-generated constructor stub
 	}

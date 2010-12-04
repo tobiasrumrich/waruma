@@ -9,7 +9,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 public class StandardCar extends AbstractMoveable{
   
 	public StandardCar(Boolean[][] collisionMap, Point point,
-			Enum<Orientation> orientation) {
+			Orientation orientation) {
 		super(collisionMap, point, orientation);
 		// TODO Auto-generated constructor stub
 	}

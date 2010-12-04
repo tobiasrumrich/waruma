@@ -41,7 +41,7 @@ public class GameBoard {
 	 * @throws IllegalMoveException
 	 */
 	public void move(IMove move) throws IllegalMoveException {
-		if (!gameBoardObjects.contains(move.getMoveable()) || !(move instanceof IMoveable)) {
+		if (!gameBoardObjects.contains(move.getMoveable()) || !(move.getMoveable() instanceof IMoveable)) {
 			throw new IllegalMoveException();
 		}
 		
@@ -59,21 +59,19 @@ public class GameBoard {
 				}
 			}
 		}
+		
+		//moveHistory.push(move);
 	}
 
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
 		Point position = gameBoardObject.getPosition();
 
+		//throws IllegalMoveException
 		collisionDetector.addGameBoardObject(gameBoardObject);
 		
-		if (position.getX() < 0 || position.getY() < 0) {
-			gameBoardObjects.add(gameBoardObject);
-		}
-		else {
-			throw new IllegalBoardPositionException();
-		}
-		
+		gameBoardObjects.add(gameBoardObject);
+	
 	}
 
 }
