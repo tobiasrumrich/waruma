@@ -25,6 +25,17 @@ public class GameBoard {
 		this.moveHistory = new Stack<IMove>();
 	}
 
+	public void addGameBoardObject(IGameBoardObject gameBoardObject)
+			throws IllegalBoardPositionException {
+		Point position = gameBoardObject.getPosition();
+
+		// throws IllegalMoveException
+		collisionDetector.addGameBoardObject(gameBoardObject);
+
+		gameBoardObjects.add(gameBoardObject);
+
+	}
+
 	public Set<IGameBoardObject> getGameBoardObjects() {
 		return gameBoardObjects;
 	}
@@ -41,37 +52,27 @@ public class GameBoard {
 	 * @throws IllegalMoveException
 	 */
 	public void move(IMove move) throws IllegalMoveException {
-		if (!gameBoardObjects.contains(move.getMoveable()) || !(move.getMoveable() instanceof IMoveable)) {
+		if (!gameBoardObjects.contains(move.getMoveable())
+				|| !(move.getMoveable() instanceof IMoveable)) {
 			throw new IllegalMoveException();
 		}
-		
-		//throws IllegalMoveException
+
+		// throws IllegalMoveException
 		collisionDetector.move(move);
-		
-		//Der Collision Detector hat keine Exception geworfen, also machen wir weiter
+
+		// Der Collision Detector hat keine Exception geworfen, also machen wir
+		// weiter
 		for (IGameBoardObject gameBoardObject : gameBoardObjects) {
 			if (gameBoardObject.equals(move.getMoveable())) {
-				if (gameBoardObject instanceof IMoveable) { 
-				((IMoveable) gameBoardObject).move(move.getDistance());
-				}
-				else {
+				if (gameBoardObject instanceof IMoveable) {
+					((IMoveable) gameBoardObject).move(move.getDistance());
+				} else {
 					throw new IllegalMoveException();
 				}
 			}
 		}
-		
+
 		moveHistory.push(move);
-	}
-
-	public void addGameBoardObject(IGameBoardObject gameBoardObject)
-			throws IllegalBoardPositionException {
-		Point position = gameBoardObject.getPosition();
-
-		//throws IllegalMoveException
-		collisionDetector.addGameBoardObject(gameBoardObject);
-		
-		gameBoardObjects.add(gameBoardObject);
-	
 	}
 
 }

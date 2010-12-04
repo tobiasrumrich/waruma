@@ -7,6 +7,7 @@ import com.googlecode.waruma.rushhour.framework.ISolver;
 
 public class RushHourSolver implements ISolver {
 
+	@Override
 	public List<IMove> solveGameBoard() {
 		return null;
 	}

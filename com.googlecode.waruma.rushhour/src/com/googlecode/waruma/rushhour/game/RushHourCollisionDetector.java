@@ -7,7 +7,6 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
-import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
@@ -22,54 +21,53 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 	private IMove lastCheckedMove;
 
 	/**
-	 * Erstellt ein RushHour spezifischen CollisionDetector
-	 * mit einem quadratischen Spielfeld
-	 * @param size - Kantenlänge
+	 * Erstellt ein RushHour spezifischen CollisionDetector mit einem
+	 * quadratischen Spielfeld
+	 * 
+	 * @param size
+	 *            - Kantenlänge
 	 */
 	public RushHourCollisionDetector(int size) {
 		this(size, size);
 	}
 
 	/**
-	 * Erstellt einen RushHour spezifischen CollisionDetector 
-	 * mit einem rechteckigen Spielfeld
-	 * @param width - Breite des Spielfeldes
-	 * @param height - Höhe des Spielfeldes
+	 * Erstellt einen RushHour spezifischen CollisionDetector mit einem
+	 * rechteckigen Spielfeld
+	 * 
+	 * @param width
+	 *            - Breite des Spielfeldes
+	 * @param height
+	 *            - Höhe des Spielfeldes
 	 */
 	public RushHourCollisionDetector(int width, int height) {
 		this.collisionMap = new Boolean[width - 1][height - 1];
 	}
 
-	/**
-	 * Überprpüft ob ein Punkt auf dem Spielfeld frei und gültig ist
-	 * und gibt sofern die Überprüfung positiv war true zurück
-	 * @param point
-	 * @return Ergebnis der Überprügung
-	 */
-	private boolean validTile(Point point) {
-		return validTile(point.x, point.y);
+	@Override
+	public void addGameBoardObject(IGameBoardObject gameBoardObject)
+			throws IllegalBoardPositionException {
+		Point source = transposeGameBoardObjectSourcePoint(gameBoardObject);
+		Orientation orientation = gameBoardObject.getOrientation();
+		int length = gameBoardObject.getCollisionMap().length;
 
+		if (checkPathCollisionFree(source, orientation, length)) {
+			fillPathInCollisionMap(source, orientation, length);
+		} else {
+			throw new IllegalBoardPositionException();
+		}
+	}
+
+	@Override
+	public void checkMove(IMove move) throws IllegalMoveException {
+
+		lastCheckedMove = move;
 	}
 
 	/**
-	 * Überprpüft ob ein Punkt auf dem Spielfeld frei und gültig ist
-	 * und gibt sofern die Überprüfung positiv war true zurück
-	 * @param x
-	 * @param y
-	 * @return Ergebnis der Überprüfung
-	 */
-	private boolean validTile(int x, int y) {
-		if (x < 0 || x > collisionMap[0].length)
-			return false;
-		if (y < 0 || y > collisionMap[0].length)
-			return false;
-		return collisionMap[x][y];
-	}
-
-	/**
-	 * Überprüft ob der Pfad ausgehend von der übergebenen
-	 * Position in der Übergeben Richtung in einer bestimmten
-	 * länge kollisionsfrei und gültig ist
+	 * Überprüft ob der Pfad ausgehend von der übergebenen Position in der
+	 * Übergeben Richtung in einer bestimmten länge kollisionsfrei und gültig
+	 * ist
 	 */
 	private boolean checkPathCollisionFree(Point source,
 			Orientation orientation, int distance) {
@@ -95,8 +93,25 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 		}
 		return true;
 	}
-	
-	private void setPathInCollisionMap(Point source, Orientation orientation, int distance, boolean value){
+
+	private void clearPathInCollisionMap(Point source, Orientation orientation,
+			int distance) {
+		setPathInCollisionMap(source, orientation, distance, true);
+	}
+
+	@Override
+	public void doMove(IMove move) throws IllegalMoveException {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void fillPathInCollisionMap(Point source, Orientation orientation,
+			int distance) {
+		setPathInCollisionMap(source, orientation, distance, false);
+	}
+
+	private void setPathInCollisionMap(Point source, Orientation orientation,
+			int distance, boolean value) {
 		for (int i = 0; i < distance; i++) {
 			switch (orientation) {
 			case EAST:
@@ -114,26 +129,17 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 			}
 		}
 	}
-	
-	private void clearPathInCollisionMap(Point source, Orientation orientation, int distance){
-		setPathInCollisionMap(source, orientation, distance, true);
-	}
-	
-	private void fillPathInCollisionMap(Point source, Orientation orientation, int distance) {
-		setPathInCollisionMap(source, orientation, distance, false);
-	}
-	
-	
-	
+
 	/**
-	 * Wandelt die im Spiel verwendete Ausgangspunkt-Definition in 
-	 * die vom CollisionDetector verwendete (immer "hinten") um
+	 * Wandelt die im Spiel verwendete Ausgangspunkt-Definition in die vom
+	 * CollisionDetector verwendete (immer "hinten") um
+	 * 
 	 * @param gameBoardObject
 	 * @return Punkt
 	 */
 	private Point transposeGameBoardObjectSourcePoint(
 			IGameBoardObject gameBoardObject) {
-		
+
 		Orientation orientation = gameBoardObject.getOrientation();
 		Point sourcePoint = gameBoardObject.getPosition();
 		int distance = gameBoardObject.getCollisionMap().length - 1;
@@ -141,43 +147,40 @@ public class RushHourCollisionDetector implements ICollisionDetector {
 		if (orientation == Orientation.NORTH) {
 			return new Point(sourcePoint.x, sourcePoint.y + distance);
 		}
-		
-		if (orientation == Orientation.WEST){
+
+		if (orientation == Orientation.WEST) {
 			return new Point(sourcePoint.x + distance, sourcePoint.y);
 		}
 
 		return sourcePoint;
 	}
-	
 
-
-	public void addGameBoardObject(IGameBoardObject gameBoardObject)
-			throws IllegalBoardPositionException {
-		Point source = transposeGameBoardObjectSourcePoint(gameBoardObject);
-		Orientation orientation = gameBoardObject.getOrientation();
-		int length = gameBoardObject.getCollisionMap().length;
-		
-		if(checkPathCollisionFree(source, orientation, length))
-		{
-			fillPathInCollisionMap(source, orientation, length);
-		}
-		else
-		{
-			throw new IllegalBoardPositionException();
-		}
+	/**
+	 * Überprpüft ob ein Punkt auf dem Spielfeld frei und gültig ist und gibt
+	 * sofern die Überprüfung positiv war true zurück
+	 * 
+	 * @param x
+	 * @param y
+	 * @return Ergebnis der Überprüfung
+	 */
+	private boolean validTile(int x, int y) {
+		if (x < 0 || x > collisionMap[0].length)
+			return false;
+		if (y < 0 || y > collisionMap[0].length)
+			return false;
+		return collisionMap[x][y];
 	}
 
-	@Override
-	public void checkMove(IMove move) throws IllegalMoveException {
-		
-		
-		lastCheckedMove = move;
-	}
+	/**
+	 * Überprpüft ob ein Punkt auf dem Spielfeld frei und gültig ist und gibt
+	 * sofern die Überprüfung positiv war true zurück
+	 * 
+	 * @param point
+	 * @return Ergebnis der Überprügung
+	 */
+	private boolean validTile(Point point) {
+		return validTile(point.x, point.y);
 
-	@Override
-	public void doMove(IMove move) throws IllegalMoveException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -15,7 +15,14 @@ public class RushHourGameplayController implements IGameWonObserver {
 	private Timer gameTimer;
 	private GameBoard gameBoard;
 
+	public IMoveable getCars() {
+		return null;
+	}
+
 	public void loadGame(String location) {
+	}
+
+	public void moveCar(IMove move) {
 	}
 
 	public void saveGame(String location) {
@@ -25,14 +32,8 @@ public class RushHourGameplayController implements IGameWonObserver {
 		return null;
 	}
 
-	public IMoveable getCars() {
-		return null;
-	}
-
+	@Override
 	public void updateGameWon() {
-	}
-
-	public void moveCar(IMove move) {
 	}
 
 }
