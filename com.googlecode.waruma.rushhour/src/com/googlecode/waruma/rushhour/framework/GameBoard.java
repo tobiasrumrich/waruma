@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -13,8 +14,12 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
  * @author dep18237
  * 
  */
-public class GameBoard {
+public class GameBoard implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7059872709872532815L;
 	private ICollisionDetector collisionDetector;
 	private Set<IGameBoardObject> gameBoardObjects;
 	private Stack<IMove> moveHistory;

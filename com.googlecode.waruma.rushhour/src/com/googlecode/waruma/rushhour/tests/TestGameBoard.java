@@ -33,6 +33,18 @@ public class TestGameBoard extends TestCase {
 		}
 
 		@Override
+		public void checkMove(IMove move) throws IllegalMoveException {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void doMove(IMove move) throws IllegalMoveException {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
 		public void move(IMove move) {
 			this.move = move;
 			calledCheckCollision = true;
@@ -43,6 +55,10 @@ public class TestGameBoard extends TestCase {
 	private class MockMoveable extends AbstractGameBoardObject implements
 			IMoveable {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7058927463289079845L;
 		private boolean calledMove = false;
 		private int distance = 0;
 

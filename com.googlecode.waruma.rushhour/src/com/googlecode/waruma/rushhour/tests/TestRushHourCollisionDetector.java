@@ -19,6 +19,10 @@ public class TestRushHourCollisionDetector extends TestCase {
 	private class MockMoveable extends AbstractGameBoardObject implements
 			IMoveable {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8660743442145058342L;
 		private boolean calledMove = false;
 		private int distance = 0;
 

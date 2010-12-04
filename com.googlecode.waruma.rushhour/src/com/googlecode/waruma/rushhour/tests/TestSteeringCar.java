@@ -19,6 +19,10 @@ public class TestSteeringCar extends TestCase {
 
 	private class MockMoveableObject extends AbstractMoveable {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4518726288615582859L;
 		private boolean called;
 		private int distance;
 

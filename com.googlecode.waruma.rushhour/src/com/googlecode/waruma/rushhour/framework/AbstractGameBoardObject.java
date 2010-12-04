@@ -1,8 +1,14 @@
 package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public abstract class AbstractGameBoardObject implements IGameBoardObject {
+public abstract class AbstractGameBoardObject implements IGameBoardObject,
+		Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5260463490389698394L;
 	private Boolean[][] collisionMap;
 	private Point position;
 	private Orientation orientation;
