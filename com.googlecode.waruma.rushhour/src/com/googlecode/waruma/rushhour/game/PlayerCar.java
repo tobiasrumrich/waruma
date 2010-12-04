@@ -61,4 +61,37 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		this.destination = destination;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 75503;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((destination == null) ? 0 : destination.hashCode());
+		result = prime * result
+				+ ((observers == null) ? 0 : observers.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlayerCar other = (PlayerCar) obj;
+		if (destination == null) {
+			if (other.destination != null)
+				return false;
+		} else if (!destination.equals(other.destination))
+			return false;
+		if (observers == null) {
+			if (other.observers != null)
+				return false;
+		} else if (!observers.equals(other.observers))
+			return false;
+		return true;
+	}
+
 }

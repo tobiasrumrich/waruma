@@ -53,4 +53,31 @@ public class AdditionalFunctionality extends AbstractMoveable implements
 		abstractMoveable.setPosition(position);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 33889;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((abstractMoveable == null) ? 0 : abstractMoveable.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AdditionalFunctionality other = (AdditionalFunctionality) obj;
+		if (abstractMoveable == null) {
+			if (other.abstractMoveable != null)
+				return false;
+		} else if (!abstractMoveable.equals(other.abstractMoveable))
+			return false;
+		return true;
+	}
+
 }

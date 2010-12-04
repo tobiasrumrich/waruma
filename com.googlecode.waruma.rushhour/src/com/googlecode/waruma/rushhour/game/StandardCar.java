@@ -63,4 +63,32 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 			throw new IllegalMoveException();
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 42209;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((currentPosition == null) ? 0 : currentPosition.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardCar other = (StandardCar) obj;
+		if (currentPosition == null) {
+			if (other.currentPosition != null)
+				return false;
+		} else if (!currentPosition.equals(other.currentPosition))
+			return false;
+		return true;
+	}
+	
+	
 }
