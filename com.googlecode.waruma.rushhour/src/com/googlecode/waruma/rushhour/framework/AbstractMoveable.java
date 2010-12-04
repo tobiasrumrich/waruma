@@ -9,13 +9,9 @@ public abstract class AbstractMoveable extends AbstractGameBoardObject implement
 	public AbstractMoveable(Boolean[][] collisionMap, Point position,
 			Orientation orientation) {
 		super(collisionMap, position, orientation);
-		// TODO Auto-generated constructor stub
 	}
 
 	public abstract void move(int distance) throws IllegalMoveException;
-
-	
-	
 	
 }
 
