@@ -32,7 +32,7 @@ public class TestRushHourCollisionDetector extends TestCase {
 		private int distance = 0;
 
 		public MockMoveable(Boolean[][] collisionMap, Point position,
-				Enum<Orientation> orientation) {
+				Orientation orientation) {
 			super(collisionMap, position, orientation);
 		}
 

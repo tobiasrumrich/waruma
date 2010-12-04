@@ -50,7 +50,7 @@ public class TestSteeringCar extends TestCase {
 		private int distance;
 	
 		public MockMoveableObject(Boolean[][] collisionMap, Point position,
-				Enum<Orientation> orientation) {
+				Orientation orientation) {
 			super(collisionMap, position, orientation);
 			// TODO Auto-generated constructor stub
 		}
