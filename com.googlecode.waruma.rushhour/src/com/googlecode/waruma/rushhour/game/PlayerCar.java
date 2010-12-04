@@ -10,7 +10,6 @@ import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 
-
 /**
  * 
  * @author fabian
