@@ -62,9 +62,9 @@ public class GameBoard implements Serializable {
 			throw new IllegalMoveException();
 		}
 
-		collisionDetector.
 		// throws IllegalMoveException
-		collisionDetector.move(move);
+		collisionDetector.checkMove(move);
+		collisionDetector.doMove(move);
 
 		// Der Collision Detector hat keine Exception geworfen, also machen wir
 		// weiter
