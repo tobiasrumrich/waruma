@@ -39,7 +39,7 @@ public class TestSteeringCar extends TestCase {
 
 	public void testSteeringCarInit() {
 		assertEquals(collisionMap, car.getCollisionMap());
-		assertEquals(new Point(3,1),car.getPosition());
+		assertEquals(new Point(5,5),car.getPosition());
 		assertEquals(Orientation.NORTH,car.getOrientation());
 	}
 	

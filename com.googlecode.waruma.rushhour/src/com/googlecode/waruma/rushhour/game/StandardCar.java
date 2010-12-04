@@ -27,25 +27,28 @@ public class StandardCar extends AbstractMoveable{
 
 	public void move(int distance) throws IllegalMoveException {
 		
-		currentPosition = getPosition();
+		if(distance!=0) {
+			currentPosition = getPosition();
 	
 			switch(getOrientation()) {
-			case NORTH:
-				currentPosition.setLocation(currentPosition.x, currentPosition.y - distance);
-			    break; 
+				case NORTH:
+					currentPosition.setLocation(currentPosition.x, currentPosition.y - distance);
+					break; 
 
-			case EAST:
-				currentPosition.setLocation(currentPosition.x + distance, currentPosition.y);
-				break;
+				case EAST:
+					currentPosition.setLocation(currentPosition.x + distance, currentPosition.y);
+					break;
 			    
-			case SOUTH:
-				currentPosition.setLocation(currentPosition.x, currentPosition.y + distance);
-				break;
+				case SOUTH:
+					currentPosition.setLocation(currentPosition.x, currentPosition.y + distance);
+					break;
 		    
-			case WEST:
-				currentPosition.setLocation(currentPosition.x - distance, currentPosition.y);
-				break;
+				case WEST:
+					currentPosition.setLocation(currentPosition.x - distance, currentPosition.y);
+					break;
+			}
+		} else{
+			throw new IllegalMoveException();
 		}
 	}
-
 }
