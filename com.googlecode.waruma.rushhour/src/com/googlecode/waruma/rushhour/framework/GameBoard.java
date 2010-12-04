@@ -34,7 +34,7 @@ public class GameBoard implements Serializable {
 			throws IllegalBoardPositionException {
 		Point position = gameBoardObject.getPosition();
 
-		// throws IllegalMoveException
+		// throws IllegalBoardPositionException
 		collisionDetector.addGameBoardObject(gameBoardObject);
 
 		gameBoardObjects.add(gameBoardObject);
@@ -62,6 +62,7 @@ public class GameBoard implements Serializable {
 			throw new IllegalMoveException();
 		}
 
+		collisionDetector.
 		// throws IllegalMoveException
 		collisionDetector.move(move);
 
