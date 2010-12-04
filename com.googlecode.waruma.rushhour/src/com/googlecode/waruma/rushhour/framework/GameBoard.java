@@ -80,4 +80,49 @@ public class GameBoard implements Serializable {
 		moveHistory.push(move);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 99991;
+		int result = 1;
+		result = prime
+				* result
+				+ ((collisionDetector == null) ? 0 : collisionDetector
+						.hashCode());
+		result = prime
+				* result
+				+ ((gameBoardObjects == null) ? 0 : gameBoardObjects.hashCode());
+		result = prime * result
+				+ ((moveHistory == null) ? 0 : moveHistory.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GameBoard other = (GameBoard) obj;
+		if (collisionDetector == null) {
+			if (other.collisionDetector != null)
+				return false;
+		} else if (!collisionDetector.equals(other.collisionDetector))
+			return false;
+		if (gameBoardObjects == null) {
+			if (other.gameBoardObjects != null)
+				return false;
+		} else if (!gameBoardObjects.equals(other.gameBoardObjects))
+			return false;
+		if (moveHistory == null) {
+			if (other.moveHistory != null)
+				return false;
+		} else if (!moveHistory.equals(other.moveHistory))
+			return false;
+		return true;
+	}
+
+	
+	
 }

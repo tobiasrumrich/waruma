@@ -38,4 +38,26 @@ public class SteeringLock extends AdditionalFunctionality implements
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 96223;
+		int result = super.hashCode();
+		result = prime * result + (moved ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SteeringLock other = (SteeringLock) obj;
+		if (moved != other.moved)
+			return false;
+		return true;
+	}
+
 }
