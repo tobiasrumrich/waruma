@@ -16,9 +16,13 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 public class RushHourBoardCreationController {
 	
 	
-	
+	public RushHourBoardCreationController() {
+		super();
+	}
+
 
 	private GameBoard gameBoard;
+	private RushHourCollisionDetector collisionDetector;
 
 	public void createCar(Point position, Orientation orientation,
 			Boolean steeringLock) {
@@ -68,7 +72,7 @@ public class RushHourBoardCreationController {
 	
 	public void createPlayerCar(Point position, Point destination,
 			Orientation orientation) {
-		PlayerCar car = new PlayerCar(new Boolean[][] {{true, true}}, position, orientation);
+		PlayerCar car = new PlayerCar(new Boolean[][] {{true, true}}, position, orientation, collisionDetector);
 		car.setDestination(destination);
 		try {
 			gameBoard.addGameBoardObject(car);

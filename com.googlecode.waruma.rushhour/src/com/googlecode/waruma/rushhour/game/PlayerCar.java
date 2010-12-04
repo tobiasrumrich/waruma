@@ -1,3 +1,4 @@
+
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
@@ -6,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
@@ -24,16 +26,16 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
 	private Set<IReachedDestinationObserver> observers = new HashSet<IReachedDestinationObserver>();
+	private ICollisionDetector collisionDetector;
 
 	public PlayerCar(Boolean[][] collisionMap, Point position,
-			Orientation orientation) {
+			Orientation orientation, ICollisionDetector collisionDetector) {
 		super(collisionMap, position, orientation);
+		
 	}
 
 	// führt den Move aus und fragt anschließend den CollisionDetector, ob das
@@ -42,7 +44,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	public void move(Integer distance) throws IllegalMoveException {
 		super.move(distance);
 
-		if (RushHourCollisionDetector.hitPoint(this, destination)) {
+		if (collisionDetector.hitPoint(this, destination)) {
 			for (IReachedDestinationObserver currentObserver : observers) {
 				currentObserver.updateReachedDestination(this);
 			}
