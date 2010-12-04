@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
@@ -17,8 +18,12 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  */
 
-public class StandardCar extends AbstractMoveable {
+public class StandardCar extends AbstractMoveable implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4355928368405991476L;
 	private Point currentPosition;
 
 	public StandardCar(Boolean[][] collisionMap, Point point,

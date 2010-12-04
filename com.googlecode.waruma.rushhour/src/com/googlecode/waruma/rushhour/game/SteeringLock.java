@@ -1,5 +1,7 @@
 package com.googlecode.waruma.rushhour.game;
 
+import java.io.Serializable;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
 import com.googlecode.waruma.rushhour.framework.AdditionalFunctionality;
@@ -12,8 +14,13 @@ import com.googlecode.waruma.rushhour.framework.AdditionalFunctionality;
  * 
  */
 
-public class SteeringLock extends AdditionalFunctionality {
+public class SteeringLock extends AdditionalFunctionality implements
+		Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1959133511270794370L;
 	private boolean moved = false;
 
 	public SteeringLock(AbstractMoveable moveable) {

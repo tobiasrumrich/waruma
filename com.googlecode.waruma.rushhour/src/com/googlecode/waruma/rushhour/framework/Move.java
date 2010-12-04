@@ -1,11 +1,17 @@
 package com.googlecode.waruma.rushhour.framework;
 
+import java.io.Serializable;
+
 /**
  * Blablablabla
  * 
  * @author mail2fabi - Fabian Malinowski
  */
-public class Move implements IMove {
+public class Move implements IMove, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2627372793288189045L;
 	private IMoveable moveable;
 	private int distance;
 

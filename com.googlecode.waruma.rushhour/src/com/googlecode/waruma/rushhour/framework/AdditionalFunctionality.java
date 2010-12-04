@@ -1,10 +1,16 @@
 package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
-public class AdditionalFunctionality extends AbstractMoveable {
+public class AdditionalFunctionality extends AbstractMoveable implements
+		Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2028991516326549760L;
 	public AbstractMoveable abstractMoveable;
 
 	public AdditionalFunctionality(AbstractMoveable abstractMoveable) {

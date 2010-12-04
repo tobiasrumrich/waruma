@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,8 +22,12 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  */
 
-public class PlayerCar extends StandardCar implements IPlayer {
+public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
 	private Set<IReachedDestinationObserver> observers = new HashSet<IReachedDestinationObserver>();
 
