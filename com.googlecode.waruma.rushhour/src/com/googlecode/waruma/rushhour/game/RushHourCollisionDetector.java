@@ -212,18 +212,13 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
 			CollisionPath moveBoundries = new CollisionPath(gameBoardObject, move.getDistance());
 			// Objekt von der Karte entfernen
-			printGameBoardToConsole();
 			clearPathInCollisionMap(objectBoundries);
-			printGameBoardToConsole();
-			// Bei positiver Distanz länge addieren
-			
 			// Zug Prüfen
 			if (!checkPathCollisionFree(moveBoundries)) {
 				fillPathInCollisionMap(objectBoundries);
 				throw new IllegalMoveException();
 			}
 			fillPathInCollisionMap(objectBoundries);
-			printGameBoardToConsole();
 			lastCheckedMove = move;
 		} else {
 			throw new IllegalMoveException();
@@ -240,7 +235,6 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			clearPathInCollisionMap(objectBoundries);
 			objectBoundries.moveByAmmount(move.getDistance());
 			fillPathInCollisionMap(objectBoundries);
-			printGameBoardToConsole();
 		} else {
 			throw new IllegalMoveException();
 		}
