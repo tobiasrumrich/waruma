@@ -9,6 +9,7 @@ import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
+import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
 
 /**
  * 
@@ -16,6 +17,7 @@ import com.googlecode.waruma.rushhour.game.PlayerCar;
  * 
  */
 public class TestPlayerCar extends TestCase {
+	
 	private class MockObserver implements IReachedDestinationObserver {
 		private boolean called = false;
 
@@ -31,12 +33,14 @@ public class TestPlayerCar extends TestCase {
 	private MockObserver mockObserver1;
 
 	private MockObserver mockObserver2;
+	
+	private RushHourCollisionDetector collisionDetector;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
-		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH);
+		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, collisionDetector);
 		car.setDestination(new Point(4, 2));
 
 		mockObserver1 = new MockObserver();
@@ -44,6 +48,7 @@ public class TestPlayerCar extends TestCase {
 
 		car.registerReachedDestination(mockObserver1);
 		car.registerReachedDestination(mockObserver2);
+	
 	}
 
 	public void testMoveNotReachedDestination() throws IllegalMoveException {
