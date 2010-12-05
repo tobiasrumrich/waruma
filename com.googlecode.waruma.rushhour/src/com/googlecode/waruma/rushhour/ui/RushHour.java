@@ -1,30 +1,21 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Composite;
-import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.layout.GridData;
-import swing2swt.layout.BoxLayout;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import com.swtdesigner.SWTResourceManager;
-import com.googlecode.waruma.rushhour.framework.GameBoard;
-import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 
 public class RushHour {
 
