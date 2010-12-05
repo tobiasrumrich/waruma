@@ -13,6 +13,7 @@ public class AllTests {
 		suite.addTestSuite(TestPlayerCar.class);
 		suite.addTestSuite(TestGameBoard.class);
 		suite.addTestSuite(TestFileSystemObjectStorage.class);
+		suite.addTestSuite(TestRushHourCollisionDetector.class);
 		// $JUnit-END$
 		return suite;
 	}
