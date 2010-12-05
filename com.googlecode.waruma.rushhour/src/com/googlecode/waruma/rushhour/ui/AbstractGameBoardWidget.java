@@ -1,11 +1,12 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import com.swtdesigner.SWTResourceManager;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+
+import com.swtdesigner.SWTResourceManager;
 
 public class AbstractGameBoardWidget extends Composite {
 
