@@ -1,50 +1,77 @@
 package com.googlecode.waruma.rushhour.tests;
 
+import java.awt.Point;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.googlecode.waruma.rushhour.framework.FileSystemObjectStorage;
+import com.googlecode.waruma.rushhour.framework.GameBoard;
+import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
+import com.googlecode.waruma.rushhour.framework.Orientation;
+import com.googlecode.waruma.rushhour.game.PlayerCar;
+import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
+import com.googlecode.waruma.rushhour.game.StandardCar;
+import com.googlecode.waruma.rushhour.game.SteeringLock;
+
 public class TestFileSystemObjectStorage extends TestCase {
 
-	private class ListObjectMock implements Serializable {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 7362834513833590292L;
-		private int myNumber;
-		private String myString;
-
-		public ListObjectMock(int number, String string) {
-			this.myNumber = number;
-			this.myString = string;
-		}
-	}
-
-	private class ObjectMock implements Serializable {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 8668861856199245352L;
-		private int fourtyTwo = 42;
-		private String iLoveSquidSoup = "iLoveSquidSoup";
-		private List<ListObjectMock> incredibleList = new ArrayList();
-		// (new ListObjectMock(47,"zwei"),new ListObjectMock(1379,"Hund"))
-
-	}
+	private FileSystemObjectStorage fileSystemObjectStorage;
+	private FileSystemObjectStorageMock objectMock;
+	private GameBoard gameBoard;
 
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
+		fileSystemObjectStorage = new FileSystemObjectStorage();
+		objectMock = new FileSystemObjectStorageMock();
+		
+		ICollisionDetector collisionDetector = new RushHourCollisionDetector(10,10);
+		gameBoard = new GameBoard(collisionDetector);
+		Boolean[][] collisionMap = new Boolean[][] { { true, true } };
+		gameBoard.addGameBoardObject(new PlayerCar(collisionMap, new Point (3,8),Orientation.WEST,collisionDetector));
+		gameBoard.addGameBoardObject(new StandardCar(collisionMap, new Point(9,1),Orientation.SOUTH));
+		gameBoard.addGameBoardObject(new SteeringLock(new StandardCar(
+					new Boolean[][] { { true, true, true } }, new Point(3,4),
+					Orientation.NORTH)));
+		
 	}
 
-	public void testLoadGameBoard() {
-		fail("Not yet implemented");
+	public void testStorageWithMock() {
+		String location = "objectMock.ser";
+		try {
+			fileSystemObjectStorage.serialize(objectMock, location);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
+		Serializable deserialize = null;
+		try {
+			deserialize = fileSystemObjectStorage.deserialize(location);
+		} catch (IOException e) {
+			fail("Received IOExeption");
+		} catch (ClassNotFoundException e) {
+			fail("Received ClassNotFoundException");
+		}
+		assertEquals(objectMock,deserialize);
 	}
-
-	public void testSaveGameBoard() {
-		fail("Not yet implemented");
+	
+	public void testStorageWithGameBoard () {
+		String location = "GameBoard.ser";
+		try {
+			fileSystemObjectStorage.serialize(gameBoard, location);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
+		Serializable deserialize = null;
+		try {
+			deserialize = fileSystemObjectStorage.deserialize(location);
+		} catch (IOException e) {
+			fail("Received IOExeption");
+		} catch (ClassNotFoundException e) {
+			fail("Received ClassNotFoundException");
+		}
+		assertEquals(gameBoard,deserialize);
 	}
-
 }
