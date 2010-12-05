@@ -127,19 +127,6 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		return collisionMap[x][y];
 	}
 
-	private void printGameBoardToConsole(){
-		for (int i = 0; i < collisionMap.length; i++) {
-			for (int j = 0; j < collisionMap[i].length; j++) {
-				if(collisionMap[j][i])
-					System.out.print(0);
-				else
-					System.out.print(1);
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
-	
 	private Point getDestinationPoint(Point source, Orientation orientation,
 			int distance) {
 		switch (orientation) {
