@@ -12,6 +12,7 @@ public class AllTests {
 		suite.addTestSuite(TestStandardCar.class);
 		suite.addTestSuite(TestPlayerCar.class);
 		suite.addTestSuite(TestGameBoard.class);
+		suite.addTestSuite(TestFileSystemObjectStorage.class);
 		// $JUnit-END$
 		return suite;
 	}
