@@ -2,6 +2,7 @@ package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Arrays;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
@@ -239,4 +240,35 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(collisionMap);
+		result = prime * result
+				+ ((lastCheckedMove == null) ? 0 : lastCheckedMove.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RushHourCollisionDetector other = (RushHourCollisionDetector) obj;
+		if (!Arrays.equals(collisionMap, other.collisionMap))
+			return false;
+		if (lastCheckedMove == null) {
+			if (other.lastCheckedMove != null)
+				return false;
+		} else if (!lastCheckedMove.equals(other.lastCheckedMove))
+			return false;
+		return true;
+	}
+	
+	
 }
