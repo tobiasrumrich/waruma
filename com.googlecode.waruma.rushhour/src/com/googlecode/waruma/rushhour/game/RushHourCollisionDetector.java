@@ -1,16 +1,13 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
-
-import org.eclipse.swt.custom.CBanner;
+import java.io.Serializable;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
-import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
-import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
@@ -20,8 +17,9 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  * @author Florian
  */
-public class RushHourCollisionDetector implements ICollisionDetector {
-	
+public class RushHourCollisionDetector implements ICollisionDetector, Serializable {
+	private static final long serialVersionUID = -121255920300069932L;
+
 	private class CollisionPath {
 		private Point source;
 		private Orientation orientation;
