@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import com.swtdesigner.SWTResourceManager;
+import org.eclipse.swt.graphics.Point;
 
 public class RushHour {
 
@@ -54,8 +55,9 @@ public class RushHour {
 	 */
 	protected void createContents() {
 		shell = new Shell();
+		
 		shell.setSize(727, 549);
-		shell.setText("SWT Application");
+		shell.setText("RushHour");
 		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Menu menu = new Menu(shell, SWT.BAR);
@@ -148,48 +150,59 @@ public class RushHour {
 		composite_1.setLayout(new GridLayout(2, false));
 		
 		Group group = new Group(composite_1, SWT.NONE);
-		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		group.setLayout(new FillLayout(SWT.HORIZONTAL));
+		GridData gd_group = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+
+		group.setLayoutData(gd_group);
 		
-		AbstractGameBoardWidget abstractGameBoardWidget = new AbstractGameBoardWidget(group, SWT.NONE);
-		abstractGameBoardWidget.setBounds(113, 94, 365, 45);
+		AbstractGameBoardWidget abstractGameBoardWidget = new AbstractGameBoardWidget(group, SWT.NONE, 9, 6);
+		gd_group.minimumHeight = abstractGameBoardWidget.getMinHeight();
+		gd_group.minimumWidth = abstractGameBoardWidget.getMinWidth();
+
 		
-		Group group_1 = new Group(composite_1, SWT.NONE);
-		group_1.setLayout(new GridLayout(2, false));
-		group_1.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		Group grpSpielkontrolle = new Group(composite_1, SWT.NONE);
+		grpSpielkontrolle.setLayout(new GridLayout(2, false));
+		GridData gd_grpSpielkontrolle = new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1);
+		grpSpielkontrolle.setLayoutData(gd_grpSpielkontrolle);
+		gd_grpSpielkontrolle.minimumWidth = 300;
 		
-		Label lblSpieldaten = new Label(group_1, SWT.NONE);
+		Label lblSpieldaten = new Label(grpSpielkontrolle, SWT.NONE);
 		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
 		gd_lblSpieldaten.widthHint = 138;
 		lblSpieldaten.setLayoutData(gd_lblSpieldaten);
 		lblSpieldaten.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		lblSpieldaten.setText("Spieldaten");
 		
-		Label lblZeit = new Label(group_1, SWT.NONE);
+		Label lblZeit = new Label(grpSpielkontrolle, SWT.NONE);
 		lblZeit.setText("Zeit");
 		
-		Label label = new Label(group_1, SWT.NONE);
+		Label label = new Label(grpSpielkontrolle, SWT.NONE);
 		label.setText("02:35");
 		
-		Label lblZge = new Label(group_1, SWT.NONE);
+		Label lblZge = new Label(grpSpielkontrolle, SWT.NONE);
 		lblZge.setText("Z\u00FCge");
 		
-		Label label_1 = new Label(group_1, SWT.NONE);
+		Label label_1 = new Label(grpSpielkontrolle, SWT.NONE);
 		label_1.setText("15");
-		new Label(group_1, SWT.NONE);
-		new Label(group_1, SWT.NONE);
+		new Label(grpSpielkontrolle, SWT.NONE);
+		new Label(grpSpielkontrolle, SWT.NONE);
 		
-		Button btnLsen = new Button(group_1, SWT.NONE);
+		Button btnLsen = new Button(grpSpielkontrolle, SWT.NONE);
 		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		btnLsen.setText("L\u00F6sung");
 		
-		Button button = new Button(group_1, SWT.NONE);
+		Button button = new Button(grpSpielkontrolle, SWT.NONE);
 		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		button.setText("<<");
 		
-		Button button_1 = new Button(group_1, SWT.NONE);
+		Button button_1 = new Button(grpSpielkontrolle, SWT.NONE);
 		button_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		button_1.setEnabled(false);
 		button_1.setText(">>");
+		
+		
+		Point point = new Point( abstractGameBoardWidget.getMinWidth() + gd_grpSpielkontrolle.minimumWidth + 30, abstractGameBoardWidget.getMinHeight()+100);
+		shell.setMinimumSize(point);
 
 	}
 }
