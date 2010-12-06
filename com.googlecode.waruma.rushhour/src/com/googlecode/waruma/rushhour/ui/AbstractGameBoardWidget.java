@@ -32,8 +32,8 @@ public class AbstractGameBoardWidget extends Composite {
 		System.out.println(breite+"++++++");
 		spielbrett = new Label[hoehe][breite];
 		setLayout(new GridLayout(breite, false));
-		((GridLayout) this.getLayout()).horizontalSpacing = 10;
-		((GridLayout) this.getLayout()).verticalSpacing = 10;
+		((GridLayout) this.getLayout()).horizontalSpacing = 5;
+		((GridLayout) this.getLayout()).verticalSpacing = 5;
 		
 	
 				
@@ -47,7 +47,7 @@ public class AbstractGameBoardWidget extends Composite {
 				spielbrett[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 				
 				if ((i+j) % 2 == 0) {
-					spielbrett[i][j].setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));	
+					spielbrett[i][j].setBackground(SWTResourceManager.getColor(166, 202, 240));	
 				} else {
 					spielbrett[i][j].setBackground(SWTResourceManager.getColor(119, 136, 153));	
 				}
