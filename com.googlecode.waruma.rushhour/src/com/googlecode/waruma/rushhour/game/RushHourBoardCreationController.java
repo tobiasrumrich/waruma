@@ -1,6 +1,8 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
+import java.io.IOException;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.IObjectStorage;
@@ -60,11 +62,11 @@ public class RushHourBoardCreationController {
 		gameBoard.addGameBoardObject(car);
 	}
 
-	public void loadGameBoard(IObjectStorage objectStorage, String location) {
-		objectStorage.deserialize(location);
+	public void loadGameBoard(IObjectStorage objectStorage, String location) throws IOException, ClassNotFoundException {
+		gameBoard = (GameBoard) objectStorage.deserialize(location);
 	}
-	public void saveGameBoard(IObjectStorage objectStorage, String location) {
-		objectStorage.serialize(location);
+	public void saveGameBoard(IObjectStorage objectStorage, String location) throws IOException {
+		objectStorage.serialize(gameBoard, location);
 	}
 
 }

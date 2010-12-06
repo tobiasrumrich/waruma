@@ -1,5 +1,8 @@
 package com.googlecode.waruma.rushhour.tests;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.framework.GameBoard;
@@ -30,6 +33,20 @@ public class TestRushHourGameplayController extends TestCase {
 			this.gameBoard = gameBoard;
 			this.location = location;
 			calledSave = true;
+		}
+
+		@Override
+		public Object deserialize(String location) throws IOException,
+				ClassNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void serialize(Serializable object, String location)
+				throws IOException {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 
