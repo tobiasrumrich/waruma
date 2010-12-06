@@ -1,5 +1,8 @@
 package com.googlecode.waruma.rushhour.ui;
 
+import java.sql.Date;
+import java.util.Timer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -10,19 +13,36 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.swtdesigner.SWTResourceManager;
+
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class RushHour {
 
 	protected Shell shell;
+	private Label lblTime;
+	private Label lblZeit;
+	private AbstractGameBoardWidget abstractGameBoardWidget;
+	private Label lblDebug;
+	private Label lblDebug2;
 
 	/**
 	 * Launch the application.
@@ -60,7 +80,7 @@ public class RushHour {
 		shell = new Shell();
 
 		shell.setSize(727, 549);
-		shell.setText("RushHour");
+		shell.setText("RushHour by WARUMa");
 		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Menu menu = new Menu(shell, SWT.BAR);
@@ -73,12 +93,50 @@ public class RushHour {
 		mntmStart.setMenu(menu_1);
 
 		MenuItem mntmSpielLaden = new MenuItem(menu_1, SWT.NONE);
+		mntmSpielLaden.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+			        FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
+			        fileDialog.setText("Open RushHour Game");
+			        //fileDialog.setFilterPath("C:/");
+			        String[] filterExt = { "*.ser", "*.rushhour" };
+			        fileDialog.setFilterExtensions(filterExt);
+			        String selected = fileDialog.open();
+			        System.out.println(selected);
+			}
+		});
 		mntmSpielLaden.setText("Spiel laden");
 
 		MenuItem mntmSpielSpeichern = new MenuItem(menu_1, SWT.NONE);
+		mntmSpielSpeichern.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+		        FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+		        fileDialog.setText("Save RushHour Game");
+		        //fileDialog.setFilterPath("C:/");
+		        String[] filterExt = { "*.ser", "*.rushhour" };
+		        fileDialog.setFilterExtensions(filterExt);
+		        String selected = fileDialog.open();
+		        System.out.println(selected);
+			}
+		});
 		mntmSpielSpeichern.setText("Spiel speichern");
 
 		MenuItem mntmProgrammBeenden = new MenuItem(menu_1, SWT.NONE);
+		mntmProgrammBeenden.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO
+						| SWT.ICON_QUESTION);
+				messageBox
+						.setMessage("Möchten Sie diese Anwendung wirklich beenden?");
+				int open = messageBox.open();
+				if (open == SWT.YES) {
+					shell.dispose();
+				}
+			}
+		});
 		mntmProgrammBeenden.setText("Programm beenden");
 
 		MenuItem mntmber = new MenuItem(menu, SWT.CASCADE);
@@ -115,7 +173,7 @@ public class RushHour {
 				1, 1));
 		lblLnge.setText("L\u00E4nge");
 
-		Combo combo = new Combo(group_3, SWT.NONE);
+		Combo combo = new Combo(group_3, SWT.READ_ONLY);
 		combo.setItems(new String[] { "Auto", "Truck" });
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
@@ -126,7 +184,7 @@ public class RushHour {
 				false, 1, 1));
 		lblFarbe.setText("Farbe");
 
-		Combo combo_1 = new Combo(group_3, SWT.NONE);
+		Combo combo_1 = new Combo(group_3, SWT.READ_ONLY);
 		combo_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1));
 
@@ -136,7 +194,7 @@ public class RushHour {
 				false, false, 1, 1));
 		lblOrientierung.setText("Orientierung");
 
-		Combo combo_2 = new Combo(group_3, SWT.NONE);
+		Combo combo_2 = new Combo(group_3, SWT.READ_ONLY);
 		combo_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1));
 
@@ -163,14 +221,26 @@ public class RushHour {
 
 		Group grpPlayGameBoard = new Group(composite_1, SWT.NONE);
 		grpPlayGameBoard.setLayout(new FillLayout(SWT.HORIZONTAL));
-		GridData gd_grpPlayGameBoard = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		GridData gd_grpPlayGameBoard = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1);
 
 		grpPlayGameBoard.setLayoutData(gd_grpPlayGameBoard);
 
-		AbstractGameBoardWidget abstractGameBoardWidget = new AbstractGameBoardWidget(
-				grpPlayGameBoard, SWT.NONE, 9, 6);
-		gd_grpPlayGameBoard.minimumHeight = abstractGameBoardWidget.getMinHeight();
-		gd_grpPlayGameBoard.minimumWidth = abstractGameBoardWidget.getMinWidth();
+		abstractGameBoardWidget = new AbstractGameBoardWidget(grpPlayGameBoard,
+				SWT.NONE, 9, 6);
+
+		abstractGameBoardWidget.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent arg0) {
+				// lblDebug.setText(
+				// abstractGameBoardWidget.toDisplay(0,abstractGameBoardWidget.getSize().y).toString());
+				// lblDebug2.setText(abstractGameBoardWidget.toDisplay(0,abstractGameBoardWidget.getSize().x).toString());
+				// lblDebug2.setText(abstractGameBoardWidget.getCurrentFieldSize().toString());
+			}
+		});
+		gd_grpPlayGameBoard.minimumHeight = abstractGameBoardWidget
+				.getMinHeight();
+		gd_grpPlayGameBoard.minimumWidth = abstractGameBoardWidget
+				.getMinWidth();
 
 		Group grpSpielkontrolle = new Group(composite_1, SWT.NONE);
 		grpSpielkontrolle.setLayout(new GridLayout(2, false));
@@ -188,17 +258,36 @@ public class RushHour {
 				SWT.BOLD));
 		lblSpieldaten.setText("Spieldaten");
 
-		Label lblZeit = new Label(grpSpielkontrolle, SWT.NONE);
+		lblZeit = new Label(grpSpielkontrolle, SWT.NONE);
 		lblZeit.setText("Zeit");
 
-		Label label = new Label(grpSpielkontrolle, SWT.NONE);
-		label.setText("02:35");
+		lblTime = new Label(grpSpielkontrolle, SWT.NONE);
+		lblTime.setText("02:35");
 
 		Label lblZge = new Label(grpSpielkontrolle, SWT.NONE);
+		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblZge.heightHint = 13;
+		lblZge.setLayoutData(gd_lblZge);
 		lblZge.setText("Z\u00FCge");
 
-		Label label_1 = new Label(grpSpielkontrolle, SWT.NONE);
-		label_1.setText("15");
+		Label lblMoves = new Label(grpSpielkontrolle, SWT.NONE);
+		lblMoves.setText("15");
+
+		lblDebug = new Label(grpSpielkontrolle, SWT.NONE);
+		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				2, 1);
+		gd_lblDebug.heightHint = 15;
+		gd_lblDebug.widthHint = 142;
+		lblDebug.setLayoutData(gd_lblDebug);
+		lblDebug.setText("New Label");
+
+		lblDebug2 = new Label(grpSpielkontrolle, SWT.NONE);
+		GridData gd_lblDebug2 = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 2, 1);
+		gd_lblDebug2.widthHint = 143;
+		lblDebug2.setLayoutData(gd_lblDebug2);
+		lblDebug2.setText("New Label");
 		new Label(grpSpielkontrolle, SWT.NONE);
 		new Label(grpSpielkontrolle, SWT.NONE);
 
@@ -206,6 +295,10 @@ public class RushHour {
 		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
 		btnLsen.setText("L\u00F6sung");
+
+		Point point = new Point(abstractGameBoardWidget.getMinWidth()
+				+ gd_grpSpielkontrolle.minimumWidth + 30,
+				abstractGameBoardWidget.getMinHeight() + 186);
 
 		Button button = new Button(grpSpielkontrolle, SWT.NONE);
 		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
@@ -217,21 +310,10 @@ public class RushHour {
 				1, 1));
 		button_1.setEnabled(false);
 		button_1.setText(">>");
+		new Label(grpSpielkontrolle, SWT.NONE);
+		new Label(grpSpielkontrolle, SWT.NONE);
 
-		
-		
-		
-		
-
-		Rectangle clientArea = grpPlayGameBoard.getClientArea();
-		System.out.println(clientArea);
-		
-		
-		
-				
-		Point point = new Point(abstractGameBoardWidget.getMinWidth()
-				+ gd_grpSpielkontrolle.minimumWidth + 30,
-				abstractGameBoardWidget.getMinHeight() + 100);
+		new Label(grpSpielkontrolle, SWT.NONE);
 		shell.setMinimumSize(point);
 
 	}
