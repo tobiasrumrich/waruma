@@ -4,22 +4,37 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import com.swtdesigner.SWTResourceManager;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Image;
 
 public class AbstractCarWidget extends Composite {
 
 	/**
 	 * Create the composite.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
 	public AbstractCarWidget(Composite parent, int style) {
-		super(parent, SWT.NO_BACKGROUND | SWT.NO_MERGE_PAINTS | SWT.EMBEDDED);
+		super(parent, SWT.EMBEDDED);
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				System.out.println("123412341234");
+			}
+		});
+		Image image = SWTResourceManager.getImage(AbstractCarWidget.class,
+		"/com/googlecode/waruma/rushhour/ui/images/CAR_blau.png");
 		
-		Label Car = new Label(this, SWT.CENTER);
-		Car.setEnabled(false);
-		Car.setBackground(SWTResourceManager.getColor(232, 232, 232));
-		Car.setImage(SWTResourceManager.getImage(AbstractCarWidget.class, "/com/googlecode/waruma/rushhour/ui/images/CAR_blau.png"));
-		Car.setBounds(0, 0, 150, 150);
+		this.setBounds(image.getBounds().x,image.getBounds().y,image.getBounds().width,image.getBounds().height);
+		this.setBackgroundImage(image);
+		setLayout(null);
+		System.out.println("X=" + image.getBounds().height + ";Y=" + image.getBounds().width);
+		
+		
+		//this.setBounds(200, 100, 200, 100);
+		
 
 	}
 
