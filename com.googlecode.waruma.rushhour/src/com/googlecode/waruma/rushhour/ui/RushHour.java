@@ -37,6 +37,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 
 public class RushHour {
 
@@ -46,6 +48,8 @@ public class RushHour {
 	private AbstractGameBoardWidget abstractGameBoardWidget;
 	private Label lblDebug;
 	private Label lblDebug2;
+	private TabFolder tabFolder;
+	private AbstractCarWidget abstractCarWidget;
 
 	/**
 	 * Launch the application.
@@ -81,6 +85,26 @@ public class RushHour {
 	 */
 	protected void createContents() {
 		shell = new Shell();
+		shell.addControlListener(new ControlAdapter() {
+			@Override
+			public void controlResized(ControlEvent e) {
+				if (tabFolder != null) {
+					// TabFolder resizen
+					tabFolder.setBounds(tabFolder.getBounds().x,
+							tabFolder.getBounds().y,
+							shell.getBounds().width - 10,
+							shell.getBounds().height - 50);
+					
+					
+					//Car resizen
+					 int x = abstractGameBoardWidget.getCurrentFieldSize().x;
+					 int y = 2*abstractGameBoardWidget.getCurrentFieldSize().y;
+					 System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
+					//abstractCarWidget.setBounds(abstractCarWidget.getBounds().x,abstractCarWidget.getBounds().y,78,y);
+					
+				}
+			}
+		});
 
 		shell.setSize(926, 549);
 		shell.setText("RushHour by WARUMa");
@@ -151,18 +175,41 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		final AbstractCarWidget abstractCarWidget = new AbstractCarWidget(
+		abstractCarWidget = new AbstractCarWidget(
 				shell, SWT.NONE);
+		abstractCarWidget.setLocation(741, 0);
 		abstractCarWidget.addMouseListener(new MouseListener() {
 			MouseMoveListener mouseMoveListener = new MouseMoveListener() {
 				public void mouseMove(MouseEvent arg0) {
 					// TODO Auto-generated method stub
 					// Point displayPoint =
 					// abstractCarWidget.toDisplay(arg0.x,arg0.y);
-					int neuesX = abstractCarWidget.getLocation().x - xAlt + arg0.x - clickX;
-					int neuesY = abstractCarWidget.getLocation().y - yAlt + arg0.y - clickY;
+
+					int neuesX = abstractCarWidget.getLocation().x + arg0.x
+							- clickX;
+					int neuesY = abstractCarWidget.getLocation().y + arg0.y
+							- clickY;
+
+					if (neuesX > (abstractGameBoardWidget.getBounds().width - abstractCarWidget
+							.getBounds().width)) {
+						neuesX = abstractGameBoardWidget.getBounds().width
+								- abstractCarWidget.getBounds().width;
+					}
+					if (neuesX < abstractGameBoardWidget.getBounds().x) {
+						neuesX = abstractGameBoardWidget.getBounds().x;
+					}
+
+					if (neuesY > (abstractGameBoardWidget.getBounds().height - abstractCarWidget
+							.getBounds().height)) {
+						neuesY = abstractGameBoardWidget.getBounds().height
+								- abstractCarWidget.getBounds().height;
+					}
+					if (neuesY < abstractGameBoardWidget.getBounds().y) {
+						neuesY = abstractGameBoardWidget.getBounds().y;
+					}
 
 					abstractCarWidget.setLocation(neuesX, neuesY);
+
 					// System.out.println("MouseMove Coordinates: X=" +
 					// displayPoint.x + ";Y="+ displayPoint.y);
 					// System.out.println("Unmodified Coordinates: X=" + arg0.x
@@ -199,7 +246,20 @@ public class RushHour {
 			}
 		});
 
-		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//System.out.println(tabFolder.getSelectionIndex());
+				if (tabFolder.getSelectionIndex() == 1) {
+					abstractCarWidget.setVisible(true);					
+				}
+				else {
+					abstractCarWidget.setVisible(false);
+				}
+			}
+		});
+		
 		tabFolder.setBounds(0, 0, 812, 503);
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
