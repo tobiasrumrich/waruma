@@ -34,6 +34,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.DragDetectEvent;
 
 public class RushHour {
 
@@ -79,9 +82,9 @@ public class RushHour {
 	protected void createContents() {
 		shell = new Shell();
 
-		shell.setSize(727, 549);
+		shell.setSize(926, 549);
 		shell.setText("RushHour by WARUMa");
-		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
+		shell.setLayout(null);
 
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -97,13 +100,13 @@ public class RushHour {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-			        FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
-			        fileDialog.setText("Open RushHour Game");
-			        //fileDialog.setFilterPath("C:/");
-			        String[] filterExt = { "*.ser", "*.rushhour" };
-			        fileDialog.setFilterExtensions(filterExt);
-			        String selected = fileDialog.open();
-			        System.out.println(selected);
+				FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
+				fileDialog.setText("Open RushHour Game");
+				// fileDialog.setFilterPath("C:/");
+				String[] filterExt = { "*.ser", "*.rushhour" };
+				fileDialog.setFilterExtensions(filterExt);
+				String selected = fileDialog.open();
+				System.out.println(selected);
 			}
 		});
 		mntmSpielLaden.setText("Spiel laden");
@@ -112,13 +115,13 @@ public class RushHour {
 		mntmSpielSpeichern.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-		        FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
-		        fileDialog.setText("Save RushHour Game");
-		        //fileDialog.setFilterPath("C:/");
-		        String[] filterExt = { "*.ser", "*.rushhour" };
-		        fileDialog.setFilterExtensions(filterExt);
-		        String selected = fileDialog.open();
-		        System.out.println(selected);
+				FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+				fileDialog.setText("Save RushHour Game");
+				// fileDialog.setFilterPath("C:/");
+				String[] filterExt = { "*.ser", "*.rushhour" };
+				fileDialog.setFilterExtensions(filterExt);
+				String selected = fileDialog.open();
+				System.out.println(selected);
 			}
 		});
 		mntmSpielSpeichern.setText("Spiel speichern");
@@ -148,7 +151,56 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
+		final AbstractCarWidget abstractCarWidget = new AbstractCarWidget(
+				shell, SWT.NONE);
+		abstractCarWidget.addMouseListener(new MouseListener() {
+			MouseMoveListener mouseMoveListener = new MouseMoveListener() {
+				public void mouseMove(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					// Point displayPoint =
+					// abstractCarWidget.toDisplay(arg0.x,arg0.y);
+					int neuesX = abstractCarWidget.getLocation().x - xAlt + arg0.x - clickX;
+					int neuesY = abstractCarWidget.getLocation().y - yAlt + arg0.y - clickY;
+
+					abstractCarWidget.setLocation(neuesX, neuesY);
+					// System.out.println("MouseMove Coordinates: X=" +
+					// displayPoint.x + ";Y="+ displayPoint.y);
+					// System.out.println("Unmodified Coordinates: X=" + arg0.x
+					// + ";Y="+ arg0.y);
+
+				}
+
+			};
+
+			int clickX;
+			int clickY;
+			int xAlt = 0;
+			int yAlt = 0;
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				abstractCarWidget.removeMouseMoveListener(mouseMoveListener);
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				clickX = arg0.x;
+				clickY = arg0.y;
+				System.out.println("MouseDown Coordinates: X=" + clickX + ";Y="
+						+ clickY);
+				abstractCarWidget.addMouseMoveListener(mouseMoveListener);
+
+			}
+		});
+
 		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder.setBounds(0, 0, 812, 503);
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
@@ -296,10 +348,6 @@ public class RushHour {
 				2, 1));
 		btnLsen.setText("L\u00F6sung");
 
-		Point point = new Point(abstractGameBoardWidget.getMinWidth()
-				+ gd_grpSpielkontrolle.minimumWidth + 30,
-				abstractGameBoardWidget.getMinHeight() + 186);
-
 		Button button = new Button(grpSpielkontrolle, SWT.NONE);
 		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
@@ -314,6 +362,10 @@ public class RushHour {
 		new Label(grpSpielkontrolle, SWT.NONE);
 
 		new Label(grpSpielkontrolle, SWT.NONE);
+
+		Point point = new Point(abstractGameBoardWidget.getMinWidth()
+				+ gd_grpSpielkontrolle.minimumWidth + 30,
+				abstractGameBoardWidget.getMinHeight() + 186);
 		shell.setMinimumSize(point);
 
 	}
