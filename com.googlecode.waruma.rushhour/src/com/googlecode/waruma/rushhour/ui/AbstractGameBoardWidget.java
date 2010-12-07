@@ -32,7 +32,7 @@ public class AbstractGameBoardWidget extends Composite {
 		@Override
 		public void mouseEnter(MouseEvent arg0) {
 			inField = fieldX + "--" + fieldY;
-			System.out.println(fieldX + " -- " + fieldY);
+			System.out.println("Mausposition auf Spielfeld: " + fieldX + ":" + fieldY);
 		}
 
 		@Override
@@ -71,7 +71,7 @@ public class AbstractGameBoardWidget extends Composite {
 		for (int i = 0; i < hoehe; i++) {
 			for (int j = 0; j < breite; j++) {
 				spielbrett[i][j] = new Label(this, SWT.NONE);
-				spielbrett[i][j].setText("" + i + "" + j);
+				spielbrett[i][j].setText(i + ":" + j);
 				spielbrett[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, true, 1, 1));
 
