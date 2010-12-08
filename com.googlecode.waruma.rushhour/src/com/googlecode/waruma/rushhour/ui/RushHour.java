@@ -1,11 +1,16 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import java.sql.Date;
-import java.util.Timer;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,22 +28,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import com.googlecode.waruma.rushhour.framework.GameBoard;
+import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
-
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.DragDetectListener;
-import org.eclipse.swt.events.DragDetectEvent;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 
 public class RushHour {
 
@@ -85,26 +76,6 @@ public class RushHour {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.addControlListener(new ControlAdapter() {
-			@Override
-			public void controlResized(ControlEvent e) {
-				if (tabFolder != null) {
-					// TabFolder resizen
-					tabFolder.setBounds(tabFolder.getBounds().x,
-							tabFolder.getBounds().y,
-							shell.getBounds().width - 10,
-							shell.getBounds().height - 50);
-					
-					
-					//Car resizen
-					 int x = abstractGameBoardWidget.getCurrentFieldSize().x;
-					 int y = 2*abstractGameBoardWidget.getCurrentFieldSize().y;
-					 System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
-					//abstractCarWidget.setBounds(abstractCarWidget.getBounds().x,abstractCarWidget.getBounds().y,78,y);
-					
-				}
-			}
-		});
 
 		shell.setSize(926, 549);
 		shell.setText("RushHour by WARUMa");
@@ -175,9 +146,8 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		abstractCarWidget = new AbstractCarWidget(
-				shell, SWT.NONE);
-		abstractCarWidget.setLocation(741, 0);
+		abstractCarWidget = new AbstractCarWidget(shell, SWT.NONE);
+		abstractCarWidget.setLocation(763, 276);
 		abstractCarWidget.addMouseListener(new MouseListener() {
 			MouseMoveListener mouseMoveListener = new MouseMoveListener() {
 				public void mouseMove(MouseEvent arg0) {
@@ -243,6 +213,12 @@ public class RushHour {
 						+ clickY);
 				abstractCarWidget.addMouseMoveListener(mouseMoveListener);
 
+				if (arg0.button == 3) {
+					System.out.println("ALTE ORIENTATION = " + abstractCarWidget.getOrientation());
+					abstractCarWidget.changeOrientation(Orientation.WEST);
+
+				}
+
 			}
 		});
 
@@ -250,16 +226,15 @@ public class RushHour {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//System.out.println(tabFolder.getSelectionIndex());
+				// System.out.println(tabFolder.getSelectionIndex());
 				if (tabFolder.getSelectionIndex() == 1) {
-					abstractCarWidget.setVisible(true);					
-				}
-				else {
+					abstractCarWidget.setVisible(true);
+				} else {
 					abstractCarWidget.setVisible(false);
 				}
 			}
 		});
-		
+
 		tabFolder.setBounds(0, 0, 812, 503);
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
@@ -307,6 +282,11 @@ public class RushHour {
 		lblOrientierung.setText("Orientierung");
 
 		Combo combo_2 = new Combo(group_3, SWT.READ_ONLY);
+		combo_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		combo_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1));
 
@@ -427,6 +407,29 @@ public class RushHour {
 				+ gd_grpSpielkontrolle.minimumWidth + 30,
 				abstractGameBoardWidget.getMinHeight() + 186);
 		shell.setMinimumSize(point);
+
+		shell.addControlListener(new ControlAdapter() {
+			@Override
+			public void controlResized(ControlEvent e) {
+				if (tabFolder != null) {
+					// TabFolder resizen
+					tabFolder.setBounds(tabFolder.getBounds().x,
+							tabFolder.getBounds().y,
+							shell.getBounds().width - 10,
+							shell.getBounds().height - 50);
+
+					// Car resizen
+					int x = abstractGameBoardWidget.getCurrentFieldSize().x;
+					int y = 2 * abstractGameBoardWidget.getCurrentFieldSize().y;
+					// System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
+					if (x > 0 && y > 0)
+						abstractCarWidget.setBounds(
+								abstractCarWidget.getBounds().x,
+								abstractCarWidget.getBounds().y, x, y);
+
+				}
+			}
+		});
 
 	}
 }
