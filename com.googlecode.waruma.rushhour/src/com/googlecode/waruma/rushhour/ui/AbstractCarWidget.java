@@ -82,6 +82,8 @@ public class AbstractCarWidget extends Composite {
 		
 
 		image = new Image(this.getDisplay(), imgData);
+		
+		image.getImageData().transparentPixel = 255255255;
 
 		image_cache.put(newSize, image);
 		return image;
