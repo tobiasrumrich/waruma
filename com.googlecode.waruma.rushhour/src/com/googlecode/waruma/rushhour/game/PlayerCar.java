@@ -29,13 +29,22 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	
 	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
-	private Set<IReachedDestinationObserver> observers = new HashSet<IReachedDestinationObserver>();
+	private Set<IReachedDestinationObserver> observers;
 	private ICollisionDetector collisionDetector;
+	private boolean reachedDestination;
 
 	public PlayerCar(Boolean[][] collisionMap, Point position,
 			Orientation orientation, ICollisionDetector collisionDetector) {
 		super(collisionMap, position, orientation);
-		
+		this.collisionDetector = collisionDetector;
+		this.observers = new HashSet<IReachedDestinationObserver>();
+		this.reachedDestination = false;
+	}
+	
+	public PlayerCar(Boolean[][] collisionMap, Point position,
+			Orientation orientation, Point destination, ICollisionDetector collisionDetector) {
+		this(collisionMap, position, orientation, collisionDetector);
+		this.destination = destination;
 	}
 
 	// führt den Move aus und fragt anschließend den CollisionDetector, ob das
@@ -43,14 +52,18 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	// informiert
 	public void move(Integer distance) throws IllegalMoveException {
 		super.move(distance);
-
 		if (collisionDetector.hitPoint(this, destination)) {
+			reachedDestination = true;
 			for (IReachedDestinationObserver currentObserver : observers) {
 				currentObserver.updateReachedDestination(this);
 			}
 		}
 	}
 
+	
+	public void unregisterAllObservers(){
+		observers.clear();
+	}
 	// Ein Observer registriert sich beim Player, sodass dich beim Erreichen des
 	// Ziels den Observer benachrichtigt
 	@Override
@@ -63,6 +76,15 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		this.destination = destination;
 	}
 
+	public Point getDestination(){
+		return this.destination;
+	}
+	
+	@Override
+	public boolean reachedDestination() {
+		return this.reachedDestination;
+	}
+		
 	@Override
 	public int hashCode() {
 		final int prime = 75503;

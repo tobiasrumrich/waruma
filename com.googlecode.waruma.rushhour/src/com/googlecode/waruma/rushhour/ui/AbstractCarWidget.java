@@ -30,6 +30,7 @@ public class AbstractCarWidget extends Composite {
 	 */
 	public AbstractCarWidget(Composite parent, int style) {
 		super(parent, SWT.EMBEDDED);
+		setBackground(SWTResourceManager.getColor(102, 0, 255));
 		addControlListener(new ControlAdapter() {
 			@Override
 			public void controlResized(ControlEvent e) {

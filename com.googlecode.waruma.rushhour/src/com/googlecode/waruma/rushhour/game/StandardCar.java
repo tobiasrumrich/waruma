@@ -88,7 +88,5 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 		} else if (!currentPosition.equals(other.currentPosition))
 			return false;
 		return true;
-	}
-	
-	
+	}	
 }

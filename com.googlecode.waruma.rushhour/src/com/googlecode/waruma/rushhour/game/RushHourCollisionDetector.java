@@ -2,13 +2,17 @@ package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
+import com.googlecode.waruma.rushhour.framework.IMoveable;
+import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
@@ -27,7 +31,7 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		private int distance;
 		
 		private CollisionPath(IGameBoardObject gameBoardObject){
-			this.source = gameBoardObject.getPosition();
+			this.source = (Point) gameBoardObject.getPosition().clone();
 			this.orientation = gameBoardObject.getOrientation();
 			this.distance = gameBoardObject.getCollisionMap().length -1;
 
@@ -99,6 +103,19 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			}
 		}
 	}
+	
+	/**
+	 * Erstellt einen RushHour spezifischen CollisionDetector auf der
+	 * Basis einer vorgegebenen CollisionMap
+	 * @param collisionMap
+	 */
+	public RushHourCollisionDetector(Boolean[][] collisionMap){
+		this.collisionMap = collisionMap;
+	}
+	
+	public Boolean[][] getCollisionMap(){
+		return collisionMap;
+	}
 
 	/**
 	 * Überprpüft ob ein Punkt auf dem Spielfeld frei und gültig ist und gibt
@@ -128,7 +145,7 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		return collisionMap[x][y];
 	}
 
-	private Point getDestinationPoint(Point source, Orientation orientation,
+	public Point getDestinationPoint(Point source, Orientation orientation,
 			int distance) {
 		switch (orientation) {
 		case EAST:
@@ -191,6 +208,47 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			throw new IllegalBoardPositionException();
 		}
 	}
+	
+	public List<IMove> getValidMoves(IGameBoardObject gameBoardObject){
+		List<IMove> moveList = new ArrayList<IMove>();
+		
+		if(gameBoardObject instanceof IMoveable){
+			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
+			clearPathInCollisionMap(objectBoundries);
+			
+			// Positive Züge prüfen
+			boolean moveExists = true;
+			int currentMoveDistance = 0;
+			while(moveExists){
+				currentMoveDistance++;
+				objectBoundries.moveByAmmount(1);
+				if(checkPathCollisionFree(objectBoundries)){
+					moveList.add(new Move((IMoveable)gameBoardObject, currentMoveDistance));
+				} else {
+					moveExists = false;
+				}
+			}	
+			objectBoundries.moveByAmmount(- currentMoveDistance);
+						
+			// Negative Züge prüfen
+			moveExists = true;
+			currentMoveDistance = 0;
+			while(moveExists){
+				currentMoveDistance--;
+				objectBoundries.moveByAmmount(-1);
+				if(checkPathCollisionFree(objectBoundries)){
+					moveList.add(new Move((IMoveable)gameBoardObject, currentMoveDistance));
+				} else {
+					moveExists = false;
+				}
+			}	
+			objectBoundries.moveByAmmount(- currentMoveDistance);
+			
+			fillPathInCollisionMap(objectBoundries);
+		}
+		
+		return moveList;
+	}
 
 	@Override
 	public void checkMove(IMove move) throws IllegalMoveException {
@@ -217,15 +275,20 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 	@Override
 	public void doMove(IMove move) throws IllegalMoveException {
 		if(move.equals(lastCheckedMove)){
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
-			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
-			
-			clearPathInCollisionMap(objectBoundries);
-			objectBoundries.moveByAmmount(move.getDistance());
-			fillPathInCollisionMap(objectBoundries);
+			doMoveWithoutCheck(move);
 		} else {
 			throw new IllegalMoveException();
 		}
+	}
+	
+	@Override
+	public void doMoveWithoutCheck(IMove move){
+		IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
+		CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
+		
+		clearPathInCollisionMap(objectBoundries);
+		objectBoundries.moveByAmmount(move.getDistance());
+		fillPathInCollisionMap(objectBoundries);
 	}
 
 	@Override
