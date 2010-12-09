@@ -30,6 +30,9 @@ public class AbstractCarWidget extends Composite {
 	 * The width in fields
 	 */
 	private int fieldWidth = 1;
+	
+	private boolean lockX = false;
+	private boolean lockY = false;
 
 	/**
 	 * Interne Hilfsmethode die das Handling des Hintergrundbildes
@@ -55,9 +58,10 @@ public class AbstractCarWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractCarWidget(Composite parent, int style) {
+	public AbstractCarWidget(Composite parent, int width, int height) {
 		super(parent, SWT.EMBEDDED);
-
+		this.fieldHeight = height;
+		this.fieldWidth = width;
 		initImageHandling("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		setBackgroundImage(image);
 
@@ -177,5 +181,21 @@ public class AbstractCarWidget extends Composite {
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+
+	public boolean isLockX() {
+		return lockX;
+	}
+
+	public void setLockX(boolean lockX) {
+		this.lockX = lockX;
+	}
+
+	public boolean isLockY() {
+		return lockY;
+	}
+
+	public void setLockY(boolean lockY) {
+		this.lockY = lockY;
 	}
 }
