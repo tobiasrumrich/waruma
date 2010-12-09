@@ -41,6 +41,7 @@ public class RushHour {
 	private Label lblDebug2;
 	private TabFolder tabFolder;
 	private AbstractCarWidget abstractCarWidget;
+	private Group grpPlayGameBoard;
 
 	/**
 	 * Launch the application.
@@ -147,7 +148,7 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		abstractCarWidget = new AbstractCarWidget(shell, SWT.NONE);
+		abstractCarWidget = new AbstractCarWidget(shell, 1, 2);
 		abstractCarWidget.setLocation(763, 276);
 		abstractCarWidget.addMouseListener(new MouseListener() {
 			MouseMoveListener mouseMoveListener = new MouseMoveListener() {
@@ -161,30 +162,40 @@ public class RushHour {
 					int neuesY = abstractCarWidget.getLocation().y + arg0.y
 							- clickY;
 
-					if (neuesX > (abstractGameBoardWidget.getBounds().width - abstractCarWidget
-							.getBounds().width)) {
-						neuesX = abstractGameBoardWidget.getBounds().width
-								- abstractCarWidget.getBounds().width;
+					int boardWidth = abstractGameBoardWidget.getBounds().width;
+					int boardHeight = abstractGameBoardWidget.getBounds().height;
+					int boardX = grpPlayGameBoard.toControl(abstractGameBoardWidget.getLocation()).x;
+					int boardY = abstractGameBoardWidget.toControl(abstractGameBoardWidget.getLocation()).y;
+					System.out.println("X="+neuesX+";Y="+neuesY);
+					boardX = 17;
+					boardY = 46;
+
+					
+					/*
+					if (neuesX > 517) {
+						neuesX = boardWidth - abstractCarWidget.getBounds().width;
 					}
-					if (neuesX < abstractGameBoardWidget.getBounds().x) {
+					
+					if (neuesX < abstractGameBoardWidget.getBounds().x - boardX) {
 						neuesX = abstractGameBoardWidget.getBounds().x;
 					}
 
-					if (neuesY > (abstractGameBoardWidget.getBounds().height - abstractCarWidget
-							.getBounds().height)) {
-						neuesY = abstractGameBoardWidget.getBounds().height
+					if (neuesY > (boardHeight - abstractCarWidget.getBounds().height)) {
+						neuesY = boardHeight
 								- abstractCarWidget.getBounds().height;
 					}
-					if (neuesY < abstractGameBoardWidget.getBounds().y) {
+					if (neuesY < abstractGameBoardWidget.getBounds().y + boardY) {
 						neuesY = abstractGameBoardWidget.getBounds().y;
-					}
+					}*/
 
-					abstractCarWidget.setLocation(neuesX, neuesY);
-
-					// System.out.println("MouseMove Coordinates: X=" +
-					// displayPoint.x + ";Y="+ displayPoint.y);
-					// System.out.println("Unmodified Coordinates: X=" + arg0.x
-					// + ";Y="+ arg0.y);
+					if (abstractCarWidget.isLockX())
+						abstractCarWidget.setLocation(
+								abstractCarWidget.getLocation().x, neuesY);
+					else if (abstractCarWidget.isLockY())
+						abstractCarWidget.setLocation(neuesX,
+								abstractCarWidget.getLocation().y);
+					else
+						abstractCarWidget.setLocation(neuesX, neuesY);
 
 				}
 
@@ -192,8 +203,6 @@ public class RushHour {
 
 			int clickX;
 			int clickY;
-			int xAlt = 0;
-			int yAlt = 0;
 
 			@Override
 			public void mouseUp(MouseEvent e) {
@@ -210,24 +219,25 @@ public class RushHour {
 			public void mouseDown(MouseEvent arg0) {
 				clickX = arg0.x;
 				clickY = arg0.y;
-				//System.out.println("MouseDown Coordinates: X=" + clickX + ";Y="+ clickY);
 				abstractCarWidget.addMouseMoveListener(mouseMoveListener);
 
 				if (arg0.button == 3) {
-					System.out.println("ALTE ORIENTATION = "
-							+ abstractCarWidget.getOrientation());
 					switch (abstractCarWidget.getOrientation()) {
 					case NORTH:
-						abstractCarWidget.changeOrientation(Orientation.EAST,abstractGameBoardWidget.getCurrentFieldSize());
+						abstractCarWidget.changeOrientation(Orientation.EAST,
+								abstractGameBoardWidget.getCurrentFieldSize());
 						break;
 					case EAST:
-						abstractCarWidget.changeOrientation(Orientation.SOUTH,abstractGameBoardWidget.getCurrentFieldSize());
+						abstractCarWidget.changeOrientation(Orientation.SOUTH,
+								abstractGameBoardWidget.getCurrentFieldSize());
 						break;
 					case SOUTH:
-						abstractCarWidget.changeOrientation(Orientation.WEST,abstractGameBoardWidget.getCurrentFieldSize());
+						abstractCarWidget.changeOrientation(Orientation.WEST,
+								abstractGameBoardWidget.getCurrentFieldSize());
 						break;
 					case WEST:
-						abstractCarWidget.changeOrientation(Orientation.NORTH,abstractGameBoardWidget.getCurrentFieldSize());
+						abstractCarWidget.changeOrientation(Orientation.NORTH,
+								abstractGameBoardWidget.getCurrentFieldSize());
 						break;
 					}
 
@@ -325,7 +335,7 @@ public class RushHour {
 		tbtmSpielen.setControl(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
 
-		Group grpPlayGameBoard = new Group(composite_1, SWT.NONE);
+		grpPlayGameBoard = new Group(composite_1, SWT.NONE);
 		grpPlayGameBoard.setLayout(new FillLayout(SWT.HORIZONTAL));
 		GridData gd_grpPlayGameBoard = new GridData(SWT.FILL, SWT.FILL, true,
 				true, 1, 1);
@@ -335,14 +345,6 @@ public class RushHour {
 		abstractGameBoardWidget = new AbstractGameBoardWidget(grpPlayGameBoard,
 				SWT.NONE, 9, 6);
 
-		abstractGameBoardWidget.addPaintListener(new PaintListener() {
-			public void paintControl(PaintEvent arg0) {
-				// lblDebug.setText(
-				// abstractGameBoardWidget.toDisplay(0,abstractGameBoardWidget.getSize().y).toString());
-				// lblDebug2.setText(abstractGameBoardWidget.toDisplay(0,abstractGameBoardWidget.getSize().x).toString());
-				// lblDebug2.setText(abstractGameBoardWidget.getCurrentFieldSize().toString());
-			}
-		});
 		gd_grpPlayGameBoard.minimumHeight = abstractGameBoardWidget
 				.getMinHeight();
 		gd_grpPlayGameBoard.minimumWidth = abstractGameBoardWidget
@@ -415,11 +417,27 @@ public class RushHour {
 		new Label(grpSpielkontrolle, SWT.NONE);
 		new Label(grpSpielkontrolle, SWT.NONE);
 
-		new Label(grpSpielkontrolle, SWT.NONE);
+		Button btnLockX = new Button(grpSpielkontrolle, SWT.NONE);
+		btnLockX.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				abstractCarWidget.setLockX(true);
+			}
+		});
+		btnLockX.setText("Lock X");
 
 		Point point = new Point(abstractGameBoardWidget.getMinWidth()
 				+ gd_grpSpielkontrolle.minimumWidth + 30,
 				abstractGameBoardWidget.getMinHeight() + 186);
+
+		Button btnLockY = new Button(grpSpielkontrolle, SWT.NONE);
+		btnLockY.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				abstractCarWidget.setLockY(true);
+			}
+		});
+		btnLockY.setText("Lock Y");
 		shell.setMinimumSize(point);
 
 		shell.addControlListener(new ControlAdapter() {
@@ -441,7 +459,6 @@ public class RushHour {
 							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 						abstractCarWidget.setSize(abstractGameBoardWidget
 								.getCurrentFieldSize());
-
 
 				}
 			}
