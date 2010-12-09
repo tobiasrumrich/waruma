@@ -19,9 +19,35 @@ import com.swtdesigner.SWTResourceManager;
 public class AbstractCarWidget extends Composite {
 
 	private Image image;
-	private HashMap<Point, Image> image_cache = new HashMap<Point, Image>();
+	private IImageCache imageCache = new ImageCache();
 	private Image originalImage;
 	private Orientation orientation = Orientation.NORTH;
+	/**
+	 * The height in fields
+	 */
+	private int fieldHeight = 2;
+	/**
+	 * The width in fields
+	 */
+	private int fieldWidth = 1;
+
+	/**
+	 * Interne Hilfsmethode die das Handling des Hintergrundbildes
+	 * initialisiert. Mit dem Aufruf wird der übergebene Bilderpfas geladen und
+	 * das Bild als Hintergrund definiert
+	 */
+	private void initImageHandling(String imageLocation) {
+		// Bild laden und als Originalbild abspeichern
+		originalImage = SWTResourceManager.getImage(AbstractCarWidget.class,
+				imageLocation);
+
+		// Originalbild als aktuelles Bild setzen
+		image = originalImage;
+
+		// Bild in den Cache
+		imageCache.addImage(Orientation.NORTH, new Point(
+				image.getBounds().width, image.getBounds().height), image);
+	}
 
 	/**
 	 * Create the composite.
@@ -31,97 +57,53 @@ public class AbstractCarWidget extends Composite {
 	 */
 	public AbstractCarWidget(Composite parent, int style) {
 		super(parent, SWT.EMBEDDED);
-		setBackground(SWTResourceManager.getColor(102, 0, 255));
-		addControlListener(new ControlAdapter() {
-			@Override
-			public void controlResized(ControlEvent e) {
-				setBackgroundImage(resizeImage(new Point(getBounds().width,
-						getBounds().height)));
-			}
-		});
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseUp(MouseEvent e) {
-				System.out.println("123412341234");
-			}
-		});
 
-		originalImage = SWTResourceManager.getImage(AbstractCarWidget.class,
-				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-		ImageData temp = originalImage.getImageData();
-		temp.transparentPixel = temp.getPixel(1, 1);
-		
-		originalImage = new Image(this.getDisplay(), temp);
-		image = originalImage;
-		// ImageData imgData = image.getImageData();
-		// imgData = imgData.scaledTo(400, 300);
-		// image = new Image(this.getDisplay(), imgData);
+		initImageHandling("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		setBackgroundImage(image);
 
 		this.setBounds(image.getBounds().x, image.getBounds().y,
 				image.getBounds().width, image.getBounds().height);
 		this.setBackgroundImage(image);
 		setLayout(null);
-		System.out.println("X=" + image.getBounds().height + ";Y="
-				+ image.getBounds().width);
-	
 
 	}
 
-	
-	
 	public Orientation getOrientation() {
 		return orientation;
 	}
 
-	private Image resizeImage(Point newSize) {
+	private Image getImage(Image gImage, Orientation gOrientation, Point gSize) {
 
-		if (image_cache.containsKey(newSize)) {
-			System.out.println("FROM CACHE");
-			return image_cache.get(newSize);
+		Image newImage;
+
+		if (imageCache.checkCache(gOrientation, gSize)) {
+			newImage = imageCache.getImage(gOrientation, gSize);
+		} else {
+			ImageData imgData = rotateImage(gImage, gOrientation)
+					.getImageData();
+
+			imgData = imgData.scaledTo(gSize.x, gSize.y);
+
+			newImage = new Image(this.getDisplay(), imgData);
+			imageCache.addImage(gOrientation, gSize, newImage);
 		}
-		System.out.println("NEW BUILD");
 
-		ImageData imgData = originalImage.getImageData();
-
-		imgData = imgData.scaledTo(newSize.x, newSize.y);
-		
-		
-
-		image = new Image(this.getDisplay(), imgData);
-		
-		image.getImageData().transparentPixel = 255255255;
-
-		image_cache.put(newSize, image);
-		return image;
-
-		// this.setBounds(image.getBounds().x, image.getBounds().y,
-		// image.getBounds().width, image.getBounds().height);
-
+		return newImage;
 	}
 
-	public void changeOrientation(Orientation newOrientation) {
-		if ((orientation == Orientation.NORTH || orientation == Orientation.SOUTH)
-				&& (newOrientation == Orientation.NORTH || newOrientation == Orientation.SOUTH))  {
+	public void changeOrientation(Orientation newOrientation,Point gameFieldSize) {
 
-			image = rotateImage(newOrientation);
-		} else if ((orientation == Orientation.WEST || orientation == Orientation.EAST)
-				&& (newOrientation == Orientation.WEST || newOrientation ==Orientation.EAST)){
-			image = rotateImage(newOrientation);
-		}
-		
-		else {
-			this.setBounds(this.getBounds().x, this.getBounds().y,
-					this.getBounds().height, this.getBounds().width);
-			image = rotateImage(newOrientation);
-		}
 		this.orientation = newOrientation;
-
-		
-		this.setBackgroundImage(image);
+		setSize(gameFieldSize);
+		this.setBackgroundImage(getImage(originalImage, orientation,new Point(this.getBounds().width,this.getBounds().height)));
+	
 	}
 
-	private Image rotateImage(Orientation direction) {
-		ImageData imgData = originalImage.getImageData();
+	private Image rotateImage(Image rotateableImage, Orientation direction) {
+		// Der folgende Code in dieser Methode wurde übernommen von
+		// http://www.java2s.com/Tutorial/Java/0300__SWT-2D-Graphics/Rotateandflipanimage.htm
+		// und wurde geringfügig angepasst
+		ImageData imgData = rotateableImage.getImageData();
 		int bytesPerPixel = imgData.bytesPerLine / imgData.width;
 		int destBytesPerLine = (direction == Orientation.SOUTH) ? imgData.width
 				* bytesPerPixel : imgData.height * bytesPerPixel;
@@ -131,6 +113,8 @@ public class AbstractCarWidget extends Composite {
 			for (int srcX = 0; srcX < imgData.width; srcX++) {
 				int destX = 0, destY = 0, destIndex = 0, srcIndex = 0;
 				switch (direction) {
+				case NORTH: // Do Nothing
+					return rotateableImage;
 				case WEST: // left 90 degrees
 					destX = srcY;
 					destY = imgData.width - srcX - 1;
@@ -162,6 +146,31 @@ public class AbstractCarWidget extends Composite {
 				imgData.palette, destBytesPerLine, newData);
 
 		return new Image(this.getDisplay(), imgData2);
+
+	}
+
+	public void setSize(Point gameFieldSize) {
+		int newX;
+		int newY;
+		
+		if (orientation == Orientation.NORTH
+				|| orientation == Orientation.SOUTH) {
+			
+			newX = gameFieldSize.x * fieldWidth;
+			newY = gameFieldSize.y * fieldHeight;
+
+			this.setBackgroundImage(getImage(originalImage, orientation,
+					new Point(newX,newY)));
+
+		} else {
+			newX = gameFieldSize.x * fieldHeight;
+			newY = gameFieldSize.y * fieldWidth;
+
+			this.setBackgroundImage(getImage(originalImage, orientation,
+					new Point(newX,newY)));
+		}
+		this.setBounds(this.getBounds().x, this.getBounds().y,
+				newX,newY);
 
 	}
 
