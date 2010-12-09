@@ -29,6 +29,10 @@ public class GameBoard implements Serializable {
 		this.gameBoardObjects = new HashSet<IGameBoardObject>();
 		this.moveHistory = new Stack<IMove>();
 	}
+	
+	public ICollisionDetector getCollisionDetector(){
+		return this.collisionDetector;
+	}
 
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {

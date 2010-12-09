@@ -51,7 +51,7 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 	public void setPosition(Point position) {
 		this.position = position;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 20533;
