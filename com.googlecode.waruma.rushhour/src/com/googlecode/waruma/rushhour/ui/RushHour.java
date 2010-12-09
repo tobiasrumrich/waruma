@@ -80,6 +80,7 @@ public class RushHour {
 		shell.setSize(926, 549);
 		shell.setText("RushHour by WARUMa");
 		shell.setLayout(null);
+		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -209,13 +210,26 @@ public class RushHour {
 			public void mouseDown(MouseEvent arg0) {
 				clickX = arg0.x;
 				clickY = arg0.y;
-				System.out.println("MouseDown Coordinates: X=" + clickX + ";Y="
-						+ clickY);
+				//System.out.println("MouseDown Coordinates: X=" + clickX + ";Y="+ clickY);
 				abstractCarWidget.addMouseMoveListener(mouseMoveListener);
 
 				if (arg0.button == 3) {
-					System.out.println("ALTE ORIENTATION = " + abstractCarWidget.getOrientation());
-					abstractCarWidget.changeOrientation(Orientation.WEST);
+					System.out.println("ALTE ORIENTATION = "
+							+ abstractCarWidget.getOrientation());
+					switch (abstractCarWidget.getOrientation()) {
+					case NORTH:
+						abstractCarWidget.changeOrientation(Orientation.EAST,abstractGameBoardWidget.getCurrentFieldSize());
+						break;
+					case EAST:
+						abstractCarWidget.changeOrientation(Orientation.SOUTH,abstractGameBoardWidget.getCurrentFieldSize());
+						break;
+					case SOUTH:
+						abstractCarWidget.changeOrientation(Orientation.WEST,abstractGameBoardWidget.getCurrentFieldSize());
+						break;
+					case WEST:
+						abstractCarWidget.changeOrientation(Orientation.NORTH,abstractGameBoardWidget.getCurrentFieldSize());
+						break;
+					}
 
 				}
 
@@ -419,13 +433,15 @@ public class RushHour {
 							shell.getBounds().height - 50);
 
 					// Car resizen
-					int x = abstractGameBoardWidget.getCurrentFieldSize().x;
-					int y = 2 * abstractGameBoardWidget.getCurrentFieldSize().y;
+					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
+					// int y = 2 *
+					// abstractGameBoardWidget.getCurrentFieldSize().y;
 					// System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
-					if (x > 0 && y > 0)
-						abstractCarWidget.setBounds(
-								abstractCarWidget.getBounds().x,
-								abstractCarWidget.getBounds().y, x, y);
+					if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
+							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
+						abstractCarWidget.setSize(abstractGameBoardWidget
+								.getCurrentFieldSize());
+
 
 				}
 			}

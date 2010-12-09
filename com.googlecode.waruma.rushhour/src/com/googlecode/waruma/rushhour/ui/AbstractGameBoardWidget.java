@@ -32,7 +32,7 @@ public class AbstractGameBoardWidget extends Composite {
 		@Override
 		public void mouseEnter(MouseEvent arg0) {
 			inField = fieldX + "--" + fieldY;
-			System.out.println("Mausposition auf Spielfeld: " + fieldX + ":" + fieldY);
+			//System.out.println("Mausposition auf Spielfeld: " + fieldX + ":" + fieldY);
 		}
 
 		@Override
@@ -65,8 +65,8 @@ public class AbstractGameBoardWidget extends Composite {
 
 		spielbrett = new Label[hoehe][breite];
 		setLayout(new GridLayout(breite, false));
-		((GridLayout) this.getLayout()).horizontalSpacing = 5;
-		((GridLayout) this.getLayout()).verticalSpacing = 5;
+		((GridLayout) this.getLayout()).horizontalSpacing = 0;
+		((GridLayout) this.getLayout()).verticalSpacing = 0;
 
 		for (int i = 0; i < hoehe; i++) {
 			for (int j = 0; j < breite; j++) {
