@@ -10,6 +10,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
 import com.googlecode.waruma.rushhour.framework.Orientation;
@@ -46,7 +47,11 @@ public class AbstractCarWidget extends Composite {
 		});
 
 		originalImage = SWTResourceManager.getImage(AbstractCarWidget.class,
-				"/com/googlecode/waruma/rushhour/ui/images/car_rot.png");
+				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		ImageData temp = originalImage.getImageData();
+		temp.transparentPixel = temp.getPixel(1, 1);
+		
+		originalImage = new Image(this.getDisplay(), temp);
 		image = originalImage;
 		// ImageData imgData = image.getImageData();
 		// imgData = imgData.scaledTo(400, 300);
