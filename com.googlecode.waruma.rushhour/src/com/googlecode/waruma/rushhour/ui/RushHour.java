@@ -3,6 +3,7 @@ package com.googlecode.waruma.rushhour.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -421,6 +422,7 @@ public class RushHour {
 		btnLockX.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				abstractCarWidget.setLockY(false);
 				abstractCarWidget.setLockX(true);
 			}
 		});
@@ -435,12 +437,16 @@ public class RushHour {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				abstractCarWidget.setLockY(true);
+				abstractCarWidget.setLockX(false);
 			}
 		});
 		btnLockY.setText("Lock Y");
 		shell.setMinimumSize(point);
 
-		shell.addControlListener(new ControlAdapter() {
+		shell.addControlListener(new ControlListener() {
+			
+			
+			
 			@Override
 			public void controlResized(ControlEvent e) {
 				if (tabFolder != null) {
@@ -461,6 +467,29 @@ public class RushHour {
 								.getCurrentFieldSize());
 
 				}
+			}
+
+			@Override
+			public void controlMoved(ControlEvent arg0) {
+				if (tabFolder != null) {
+					// TabFolder resizen
+					tabFolder.setBounds(tabFolder.getBounds().x,
+							tabFolder.getBounds().y,
+							shell.getBounds().width - 10,
+							shell.getBounds().height - 50);
+
+					// Car resizen
+					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
+					// int y = 2 *
+					// abstractGameBoardWidget.getCurrentFieldSize().y;
+					// System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
+					if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
+							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
+						abstractCarWidget.setSize(abstractGameBoardWidget
+								.getCurrentFieldSize());
+
+				}
+				
 			}
 		});
 
