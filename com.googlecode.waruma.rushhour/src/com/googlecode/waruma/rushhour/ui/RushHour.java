@@ -406,8 +406,16 @@ public class RushHour {
 					tabFolder.setBounds(tabFolder.getBounds().x,
 							tabFolder.getBounds().y,
 							shell.getBounds().width - 8,
-							shell.getBounds().height - (tabSpielen.getBounds().width + 3));
-					System.out.println(cmpSpiel.getBounds().width);
+							shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y  + 6));
+					System.out.println("****");
+					System.out.println("tabSpielen.getBounds().x      = " + tabSpielen.getBounds().x);
+					System.out.println("tabSpielen.getBounds().y      = " + tabSpielen.getBounds().y);
+					System.out.println("tabSpielen.getBounds().width  = " + tabSpielen.getBounds().width);
+					System.out.println("tabSpielen.getBounds().height = " + tabSpielen.getBounds().height);
+					System.out.println("cmpSpiel.getBounds().x        = " + cmpSpiel.getBounds().x);
+					System.out.println("cmpSpiel.getBounds().y        = " + cmpSpiel.getBounds().y);
+					System.out.println("cmpSpiel.getBounds().width    = " + cmpSpiel.getBounds().width);
+					System.out.println("cmpSpiel.getBounds().height   = " + cmpSpiel.getBounds().height);
 
 					// Car resizen
 					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
