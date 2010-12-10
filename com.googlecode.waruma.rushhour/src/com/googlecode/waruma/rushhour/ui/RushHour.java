@@ -42,6 +42,8 @@ public class RushHour {
 	private Label lblDebug2;
 	private TabFolder tabFolder;
 	private AbstractCarWidget abstractCarWidget;
+	private Composite cmpSpiel;
+	private TabItem tabSpielen;
 
 	/**
 	 * Launch the application.
@@ -264,26 +266,26 @@ public class RushHour {
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
 		
-		Composite composite = new Composite(tabFolder, SWT.NONE);
-		tbtmDesigner.setControl(composite);
-		composite.setLayout(null);
+		Composite cmpDesigner = new Composite(tabFolder, SWT.NONE);
+		tbtmDesigner.setControl(cmpDesigner);
+		cmpDesigner.setLayout(null);
 
-		TabItem tbtmSpielen = new TabItem(tabFolder, SWT.NONE);
-		tbtmSpielen.setText("Spielen");
+		tabSpielen = new TabItem(tabFolder, SWT.NONE);
+		tabSpielen.setText("Spielen");
 
-		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
-		tbtmSpielen.setControl(composite_1);
-		GridLayout gl_composite_1 = new GridLayout(2, false);
-		gl_composite_1.marginWidth = 3;
-		gl_composite_1.marginTop = 3;
-		gl_composite_1.marginRight = 3;
-		gl_composite_1.marginLeft = 3;
-		gl_composite_1.marginHeight = 3;
-		gl_composite_1.marginBottom = 3;
-		gl_composite_1.horizontalSpacing = 10;
-		composite_1.setLayout(gl_composite_1);
+		cmpSpiel = new Composite(tabFolder, SWT.NONE);
+		tabSpielen.setControl(cmpSpiel);
+		GridLayout gl_cmpSpiel = new GridLayout(2, false);
+		gl_cmpSpiel.marginWidth = 3;
+		gl_cmpSpiel.marginTop = 3;
+		gl_cmpSpiel.marginRight = 3;
+		gl_cmpSpiel.marginLeft = 3;
+		gl_cmpSpiel.marginHeight = 3;
+		gl_cmpSpiel.marginBottom = 3;
+		gl_cmpSpiel.horizontalSpacing = 10;
+		cmpSpiel.setLayout(gl_cmpSpiel);
 		
-				abstractGameBoardWidget = new AbstractGameBoardWidget(composite_1,
+				abstractGameBoardWidget = new AbstractGameBoardWidget(cmpSpiel,
 						SWT.NONE, 9, 6);
 				GridLayout gridLayout = (GridLayout) abstractGameBoardWidget.getLayout();
 				gridLayout.marginWidth = 3;
@@ -294,7 +296,7 @@ public class RushHour {
 				gridLayout.marginBottom = 3;
 				abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		Composite grpSpielkontrolle = new Composite(composite_1, SWT.NONE);
+		Composite grpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 
 		grpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		GridLayout gl_grpSpielkontrolle = new GridLayout(2, false);
@@ -393,30 +395,19 @@ public class RushHour {
 			
 			@Override
 			public void controlResized(ControlEvent e) {
-				if (tabFolder != null) {
-					// TabFolder resizen
-					tabFolder.setBounds(tabFolder.getBounds().x,
-							tabFolder.getBounds().y,
-							shell.getBounds().width - 10,
-							shell.getBounds().height - 50);
-				
-
-					if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
-							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
-						abstractCarWidget.setSize(abstractGameBoardWidget
-								.getCurrentFieldSize());
-
-				}
+				//TO-DO Extract this
 			}
 
 			@Override
 			public void controlMoved(ControlEvent arg0) {
 				if (tabFolder != null) {
 					// TabFolder resizen
+					
 					tabFolder.setBounds(tabFolder.getBounds().x,
 							tabFolder.getBounds().y,
-							shell.getBounds().width - 10,
-							shell.getBounds().height - 50);
+							shell.getBounds().width - 8,
+							shell.getBounds().height - (tabSpielen.getBounds().width));
+					System.out.println(tabSpielen.getBounds().width);
 
 					// Car resizen
 					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
