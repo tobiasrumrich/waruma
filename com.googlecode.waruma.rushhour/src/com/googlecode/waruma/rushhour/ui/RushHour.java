@@ -167,37 +167,43 @@ public class RushHour {
 
 					int boardWidth = abstractGameBoardWidget.getBounds().width;
 					int boardHeight = abstractGameBoardWidget.getBounds().height;
-					int boardX = abstractGameBoardWidget.getLocation().x + cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
-					int boardY = abstractGameBoardWidget.getLocation().y + cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
+					int boardX = abstractGameBoardWidget.getLocation().x
+							+ cmpSpiel.getLocation().x
+							+ tabFolder.getLocation().x + 6;
+					int boardY = abstractGameBoardWidget.getLocation().y
+							+ cmpSpiel.getLocation().y
+							+ tabFolder.getLocation().y + 6;
 
-					if (neuesX > boardWidth + boardX) 
-						neuesX = boardWidth + boardX;
-					
+					if (neuesX > (boardWidth + boardX
+							- abstractCarWidget.getBounds().width - 12))
+						neuesX = boardWidth + boardX
+								- abstractCarWidget.getBounds().width - 12;
+
 					if (neuesX <= boardX)
 						neuesX = boardX;
-					
-					if (neuesY > (boardY + boardHeight - abstractCarWidget.getBounds().height-12))
-						neuesY = (boardY + boardHeight - abstractCarWidget.getBounds().height-12);
 
-					if (neuesY <= boardY )
+					if (neuesY > (boardY + boardHeight
+							- abstractCarWidget.getBounds().height - 12))
+						neuesY = (boardY + boardHeight
+								- abstractCarWidget.getBounds().height - 12);
+
+					if (neuesY <= boardY)
 						neuesY = boardY;
-						
-					/*
-					if (neuesX > 517) {
-						neuesX = boardWidth - abstractCarWidget.getBounds().width;
-					}
-					
-					if (neuesX < abstractGameBoardWidget.getBounds().x - boardX) {
-						neuesX = abstractGameBoardWidget.getBounds().x;
-					}
 
-					if (neuesY > (boardHeight - abstractCarWidget.getBounds().height)) {
-						neuesY = boardHeight
-								- abstractCarWidget.getBounds().height;
-					}
-					if (neuesY < abstractGameBoardWidget.getBounds().y + boardY) {
-						neuesY = abstractGameBoardWidget.getBounds().y;
-					}*/
+					/*
+					 * if (neuesX > 517) { neuesX = boardWidth -
+					 * abstractCarWidget.getBounds().width; }
+					 * 
+					 * if (neuesX < abstractGameBoardWidget.getBounds().x -
+					 * boardX) { neuesX = abstractGameBoardWidget.getBounds().x;
+					 * }
+					 * 
+					 * if (neuesY > (boardHeight -
+					 * abstractCarWidget.getBounds().height)) { neuesY =
+					 * boardHeight - abstractCarWidget.getBounds().height; } if
+					 * (neuesY < abstractGameBoardWidget.getBounds().y + boardY)
+					 * { neuesY = abstractGameBoardWidget.getBounds().y; }
+					 */
 
 					if (abstractCarWidget.isLockX())
 						abstractCarWidget.setLocation(
@@ -274,7 +280,7 @@ public class RushHour {
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
-		
+
 		Composite cmpDesigner = new Composite(tabFolder, SWT.NONE);
 		tbtmDesigner.setControl(cmpDesigner);
 		cmpDesigner.setLayout(null);
@@ -293,21 +299,24 @@ public class RushHour {
 		gl_cmpSpiel.marginBottom = 3;
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
-		
-				abstractGameBoardWidget = new AbstractGameBoardWidget(cmpSpiel,
-						SWT.NONE, 9, 6);
-				GridLayout gridLayout = (GridLayout) abstractGameBoardWidget.getLayout();
-				gridLayout.marginWidth = 3;
-				gridLayout.marginTop = 3;
-				gridLayout.marginRight = 3;
-				gridLayout.marginLeft = 3;
-				gridLayout.marginHeight = 3;
-				gridLayout.marginBottom = 3;
-				abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+		abstractGameBoardWidget = new AbstractGameBoardWidget(cmpSpiel,
+				SWT.NONE, 9, 6);
+		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget
+				.getLayout();
+		gridLayout.marginWidth = 3;
+		gridLayout.marginTop = 3;
+		gridLayout.marginRight = 3;
+		gridLayout.marginLeft = 3;
+		gridLayout.marginHeight = 3;
+		gridLayout.marginBottom = 3;
+		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+				true, true, 1, 1));
 
 		Composite cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 
-		cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
+				true, 1, 1));
 		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
 		gl_cmpSpielkontrolle.marginWidth = 3;
 		gl_cmpSpielkontrolle.marginTop = 3;
@@ -396,18 +405,18 @@ public class RushHour {
 			}
 		});
 		btnLockY.setText("Lock Y");
-		
-		int minX = abstractGameBoardWidget.getMinWidth() + cmpSpielkontrolle.getBounds().width + 30;
-		int minY = abstractGameBoardWidget.getMinHeight() + cmpSpielkontrolle.getBounds().height + 30;
-		
-		Point point = new Point (minX,minY);
+
+		int minX = abstractGameBoardWidget.getMinWidth()
+				+ cmpSpielkontrolle.getBounds().width + 30;
+		int minY = abstractGameBoardWidget.getMinHeight()
+				+ cmpSpielkontrolle.getBounds().height + 30;
+
+		Point point = new Point(minX, minY);
 		shell.setMinimumSize(point);
 		resizeToDefinition();
 
 		shell.addControlListener(new ControlListener() {
-			
-			
-			
+
 			@Override
 			public void controlResized(ControlEvent e) {
 				resizeToDefinition();
@@ -415,7 +424,7 @@ public class RushHour {
 
 			@Override
 			public void controlMoved(ControlEvent arg0) {
-				resizeToDefinition();				
+				resizeToDefinition();
 			}
 		});
 
@@ -424,21 +433,23 @@ public class RushHour {
 	private void resizeToDefinition() {
 		if (tabFolder != null) {
 			// TabFolder resizen
-			
-			int margin = ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight +((GridLayout) abstractGameBoardWidget.getLayout()).marginBottom;
-			
-			tabFolder.setBounds(tabFolder.getBounds().x,
+
+			int margin = ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight
+					+ ((GridLayout) abstractGameBoardWidget.getLayout()).marginBottom;
+
+			tabFolder.setBounds(
+					tabFolder.getBounds().x,
 					tabFolder.getBounds().y,
 					shell.getBounds().width - 8,
-			//		shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y + margin));
-					shell.getBounds().height - 	(abstractGameBoardWidget.getLocation().x + cmpSpiel.getLocation().x + tabFolder.getLocation().x));
-			
+					shell.getBounds().height
+							- (tabSpielen.getBounds().height
+									+ cmpSpiel.getBounds().y + margin));
+
 			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 				abstractCarWidget.setSize(abstractGameBoardWidget
 						.getCurrentFieldSize());
 		}
 	}
-	
 
 }
