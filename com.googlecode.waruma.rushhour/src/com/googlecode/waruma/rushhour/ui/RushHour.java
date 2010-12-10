@@ -274,17 +274,36 @@ public class RushHour {
 		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
 		tbtmSpielen.setControl(composite_1);
 		GridLayout gl_composite_1 = new GridLayout(2, false);
+		gl_composite_1.marginWidth = 3;
+		gl_composite_1.marginTop = 3;
+		gl_composite_1.marginRight = 3;
+		gl_composite_1.marginLeft = 3;
+		gl_composite_1.marginHeight = 3;
+		gl_composite_1.marginBottom = 3;
 		gl_composite_1.horizontalSpacing = 10;
 		composite_1.setLayout(gl_composite_1);
 		
 				abstractGameBoardWidget = new AbstractGameBoardWidget(composite_1,
 						SWT.NONE, 9, 6);
+				GridLayout gridLayout = (GridLayout) abstractGameBoardWidget.getLayout();
+				gridLayout.marginWidth = 3;
+				gridLayout.marginTop = 3;
+				gridLayout.marginRight = 3;
+				gridLayout.marginLeft = 3;
+				gridLayout.marginHeight = 3;
+				gridLayout.marginBottom = 3;
 				abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		Group grpSpielkontrolle = new Group(composite_1, SWT.NONE);
-		grpSpielkontrolle.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_BACKGROUND));
+		Composite grpSpielkontrolle = new Composite(composite_1, SWT.NONE);
+
 		grpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		GridLayout gl_grpSpielkontrolle = new GridLayout(2, false);
+		gl_grpSpielkontrolle.marginWidth = 3;
+		gl_grpSpielkontrolle.marginTop = 3;
+		gl_grpSpielkontrolle.marginRight = 3;
+		gl_grpSpielkontrolle.marginLeft = 3;
+		gl_grpSpielkontrolle.marginHeight = 3;
+		gl_grpSpielkontrolle.marginBottom = 3;
 		grpSpielkontrolle.setLayout(gl_grpSpielkontrolle);
 
 		Label lblSpieldaten = new Label(grpSpielkontrolle, SWT.NONE);
