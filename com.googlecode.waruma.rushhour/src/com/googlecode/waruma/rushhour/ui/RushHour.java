@@ -42,7 +42,6 @@ public class RushHour {
 	private Label lblDebug2;
 	private TabFolder tabFolder;
 	private AbstractCarWidget abstractCarWidget;
-	private Group grpPlayGameBoard;
 
 	/**
 	 * Launch the application.
@@ -165,7 +164,7 @@ public class RushHour {
 
 					int boardWidth = abstractGameBoardWidget.getBounds().width;
 					int boardHeight = abstractGameBoardWidget.getBounds().height;
-					int boardX = grpPlayGameBoard.toControl(abstractGameBoardWidget.getLocation()).x;
+					int boardX = abstractGameBoardWidget.getLocation().x;
 					int boardY = abstractGameBoardWidget.toControl(abstractGameBoardWidget.getLocation()).y;
 					System.out.println("X="+neuesX+";Y="+neuesY);
 					boardX = 17;
@@ -264,99 +263,29 @@ public class RushHour {
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
-
+		
 		Composite composite = new Composite(tabFolder, SWT.NONE);
 		tbtmDesigner.setControl(composite);
-		composite.setLayout(new GridLayout(2, false));
-
-		Group group_2 = new Group(composite, SWT.NONE);
-		group_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		Group group_3 = new Group(composite, SWT.NONE);
-		group_3.setLayout(new GridLayout(2, false));
-		group_3.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true, 1,
-				1));
-		new Label(group_3, SWT.NONE);
-		new Label(group_3, SWT.NONE);
-
-		Label lblLnge = new Label(group_3, SWT.NONE);
-		lblLnge.setAlignment(SWT.RIGHT);
-		lblLnge.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-		lblLnge.setText("L\u00E4nge");
-
-		Combo combo = new Combo(group_3, SWT.READ_ONLY);
-		combo.setItems(new String[] { "Auto", "Truck" });
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
-
-		Label lblFarbe = new Label(group_3, SWT.NONE);
-		lblFarbe.setAlignment(SWT.RIGHT);
-		lblFarbe.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblFarbe.setText("Farbe");
-
-		Combo combo_1 = new Combo(group_3, SWT.READ_ONLY);
-		combo_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				1, 1));
-
-		Label lblOrientierung = new Label(group_3, SWT.NONE);
-		lblOrientierung.setAlignment(SWT.RIGHT);
-		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		lblOrientierung.setText("Orientierung");
-
-		Combo combo_2 = new Combo(group_3, SWT.READ_ONLY);
-		combo_2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		combo_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				1, 1));
-
-		Label lblLenkradschloss = new Label(group_3, SWT.NONE);
-		lblLenkradschloss.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		lblLenkradschloss.setText("Lenkradschloss");
-
-		Button btnLenkradschloss = new Button(group_3, SWT.CHECK);
-
-		Label lblSpieler = new Label(group_3, SWT.NONE);
-		lblSpieler.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblSpieler.setText("Spielerauto");
-
-		Button btnSpieler = new Button(group_3, SWT.CHECK);
+		composite.setLayout(null);
 
 		TabItem tbtmSpielen = new TabItem(tabFolder, SWT.NONE);
 		tbtmSpielen.setText("Spielen");
 
 		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
 		tbtmSpielen.setControl(composite_1);
-		composite_1.setLayout(new GridLayout(2, false));
-
-		grpPlayGameBoard = new Group(composite_1, SWT.NONE);
-		grpPlayGameBoard.setLayout(new FillLayout(SWT.HORIZONTAL));
-		GridData gd_grpPlayGameBoard = new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1);
-
-		grpPlayGameBoard.setLayoutData(gd_grpPlayGameBoard);
-
-		abstractGameBoardWidget = new AbstractGameBoardWidget(grpPlayGameBoard,
-				SWT.NONE, 9, 6);
-
-		gd_grpPlayGameBoard.minimumHeight = abstractGameBoardWidget
-				.getMinHeight();
-		gd_grpPlayGameBoard.minimumWidth = abstractGameBoardWidget
-				.getMinWidth();
+		GridLayout gl_composite_1 = new GridLayout(2, false);
+		gl_composite_1.horizontalSpacing = 10;
+		composite_1.setLayout(gl_composite_1);
+		
+				abstractGameBoardWidget = new AbstractGameBoardWidget(composite_1,
+						SWT.NONE, 9, 6);
+				abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		Group grpSpielkontrolle = new Group(composite_1, SWT.NONE);
-		grpSpielkontrolle.setLayout(new GridLayout(2, false));
-		GridData gd_grpSpielkontrolle = new GridData(SWT.LEFT, SWT.FILL, false,
-				true, 1, 1);
-		grpSpielkontrolle.setLayoutData(gd_grpSpielkontrolle);
-		gd_grpSpielkontrolle.minimumWidth = 300;
+		grpSpielkontrolle.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_BACKGROUND));
+		grpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		GridLayout gl_grpSpielkontrolle = new GridLayout(2, false);
+		grpSpielkontrolle.setLayout(gl_grpSpielkontrolle);
 
 		Label lblSpieldaten = new Label(grpSpielkontrolle, SWT.NONE);
 		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -428,10 +357,6 @@ public class RushHour {
 		});
 		btnLockX.setText("Lock X");
 
-		Point point = new Point(abstractGameBoardWidget.getMinWidth()
-				+ gd_grpSpielkontrolle.minimumWidth + 30,
-				abstractGameBoardWidget.getMinHeight() + 186);
-
 		Button btnLockY = new Button(grpSpielkontrolle, SWT.NONE);
 		btnLockY.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -441,7 +366,7 @@ public class RushHour {
 			}
 		});
 		btnLockY.setText("Lock Y");
-		shell.setMinimumSize(point);
+		//shell.setMinimumSize(point);
 
 		shell.addControlListener(new ControlListener() {
 			
@@ -455,12 +380,8 @@ public class RushHour {
 							tabFolder.getBounds().y,
 							shell.getBounds().width - 10,
 							shell.getBounds().height - 50);
+				
 
-					// Car resizen
-					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
-					// int y = 2 *
-					// abstractGameBoardWidget.getCurrentFieldSize().y;
-					// System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
 					if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 						abstractCarWidget.setSize(abstractGameBoardWidget
