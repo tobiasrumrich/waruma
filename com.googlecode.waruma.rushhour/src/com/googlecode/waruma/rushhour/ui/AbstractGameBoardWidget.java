@@ -64,9 +64,14 @@ public class AbstractGameBoardWidget extends Composite {
 		this.breite = breite;
 
 		spielbrett = new Label[hoehe][breite];
-		setLayout(new GridLayout(breite, false));
-		((GridLayout) this.getLayout()).horizontalSpacing = 0;
-		((GridLayout) this.getLayout()).verticalSpacing = 0;
+		GridLayout gridLayout = new GridLayout(breite, false);
+		gridLayout.horizontalSpacing = 0;
+		gridLayout.verticalSpacing = 0;
+		gridLayout.marginHeight = 0;
+		gridLayout.marginLeft = 0;
+		gridLayout.marginBottom = 0;
+		gridLayout.marginRight = 0;
+		setLayout(gridLayout);
 
 		for (int i = 0; i < hoehe; i++) {
 			for (int j = 0; j < breite; j++) {
