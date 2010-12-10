@@ -430,7 +430,8 @@ public class RushHour {
 			tabFolder.setBounds(tabFolder.getBounds().x,
 					tabFolder.getBounds().y,
 					shell.getBounds().width - 8,
-					shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y + margin));
+			//		shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y + margin));
+					shell.getBounds().height - 	(abstractGameBoardWidget.getLocation().x + cmpSpiel.getLocation().x + tabFolder.getLocation().x));
 			
 			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
