@@ -44,6 +44,7 @@ public class RushHour {
 	private AbstractCarWidget abstractCarWidget;
 	private Composite cmpSpiel;
 	private TabItem tabSpielen;
+	private Menu menu;
 
 	/**
 	 * Launch the application.
@@ -85,7 +86,7 @@ public class RushHour {
 		shell.setLayout(null);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
-		Menu menu = new Menu(shell, SWT.BAR);
+		menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
 
 		MenuItem mntmStart = new MenuItem(menu, SWT.CASCADE);
@@ -167,12 +168,24 @@ public class RushHour {
 					int boardWidth = abstractGameBoardWidget.getBounds().width;
 					int boardHeight = abstractGameBoardWidget.getBounds().height;
 					int boardX = abstractGameBoardWidget.getLocation().x;
-					int boardY = abstractGameBoardWidget.toControl(abstractGameBoardWidget.getLocation()).y;
+					int boardY = abstractGameBoardWidget.getLocation().y;
 					System.out.println("X="+neuesX+";Y="+neuesY);
 					boardX = 17;
 					boardY = 46;
 
+//					if (neuesX > boardWidth + boardX) 
+//						neuesX = boardWidth - abstractCarWidget.getBounds().width;
 					
+					if (neuesX <= boardX)
+						neuesX = boardX;
+					
+//					if (neuesY > boardHeight-abstractCarWidget.getBounds().height)
+//						neuesY = boardHeight-abstractCarWidget.getBounds().height;
+					System.out.println("boardY = " + boardY);
+					if (neuesY <= boardY )
+						//neuesY = boardY + ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight;
+						neuesY = boardY;
+						
 					/*
 					if (neuesX > 517) {
 						neuesX = boardWidth - abstractCarWidget.getBounds().width;
@@ -296,19 +309,19 @@ public class RushHour {
 				gridLayout.marginBottom = 3;
 				abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		Composite grpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
+		Composite cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 
-		grpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
-		GridLayout gl_grpSpielkontrolle = new GridLayout(2, false);
-		gl_grpSpielkontrolle.marginWidth = 3;
-		gl_grpSpielkontrolle.marginTop = 3;
-		gl_grpSpielkontrolle.marginRight = 3;
-		gl_grpSpielkontrolle.marginLeft = 3;
-		gl_grpSpielkontrolle.marginHeight = 3;
-		gl_grpSpielkontrolle.marginBottom = 3;
-		grpSpielkontrolle.setLayout(gl_grpSpielkontrolle);
+		cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
+		gl_cmpSpielkontrolle.marginWidth = 3;
+		gl_cmpSpielkontrolle.marginTop = 3;
+		gl_cmpSpielkontrolle.marginRight = 3;
+		gl_cmpSpielkontrolle.marginLeft = 3;
+		gl_cmpSpielkontrolle.marginHeight = 3;
+		gl_cmpSpielkontrolle.marginBottom = 3;
+		cmpSpielkontrolle.setLayout(gl_cmpSpielkontrolle);
 
-		Label lblSpieldaten = new Label(grpSpielkontrolle, SWT.NONE);
+		Label lblSpieldaten = new Label(cmpSpielkontrolle, SWT.NONE);
 		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1);
 		gd_lblSpieldaten.widthHint = 138;
@@ -317,23 +330,23 @@ public class RushHour {
 				SWT.BOLD));
 		lblSpieldaten.setText("Spieldaten");
 
-		lblZeit = new Label(grpSpielkontrolle, SWT.NONE);
+		lblZeit = new Label(cmpSpielkontrolle, SWT.NONE);
 		lblZeit.setText("Zeit");
 
-		lblTime = new Label(grpSpielkontrolle, SWT.NONE);
+		lblTime = new Label(cmpSpielkontrolle, SWT.NONE);
 		lblTime.setText("02:35");
 
-		Label lblZge = new Label(grpSpielkontrolle, SWT.NONE);
+		Label lblZge = new Label(cmpSpielkontrolle, SWT.NONE);
 		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_lblZge.heightHint = 13;
 		lblZge.setLayoutData(gd_lblZge);
 		lblZge.setText("Z\u00FCge");
 
-		Label lblMoves = new Label(grpSpielkontrolle, SWT.NONE);
+		Label lblMoves = new Label(cmpSpielkontrolle, SWT.NONE);
 		lblMoves.setText("15");
 
-		lblDebug = new Label(grpSpielkontrolle, SWT.NONE);
+		lblDebug = new Label(cmpSpielkontrolle, SWT.NONE);
 		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				2, 1);
 		gd_lblDebug.heightHint = 15;
@@ -341,34 +354,34 @@ public class RushHour {
 		lblDebug.setLayoutData(gd_lblDebug);
 		lblDebug.setText("New Label");
 
-		lblDebug2 = new Label(grpSpielkontrolle, SWT.NONE);
+		lblDebug2 = new Label(cmpSpielkontrolle, SWT.NONE);
 		GridData gd_lblDebug2 = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1);
 		gd_lblDebug2.widthHint = 143;
 		lblDebug2.setLayoutData(gd_lblDebug2);
 		lblDebug2.setText("New Label");
-		new Label(grpSpielkontrolle, SWT.NONE);
-		new Label(grpSpielkontrolle, SWT.NONE);
+		new Label(cmpSpielkontrolle, SWT.NONE);
+		new Label(cmpSpielkontrolle, SWT.NONE);
 
-		Button btnLsen = new Button(grpSpielkontrolle, SWT.NONE);
+		Button btnLsen = new Button(cmpSpielkontrolle, SWT.NONE);
 		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
 		btnLsen.setText("L\u00F6sung");
 
-		Button button = new Button(grpSpielkontrolle, SWT.NONE);
+		Button button = new Button(cmpSpielkontrolle, SWT.NONE);
 		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
 		button.setText("<<");
 
-		Button button_1 = new Button(grpSpielkontrolle, SWT.NONE);
+		Button button_1 = new Button(cmpSpielkontrolle, SWT.NONE);
 		button_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1));
 		button_1.setEnabled(false);
 		button_1.setText(">>");
-		new Label(grpSpielkontrolle, SWT.NONE);
-		new Label(grpSpielkontrolle, SWT.NONE);
+		new Label(cmpSpielkontrolle, SWT.NONE);
+		new Label(cmpSpielkontrolle, SWT.NONE);
 
-		Button btnLockX = new Button(grpSpielkontrolle, SWT.NONE);
+		Button btnLockX = new Button(cmpSpielkontrolle, SWT.NONE);
 		btnLockX.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -378,7 +391,7 @@ public class RushHour {
 		});
 		btnLockX.setText("Lock X");
 
-		Button btnLockY = new Button(grpSpielkontrolle, SWT.NONE);
+		Button btnLockY = new Button(cmpSpielkontrolle, SWT.NONE);
 		btnLockY.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -387,7 +400,13 @@ public class RushHour {
 			}
 		});
 		btnLockY.setText("Lock Y");
-		//shell.setMinimumSize(point);
+		
+		int minX = abstractGameBoardWidget.getMinWidth() + cmpSpielkontrolle.getBounds().width + 30;
+		int minY = abstractGameBoardWidget.getMinHeight() + cmpSpielkontrolle.getBounds().height + 30;
+		
+		Point point = new Point (minX,minY);
+		shell.setMinimumSize(point);
+		resizeToDefinition();
 
 		shell.addControlListener(new ControlListener() {
 			
@@ -395,42 +414,34 @@ public class RushHour {
 			
 			@Override
 			public void controlResized(ControlEvent e) {
-				//TO-DO Extract this
+				resizeToDefinition();
 			}
 
 			@Override
 			public void controlMoved(ControlEvent arg0) {
-				if (tabFolder != null) {
-					// TabFolder resizen
-					
-					tabFolder.setBounds(tabFolder.getBounds().x,
-							tabFolder.getBounds().y,
-							shell.getBounds().width - 8,
-							shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y  + 6));
-					System.out.println("****");
-					System.out.println("tabSpielen.getBounds().x      = " + tabSpielen.getBounds().x);
-					System.out.println("tabSpielen.getBounds().y      = " + tabSpielen.getBounds().y);
-					System.out.println("tabSpielen.getBounds().width  = " + tabSpielen.getBounds().width);
-					System.out.println("tabSpielen.getBounds().height = " + tabSpielen.getBounds().height);
-					System.out.println("cmpSpiel.getBounds().x        = " + cmpSpiel.getBounds().x);
-					System.out.println("cmpSpiel.getBounds().y        = " + cmpSpiel.getBounds().y);
-					System.out.println("cmpSpiel.getBounds().width    = " + cmpSpiel.getBounds().width);
-					System.out.println("cmpSpiel.getBounds().height   = " + cmpSpiel.getBounds().height);
-
-					// Car resizen
-					// int x = abstractGameBoardWidget.getCurrentFieldSize().x;
-					// int y = 2 *
-					// abstractGameBoardWidget.getCurrentFieldSize().y;
-					// System.out.println("Proposed Car Size (resize of window): X="+x+";Y="+y);
-					if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
-							&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
-						abstractCarWidget.setSize(abstractGameBoardWidget
-								.getCurrentFieldSize());
-
-				}
-				
+				resizeToDefinition();				
 			}
 		});
 
 	}
+
+	private void resizeToDefinition() {
+		if (tabFolder != null) {
+			// TabFolder resizen
+			
+			int margin = ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight +((GridLayout) abstractGameBoardWidget.getLayout()).marginBottom;
+			
+			tabFolder.setBounds(tabFolder.getBounds().x,
+					tabFolder.getBounds().y,
+					shell.getBounds().width - 8,
+					shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y + margin));
+			
+			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
+					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
+				abstractCarWidget.setSize(abstractGameBoardWidget
+						.getCurrentFieldSize());
+		}
+	}
+	
+
 }
