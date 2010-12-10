@@ -169,19 +169,17 @@ public class RushHour {
 					int boardHeight = abstractGameBoardWidget.getBounds().height;
 					int boardX = abstractGameBoardWidget.getLocation().x + cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
 					int boardY = abstractGameBoardWidget.getLocation().y + cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
-					System.out.println("X="+neuesX+";Y="+neuesY);
 
-//					if (neuesX > boardWidth + boardX) 
-//						neuesX = boardWidth - abstractCarWidget.getBounds().width;
+					if (neuesX > boardWidth + boardX) 
+						neuesX = boardWidth + boardX;
 					
 					if (neuesX <= boardX)
 						neuesX = boardX;
 					
-//					if (neuesY > boardHeight-abstractCarWidget.getBounds().height)
-//						neuesY = boardHeight-abstractCarWidget.getBounds().height;
-					System.out.println("boardY = " + boardY);
+					if (neuesY > (boardY + boardHeight - abstractCarWidget.getBounds().height-12))
+						neuesY = (boardY + boardHeight - abstractCarWidget.getBounds().height-12);
+
 					if (neuesY <= boardY )
-						//neuesY = boardY + ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight;
 						neuesY = boardY;
 						
 					/*
