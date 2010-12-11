@@ -17,7 +17,7 @@ public class AdditionalFunctionality extends AbstractMoveable implements
 		super(new Boolean[0][0], new Point(0, 0), Orientation.NORTH);
 		this.abstractMoveable = abstractMoveable;
 	}
-
+	
 	@Override
 	public Boolean[][] getCollisionMap() {
 		return abstractMoveable.getCollisionMap();
@@ -36,6 +36,12 @@ public class AdditionalFunctionality extends AbstractMoveable implements
 	@Override
 	public void move(int distance) throws IllegalMoveException {
 		abstractMoveable.move(distance);
+	}
+	
+	@Override
+	public void checkMove(int distance) throws IllegalMoveException {
+		abstractMoveable.checkMove(distance);
+		
 	}
 
 	@Override
@@ -79,5 +85,4 @@ public class AdditionalFunctionality extends AbstractMoveable implements
 			return false;
 		return true;
 	}
-
 }

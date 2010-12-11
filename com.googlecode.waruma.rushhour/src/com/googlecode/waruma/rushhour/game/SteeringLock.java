@@ -30,10 +30,18 @@ public class SteeringLock extends AdditionalFunctionality implements
 	@Override
 	public void move(int distance) throws IllegalMoveException {
 
-		if (moved == false) {
+		if (!moved) {
 			super.move(distance);
 			moved = true;
 		} else {
+			throw new IllegalMoveException();
+		}
+	}
+	
+	@Override
+	public void checkMove(int distance) throws IllegalMoveException {
+		super.move(distance);
+		if(moved){
 			throw new IllegalMoveException();
 		}
 	}
