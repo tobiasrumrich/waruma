@@ -42,8 +42,9 @@ public class RushHour {
 	private Composite cmpSpiel;
 	private TabItem tabSpielen;
 	private Menu menu;
-	
+
 	private List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
+	private Composite cmpContainer;
 
 	/**
 	 * Launch the application.
@@ -150,35 +151,55 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		AbstractCarWidget newCar1= new AbstractCarWidget(shell, 1, 2, "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		AbstractCarWidget newCar1 = new AbstractCarWidget(shell, 1, 2,
+				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		newCar1.setLocation(763, 276);
 		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
+		newCar1.setVisible(false);
 		carPool.add(newCar1);
-		
-		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3, "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		carPool.add( newCar2);
-		
-		newCar2 = new AbstractCarWidget(shell, 1, 3, "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		carPool.add( newCar2);
-		newCar2 = new AbstractCarWidget(shell, 1, 3, "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		carPool.add( newCar2);
-		newCar2 = new AbstractCarWidget(shell, 1, 3, "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		carPool.add( newCar2);
-		newCar2 = new AbstractCarWidget(shell, 1, 3, "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		carPool.add( newCar2);
 
+		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
+				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+		newCar2.setLocation(100, 176);
+		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
+		newCar2.setVisible(false);
+		carPool.add(newCar2);
 
-		tabFolder = new TabFolder(shell, SWT.NONE);
+		newCar2 = new AbstractCarWidget(shell, 1, 3,
+				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+		newCar2.setLocation(100, 176);
+		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
+		newCar2.setVisible(false);
+		carPool.add(newCar2);
+
+		cmpContainer = new Composite(shell, SWT.NONE);
+		cmpContainer.setBounds(10, 10, 898, 466);
+		GridLayout gl_cmpContainer = new GridLayout(2, false);
+		gl_cmpContainer.horizontalSpacing = 15;
+		gl_cmpContainer.verticalSpacing = 0;
+		gl_cmpContainer.marginWidth = 0;
+		gl_cmpContainer.marginHeight = 0;
+		cmpContainer.setLayout(gl_cmpContainer);
+
+		// Point point = new Point(minX, minY);
+		// shell.setMinimumSize(point);
+
+		abstractGameBoardWidget = new AbstractGameBoardWidget(cmpContainer,
+				SWT.NONE, 9, 6);
+		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+				true, true, 1, 1));
+		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget
+				.getLayout();
+		gridLayout.marginWidth = 0;
+		gridLayout.marginTop = 0;
+		gridLayout.marginRight = 0;
+		gridLayout.marginLeft = 0;
+		gridLayout.marginHeight = 0;
+
+		tabFolder = new TabFolder(cmpContainer, SWT.NONE);
+		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		gd_tabFolder.widthHint = 239;
+		tabFolder.setLayoutData(gd_tabFolder);
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -195,8 +216,6 @@ public class RushHour {
 			}
 		});
 
-		tabFolder.setBounds(0, 0, 812, 503);
-
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
 
@@ -209,7 +228,7 @@ public class RushHour {
 
 		cmpSpiel = new Composite(tabFolder, SWT.NONE);
 		tabSpielen.setControl(cmpSpiel);
-		GridLayout gl_cmpSpiel = new GridLayout(2, false);
+		GridLayout gl_cmpSpiel = new GridLayout(1, false);
 		gl_cmpSpiel.marginWidth = 3;
 		gl_cmpSpiel.marginTop = 3;
 		gl_cmpSpiel.marginRight = 3;
@@ -218,19 +237,6 @@ public class RushHour {
 		gl_cmpSpiel.marginBottom = 3;
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
-
-		abstractGameBoardWidget = new AbstractGameBoardWidget(cmpSpiel,
-				SWT.NONE, 9, 6);
-		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget
-				.getLayout();
-		gridLayout.marginWidth = 3;
-		gridLayout.marginTop = 3;
-		gridLayout.marginRight = 3;
-		gridLayout.marginLeft = 3;
-		gridLayout.marginHeight = 3;
-		gridLayout.marginBottom = 3;
-		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 1, 1));
 
 		Composite cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 
@@ -305,15 +311,10 @@ public class RushHour {
 		new Label(cmpSpielkontrolle, SWT.NONE);
 		new Label(cmpSpielkontrolle, SWT.NONE);
 
-
-
 		int minX = abstractGameBoardWidget.getMinWidth()
 				+ cmpSpielkontrolle.getBounds().width + 30;
 		int minY = abstractGameBoardWidget.getMinHeight()
 				+ cmpSpielkontrolle.getBounds().height + 30;
-
-		Point point = new Point(minX, minY);
-		shell.setMinimumSize(point);
 		resizeToDefinition();
 
 		shell.addControlListener(new ControlListener() {
@@ -332,12 +333,12 @@ public class RushHour {
 	}
 
 	private void resizeToDefinition() {
-		if (tabFolder != null) {
+	/*tabFolder != null) {
 			// TabFolder resizen
 
 			int margin = ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight
 					+ ((GridLayout) abstractGameBoardWidget.getLayout()).marginBottom;
-
+/*
 			tabFolder.setBounds(
 					tabFolder.getBounds().x,
 					tabFolder.getBounds().y,
@@ -348,13 +349,14 @@ public class RushHour {
 							- (abstractGameBoardWidget.getLocation().y
 									+ cmpSpiel.getLocation().y
 									+ tabFolder.getLocation().y + 18));
-
+	}
 			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 				for (AbstractCarWidget currentCar : carPool) {
 					currentCar.setSize(abstractGameBoardWidget
 							.getCurrentFieldSize());
 				}
+			
 
 
 			// Autos neu positionieren
@@ -362,30 +364,29 @@ public class RushHour {
 				repositionCarOnBoard(currentCar);
 			}
 		}
+		*/
+		cmpContainer.setBounds(12, 10, shell.getBounds().width - 30, shell.getBounds().height-65);
 	}
 
 	private void repositionCarOnBoard(AbstractCarWidget carWidget) {
 		if (carWidget.getPositionOnGameBoard() != null) {
-		int boardX = abstractGameBoardWidget.getLocation().x
-				+ cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
-		int boardY = abstractGameBoardWidget.getLocation().y
-				+ cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
-		int newCarX = (carWidget.getPositionOnGameBoard().x * abstractGameBoardWidget
-				.getCurrentFieldSize().x) + boardX;
-		int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
-				.getCurrentFieldSize().y) + boardY;
-		Point location = new Point(newCarX, newCarY);
-		carWidget.setLocation(location);
+			int boardX = abstractGameBoardWidget.getLocation().x
+					+ cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
+			int boardY = abstractGameBoardWidget.getLocation().y
+					+ cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
+			int newCarX = (carWidget.getPositionOnGameBoard().x * abstractGameBoardWidget
+					.getCurrentFieldSize().x) + boardX;
+			int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
+					.getCurrentFieldSize().y) + boardY;
+			Point location = new Point(newCarX, newCarY);
+			carWidget.setLocation(location);
 		}
 	}
-	
-	private class RushHourCarMouseListener implements MouseListener {
-		
-		AbstractCarWidget observedCar;
-		
 
-		
-		
+	private class RushHourCarMouseListener implements MouseListener {
+
+		AbstractCarWidget observedCar;
+
 		public RushHourCarMouseListener(AbstractCarWidget observedCar) {
 			super();
 			this.observedCar = observedCar;
@@ -394,19 +395,17 @@ public class RushHour {
 		MouseMoveListener mouseMoveListener = new MouseMoveListener() {
 			public void mouseMove(MouseEvent arg0) {
 				// BEGIN CageControl
-				int neuesX = observedCar.getLocation().x + arg0.x
-						- clickX;
-				int neuesY = observedCar.getLocation().y + arg0.y
-						- clickY;
+				int neuesX = observedCar.getLocation().x + arg0.x - clickX;
+				int neuesY = observedCar.getLocation().y + arg0.y - clickY;
 
 				int boardWidth = abstractGameBoardWidget.getBounds().width;
 				int boardHeight = abstractGameBoardWidget.getBounds().height;
 				int boardX = abstractGameBoardWidget.getLocation().x
-						+ cmpSpiel.getLocation().x
-						+ tabFolder.getLocation().x + 6;
+						+ cmpSpiel.getLocation().x + tabFolder.getLocation().x
+						+ 6;
 				int boardY = abstractGameBoardWidget.getLocation().y
-						+ cmpSpiel.getLocation().y
-						+ tabFolder.getLocation().y + 6;
+						+ cmpSpiel.getLocation().y + tabFolder.getLocation().y
+						+ 6;
 
 				if (neuesX > (boardWidth + boardX
 						- observedCar.getBounds().width - 12))
@@ -425,11 +424,11 @@ public class RushHour {
 					neuesY = boardY;
 
 				if (observedCar.isLockX())
-					observedCar.setLocation(
-							observedCar.getLocation().x, neuesY);
+					observedCar
+							.setLocation(observedCar.getLocation().x, neuesY);
 				else if (observedCar.isLockY())
-					observedCar.setLocation(neuesX,
-							observedCar.getLocation().y);
+					observedCar
+							.setLocation(neuesX, observedCar.getLocation().y);
 				else
 					observedCar.setLocation(neuesX, neuesY);
 				// END CageControl
@@ -438,11 +437,11 @@ public class RushHour {
 				int currentX = observedCar.getLocation().x;
 				int currentY = observedCar.getLocation().y;
 				int gameBoardX = abstractGameBoardWidget.getLocation().x
-						+ cmpSpiel.getLocation().x
-						+ tabFolder.getLocation().x + 6;
+						+ cmpSpiel.getLocation().x + tabFolder.getLocation().x
+						+ 6;
 				int gameBoardY = abstractGameBoardWidget.getLocation().y
-						+ cmpSpiel.getLocation().y
-						+ tabFolder.getLocation().y + 6;
+						+ cmpSpiel.getLocation().y + tabFolder.getLocation().y
+						+ 6;
 
 				int fieldSizeWidth = abstractGameBoardWidget
 						.getCurrentFieldSize().x;
@@ -452,12 +451,10 @@ public class RushHour {
 						.getCurrentFieldSize().x / 2)) / fieldSizeWidth;
 				int posY = (currentY - gameBoardY + (abstractGameBoardWidget
 						.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
-				observedCar.setPositionOnGameBoard(new Point(posX,
-						posY));
+				observedCar.setPositionOnGameBoard(new Point(posX, posY));
 				lblDebug.setText(posX + ":" + posY);
 				// END Field Control
-				
-				
+
 			}
 
 		};
@@ -507,5 +504,4 @@ public class RushHour {
 
 		}
 	}
-
 }
