@@ -48,6 +48,7 @@ public class RushHour {
 	private Composite cmpContainer;
 	private Combo selAussehen;
 	private AbstractCarWidget designerPreviewCar;
+	private String[] data;
 
 	/**
 	 * Launch the application.
@@ -255,22 +256,39 @@ public class RushHour {
 		lblAussehen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblAussehen.setText("Aussehen");
 		
+		
+		UICarFactory carFactory = new UICarFactory("./src/com/googlecode/waruma/rushhour/ui/images/");
 		selAussehen = new Combo(cmpDesigner, SWT.READ_ONLY);
 		selAussehen.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				switch (selAussehen.getSelectionIndex()){
+				/* switch (selAussehen.getSelectionIndex()){
 				case 0:
 					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 					break;
 				case 1:
 					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
 					break;
-				}
-				System.out.println(selAussehen.getSelectionIndex());
+				}*/
+				//System.out.println(selAussehen.getSelectionIndex());
+				//System.out.println(data[selAussehen.getSelectionIndex()]);
+				designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/"+data[selAussehen.getSelectionIndex()]);
 			}
 		});
-		selAussehen.setItems(new String[] {"rotes Fahrzeug", "blaues Fahrzeug", "Philips Truck"});
+		
+		
+		ArrayList<ImageBean> availableImages = carFactory.getAvailableImages(2);
+		String[] labels = new String[availableImages.size()];
+		data = new String[availableImages.size()];
+		
+		for (int i = 0; i < availableImages.size(); i++) {
+			labels[i] = availableImages.get(i).getCarName();
+			data[i] = availableImages.get(i).getFilename();
+			
+		}
+		
+		selAussehen.setItems(labels);
+		
 		
 		selAussehen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
