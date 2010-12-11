@@ -68,11 +68,11 @@ public class AbstractCarWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractCarWidget(Composite parent, int width, int height) {
+	public AbstractCarWidget(Composite parent, int width, int height, String imageLocation) {
 		super(parent, SWT.EMBEDDED);
 		this.fieldHeight = height;
 		this.fieldWidth = width;
-		initImageHandling("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		initImageHandling(imageLocation);
 		setBackgroundImage(image);
 
 		this.setBounds(image.getBounds().x, image.getBounds().y,
