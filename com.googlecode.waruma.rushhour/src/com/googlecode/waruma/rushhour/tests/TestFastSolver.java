@@ -10,7 +10,6 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IMove;
-import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.FastSolver;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
