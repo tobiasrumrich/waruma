@@ -50,7 +50,8 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	// führt den Move aus und fragt anschließend den CollisionDetector, ob das
 	// Ziel erreicht wurde. Bei positiver Rückmeldung werden die Observer
 	// informiert
-	public void move(Integer distance) throws IllegalMoveException {
+	@Override
+	public void move(int distance) throws IllegalMoveException {
 		super.move(distance);
 		if (collisionDetector.hitPoint(this, destination)) {
 			reachedDestination = true;
@@ -91,8 +92,6 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		int result = super.hashCode();
 		result = prime * result
 				+ ((destination == null) ? 0 : destination.hashCode());
-		result = prime * result
-				+ ((observers == null) ? 0 : observers.hashCode());
 		return result;
 	}
 
@@ -109,11 +108,6 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 			if (other.destination != null)
 				return false;
 		} else if (!destination.equals(other.destination))
-			return false;
-		if (observers == null) {
-			if (other.observers != null)
-				return false;
-		} else if (!observers.equals(other.observers))
 			return false;
 		return true;
 	}

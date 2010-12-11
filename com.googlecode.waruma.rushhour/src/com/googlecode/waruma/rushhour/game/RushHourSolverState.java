@@ -2,6 +2,7 @@ package com.googlecode.waruma.rushhour.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,23 +21,23 @@ public class RushHourSolverState {
 
 
 	private Boolean[][] collisionMap;
-	private HashMap<Integer,IGameBoardObject> moveableGameBoardObjects;
-	private HashMap<Integer,IPlayer> players;
+	private Set<IGameBoardObject> moveableGameBoardObjects;
+	private Set<IPlayer> players;
 	private RushHourSolverState previousState;
 
 	public RushHourSolverState(GameBoard gameBoard) {
 		this.collisionMap = gameBoard.getCollisionDetector().getCollisionMap();
-		this.moveableGameBoardObjects = new HashMap<Integer,IGameBoardObject>();
-		this.players = new HashMap<Integer,IPlayer>();
+		this.moveableGameBoardObjects = new HashSet<IGameBoardObject>();
+		this.players = new HashSet<IPlayer>();
 		this.previousState = null;
 		// Bewegbare Spielbrettobjekte vom Spielbrett extrahieren
 		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
 			if (gameBoardObject instanceof IMoveable) {
-				this.moveableGameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
+				this.moveableGameBoardObjects.add(gameBoardObject);
 				if (gameBoardObject instanceof IPlayer) {
 					IPlayer player = (IPlayer) gameBoardObject;
 					player.unregisterAllObservers();
-					this.players.put(gameBoardObject.hashCode(), player);
+					this.players.add(player);
 				}
 			}
 		}
@@ -44,8 +45,8 @@ public class RushHourSolverState {
 
 	public RushHourSolverState(RushHourSolverState previousState,
 			Boolean[][] collisionMap,
-			HashMap<Integer, IGameBoardObject> moveableGameBoardObjects,
-			HashMap<Integer, IPlayer> players) {
+			Set<IGameBoardObject> moveableGameBoardObjects,
+			Set<IPlayer> players) {
 		this.previousState = previousState;
 		this.collisionMap = collisionMap;
 		this.moveableGameBoardObjects = moveableGameBoardObjects;
@@ -56,7 +57,7 @@ public class RushHourSolverState {
 		ICollisionDetector collisionDetector = new RushHourCollisionDetector(collisionMap);
 		List<IMove> moveList = new ArrayList<IMove>();
 
-		for (IGameBoardObject gameBoardObject : moveableGameBoardObjects.values()) {
+		for (IGameBoardObject gameBoardObject : moveableGameBoardObjects) {
 			moveList.addAll(collisionDetector.getValidMoves(gameBoardObject));
 		}
 
@@ -64,39 +65,34 @@ public class RushHourSolverState {
 	}
 	
 	public boolean doMove(IMove move){
-		Integer moveableHashCode = move.getMoveable().hashCode();
-		IMoveable moveable = (IMoveable)moveableGameBoardObjects.get(moveableHashCode);
-		
-		if(moveable == null){
-			return false;
-		}
-		
-		// Zug auf gameBoardObject übertragen und Kollisionskarte aktualisieren
-		try {
-			moveable.move(move.getDistance());
-		
-			RushHourCollisionDetector collisionDetector = new RushHourCollisionDetector(collisionMap);
-			collisionDetector.doMoveWithoutCheck(move);
-			this.collisionMap = collisionDetector.getCollisionMap();
-		} catch (IllegalMoveException e) {
-			return false;
-		}
-		
-		// Player anpassen
-		if(move.getMoveable() instanceof IPlayer){
-			moveable = (IMoveable)players.get(moveableHashCode);
+		Cloner cloner = new Cloner();
+		IMoveable moveable = cloner.deepClone(move.getMoveable());
+		if(moveableGameBoardObjects.remove(moveable)){
+			// Zug auf gameBoardObject übertragen und Kollisionskarte aktualisieren
 			try {
 				moveable.move(move.getDistance());
+			
+				RushHourCollisionDetector collisionDetector = new RushHourCollisionDetector(collisionMap);
+				collisionDetector.doMoveWithoutCheck(move);
+				this.collisionMap = collisionDetector.getCollisionMap();
 			} catch (IllegalMoveException e) {
 				return false;
 			}
+			
+			moveableGameBoardObjects.add((IGameBoardObject)moveable);
+			
+			if(players.remove(move.getMoveable())){
+				players.add((IPlayer)moveable);			
+			}
+			
+			return true;
 		}
 		
-		return true;		
+		return false;		
 	}
 
 	public boolean isSolutionState(){
-		for (IPlayer player : players.values()) {
+		for (IPlayer player : players) {
 			if(!player.reachedDestination()){
 				return false;
 			}
@@ -112,11 +108,11 @@ public class RushHourSolverState {
 		return collisionMap;
 	}
 
-	public HashMap<Integer, IGameBoardObject> getMoveableGameBoardObjects() {
+	public Set<IGameBoardObject> getMoveableGameBoardObjects() {
 		return moveableGameBoardObjects;
 	}
 
-	public HashMap<Integer, IPlayer> getPlayers() {
+	public Set<IPlayer> getPlayers() {
 		return players;
 	}
 	
@@ -124,7 +120,7 @@ public class RushHourSolverState {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(collisionMap);
+		result = prime * result + Arrays.deepHashCode(collisionMap);
 		result = prime
 				* result
 				+ ((moveableGameBoardObjects == null) ? 0
@@ -142,7 +138,7 @@ public class RushHourSolverState {
 		if (getClass() != obj.getClass())
 			return false;
 		RushHourSolverState other = (RushHourSolverState) obj;
-		if (!Arrays.equals(collisionMap, other.collisionMap))
+		if (!Arrays.deepEquals(collisionMap, other.collisionMap))
 			return false;
 		if (moveableGameBoardObjects == null) {
 			if (other.moveableGameBoardObjects != null)

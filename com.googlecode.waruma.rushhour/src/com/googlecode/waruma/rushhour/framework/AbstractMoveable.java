@@ -21,5 +21,7 @@ public abstract class AbstractMoveable extends AbstractGameBoardObject
 	@Override
 	public abstract void move(int distance) throws IllegalMoveException;
 
+	@Override
+	public abstract void checkMove(int distance) throws IllegalMoveException;
 	
 }

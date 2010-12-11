@@ -56,7 +56,7 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 	public int hashCode() {
 		final int prime = 20533;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(collisionMap);
+		result = prime * result + Arrays.deepHashCode(collisionMap);
 		result = prime * result
 				+ ((orientation == null) ? 0 : orientation.hashCode());
 		result = prime * result
@@ -73,7 +73,7 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractGameBoardObject other = (AbstractGameBoardObject) obj;
-		if (!Arrays.equals(collisionMap, other.collisionMap))
+		if (!Arrays.deepEquals(collisionMap, other.collisionMap))
 			return false;
 		if (orientation != other.orientation)
 			return false;

@@ -24,7 +24,6 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4355928368405991476L;
-	private Point currentPosition;
 
 	public StandardCar(Boolean[][] collisionMap, Point point,
 			Orientation orientation) {
@@ -36,7 +35,7 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 	public void move(int distance) throws IllegalMoveException {
 
 		if (distance != 0) {
-			currentPosition = getPosition();
+			Point currentPosition = getPosition();
 
 			switch (getOrientation()) {
 			case NORTH:
@@ -59,17 +58,26 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 						currentPosition.y);
 				break;
 			}
+			
+			super.setPosition(currentPosition);
+			
 		} else {
 			throw new IllegalMoveException();
 		}
 	}
+	
+	@Override
+	public void checkMove(int distance) throws IllegalMoveException {
+		if(distance == 0){
+			throw new IllegalMoveException();
+		}
+	}	
 
 	@Override
 	public int hashCode() {
 		final int prime = 42209;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((currentPosition == null) ? 0 : currentPosition.hashCode());
+		result = prime * result;
 		return result;
 	}
 
@@ -81,12 +89,6 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StandardCar other = (StandardCar) obj;
-		if (currentPosition == null) {
-			if (other.currentPosition != null)
-				return false;
-		} else if (!currentPosition.equals(other.currentPosition))
-			return false;
 		return true;
-	}	
+	}
 }

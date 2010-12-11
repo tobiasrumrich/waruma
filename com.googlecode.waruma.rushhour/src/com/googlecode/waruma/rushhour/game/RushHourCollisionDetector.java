@@ -22,38 +22,41 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  * @author Florian
  */
-public class RushHourCollisionDetector implements ICollisionDetector, Serializable {
+public class RushHourCollisionDetector implements ICollisionDetector,
+		Serializable {
 	private static final long serialVersionUID = -121255920300069932L;
 
 	private class CollisionPath {
 		private Point source;
 		private Orientation orientation;
 		private int distance;
-		
-		private CollisionPath(IGameBoardObject gameBoardObject){
-			this.source = (Point) gameBoardObject.getPosition().clone();
+
+		private CollisionPath(IGameBoardObject gameBoardObject) {
+			this.source = new Point(gameBoardObject.getPosition().x, gameBoardObject.getPosition().y);
 			this.orientation = gameBoardObject.getOrientation();
-			this.distance = gameBoardObject.getCollisionMap().length -1;
+			this.distance = gameBoardObject.getCollisionMap().length - 1;
 
 			if (this.orientation == Orientation.NORTH) {
-				this.source = new Point(this.source.x, this.source.y + this.distance);
+				this.source = new Point(this.source.x, this.source.y
+						+ this.distance);
 			}
 
 			if (this.orientation == Orientation.WEST) {
-				this.source = new Point(this.source.x + this.distance, this.source.y);
+				this.source = new Point(this.source.x + this.distance,
+						this.source.y);
 			}
 		}
-		
-		private CollisionPath(IGameBoardObject gameBoardObject, int movedistance){
+
+		private CollisionPath(IGameBoardObject gameBoardObject, int movedistance) {
 			this(gameBoardObject);
-			if(movedistance > 0){
+			if (movedistance > 0) {
 				this.distance = this.distance + movedistance;
 			} else {
 				this.distance = movedistance;
 			}
 		}
-		
-		private void moveByAmmount(int ammount){
+
+		private void moveByAmmount(int ammount) {
 			switch (this.orientation) {
 			case EAST:
 				this.source = new Point(this.source.x + ammount, this.source.y);
@@ -70,7 +73,7 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			}
 		}
 	}
-	
+
 	private Boolean[][] collisionMap;
 	private IMove lastCheckedMove;
 
@@ -96,7 +99,7 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 	 */
 	public RushHourCollisionDetector(int width, int height) {
 		collisionMap = new Boolean[width][height];
-		
+
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				collisionMap[i][j] = true;
@@ -104,16 +107,28 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		}
 	}
 	
-	/**
-	 * Erstellt einen RushHour spezifischen CollisionDetector auf der
-	 * Basis einer vorgegebenen CollisionMap
-	 * @param collisionMap
-	 */
-	public RushHourCollisionDetector(Boolean[][] collisionMap){
-		this.collisionMap = collisionMap;
+	public static void printCollisionMap(Boolean[][] collisionMap){
+		for (int i = 0; i < collisionMap.length; i++) {
+			for (int j = 0; j < collisionMap[i].length; j++) {
+				System.out.print(collisionMap[j][i] == true ? " " : "X");
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 	
-	public Boolean[][] getCollisionMap(){
+
+	/**
+	 * Erstellt einen RushHour spezifischen CollisionDetector auf der Basis
+	 * einer vorgegebenen CollisionMap
+	 * 
+	 * @param collisionMap
+	 */
+	public RushHourCollisionDetector(Boolean[][] collisionMap) {
+		this.collisionMap = collisionMap;
+	}
+
+	public Boolean[][] getCollisionMap() {
 		return collisionMap;
 	}
 
@@ -159,32 +174,36 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Überprüft ob der Pfad ausgehend von der übergebenen Position in der
 	 * Übergeben Richtung in einer bestimmten länge kollisionsfrei und gültig
 	 * ist
 	 */
 	private boolean checkPathCollisionFree(CollisionPath collisionPath) {
-		if(collisionPath.distance >= 0){
+		if (collisionPath.distance >= 0) {
 			for (int i = 0; i <= collisionPath.distance; i++) {
-				Point pointToCheck = getDestinationPoint(collisionPath.source, collisionPath.orientation, i);
-				if(!validTile(pointToCheck))
+				Point pointToCheck = getDestinationPoint(collisionPath.source,
+						collisionPath.orientation, i);
+				if (!validTile(pointToCheck))
 					return false;
 			}
 		} else {
 			for (int i = 0; i >= collisionPath.distance; i--) {
-				Point pointToCheck = getDestinationPoint(collisionPath.source, collisionPath.orientation, i);
-				if(!validTile(pointToCheck))
+				Point pointToCheck = getDestinationPoint(collisionPath.source,
+						collisionPath.orientation, i);
+				if (!validTile(pointToCheck))
 					return false;
 			}
 		}
 		return true;
 	}
 
-	private void setPathInCollisionMap(CollisionPath collisionPath, boolean value) {
+	private void setPathInCollisionMap(CollisionPath collisionPath,
+			boolean value) {
 		for (int i = 0; i <= collisionPath.distance; i++) {
-			Point point = getDestinationPoint(collisionPath.source, collisionPath.orientation, i);
+			Point point = getDestinationPoint(collisionPath.source,
+					collisionPath.orientation, i);
 			collisionMap[point.x][point.y] = value;
 		}
 	}
@@ -197,8 +216,6 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 		setPathInCollisionMap(collisionPath, false);
 	}
 
-
-
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
 		CollisionPath collisionPath = new CollisionPath(gameBoardObject);
@@ -208,45 +225,32 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			throw new IllegalBoardPositionException();
 		}
 	}
-	
-	public List<IMove> getValidMoves(IGameBoardObject gameBoardObject){
+
+	public List<IMove> getValidMoves(IGameBoardObject gameBoardObject) {
 		List<IMove> moveList = new ArrayList<IMove>();
-		
-		if(gameBoardObject instanceof IMoveable){
-			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
-			clearPathInCollisionMap(objectBoundries);
-			
-			// Positive Züge prüfen
-			boolean moveExists = true;
-			int currentMoveDistance = 0;
-			while(moveExists){
-				currentMoveDistance++;
-				objectBoundries.moveByAmmount(1);
-				if(checkPathCollisionFree(objectBoundries)){
-					moveList.add(new Move((IMoveable)gameBoardObject, currentMoveDistance));
-				} else {
-					moveExists = false;
-				}
-			}	
-			objectBoundries.moveByAmmount(- currentMoveDistance);
-						
-			// Negative Züge prüfen
-			moveExists = true;
-			currentMoveDistance = 0;
-			while(moveExists){
-				currentMoveDistance--;
-				objectBoundries.moveByAmmount(-1);
-				if(checkPathCollisionFree(objectBoundries)){
-					moveList.add(new Move((IMoveable)gameBoardObject, currentMoveDistance));
-				} else {
-					moveExists = false;
-				}
-			}	
-			objectBoundries.moveByAmmount(- currentMoveDistance);
-			
-			fillPathInCollisionMap(objectBoundries);
+
+		Orientation orientation = gameBoardObject.getOrientation();
+		Point source = gameBoardObject.getPosition();
+		int length = gameBoardObject.getCollisionMap().length;
+
+		if (orientation == Orientation.WEST || orientation == Orientation.NORTH) {
+			if (validTile(getDestinationPoint(source, orientation, 1))) {
+				moveList.add(new Move((IMoveable) gameBoardObject, 1));
+			}
+			if (validTile(getDestinationPoint(source, orientation, -length))) {
+				moveList.add(new Move((IMoveable) gameBoardObject, -1));
+			}
 		}
 		
+		if (orientation == Orientation.EAST || orientation == Orientation.SOUTH) {
+			if (validTile(getDestinationPoint(source, orientation, length))) {
+				moveList.add(new Move((IMoveable) gameBoardObject, 1));
+			}
+			if (validTile(getDestinationPoint(source, orientation, -1))) {
+				moveList.add(new Move((IMoveable) gameBoardObject, -1));
+			}
+		}	
+
 		return moveList;
 	}
 
@@ -256,7 +260,8 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			IGameBoardObject gameBoardObject = (IGameBoardObject) move
 					.getMoveable();
 			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
-			CollisionPath moveBoundries = new CollisionPath(gameBoardObject, move.getDistance());
+			CollisionPath moveBoundries = new CollisionPath(gameBoardObject,
+					move.getDistance());
 			// Objekt von der Karte entfernen
 			clearPathInCollisionMap(objectBoundries);
 			// Zug Prüfen
@@ -274,33 +279,36 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 
 	@Override
 	public void doMove(IMove move) throws IllegalMoveException {
-		if(move.equals(lastCheckedMove)){
+		if (move.equals(lastCheckedMove)) {
 			doMoveWithoutCheck(move);
 		} else {
 			throw new IllegalMoveException();
 		}
 	}
-	
+
 	@Override
-	public void doMoveWithoutCheck(IMove move){
-		IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
+	public void doMoveWithoutCheck(IMove move) {
+		IGameBoardObject gameBoardObject = (IGameBoardObject) move
+				.getMoveable();
 		CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
-		
+
 		clearPathInCollisionMap(objectBoundries);
 		objectBoundries.moveByAmmount(move.getDistance());
 		fillPathInCollisionMap(objectBoundries);
+		printCollisionMap(collisionMap);
 	}
 
 	@Override
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 		CollisionPath collisionPath = new CollisionPath(gameBoardObject);
-		
-		for (int i = 0; i < collisionPath.distance; i++) {
-			Point tempPoint = getDestinationPoint(collisionPath.source, collisionPath.orientation, i);
-			if(tempPoint.equals(point))
+
+		for (int i = 0; i <= collisionPath.distance; i++) {
+			Point tempPoint = getDestinationPoint(collisionPath.source,
+					collisionPath.orientation, i);
+			if (tempPoint.equals(point))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -332,6 +340,5 @@ public class RushHourCollisionDetector implements ICollisionDetector, Serializab
 			return false;
 		return true;
 	}
-	
-	
+
 }

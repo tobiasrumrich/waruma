@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.tests;
 
 import java.awt.Point;
+import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
@@ -53,6 +54,24 @@ public class TestGameBoard extends TestCase {
 		public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 			// TODO Auto-generated method stub
 			return false;
+		}
+
+		@Override
+		public Boolean[][] getCollisionMap() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void doMoveWithoutCheck(IMove move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public List<IMove> getValidMoves(IGameBoardObject gameBoardObject) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
