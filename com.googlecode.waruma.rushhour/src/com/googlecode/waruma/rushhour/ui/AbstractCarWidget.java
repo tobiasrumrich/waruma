@@ -81,6 +81,11 @@ public class AbstractCarWidget extends Composite {
 		setLayout(null);
 
 	}
+	
+	public void changeImage(String imageLocation) {
+		initImageHandling(imageLocation);
+		setBackgroundImage(image);
+	}
 
 	public Orientation getOrientation() {
 		return orientation;
