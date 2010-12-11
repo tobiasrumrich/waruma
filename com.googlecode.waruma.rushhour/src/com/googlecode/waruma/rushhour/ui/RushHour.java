@@ -349,7 +349,7 @@ public class RushHour {
 							- (abstractGameBoardWidget.getLocation().y
 									+ cmpSpiel.getLocation().y
 									+ tabFolder.getLocation().y + 18));
-	}
+	}*/
 			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 				for (AbstractCarWidget currentCar : carPool) {
@@ -363,17 +363,17 @@ public class RushHour {
 			for (AbstractCarWidget currentCar : carPool) {
 				repositionCarOnBoard(currentCar);
 			}
-		}
-		*/
+		//}
+		
 		cmpContainer.setBounds(12, 10, shell.getBounds().width - 30, shell.getBounds().height-65);
 	}
 
 	private void repositionCarOnBoard(AbstractCarWidget carWidget) {
 		if (carWidget.getPositionOnGameBoard() != null) {
 			int boardX = abstractGameBoardWidget.getLocation().x
-					+ cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
+					+ cmpContainer.getLocation().x;
 			int boardY = abstractGameBoardWidget.getLocation().y
-					+ cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
+					+ cmpContainer.getLocation().y;
 			int newCarX = (carWidget.getPositionOnGameBoard().x * abstractGameBoardWidget
 					.getCurrentFieldSize().x) + boardX;
 			int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
@@ -401,24 +401,22 @@ public class RushHour {
 				int boardWidth = abstractGameBoardWidget.getBounds().width;
 				int boardHeight = abstractGameBoardWidget.getBounds().height;
 				int boardX = abstractGameBoardWidget.getLocation().x
-						+ cmpSpiel.getLocation().x + tabFolder.getLocation().x
-						+ 6;
+						+ cmpContainer.getLocation().x;
 				int boardY = abstractGameBoardWidget.getLocation().y
-						+ cmpSpiel.getLocation().y + tabFolder.getLocation().y
-						+ 6;
+						+ cmpContainer.getLocation().y;
 
 				if (neuesX > (boardWidth + boardX
-						- observedCar.getBounds().width - 12))
+						- observedCar.getBounds().width))
 					neuesX = boardWidth + boardX
-							- observedCar.getBounds().width - 12;
+							- observedCar.getBounds().width;
 
 				if (neuesX <= boardX)
 					neuesX = boardX;
 
 				if (neuesY > (boardY + boardHeight
-						- observedCar.getBounds().height - 12))
+						- observedCar.getBounds().height))
 					neuesY = (boardY + boardHeight
-							- observedCar.getBounds().height - 12);
+							- observedCar.getBounds().height);
 
 				if (neuesY <= boardY)
 					neuesY = boardY;
@@ -437,11 +435,10 @@ public class RushHour {
 				int currentX = observedCar.getLocation().x;
 				int currentY = observedCar.getLocation().y;
 				int gameBoardX = abstractGameBoardWidget.getLocation().x
-						+ cmpSpiel.getLocation().x + tabFolder.getLocation().x
-						+ 6;
+						+ cmpContainer.getLocation().x;
+				
 				int gameBoardY = abstractGameBoardWidget.getLocation().y
-						+ cmpSpiel.getLocation().y + tabFolder.getLocation().y
-						+ 6;
+						+ cmpContainer.getLocation().y;
 
 				int fieldSizeWidth = abstractGameBoardWidget
 						.getCurrentFieldSize().x;
