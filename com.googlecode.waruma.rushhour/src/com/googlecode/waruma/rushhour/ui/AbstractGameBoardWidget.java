@@ -21,7 +21,7 @@ public class AbstractGameBoardWidget extends Composite {
 	private String inField = "NULL!!";
 
 	private class FieldMouseListener implements MouseTrackListener {
-		
+
 		private int fieldX;
 		private int fieldY;
 
@@ -29,10 +29,12 @@ public class AbstractGameBoardWidget extends Composite {
 			this.fieldX = fieldX;
 			this.fieldY = fieldY;
 		}
+
 		@Override
 		public void mouseEnter(MouseEvent arg0) {
 			inField = fieldX + "--" + fieldY;
-			//System.out.println("Mausposition auf Spielfeld: " + fieldX + ":" + fieldY);
+			// System.out.println("Mausposition auf Spielfeld: " + fieldX + ":"
+			// + fieldY);
 		}
 
 		@Override
@@ -63,7 +65,7 @@ public class AbstractGameBoardWidget extends Composite {
 		this.hoehe = hoehe;
 		this.breite = breite;
 
-		spielbrett = new Label[hoehe][breite];
+		spielbrett = new Label[breite][hoehe];
 		GridLayout gridLayout = new GridLayout(breite, false);
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.verticalSpacing = 0;
@@ -72,9 +74,9 @@ public class AbstractGameBoardWidget extends Composite {
 		gridLayout.marginBottom = 0;
 		gridLayout.marginRight = 0;
 		setLayout(gridLayout);
+		for (int j = 0; j < hoehe; j++) {
+			for (int i = 0; i < breite; i++) {
 
-		for (int i = 0; i < hoehe; i++) {
-			for (int j = 0; j < breite; j++) {
 				spielbrett[i][j] = new Label(this, SWT.NONE);
 				spielbrett[i][j].setText(i + ":" + j);
 				spielbrett[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL,
@@ -87,8 +89,8 @@ public class AbstractGameBoardWidget extends Composite {
 					spielbrett[i][j].setBackground(SWTResourceManager.getColor(
 							119, 136, 153));
 				}
-				spielbrett[i][j]
-						.addMouseTrackListener(new FieldMouseListener(i,j));
+				spielbrett[i][j].addMouseTrackListener(new FieldMouseListener(
+						i, j));
 			}
 
 		}

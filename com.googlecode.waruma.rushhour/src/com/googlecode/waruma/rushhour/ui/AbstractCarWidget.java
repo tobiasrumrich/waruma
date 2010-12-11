@@ -33,6 +33,16 @@ public class AbstractCarWidget extends Composite {
 	
 	private boolean lockX = false;
 	private boolean lockY = false;
+	
+	private Point positionOnGameBoard;
+
+	public Point getPositionOnGameBoard() {
+		return positionOnGameBoard;
+	}
+
+	public void setPositionOnGameBoard(Point positionOnGameBoard) {
+		this.positionOnGameBoard = positionOnGameBoard;
+	}
 
 	/**
 	 * Interne Hilfsmethode die das Handling des Hintergrundbildes
@@ -198,4 +208,6 @@ public class AbstractCarWidget extends Composite {
 	public void setLockY(boolean lockY) {
 		this.lockY = lockY;
 	}
+	
+	
 }

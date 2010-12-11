@@ -156,10 +156,7 @@ public class RushHour {
 		abstractCarWidget.addMouseListener(new MouseListener() {
 			MouseMoveListener mouseMoveListener = new MouseMoveListener() {
 				public void mouseMove(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					// Point displayPoint =
-					// abstractCarWidget.toDisplay(arg0.x,arg0.y);
-
+					// BEGIN CageControl
 					int neuesX = abstractCarWidget.getLocation().x + arg0.x
 							- clickX;
 					int neuesY = abstractCarWidget.getLocation().y + arg0.y
@@ -190,21 +187,6 @@ public class RushHour {
 					if (neuesY <= boardY)
 						neuesY = boardY;
 
-					/*
-					 * if (neuesX > 517) { neuesX = boardWidth -
-					 * abstractCarWidget.getBounds().width; }
-					 * 
-					 * if (neuesX < abstractGameBoardWidget.getBounds().x -
-					 * boardX) { neuesX = abstractGameBoardWidget.getBounds().x;
-					 * }
-					 * 
-					 * if (neuesY > (boardHeight -
-					 * abstractCarWidget.getBounds().height)) { neuesY =
-					 * boardHeight - abstractCarWidget.getBounds().height; } if
-					 * (neuesY < abstractGameBoardWidget.getBounds().y + boardY)
-					 * { neuesY = abstractGameBoardWidget.getBounds().y; }
-					 */
-
 					if (abstractCarWidget.isLockX())
 						abstractCarWidget.setLocation(
 								abstractCarWidget.getLocation().x, neuesY);
@@ -213,7 +195,32 @@ public class RushHour {
 								abstractCarWidget.getLocation().y);
 					else
 						abstractCarWidget.setLocation(neuesX, neuesY);
+					// END CageControl
 
+					// BEGIN FieldControl
+					int currentX = abstractCarWidget.getLocation().x;
+					int currentY = abstractCarWidget.getLocation().y;
+					int gameBoardX = abstractGameBoardWidget.getLocation().x
+							+ cmpSpiel.getLocation().x
+							+ tabFolder.getLocation().x + 6;
+					int gameBoardY = abstractGameBoardWidget.getLocation().y
+							+ cmpSpiel.getLocation().y
+							+ tabFolder.getLocation().y + 6;
+
+					int fieldSizeWidth = abstractGameBoardWidget
+							.getCurrentFieldSize().x;
+					int fieldSizeHeight = abstractGameBoardWidget
+							.getCurrentFieldSize().y;
+					int posX = (currentX - gameBoardX + (abstractGameBoardWidget
+							.getCurrentFieldSize().x / 2)) / fieldSizeWidth;
+					int posY = (currentY - gameBoardY + (abstractGameBoardWidget
+							.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
+					abstractCarWidget.setPositionOnGameBoard(new Point(posX,
+							posY));
+					lblDebug.setText(posX + ":" + posY);
+					// END Field Control
+					
+					
 				}
 
 			};
@@ -224,6 +231,7 @@ public class RushHour {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				abstractCarWidget.removeMouseMoveListener(mouseMoveListener);
+				repositionCarOnBoard();
 			}
 
 			@Override
@@ -441,18 +449,36 @@ public class RushHour {
 					tabFolder.getBounds().x,
 					tabFolder.getBounds().y,
 					shell.getBounds().width - 8,
-					//		shell.getBounds().height - (tabSpielen.getBounds().height + cmpSpiel.getBounds().y + margin));
-					shell.getBounds().height - 	(abstractGameBoardWidget.getLocation().x + cmpSpiel.getLocation().x + tabFolder.getLocation().x));
-			
+					// shell.getBounds().height - (tabSpielen.getBounds().height
+					// + cmpSpiel.getBounds().y + margin));
+					shell.getBounds().height
+							- (abstractGameBoardWidget.getLocation().y
+									+ cmpSpiel.getLocation().y
+									+ tabFolder.getLocation().y + 18));
 
 			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 				abstractCarWidget.setSize(abstractGameBoardWidget
 						.getCurrentFieldSize());
+
+			// Auto neu positionieren
+			repositionCarOnBoard();
 		}
 	}
-	
 
-
+	private void repositionCarOnBoard() {
+		if (abstractCarWidget.getPositionOnGameBoard() != null) {
+		int boardX = abstractGameBoardWidget.getLocation().x
+				+ cmpSpiel.getLocation().x + tabFolder.getLocation().x + 6;
+		int boardY = abstractGameBoardWidget.getLocation().y
+				+ cmpSpiel.getLocation().y + tabFolder.getLocation().y + 6;
+		int newCarX = (abstractCarWidget.getPositionOnGameBoard().x * abstractGameBoardWidget
+				.getCurrentFieldSize().x) + boardX;
+		int newCarY = (abstractCarWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
+				.getCurrentFieldSize().y) + boardY;
+		Point location = new Point(newCarX, newCarY);
+		abstractCarWidget.setLocation(location);
+		}
+	}
 
 }
