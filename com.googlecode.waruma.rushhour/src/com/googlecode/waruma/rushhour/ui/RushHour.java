@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
+import org.eclipse.swt.widgets.Combo;
 
 public class RushHour {
 
@@ -45,6 +46,8 @@ public class RushHour {
 
 	private List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
 	private Composite cmpContainer;
+	private Combo selAussehen;
+	private AbstractCarWidget designerPreviewCar;
 
 	/**
 	 * Launch the application.
@@ -151,13 +154,6 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		AbstractCarWidget newCar1 = new AbstractCarWidget(shell, 1, 2,
-				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-		newCar1.setLocation(763, 276);
-		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
-		newCar1.setVisible(false);
-		carPool.add(newCar1);
-
 		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
 				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
 		newCar2.setLocation(100, 176);
@@ -221,12 +217,84 @@ public class RushHour {
 
 		Composite cmpDesigner = new Composite(tabFolder, SWT.NONE);
 		tbtmDesigner.setControl(cmpDesigner);
-		cmpDesigner.setLayout(null);
+		cmpDesigner.setLayout(new GridLayout(2, false));
+		
+		Composite composite = new Composite(cmpDesigner, SWT.NONE);
+		composite.setLayout(null);
+		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+		gd_composite.heightHint = 282;
+		composite.setLayoutData(gd_composite);
+		
+		designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0, "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		designerPreviewCar.setBounds(68, 22, 100, 200);
+		
+		Button button_2 = new Button(composite, SWT.NONE);
+		button_2.setBounds(10, 236, 31, 31);
+		button_2.setText("<-");
+		
+		Button button_3 = new Button(composite, SWT.NONE);
+		button_3.setBounds(188, 236, 31, 31);
+		button_3.setText("->");
+		
+				AbstractCarWidget newCar1 = new AbstractCarWidget(composite, 1, 2,
+						"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+				newCar1.setBounds(82, 250, 100, 200);
+				newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
+				newCar1.setVisible(false);
+				carPool.add(newCar1);
+		
+		Label lblOrientierung = new Label(cmpDesigner, SWT.NONE);
+		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrientierung.setText("Fahrzeugtyp");
+		
+		Combo combo = new Combo(cmpDesigner, SWT.READ_ONLY);
+		combo.setItems(new String[] {"PKW (belegt 2 Felder)", "Lastwagen (belegt 3 Felder)", "Ludolphs Q7 (belegt 4 Felder)"});
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblAussehen = new Label(cmpDesigner, SWT.NONE);
+		lblAussehen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblAussehen.setText("Aussehen");
+		
+		selAussehen = new Combo(cmpDesigner, SWT.READ_ONLY);
+		selAussehen.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switch (selAussehen.getSelectionIndex()){
+				case 0:
+					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+					break;
+				case 1:
+					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+					break;
+				}
+				System.out.println(selAussehen.getSelectionIndex());
+			}
+		});
+		selAussehen.setItems(new String[] {"rotes Fahrzeug", "blaues Fahrzeug", "Philips Truck"});
+		
+		selAussehen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+
+		Label label_2 = new Label(cmpDesigner, SWT.NONE);
+		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
 
 		tabSpielen = new TabItem(tabFolder, SWT.NONE);
 		tabSpielen.setText("Spielen");
 
 		cmpSpiel = new Composite(tabFolder, SWT.NONE);
+	
+		
+		Button btnSpielerauto = new Button(cmpDesigner, SWT.CHECK);
+		btnSpielerauto.setText("Spielerauto");
+		new Label(cmpDesigner, SWT.NONE);
+		
+		Button btnLenkradschloss = new Button(cmpDesigner, SWT.CHECK);
+		btnLenkradschloss.setText("Lenkradschloss");
+		Label label = new Label(cmpDesigner, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		new Label(cmpDesigner, SWT.NONE);
+
 		tabSpielen.setControl(cmpSpiel);
 		GridLayout gl_cmpSpiel = new GridLayout(1, false);
 		gl_cmpSpiel.marginWidth = 3;
