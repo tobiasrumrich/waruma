@@ -234,23 +234,4 @@ public final class FastSolverState {
 
 		return hashCode;
 	}
-
-	/**
-	 * ACHTUNG: Es wird nur auf Gleichheit der Kollisionsmap geprüft!
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FastSolverState other = (FastSolverState) obj;
-		if (!Arrays.deepEquals(collisionMap, other.collisionMap))
-			return false;
-		return true;
-	}
 }

@@ -40,6 +40,7 @@ public class TestPlayerCar extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
+		collisionDetector = new RushHourCollisionDetector(6);
 		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, collisionDetector);
 		car.setDestination(new Point(4, 2));
 
