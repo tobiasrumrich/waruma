@@ -8,12 +8,16 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(AllTests.class.getName());
 		// $JUnit-BEGIN$
-		suite.addTestSuite(TestMove.class);
-		suite.addTestSuite(TestStandardCar.class);
-		suite.addTestSuite(TestPlayerCar.class);
-		suite.addTestSuite(TestGameBoard.class);
+		suite.addTestSuite(TestFastSolver.class);
 		suite.addTestSuite(TestFileSystemObjectStorage.class);
+		suite.addTestSuite(TestGameBoard.class);
+		suite.addTestSuite(TestGameState.class);
+		suite.addTestSuite(TestMove.class);
+		suite.addTestSuite(TestPlayerCar.class);
 		suite.addTestSuite(TestRushHourCollisionDetector.class);
+		suite.addTestSuite(TestRushHourGameplayController.class);
+		suite.addTestSuite(TestStandardCar.class);
+		suite.addTestSuite(TestSteeringCar.class);
 		// $JUnit-END$
 		return suite;
 	}
