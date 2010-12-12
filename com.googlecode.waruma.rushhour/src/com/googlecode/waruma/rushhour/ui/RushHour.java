@@ -49,6 +49,8 @@ public class RushHour {
 	private Combo selAussehen;
 	private AbstractCarWidget designerPreviewCar;
 	private String[] data;
+	private UICarFactory carFactory;
+	private Combo selFahrzeugart;
 
 	/**
 	 * Launch the application.
@@ -194,7 +196,8 @@ public class RushHour {
 		gridLayout.marginHeight = 0;
 
 		tabFolder = new TabFolder(cmpContainer, SWT.NONE);
-		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, false, false,
+				1, 1);
 		gd_tabFolder.widthHint = 239;
 		tabFolder.setLayoutData(gd_tabFolder);
 		tabFolder.addSelectionListener(new SelectionAdapter() {
@@ -219,98 +222,141 @@ public class RushHour {
 		Composite cmpDesigner = new Composite(tabFolder, SWT.NONE);
 		tbtmDesigner.setControl(cmpDesigner);
 		cmpDesigner.setLayout(new GridLayout(2, false));
-		
-		Composite composite = new Composite(cmpDesigner, SWT.NONE);
+
+		final Composite composite = new Composite(cmpDesigner, SWT.NONE);
 		composite.setLayout(null);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false,
+				2, 1);
 		gd_composite.heightHint = 282;
 		composite.setLayoutData(gd_composite);
+
 		
-		designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0, "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
+				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		designerPreviewCar.setBounds(68, 22, 100, 200);
-		
+
 		Button button_2 = new Button(composite, SWT.NONE);
 		button_2.setBounds(10, 236, 31, 31);
 		button_2.setText("<-");
-		
+
 		Button button_3 = new Button(composite, SWT.NONE);
 		button_3.setBounds(188, 236, 31, 31);
 		button_3.setText("->");
-		
-				AbstractCarWidget newCar1 = new AbstractCarWidget(composite, 1, 2,
-						"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-				newCar1.setBounds(82, 250, 100, 200);
-				newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
-				newCar1.setVisible(false);
-				carPool.add(newCar1);
-		
+
+		AbstractCarWidget newCar1 = new AbstractCarWidget(composite, 1, 2,
+				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		newCar1.setBounds(82, 250, 100, 200);
+		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
+		newCar1.setVisible(false);
+		carPool.add(newCar1);
+
 		Label lblOrientierung = new Label(cmpDesigner, SWT.NONE);
-		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
 		lblOrientierung.setText("Fahrzeugtyp");
-		
-		Combo combo = new Combo(cmpDesigner, SWT.READ_ONLY);
-		combo.setItems(new String[] {"PKW (belegt 2 Felder)", "Lastwagen (belegt 3 Felder)", "Ludolphs Q7 (belegt 4 Felder)"});
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
+		selFahrzeugart = new Combo(cmpDesigner, SWT.READ_ONLY);
+		selFahrzeugart.setItems(new String[] { "PKW (belegt 2 Felder}",
+				"LKW (belegt 3 Felder)" });
+		selFahrzeugart.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+
 		Label lblAussehen = new Label(cmpDesigner, SWT.NONE);
-		lblAussehen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblAussehen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
 		lblAussehen.setText("Aussehen");
-		
-		
-		UICarFactory carFactory = new UICarFactory("./src/com/googlecode/waruma/rushhour/ui/images/");
+
+		carFactory = new UICarFactory();
+		carFactory
+				.scanDirectory("./src/com/googlecode/waruma/rushhour/ui/images/");
 		selAussehen = new Combo(cmpDesigner, SWT.READ_ONLY);
 		selAussehen.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				/* switch (selAussehen.getSelectionIndex()){
-				case 0:
-					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-					break;
-				case 1:
-					designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-					break;
-				}*/
-				//System.out.println(selAussehen.getSelectionIndex());
-				//System.out.println(data[selAussehen.getSelectionIndex()]);
-				designerPreviewCar.changeImage("/com/googlecode/waruma/rushhour/ui/images/"+data[selAussehen.getSelectionIndex()]);
+				/*
+				 * switch (selAussehen.getSelectionIndex()){ case 0:
+				 * designerPreviewCar.changeImage(
+				 * "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png"
+				 * ); break; case 1: designerPreviewCar.changeImage(
+				 * "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+				 * break; }
+				 */
+				// System.out.println(selAussehen.getSelectionIndex());
+				// System.out.println(data[selAussehen.getSelectionIndex()]);
+				designerPreviewCar
+						.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
+								+ data[selAussehen.getSelectionIndex()]);
 			}
 		});
-		
-		
+
+		selFahrzeugart.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ArrayList<ImageBean> availableImages;
+				String[] labels = {"not found"};
+				switch (selFahrzeugart.getSelectionIndex()) {
+				case 0:
+					availableImages = carFactory.getAvailableImages(2);
+					labels = new String[availableImages.size()];
+					data = new String[availableImages.size()];
+					for (int i = 0; i < availableImages.size(); i++) {
+						labels[i] = availableImages.get(i).getCarName();
+						data[i] = availableImages.get(i).getFilename();
+					}
+					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,100,200);
+					designerPreviewCar.changeImage(data[0]);
+					
+					
+					break;
+				case 1:
+					availableImages = carFactory.getAvailableImages(3);
+					labels = new String[availableImages.size()];
+					data = new String[availableImages.size()];
+					for (int i = 0; i < availableImages.size(); i++) {
+						labels[i] = availableImages.get(i).getCarName();
+						data[i] = availableImages.get(i).getFilename();
+					}
+					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,50,150);
+					designerPreviewCar.changeImage(data[0]);
+					break;
+
+				}
+				selAussehen.setItems(labels);
+
+			}
+		});
+
 		ArrayList<ImageBean> availableImages = carFactory.getAvailableImages(2);
 		String[] labels = new String[availableImages.size()];
 		data = new String[availableImages.size()];
-		
+
 		for (int i = 0; i < availableImages.size(); i++) {
 			labels[i] = availableImages.get(i).getCarName();
 			data[i] = availableImages.get(i).getFilename();
-			
 		}
-		
-		selAussehen.setItems(labels);
-		
-		
-		selAussehen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
+		selAussehen.setItems(labels);
+		selAussehen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 
 		Label label_2 = new Label(cmpDesigner, SWT.NONE);
-		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
+		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1));
 
 		tabSpielen = new TabItem(tabFolder, SWT.NONE);
 		tabSpielen.setText("Spielen");
 
 		cmpSpiel = new Composite(tabFolder, SWT.NONE);
-	
-		
+
 		Button btnSpielerauto = new Button(cmpDesigner, SWT.CHECK);
 		btnSpielerauto.setText("Spielerauto");
 		new Label(cmpDesigner, SWT.NONE);
-		
+
 		Button btnLenkradschloss = new Button(cmpDesigner, SWT.CHECK);
 		btnLenkradschloss.setText("Lenkradschloss");
 		Label label = new Label(cmpDesigner, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1));
 		new Label(cmpDesigner, SWT.NONE);
 
 		tabSpielen.setControl(cmpSpiel);
@@ -419,39 +465,34 @@ public class RushHour {
 	}
 
 	private void resizeToDefinition() {
-	/*tabFolder != null) {
-			// TabFolder resizen
-
-			int margin = ((GridLayout) abstractGameBoardWidget.getLayout()).marginHeight
-					+ ((GridLayout) abstractGameBoardWidget.getLayout()).marginBottom;
-/*
-			tabFolder.setBounds(
-					tabFolder.getBounds().x,
-					tabFolder.getBounds().y,
-					shell.getBounds().width - 8,
-					// shell.getBounds().height - (tabSpielen.getBounds().height
-					// + cmpSpiel.getBounds().y + margin));
-					shell.getBounds().height
-							- (abstractGameBoardWidget.getLocation().y
-									+ cmpSpiel.getLocation().y
-									+ tabFolder.getLocation().y + 18));
-	}*/
-			if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
-					&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
-				for (AbstractCarWidget currentCar : carPool) {
-					currentCar.setSize(abstractGameBoardWidget
-							.getCurrentFieldSize());
-				}
-			
-
-
-			// Autos neu positionieren
+		/*
+		 * tabFolder != null) { // TabFolder resizen
+		 * 
+		 * int margin = ((GridLayout)
+		 * abstractGameBoardWidget.getLayout()).marginHeight + ((GridLayout)
+		 * abstractGameBoardWidget.getLayout()).marginBottom; /*
+		 * tabFolder.setBounds( tabFolder.getBounds().x,
+		 * tabFolder.getBounds().y, shell.getBounds().width - 8, //
+		 * shell.getBounds().height - (tabSpielen.getBounds().height // +
+		 * cmpSpiel.getBounds().y + margin)); shell.getBounds().height -
+		 * (abstractGameBoardWidget.getLocation().y + cmpSpiel.getLocation().y +
+		 * tabFolder.getLocation().y + 18)); }
+		 */
+		if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
+				&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 			for (AbstractCarWidget currentCar : carPool) {
-				repositionCarOnBoard(currentCar);
+				currentCar.setSize(abstractGameBoardWidget
+						.getCurrentFieldSize());
 			}
-		//}
-		
-		cmpContainer.setBounds(12, 10, shell.getBounds().width - 30, shell.getBounds().height-65);
+
+		// Autos neu positionieren
+		for (AbstractCarWidget currentCar : carPool) {
+			repositionCarOnBoard(currentCar);
+		}
+		// }
+
+		cmpContainer.setBounds(12, 10, shell.getBounds().width - 30,
+				shell.getBounds().height - 65);
 	}
 
 	private void repositionCarOnBoard(AbstractCarWidget carWidget) {
@@ -491,18 +532,15 @@ public class RushHour {
 				int boardY = abstractGameBoardWidget.getLocation().y
 						+ cmpContainer.getLocation().y;
 
-				if (neuesX > (boardWidth + boardX
-						- observedCar.getBounds().width))
+				if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
 					neuesX = boardWidth + boardX
 							- observedCar.getBounds().width;
 
 				if (neuesX <= boardX)
 					neuesX = boardX;
 
-				if (neuesY > (boardY + boardHeight
-						- observedCar.getBounds().height))
-					neuesY = (boardY + boardHeight
-							- observedCar.getBounds().height);
+				if (neuesY > (boardY + boardHeight - observedCar.getBounds().height))
+					neuesY = (boardY + boardHeight - observedCar.getBounds().height);
 
 				if (neuesY <= boardY)
 					neuesY = boardY;
@@ -522,7 +560,7 @@ public class RushHour {
 				int currentY = observedCar.getLocation().y;
 				int gameBoardX = abstractGameBoardWidget.getLocation().x
 						+ cmpContainer.getLocation().x;
-				
+
 				int gameBoardY = abstractGameBoardWidget.getLocation().y
 						+ cmpContainer.getLocation().y;
 
