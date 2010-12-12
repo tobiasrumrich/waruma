@@ -51,16 +51,17 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 	public void setPosition(Point position) {
 		this.position = position;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 20533;
 		int result = 1;
-		result = prime * result + Arrays.deepHashCode(collisionMap);
+		result = prime * result + collisionMap.length;
 		result = prime * result
 				+ ((orientation == null) ? 0 : orientation.hashCode());
-		result = prime * result
-				+ ((position == null) ? 0 : position.hashCode());
+		result = prime * result + ((position == null) ? 0 : position.x);
+		result = prime * result + ((position == null) ? 0 : position.y);
+
 		return result;
 	}
 
