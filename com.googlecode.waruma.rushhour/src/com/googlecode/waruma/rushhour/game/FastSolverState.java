@@ -166,7 +166,7 @@ public final class FastSolverState {
 			car.y += distance;
 			// In collisionMap einfügen
 			for (int y = car.y; y < car.y + car.length; y++) {
-				collisionMap[car.x][y] = 1;
+				collisionMap[car.x][y] = 2;
 			}
 		}
 		

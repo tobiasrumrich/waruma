@@ -62,7 +62,7 @@ public class FastSolver implements ISolver {
 	 */
 	public List<IMove> solveGameBoard() {
 		while (!stateQueue.isEmpty()) {
-			FastSolverState currentState = stateQueue.remove();
+			FastSolverState currentState = stateQueue.remove();			
 			// Ziel erreicht?
 			if (currentState.player.x == solutionX
 					&& currentState.player.y == solutionY) {
@@ -75,6 +75,34 @@ public class FastSolver implements ISolver {
 		return null;
 	}
 
+//	public static void debugState(FastSolverState state){
+//		// Print collisionmap
+//		byte[][] collisionMap = state.collisionMap;
+//		System.out.println(" 012345");
+//		for (int i = 0; i < collisionMap.length; i++) {
+//			System.out.print(i);
+//			for (int j = 0; j < collisionMap[i].length; j++) {
+//				if(collisionMap[j][i] == 1)
+//					System.out.print("-");
+//				if(collisionMap[j][i] == 2)
+//					System.out.print("I");
+//				if(collisionMap[j][i] == 0)
+//					System.out.print(" ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+//		// Auto debuggen
+//		FastSolverCar moved = null;
+//		for (FastSolverCar car : state.cars) {
+//			if(car.id == state.movedCar)
+//				moved = car;
+//		}
+//		System.out.println("L:" + moved.length + " (" + moved.x + "," + moved.y + ") " + state.movedDistance);
+//		System.out.println();
+//		
+//	}
+	
 	/**
 	 * Bestimmt alle in einem gegebenen SolverState durchführbaren Züge und
 	 * leitet diese an addStateToQueue weiter
@@ -327,8 +355,8 @@ public class FastSolver implements ISolver {
 //
 		FastSolver solver = new FastSolver(gameBoard);
 		List<IMove> moves = solver.solveGameBoard();
-		for (IMove move : moves) {
-			System.out.println(move);
-		}
+//		for (IMove move : moves) {
+//			System.out.println(move);
+//		}
 	}
 }

@@ -124,6 +124,56 @@ public class TestFastSolver extends TestCase {
 		assertTrue(playerCar.reachedDestination());
 	}
 
+	public void testMediumGame2() {
+		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(3, 2),
+				Orientation.EAST, collisionDetector);
+		playerCar.setDestination(new Point(5, 2));
+		StandardCar car1 = new StandardCar(collisionMapCar, new Point(4, 0),
+				Orientation.NORTH);
+		StandardCar car2 = new StandardCar(collisionMapCar, new Point(1, 3),
+				Orientation.WEST);
+		StandardCar car3 = new StandardCar(collisionMapCar, new Point(4, 3),
+				Orientation.SOUTH);
+		StandardCar car4 = new StandardCar(collisionMapCar, new Point(1, 4),
+				Orientation.NORTH);
+		StandardCar car5 = new StandardCar(collisionMapCar, new Point(4, 5),
+				Orientation.EAST);
+		StandardCar car10 = new StandardCar(collisionMapTruck, new Point(2, 0),
+				Orientation.SOUTH);
+		StandardCar car11 = new StandardCar(collisionMapTruck, new Point(5, 1),
+				Orientation.NORTH);
+		StandardCar car12 = new StandardCar(collisionMapTruck, new Point(3, 3),
+				Orientation.NORTH);
+
+		try {
+			gameBoard.addGameBoardObject(playerCar);
+			gameBoard.addGameBoardObject(car1);
+			gameBoard.addGameBoardObject(car2);
+			gameBoard.addGameBoardObject(car3);
+			gameBoard.addGameBoardObject(car4);
+			gameBoard.addGameBoardObject(car5);
+			gameBoard.addGameBoardObject(car10);
+			gameBoard.addGameBoardObject(car11);
+			gameBoard.addGameBoardObject(car12);
+
+		} catch (IllegalBoardPositionException e) {
+			fail("Fehler im Test oder GameBoard");
+		}
+
+		FastSolver solver = new FastSolver(gameBoard);
+		List<IMove> moveList = solver.solveGameBoard();
+
+		for (IMove move : moveList) {
+			try {
+				gameBoard.move(move);
+			} catch (IllegalMoveException e) {
+				fail("Solver erzeugt ungültige Züge");
+			}
+		}
+
+		assertTrue(playerCar.reachedDestination());
+	}
+	
 	public void testHardGame() {
 		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(2, 2),
 				Orientation.EAST, collisionDetector);
