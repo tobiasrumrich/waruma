@@ -32,7 +32,8 @@ public class RushHourCollisionDetector implements ICollisionDetector,
 		private int distance;
 
 		private CollisionPath(IGameBoardObject gameBoardObject) {
-			this.source = new Point(gameBoardObject.getPosition().x, gameBoardObject.getPosition().y);
+			this.source = new Point(gameBoardObject.getPosition().x,
+					gameBoardObject.getPosition().y);
 			this.orientation = gameBoardObject.getOrientation();
 			this.distance = gameBoardObject.getCollisionMap().length - 1;
 
@@ -74,7 +75,7 @@ public class RushHourCollisionDetector implements ICollisionDetector,
 		}
 	}
 
-	private Boolean[][] collisionMap;
+	private boolean[][] collisionMap;
 	private IMove lastCheckedMove;
 
 	/**
@@ -98,38 +99,13 @@ public class RushHourCollisionDetector implements ICollisionDetector,
 	 *            - Höhe des Spielfeldes
 	 */
 	public RushHourCollisionDetector(int width, int height) {
-		collisionMap = new Boolean[width][height];
+		collisionMap = new boolean[width][height];
 
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				collisionMap[i][j] = true;
 			}
 		}
-	}
-	
-	public static void printCollisionMap(Boolean[][] collisionMap){
-		for (int i = 0; i < collisionMap.length; i++) {
-			for (int j = 0; j < collisionMap[i].length; j++) {
-				System.out.print(collisionMap[j][i] == true ? " " : "X");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
-	
-
-	/**
-	 * Erstellt einen RushHour spezifischen CollisionDetector auf der Basis
-	 * einer vorgegebenen CollisionMap
-	 * 
-	 * @param collisionMap
-	 */
-	public RushHourCollisionDetector(Boolean[][] collisionMap) {
-		this.collisionMap = collisionMap;
-	}
-
-	public Boolean[][] getCollisionMap() {
-		return collisionMap;
 	}
 
 	/**
@@ -226,34 +202,6 @@ public class RushHourCollisionDetector implements ICollisionDetector,
 		}
 	}
 
-	public List<IMove> getValidMoves(IGameBoardObject gameBoardObject) {
-		List<IMove> moveList = new ArrayList<IMove>();
-
-		Orientation orientation = gameBoardObject.getOrientation();
-		Point source = gameBoardObject.getPosition();
-		int length = gameBoardObject.getCollisionMap().length;
-
-		if (orientation == Orientation.WEST || orientation == Orientation.NORTH) {
-			if (validTile(getDestinationPoint(source, orientation, 1))) {
-				moveList.add(new Move((IMoveable) gameBoardObject, 1));
-			}
-			if (validTile(getDestinationPoint(source, orientation, -length))) {
-				moveList.add(new Move((IMoveable) gameBoardObject, -1));
-			}
-		}
-		
-		if (orientation == Orientation.EAST || orientation == Orientation.SOUTH) {
-			if (validTile(getDestinationPoint(source, orientation, length))) {
-				moveList.add(new Move((IMoveable) gameBoardObject, 1));
-			}
-			if (validTile(getDestinationPoint(source, orientation, -1))) {
-				moveList.add(new Move((IMoveable) gameBoardObject, -1));
-			}
-		}	
-
-		return moveList;
-	}
-
 	@Override
 	public void checkMove(IMove move) throws IllegalMoveException {
 		if (move.getMoveable() instanceof IGameBoardObject) {
@@ -280,22 +228,16 @@ public class RushHourCollisionDetector implements ICollisionDetector,
 	@Override
 	public void doMove(IMove move) throws IllegalMoveException {
 		if (move.equals(lastCheckedMove)) {
-			doMoveWithoutCheck(move);
+			IGameBoardObject gameBoardObject = (IGameBoardObject) move
+					.getMoveable();
+			CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
+
+			clearPathInCollisionMap(objectBoundries);
+			objectBoundries.moveByAmmount(move.getDistance());
+			fillPathInCollisionMap(objectBoundries);
 		} else {
 			throw new IllegalMoveException();
 		}
-	}
-
-	@Override
-	public void doMoveWithoutCheck(IMove move) {
-		IGameBoardObject gameBoardObject = (IGameBoardObject) move
-				.getMoveable();
-		CollisionPath objectBoundries = new CollisionPath(gameBoardObject);
-
-		clearPathInCollisionMap(objectBoundries);
-		objectBoundries.moveByAmmount(move.getDistance());
-		fillPathInCollisionMap(objectBoundries);
-		printCollisionMap(collisionMap);
 	}
 
 	@Override
