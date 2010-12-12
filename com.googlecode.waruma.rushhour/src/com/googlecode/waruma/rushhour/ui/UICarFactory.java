@@ -10,11 +10,7 @@ public class UICarFactory {
 	private HashMap<Integer, HashSet<String>> availableImagesPerLength = new HashMap<Integer, HashSet<String>>();
 	private HashMap<CarType, HashSet<String>> availableImagesPerType = new HashMap<CarType, HashSet<String>>();
 
-	public UICarFactory() {
-		
-	}
-	
-	public UICarFactory(String location) {
+	public void scanDirectory(String location) {
 		String[] entries = new File(location).list();
 
 		for (String file : entries) {
@@ -79,6 +75,26 @@ public class UICarFactory {
 			ImageBean bean = new ImageBean(file,carSize,carType,carName);
 			arrayList.add(bean);
 		}
+		if (arrayList.isEmpty()) return new ArrayList<ImageBean>();
 		return arrayList;
 	}
+
+	
+	public ArrayList<ImageBean> getAvailableImages(CarType queriedCarType) {
+		HashSet<String> hashSet = availableImagesPerType.get(queriedCarType);
+		ArrayList<ImageBean> arrayList = new ArrayList<ImageBean>();
+		for (String file : hashSet) {
+			
+			String[] filename = file.split("_");
+			Integer carSize = Integer.valueOf(filename[0].replaceAll("F",""));
+			CarType carType = CarType.valueOf(filename[1].toUpperCase());
+			String carName = filename[2];
+			
+			ImageBean bean = new ImageBean(file,carSize,carType,carName);
+			arrayList.add(bean);
+		}
+		if (arrayList.isEmpty()) return new ArrayList<ImageBean>();
+		return arrayList;
+	}
+
 }
