@@ -157,19 +157,7 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
-				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		newCar2.setVisible(false);
-		carPool.add(newCar2);
 
-		newCar2 = new AbstractCarWidget(shell, 1, 3,
-				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
-		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
-		newCar2.setVisible(false);
-		carPool.add(newCar2);
 
 		cmpContainer = new Composite(shell, SWT.NONE);
 		cmpContainer.setBounds(10, 10, 898, 466);
@@ -304,6 +292,7 @@ public class RushHour {
 						data[i] = availableImages.get(i).getFilename();
 					}
 					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,100,200);
+					
 					designerPreviewCar.changeImage(data[0]);
 					
 					
@@ -317,11 +306,16 @@ public class RushHour {
 						data[i] = availableImages.get(i).getFilename();
 					}
 					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,50,150);
+					
 					designerPreviewCar.changeImage(data[0]);
 					break;
 
 				}
 				selAussehen.setItems(labels);
+				selAussehen.select(0);
+				designerPreviewCar
+				.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
+						+ data[selAussehen.getSelectionIndex()]);
 
 			}
 		});
