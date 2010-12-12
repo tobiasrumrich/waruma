@@ -36,6 +36,10 @@ public class TestRushHourCollisionDetector extends TestCase {
 			calledMove = true;
 			this.distance = distance;
 		}
+
+		@Override
+		public void checkMove(int distance) throws IllegalMoveException {			
+		}
 	}
 
 	private RushHourCollisionDetector rushHourCollisionDetector;
