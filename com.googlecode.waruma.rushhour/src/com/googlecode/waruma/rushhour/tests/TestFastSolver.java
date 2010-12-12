@@ -15,6 +15,7 @@ import com.googlecode.waruma.rushhour.game.FastSolver;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
 import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
 import com.googlecode.waruma.rushhour.game.StandardCar;
+import com.googlecode.waruma.rushhour.game.SteeringLock;
 
 public class TestFastSolver extends TestCase {
 
@@ -41,8 +42,8 @@ public class TestFastSolver extends TestCase {
 				new Point(4, 1), Orientation.SOUTH);
 		StandardCar car1 = new StandardCar(collisionMapCar, new Point(2, 0),
 				Orientation.WEST);
-		StandardCar car2 = new StandardCar(collisionMapCar, new Point(2, 4),
-				Orientation.EAST);
+		SteeringLock car2 = new SteeringLock(new StandardCar(collisionMapCar, new Point(2, 4),
+				Orientation.EAST));
 
 		try {
 			gameBoard.addGameBoardObject(playerCar);
@@ -54,6 +55,7 @@ public class TestFastSolver extends TestCase {
 			fail("Fehler im Test oder GameBoard");
 		}
 
+		
 		FastSolver solver = new FastSolver(gameBoard);
 		List<IMove> moveList = solver.solveGameBoard();
 
