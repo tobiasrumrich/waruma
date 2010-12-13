@@ -158,16 +158,12 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
-		
 		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
-        "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
 		newCar2.setLocation(100, 176);
 		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
 		newCar2.setVisible(false);
 		carPool.add(newCar2);
-
-
-
 
 		cmpContainer = new Composite(shell, SWT.NONE);
 		cmpContainer.setBounds(10, 10, 898, 466);
@@ -177,18 +173,6 @@ public class RushHour {
 		gl_cmpContainer.marginWidth = 0;
 		gl_cmpContainer.marginHeight = 0;
 		cmpContainer.setLayout(gl_cmpContainer);
-		
-		
-		
-		
-		
-
-
-		
-
-
-
-
 
 		// Point point = new Point(minX, minY);
 		// shell.setMinimumSize(point);
@@ -210,21 +194,21 @@ public class RushHour {
 				1, 1);
 		gd_tabFolder.widthHint = 239;
 		tabFolder.setLayoutData(gd_tabFolder);
-		tabFolder.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// System.out.println(tabFolder.getSelectionIndex());
-				if (tabFolder.getSelectionIndex() == 1) {
-					for (AbstractCarWidget currentCar : carPool) {
-						currentCar.setVisible(true);
-					}
-				} else {
-					for (AbstractCarWidget currentCar : carPool) {
-						currentCar.setVisible(false);
-					}
-				}
-			}
-		});
+		// tabFolder.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// // System.out.println(tabFolder.getSelectionIndex());
+		// if (tabFolder.getSelectionIndex() == 1) {
+		// for (AbstractCarWidget currentCar : carPool) {
+		// currentCar.setVisible(true);
+		// }
+		// } else {
+		// for (AbstractCarWidget currentCar : carPool) {
+		// currentCar.setVisible(false);
+		// }
+		// }
+		// }
+		// });
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
@@ -240,39 +224,46 @@ public class RushHour {
 		gd_composite.heightHint = 282;
 		composite.setLayoutData(gd_composite);
 
-		designerPreviewCar = new AbstractCarWidget(composite, 11, 3, "/com/googlecode/waruma/rushhour/ui/images/2F_car_Peterwagen_carimg.png");
-		//designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
-		//		"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		designerPreviewCar = new AbstractCarWidget(composite, 11, 3,
+				"/com/googlecode/waruma/rushhour/ui/images/2F_car_Peterwagen_carimg.png");
+		// designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
+		// "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		designerPreviewCar.setBounds(68, 22, 100, 200);
-		
-		designerPreviewCar.addMouseListener(new MouseListener () {
+
+		designerPreviewCar.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(shell, 1, 2, "/com/googlecode/waruma/rushhour/ui/images/"
-						+ data[selAussehen.getSelectionIndex()]);
+				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(
+						shell, 1, 2,
+						"/com/googlecode/waruma/rushhour/ui/images/"
+								+ data[selAussehen.getSelectionIndex()]);
 				newCarFromDesigner.moveAbove(cmpContainer);
-				newCarFromDesigner.addMouseListener(new RushHourCarMouseListener(newCarFromDesigner));
-				newCarFromDesigner.setSize(abstractGameBoardWidget.getCurrentFieldSize());
-				//newCarFromDesigner.set
-				newCarFromDesigner.setLocation(arg0.x,arg0.y);
+				newCarFromDesigner
+						.addMouseListener(new RushHourCarMouseListener(
+								newCarFromDesigner));
+				newCarFromDesigner.setSize(abstractGameBoardWidget
+						.getCurrentFieldSize());
+				// newCarFromDesigner.set
+				newCarFromDesigner.setLocation(arg0.x, arg0.y);
 				carPool.add(newCarFromDesigner);
-				System.out.println("INFO: User mouseDown Event on designerCar!");
-				
+				System.out
+						.println("INFO: User mouseDown Event on designerCar!");
+
 			}
 
 			@Override
 			public void mouseUp(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 
 		Button button_2 = new Button(composite, SWT.NONE);
@@ -319,7 +310,7 @@ public class RushHour {
 				designerPreviewCar
 						.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
 								+ data[selAussehen.getSelectionIndex()]);
-				
+
 			}
 		});
 
@@ -327,7 +318,7 @@ public class RushHour {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ArrayList<ImageBean> availableImages;
-				String[] labels = {"not found"};
+				String[] labels = { "not found" };
 				switch (selFahrzeugart.getSelectionIndex()) {
 				case 0:
 					availableImages = carFactory.getAvailableImages(2);
@@ -337,12 +328,11 @@ public class RushHour {
 						labels[i] = availableImages.get(i).getCarName();
 						data[i] = availableImages.get(i).getFilename();
 					}
-					//designerPreviewCar.
-					
-					designerPreviewCar.changeImage(carFactory.getPath()+data[0]);
+					// designerPreviewCar.
 
-					
-					
+					designerPreviewCar.changeImage(carFactory.getPath()
+							+ data[0]);
+
 					break;
 				case 1:
 					availableImages = carFactory.getAvailableImages(3);
@@ -352,18 +342,21 @@ public class RushHour {
 						labels[i] = availableImages.get(i).getCarName();
 						data[i] = availableImages.get(i).getFilename();
 					}
-					designerPreviewCar.setSize(new Point(67,200));
-					designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,67,200);
-					
-					designerPreviewCar.changeImage(carFactory.getPath()+data[0]);
+					designerPreviewCar.setSize(new Point(67, 200));
+					designerPreviewCar.setBounds(
+							designerPreviewCar.getBounds().x,
+							designerPreviewCar.getBounds().y, 67, 200);
+
+					designerPreviewCar.changeImage(carFactory.getPath()
+							+ data[0]);
 					break;
 
 				}
 				selAussehen.setItems(labels);
 				selAussehen.select(0);
 				designerPreviewCar
-				.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
-						+ data[selAussehen.getSelectionIndex()]);
+						.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
+								+ data[selAussehen.getSelectionIndex()]);
 
 			}
 		});
@@ -547,8 +540,10 @@ public class RushHour {
 					.getCurrentFieldSize().x) + boardX;
 			int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
 					.getCurrentFieldSize().y) + boardY;
+			if (newCarX<(boardX+abstractGameBoardWidget.getBounds().width-(abstractGameBoardWidget.getCurrentFieldSize().x /2 ))) {
 			Point location = new Point(newCarX, newCarY);
 			carWidget.setLocation(location);
+			}
 		}
 	}
 
@@ -574,29 +569,51 @@ public class RushHour {
 				int boardY = abstractGameBoardWidget.getLocation().y
 						+ cmpContainer.getLocation().y;
 
-				if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
-					neuesX = boardWidth + boardX
-							- observedCar.getBounds().width;
+				if (observedCar.isLockedInCage()) {
+					if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
+						neuesX = boardWidth + boardX
+								- observedCar.getBounds().width;
 
-				if (neuesX <= boardX)
-					neuesX = boardX;
+					if (neuesX <= boardX)
+						neuesX = boardX;
 
-				if (neuesY > (boardY + boardHeight - observedCar.getBounds().height))
-					neuesY = (boardY + boardHeight - observedCar.getBounds().height);
+					if (neuesY > (boardY + boardHeight - observedCar
+							.getBounds().height))
+						neuesY = (boardY + boardHeight - observedCar
+								.getBounds().height);
 
-				if (neuesY <= boardY)
-					neuesY = boardY;
+					if (neuesY <= boardY)
+						neuesY = boardY;
 
-				if (observedCar.isLockX())
-					observedCar
-							.setLocation(observedCar.getLocation().x, neuesY);
-				else if (observedCar.isLockY())
-					observedCar
-							.setLocation(neuesX, observedCar.getLocation().y);
-				else
+					if (observedCar.isLockX())
+						observedCar.setLocation(observedCar.getLocation().x,
+								neuesY);
+					else if (observedCar.isLockY())
+						observedCar.setLocation(neuesX,
+								observedCar.getLocation().y);
+					else
+						observedCar.setLocation(neuesX, neuesY);
+					// END CageControl
+				} else {
+					if (neuesX <= boardX)
+						neuesX = boardX;
+
+					if (neuesX > (shell.getBounds().width
+							- observedCar.getBounds().width - 30))
+						neuesX = shell.getBounds().width
+								- observedCar.getBounds().width - 30;
+
+					if (neuesY <= boardY)
+						neuesY = boardY;
+
+					if (neuesY > (boardY + boardHeight - observedCar
+							.getBounds().height))
+						neuesY = (boardY + boardHeight - observedCar
+								.getBounds().height);
 					observedCar.setLocation(neuesX, neuesY);
-				// END CageControl
-
+				}
+				
+				
 				// BEGIN FieldControl
 				int currentX = observedCar.getLocation().x;
 				int currentY = observedCar.getLocation().y;
@@ -618,6 +635,7 @@ public class RushHour {
 				lblDebug.setText(posX + ":" + posY);
 				// END Field Control
 
+
 			}
 
 		};
@@ -628,7 +646,19 @@ public class RushHour {
 		@Override
 		public void mouseUp(MouseEvent e) {
 			observedCar.removeMouseMoveListener(mouseMoveListener);
-			repositionCarOnBoard(observedCar);
+			int boardX = abstractGameBoardWidget.getLocation().x
+			+ cmpContainer.getLocation().x;
+			int neuesX = observedCar.getLocation().x + e.x - clickX;
+			System.out.println(e.x + "neuesX");
+			if (neuesX < boardX+abstractGameBoardWidget.getBounds().width) {
+				repositionCarOnBoard(observedCar);	
+			}
+			else {
+				System.out.println("TIME TO DISPOSE");
+				observedCar.dispose();
+				carPool.remove(observedCar);
+			}
+			
 		}
 
 		@Override

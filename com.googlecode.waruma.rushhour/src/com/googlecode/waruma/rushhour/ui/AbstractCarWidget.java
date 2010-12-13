@@ -50,7 +50,16 @@ public class AbstractCarWidget extends Composite {
 
 	private boolean lockX = false;
 	private boolean lockY = false;
+	private boolean lockInCage = false;
 	
+	public boolean isLockedInCage() {
+		return lockInCage;
+	}
+
+	public void setLockInCage(boolean lockInCage) {
+		this.lockInCage = lockInCage;
+	}
+
 	private Point positionOnGameBoard;
 
 	public Point getPositionOnGameBoard() {
@@ -88,7 +97,7 @@ public class AbstractCarWidget extends Composite {
 	 * @param style
 	 */
 	public AbstractCarWidget(Composite parent, int width, int height, String imageLocation) {
-		super(parent, SWT.ON_TOP);
+		super(parent, SWT.NONE);
 		this.fieldHeight = height;
 		this.fieldWidth = width;
 		initImageHandling(imageLocation);
