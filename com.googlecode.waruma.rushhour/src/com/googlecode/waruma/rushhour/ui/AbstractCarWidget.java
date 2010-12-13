@@ -19,6 +19,7 @@ import com.swtdesigner.SWTResourceManager;
 public class AbstractCarWidget extends Composite {
 
 	private Image image;
+	private String imageFilename;
 	private IImageCache imageCache = new ImageCache();
 	private Image originalImage;
 	private Orientation orientation = Orientation.NORTH;
@@ -31,6 +32,22 @@ public class AbstractCarWidget extends Composite {
 	 */
 	private int fieldWidth = 1;
 	
+	public int getFieldHeight() {
+		return fieldHeight;
+	}
+
+	public void setFieldHeight(int fieldHeight) {
+		this.fieldHeight = fieldHeight;
+	}
+
+	public int getFieldWidth() {
+		return fieldWidth;
+	}
+
+	public void setFieldWidth(int fieldWidth) {
+		this.fieldWidth = fieldWidth;
+	}
+
 	private boolean lockX = false;
 	private boolean lockY = false;
 	
@@ -56,9 +73,11 @@ public class AbstractCarWidget extends Composite {
 
 		// Originalbild als aktuelles Bild setzen
 		image = originalImage;
+		
+		this.imageFilename = imageLocation;
 
 		// Bild in den Cache
-		imageCache.addImage(Orientation.NORTH, new Point(
+		imageCache.addImage(imageFilename,Orientation.NORTH, new Point(
 				image.getBounds().width, image.getBounds().height), image);
 	}
 
@@ -86,7 +105,8 @@ public class AbstractCarWidget extends Composite {
 		initImageHandling(imageLocation);
 		//setBackgroundImage(image);
 		this.setBackgroundImage(getImage(originalImage, orientation,
-				new Point(this.getBounds().x,this.getBounds().y)));
+				new Point(this.getBounds().width,this.getBounds().height)));
+		System.out.println("changeImage->this.getBounds() = " + this.getBounds());
 	}
 
 	public Orientation getOrientation() {
@@ -98,7 +118,7 @@ public class AbstractCarWidget extends Composite {
 		Image newImage;
 
 		if (imageCache.checkCache(gOrientation, gSize)) {
-			newImage = imageCache.getImage(gOrientation, gSize);
+			newImage = imageCache.getImage(imageFilename,gOrientation, gSize);
 		} else {
 			ImageData imgData = rotateImage(gImage, gOrientation)
 					.getImageData();
@@ -106,7 +126,7 @@ public class AbstractCarWidget extends Composite {
 			imgData = imgData.scaledTo(gSize.x, gSize.y);
 
 			newImage = new Image(this.getDisplay(), imgData);
-			imageCache.addImage(gOrientation, gSize, newImage);
+			imageCache.addImage(imageFilename, gOrientation, gSize, newImage);
 		}
 
 		return newImage;
