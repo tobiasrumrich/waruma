@@ -1,5 +1,6 @@
 package com.googlecode.waruma.rushhour.framework;
 
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class GameBoard implements Serializable {
 
 	/**
 	 * Fügt dem Spielbrett ein neues GameBoardObject hinzu
+	 * 
 	 * @param gameBoardObject
 	 * @throws IllegalBoardPositionException
 	 */
@@ -48,7 +50,27 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
+	 * Bewegt ein GameBoardObject an die angegebene Position auf dem Spielbrett
+	 * 
+	 * @param gameBoardObject
+	 * @param position
+	 * @throws IllegalBoardPositionException
+	 */
+	public void repositionGameBoardObject(IGameBoardObject gameBoardObject,
+			Point position) throws IllegalBoardPositionException {
+		// Objekt nicht beim Gameboard bekannt
+		if (!gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
+			throw new IllegalBoardPositionException();
+		}
+		// CollisionMap aktualisieren
+		collisionDetector.moveGameBoardObjectToPosition(gameBoardObject,
+				position);
+		gameBoardObject.setPosition(position);
+	}
+
+	/**
 	 * Gibt die Liste der auf dem Spielbrett vorhandenen Autos zurück
+	 * 
 	 * @return Collection der Autos
 	 */
 	public Collection<IGameBoardObject> getGameBoardObjects() {
@@ -57,6 +79,7 @@ public class GameBoard implements Serializable {
 
 	/**
 	 * Gibt den Stack der bisher ausgeführten Züge aus
+	 * 
 	 * @return MoveHistory Stack
 	 */
 	public Stack<IMove> getMoveHistory() {

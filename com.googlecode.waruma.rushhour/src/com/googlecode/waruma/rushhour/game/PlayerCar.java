@@ -1,4 +1,3 @@
-
 package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
@@ -13,67 +12,116 @@ import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
+ * Diese Klasse implementiert das Spielerauto. Bei erreichen des Ziels werden
+ * die registrierten Observer benachrichtigt.
  * 
- * @author fabian
- * 
- *         Diese Klasse stellt ein Spielerauto dar. Sie erweitert die Klasse
- *         StandardCar, indem sie ein Ziel beinhaltet und nach erfolgtem Move
- *         prŸft, ob eben dieses Ziel erreicht wurde. DarŸber hinaus bietet sie
- *         Observern die Mšglichkeit, sich zu registieren und informieren zu
- *         lassen, sobald das Spielerauto das Ziel erreicht hat.
- * 
+ * @author Florian
  */
 
-public class PlayerCar extends StandardCar implements IPlayer, Serializable {	
+public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
 	private Set<IReachedDestinationObserver> observers;
 	private ICollisionDetector collisionDetector;
+	private boolean reachedDestination;
 
+	/**
+	 * Erstellt ein PlayerCar OHNE das Ziel zu setzen
+	 * 
+	 * @param collisionMap
+	 *            KollisionsMap des Autos
+	 * @param position
+	 *            Position auf dem Spielfeld
+	 * @param orientation
+	 *            Orientierung
+	 * @param collisionDetector
+	 *            Kollisionsdetektor zur Überprüfung auf erreichen des
+	 *            Zielpunktes
+	 */
 	public PlayerCar(Boolean[][] collisionMap, Point position,
 			Orientation orientation, ICollisionDetector collisionDetector) {
 		super(collisionMap, position, orientation);
 		this.collisionDetector = collisionDetector;
 		this.observers = new HashSet<IReachedDestinationObserver>();
+		this.reachedDestination = false;
 	}
-	
+
+	/**
+	 * Erstellt ein PlayerCar
+	 * 
+	 * @param collisionMap
+	 *            KollisionsMap des Autos
+	 * @param position
+	 *            Position auf dem Spielfeld
+	 * @param orientation
+	 *            Orientierung
+	 * @param destination
+	 *            Zielpunkt
+	 * @param collisionDetector
+	 *            Kollisionsdetektor zur Überprüfung auf erreichen des
+	 *            Zielpunktes
+	 */
 	public PlayerCar(Boolean[][] collisionMap, Point position,
-			Orientation orientation, Point destination, ICollisionDetector collisionDetector) {
+			Orientation orientation, Point destination,
+			ICollisionDetector collisionDetector) {
 		this(collisionMap, position, orientation, collisionDetector);
 		this.destination = destination;
 	}
 
-	// fŸhrt den Move aus und fragt anschlie§end den CollisionDetector, ob das
-	// Ziel erreicht wurde. Bei positiver RŸckmeldung werden die Observer
-	// informiert
-	@Override
+	/**
+	 * Führt einen Zug durch
+	 * 
+	 * @param distance
+	 *            Zugweite
+	 */
 	public void move(int distance) throws IllegalMoveException {
 		super.move(distance);
 		if (collisionDetector.hitPoint(this, destination)) {
+			reachedDestination = true;
 			for (IReachedDestinationObserver currentObserver : observers) {
 				currentObserver.updateReachedDestination(this);
 			}
 		}
 	}
 
-	
 	/**
-	 * Registriert einen IReachedDestinationObserver 
+	 * Registriert einen IReachedDestinationObserver bei dem PlayerCar
+	 * 
+	 * @param eventTarget
+	 *            Observer
 	 */
-	@Override
 	public void registerReachedDestination(
 			IReachedDestinationObserver eventTarget) {
 		observers.add(eventTarget);
 	}
 
+	/**
+	 * Setzen des Zielpunktes
+	 * 
+	 * @param destination
+	 *            Zielpunkt
+	 */
 	public void setDestination(Point destination) {
 		this.destination = destination;
 	}
 
-	public Point getDestination(){
+	/**
+	 * Gibt das Ziel des PlayerCars zurück
+	 * 
+	 * @return Zielpunkt
+	 */
+	public Point getDestination() {
 		return this.destination;
 	}
-		
+	
+	/**
+	 * Gibt an ob das Auto sein Ziel erreicht hat
+	 * @return True bei Erreichen
+	 */
+	public boolean reachedDestination(){
+		return this.reachedDestination;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 75503;

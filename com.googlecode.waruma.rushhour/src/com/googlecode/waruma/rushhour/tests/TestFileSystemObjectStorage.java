@@ -11,7 +11,7 @@ import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
-import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
+import com.googlecode.waruma.rushhour.game.CollisionDetector;
 import com.googlecode.waruma.rushhour.game.StandardCar;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
 
@@ -26,7 +26,7 @@ public class TestFileSystemObjectStorage extends TestCase {
 		fileSystemObjectStorage = new FileSystemObjectStorage();
 		objectMock = new FileSystemObjectStorageMock();
 		
-		ICollisionDetector collisionDetector = new RushHourCollisionDetector(10,10);
+		ICollisionDetector collisionDetector = new CollisionDetector(10,10);
 		gameBoard = new GameBoard(collisionDetector);
 		Boolean[][] collisionMap = new Boolean[][] { { true, true } };
 		gameBoard.addGameBoardObject(new PlayerCar(collisionMap, new Point (3,8),Orientation.WEST,collisionDetector));

@@ -211,9 +211,6 @@ public final class FastSolverState {
 	 */
 	@Override
 	public int hashCode() {
-		if (collisionMap == null) {
-			return 0;
-		}
 		int hashCode = 1;
 		for (int i = 0; i < collisionMap.length; i++) {
 			for (int j = 0; j < collisionMap[i].length; j++) {
