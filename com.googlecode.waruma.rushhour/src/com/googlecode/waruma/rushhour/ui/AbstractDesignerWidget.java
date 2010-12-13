@@ -69,8 +69,15 @@ public class AbstractDesignerWidget extends Composite {
 								+ imageFileName);
 				
 				newCarFromDesigner.moveAbove(mainWindow.mainComposite);
-				newCarFromDesigner.addMouseListener(new CarMouseListener(
+				
+				if(carTypeComboBox.getSelectionIndex() == 2){
+					newCarFromDesigner.addMouseListener(new PlayerCarMouseListener(
+							mainWindow, newCarFromDesigner));
+				}else{
+					newCarFromDesigner.addMouseListener(new CarMouseListener(
 						mainWindow, newCarFromDesigner));
+				}
+				
 				newCarFromDesigner.setSize(mainWindow.abstractGameBoardWidget
 						.getCurrentFieldSize());
 				newCarFromDesigner.setLocation(
@@ -95,7 +102,7 @@ public class AbstractDesignerWidget extends Composite {
 
 		carTypeComboBox = new Combo(this, SWT.READ_ONLY);
 		carTypeComboBox.setItems(new String[] { "PKW (belegt 2 Felder)",
-				"LKW (belegt 3 Felder)" });
+				"LKW (belegt 3 Felder)", "Spieler (belegt 2 Felder)" });
 		carTypeComboBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 		carTypeComboBox.select(0);
@@ -128,11 +135,11 @@ public class AbstractDesignerWidget extends Composite {
 				case 0:
 					images = mainWindow.availableCars;
 					labels = new String[images.size()];
+					data = new String[images.size()];
 					for (int i = 0; i < images.size(); i++) {
 						labels[i] = images.get(i).getCarName();
 						data[i] = images.get(i).getFilename();
 					}
-					// designerPreviewCar.
 					designerPreviewCar.setSize(new Point(100, 200));
 					designerPreviewCar.setBounds(
 							designerPreviewCar.getBounds().x,
@@ -149,11 +156,25 @@ public class AbstractDesignerWidget extends Composite {
 						labels[i] = images.get(i).getCarName();
 						data[i] = images.get(i).getFilename();
 					}
-					// designerPreviewCar.
 					designerPreviewCar.setSize(new Point(67, 200));
 					designerPreviewCar.setBounds(
 							designerPreviewCar.getBounds().x,
 							designerPreviewCar.getBounds().y, 67, 200);
+					designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH
+							+ data[0]);
+					break;
+				case 2:
+					images = mainWindow.availablePlayers;
+					labels = new String[images.size()];
+					data = new String[images.size()];
+					for (int i = 0; i < images.size(); i++) {
+						labels[i] = images.get(i).getCarName();
+						data[i] = images.get(i).getFilename();
+					}
+					designerPreviewCar.setSize(new Point(100, 200));
+					designerPreviewCar.setBounds(
+							designerPreviewCar.getBounds().x,
+							designerPreviewCar.getBounds().y, 100, 200);
 					designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH
 							+ data[0]);
 					break;
@@ -189,9 +210,6 @@ public class AbstractDesignerWidget extends Composite {
 		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-		Button btnSpielerauto = new Button(this, SWT.CHECK);
-		btnSpielerauto.setText("Spielerauto");
-		new Label(this, SWT.NONE);
 
 		Button btnLenkradschloss = new Button(this, SWT.CHECK);
 		btnLenkradschloss.setText("Lenkradschloss");
