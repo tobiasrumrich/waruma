@@ -60,19 +60,24 @@ public class GameBoard implements Serializable {
 	public void move(IMove move) throws IllegalMoveException {
 		IMoveable moveable = move.getMoveable();
 		int distance = move.getDistance();
-
+		// Objekt nicht auf dem Spielbrett
 		if (!gameBoardObjects.containsKey(moveable.hashCode())) {
 			throw new IllegalMoveException();
 		}
-
-		// throws IllegalMoveException
+		
+		// Zug prüfen
 		collisionDetector.checkMove(move);
 		moveable.checkMove(distance);
 
-		gameBoardObjects.remove(moveable.hashCode());
+		// CollisionDetector aktualisieren
 		collisionDetector.doMove(move);
-		moveable.move(distance);
+		
+		// Move History füllen
 		moveHistory.push(move);
+		
+		// Moveable aktualisieren
+		gameBoardObjects.remove(moveable.hashCode());
+		moveable.move(distance);
 		gameBoardObjects.put(moveable.hashCode(), (IGameBoardObject) moveable);
 
 	}

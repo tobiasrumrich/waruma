@@ -41,7 +41,6 @@ public class AdditionalFunctionality extends AbstractMoveable implements
 	@Override
 	public void checkMove(int distance) throws IllegalMoveException {
 		abstractMoveable.checkMove(distance);
-		
 	}
 
 	@Override
