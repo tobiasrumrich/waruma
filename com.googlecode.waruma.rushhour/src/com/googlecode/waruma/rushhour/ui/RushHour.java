@@ -6,6 +6,8 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -242,6 +244,31 @@ public class RushHour {
 		//designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
 		//		"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		designerPreviewCar.setBounds(68, 22, 100, 200);
+		
+		designerPreviewCar.addMouseListener(new MouseListener () {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				AbstractCarWidget test = new AbstractCarWidget(shell, 11, 3, "/com/googlecode/waruma/rushhour/ui/images/2F_car_Peterwagen_carimg.png");
+				test.redraw();
+	
+				System.out.println("INFO: User mouseDown Event on designerCar!");
+				
+			}
+
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 
 		Button button_2 = new Button(composite, SWT.NONE);
 		button_2.setBounds(10, 236, 31, 31);
@@ -250,13 +277,6 @@ public class RushHour {
 		Button button_3 = new Button(composite, SWT.NONE);
 		button_3.setBounds(188, 236, 31, 31);
 		button_3.setText("->");
-
-		AbstractCarWidget newCar1 = new AbstractCarWidget(composite, 1, 2,
-		"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-newCar1.setBounds(82, 250, 100, 200);
-		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
-		newCar1.setVisible(true);
-		carPool.add(newCar1);
 
 		Label lblOrientierung = new Label(cmpDesigner, SWT.NONE);
 		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
