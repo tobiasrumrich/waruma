@@ -650,7 +650,7 @@ public class RushHour {
 			+ cmpContainer.getLocation().x;
 			int neuesX = observedCar.getLocation().x + e.x - clickX;
 			System.out.println(e.x + "neuesX");
-			if (neuesX < boardX+abstractGameBoardWidget.getBounds().width) {
+			if (neuesX < boardX+abstractGameBoardWidget.getBounds().width - (abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
 				repositionCarOnBoard(observedCar);	
 			}
 			else {
