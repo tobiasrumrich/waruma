@@ -157,6 +157,15 @@ public class RushHour {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 
+		
+		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
+        "/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
+		newCar2.setLocation(100, 176);
+		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
+		newCar2.setVisible(false);
+		carPool.add(newCar2);
+
+
 
 
 		cmpContainer = new Composite(shell, SWT.NONE);
@@ -167,6 +176,8 @@ public class RushHour {
 		gl_cmpContainer.marginWidth = 0;
 		gl_cmpContainer.marginHeight = 0;
 		cmpContainer.setLayout(gl_cmpContainer);
+		
+
 
 		// Point point = new Point(minX, minY);
 		// shell.setMinimumSize(point);
@@ -235,7 +246,7 @@ public class RushHour {
 				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		newCar1.setBounds(82, 250, 100, 200);
 		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
-		newCar1.setVisible(false);
+		newCar1.setVisible(true);
 		carPool.add(newCar1);
 
 		Label lblOrientierung = new Label(cmpDesigner, SWT.NONE);
