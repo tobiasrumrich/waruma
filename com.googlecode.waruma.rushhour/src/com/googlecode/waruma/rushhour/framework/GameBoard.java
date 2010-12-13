@@ -3,10 +3,7 @@ package com.googlecode.waruma.rushhour.framework;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
@@ -14,27 +11,35 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
 /**
  * Das GameBoard orchestriet das Ausführen von Zügen und sorgt dafür, dass das
- * Spiel bei destruktiven Operationen in einem kosistenten Zustand bleibt.
+ * Spiel bei destruktiven Operationen in einem konsistenten Zustand bleibt.
  * 
  * @author Florian
  */
 public class GameBoard implements Serializable {
 	private static final long serialVersionUID = -7059872709872532815L;
 	private ICollisionDetector collisionDetector;
-	// Manuelle Implementierung eines Hash-Sets, da sich in der Java HashSet implementierung der 
+	// Manuelle Implementierung eines Hash-Sets, da sich in der Java HashSet
+	// implementierung der Hash nicht bei Änderungen am Objekt mitändert
 	private Map<Integer, IGameBoardObject> gameBoardObjects;
 	private Stack<IMove> moveHistory;
 
+	/**
+	 * Erstellt eine neues GameBoard unter Verwendung des übergebenen
+	 * CollisionDetectors
+	 * 
+	 * @param collisionDetector
+	 */
 	public GameBoard(ICollisionDetector collisionDetector) {
 		this.collisionDetector = collisionDetector;
 		this.gameBoardObjects = new HashMap<Integer, IGameBoardObject>();
 		this.moveHistory = new Stack<IMove>();
 	}
 
-	public ICollisionDetector getCollisionDetector() {
-		return this.collisionDetector;
-	}
-
+	/**
+	 * Fügt dem Spielbrett ein neues GameBoardObject hinzu
+	 * @param gameBoardObject
+	 * @throws IllegalBoardPositionException
+	 */
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
 		collisionDetector.addGameBoardObject(gameBoardObject);
@@ -42,20 +47,30 @@ public class GameBoard implements Serializable {
 
 	}
 
+	/**
+	 * Gibt die Liste der auf dem Spielbrett vorhandenen Autos zurück
+	 * @return Collection der Autos
+	 */
 	public Collection<IGameBoardObject> getGameBoardObjects() {
 		return gameBoardObjects.values();
 	}
 
+	/**
+	 * Gibt den Stack der bisher ausgeführten Züge aus
+	 * @return MoveHistory Stack
+	 */
 	public Stack<IMove> getMoveHistory() {
 		return moveHistory;
 	}
 
 	/**
 	 * Diese Methode führt einen Spielzug anhand des übergebenen IMove Objektes
-	 * aus.
+	 * aus, sofern die Prüfungen positiv waren.
 	 * 
 	 * @param move
+	 *            Auszuführender Zug
 	 * @throws IllegalMoveException
+	 *             Bei ungültigem Zug
 	 */
 	public void move(IMove move) throws IllegalMoveException {
 		IMoveable moveable = move.getMoveable();
@@ -64,21 +79,21 @@ public class GameBoard implements Serializable {
 		if (!gameBoardObjects.containsKey(moveable.hashCode())) {
 			throw new IllegalMoveException();
 		}
-		
+
 		// Zug prüfen
 		collisionDetector.checkMove(move);
 		moveable.checkMove(distance);
 
 		// CollisionDetector aktualisieren
 		collisionDetector.doMove(move);
-		
-		// Move History füllen
-		moveHistory.push(move);
-		
+
 		// Moveable aktualisieren
 		gameBoardObjects.remove(moveable.hashCode());
 		moveable.move(distance);
 		gameBoardObjects.put(moveable.hashCode(), (IGameBoardObject) moveable);
+
+		// Move History aktualisieren
+		moveHistory.push(move);
 
 	}
 
