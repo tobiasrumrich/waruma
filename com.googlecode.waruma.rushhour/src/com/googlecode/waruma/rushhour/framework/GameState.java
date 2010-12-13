@@ -23,8 +23,8 @@ public class GameState implements IReachedDestinationObserver, IGameWonSubject {
 	}
 
 	@Override
-	public void registerGameWon(IGameWonObserver eventTrigger) {
-		observers.add(eventTrigger);
+	public void registerGameWon(IGameWonObserver eventTarget) {
+		observers.add(eventTarget);
 	}
 
 	// ReachedDestination Event wird behandelt

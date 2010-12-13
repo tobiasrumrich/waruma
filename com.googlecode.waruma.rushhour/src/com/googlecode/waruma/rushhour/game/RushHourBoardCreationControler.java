@@ -19,63 +19,47 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  */
 
-public class RushHourBoardCreationController {
+public class RushHourBoardCreationControler {
 	private GameBoard gameBoard;
 	private CollisionDetector collisionDetector;
 	private boolean hasPlayer;
-	private Map<String, IGameBoardObject> gameBoardObjectMap;
-	private int carCounter;
-	private int truckCounter;
 
-	public RushHourBoardCreationController() {
+	public RushHourBoardCreationControler() {
 		this.collisionDetector = new CollisionDetector(6);
 		this.gameBoard = new GameBoard(this.collisionDetector);
-		this.gameBoardObjectMap = new HashMap<String, IGameBoardObject>();
 		this.hasPlayer = false;
-		this.carCounter = 1;
-		this.truckCounter = 1;
 	}
 
-	public String createCar(Point position, Orientation orientation,
+	public IGameBoardObject createCar(Point position, Orientation orientation,
 			Boolean steeringLock) throws IllegalBoardPositionException {
 
 		IGameBoardObject car = new StandardCar(new Boolean[][] { { true },
 				{ true } }, position, orientation);
-
+		
 		if (steeringLock) {
 			car = new SteeringLock((AbstractMoveable) car);
 		}
 
 		gameBoard.addGameBoardObject(car);
 
-		String name = "PKW" + carCounter;
-		carCounter++;
-		
-		gameBoardObjectMap.put(name, car);
-		
-		return name;
+		return car;
 	}
 
-	public String createTruck(Point position, Orientation orientation,
+	public IGameBoardObject createTruck(Point position, Orientation orientation,
 			Boolean steeringLock) throws IllegalBoardPositionException {
 		IGameBoardObject truck = new StandardCar(new Boolean[][] { { true },
 				{ true }, { true } }, position, orientation);
-
+		
 		if (steeringLock) {
 			truck = new SteeringLock((AbstractMoveable) truck);
 		}
 
 		gameBoard.addGameBoardObject(truck);
 
-		String name = "LKW" + truckCounter;
-		truckCounter++;
-		
-		gameBoardObjectMap.put(name, truck);
-		
-		return name;
+		return truck;
 	}
 
-	public String createPlayerCar(Point position, Point destination,
+	public IGameBoardObject createPlayerCar(Point position, Point destination,
 			Orientation orientation) throws IllegalBoardPositionException {
 		if (hasPlayer) {
 			throw new IllegalBoardPositionException(
@@ -87,16 +71,10 @@ public class RushHourBoardCreationController {
 		// throws IllegalBoardPositionException
 		gameBoard.addGameBoardObject(car);
 		
-		String name = "Spieler";
-		gameBoardObjectMap.put(name, car);
-		hasPlayer = true;
-		
-		return name;
+		return car;
 	}
 	
-	public void changeCarPosition(String car, Point position) throws IllegalBoardPositionException{
-		IGameBoardObject gameBoardObject = gameBoardObjectMap.get(car);
-		
+	public void changeCarPosition(IGameBoardObject gameBoardObject, Point position) throws IllegalBoardPositionException{
 		gameBoard.repositionGameBoardObject(gameBoardObject, position);
 	}
 
@@ -113,6 +91,10 @@ public class RushHourBoardCreationController {
 	public void saveGameBoard(String location) throws IOException {
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
+	}
+	
+	public Object getCurrentState(){
+		return gameBoard;
 	}
 
 }

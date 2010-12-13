@@ -1,0 +1,143 @@
+package com.googlecode.waruma.rushhour.game;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Timer;
+
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+import com.googlecode.waruma.rushhour.framework.FileSystemObjectStorage;
+import com.googlecode.waruma.rushhour.framework.GameBoard;
+import com.googlecode.waruma.rushhour.framework.GameState;
+import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
+import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
+import com.googlecode.waruma.rushhour.framework.IGameWonSubject;
+import com.googlecode.waruma.rushhour.framework.IMove;
+import com.googlecode.waruma.rushhour.framework.IMoveable;
+import com.googlecode.waruma.rushhour.framework.IPlayer;
+import com.googlecode.waruma.rushhour.framework.Move;
+
+/**
+ * Verwaltet die Aufrufe der Spielablauflogik durch die Präsentationsschickt
+ * 
+ * @author Florian
+ */
+public class RushHourGameplayControler implements IGameWonSubject {
+
+	private GameState gameState;
+	private Timer gameTimer;
+	private GameBoard gameBoard;
+
+	/**
+	 * Erstellt einen neuen GamePlayControler
+	 */
+	private RushHourGameplayControler() {
+		gameTimer = new Timer();
+		gameState = new GameState();
+	}
+
+	/**
+	 * Erstellt einen neuen GamePlayControler durch laden eines Spielstandes
+	 * 
+	 * @param location
+	 *            Speicherort auf dem Datenträger
+	 * @throws IOException
+	 */
+	public RushHourGameplayControler(String location) throws IOException {
+		this();
+
+		FileSystemObjectStorage storage = new FileSystemObjectStorage();
+		try {
+			gameBoard = (GameBoard) storage.deserialize(location);
+			registerPlayer();
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("No valid RushHour State");
+		}
+	}
+
+	/**
+	 * Erstellt einen neuen GamePlayControler aus dem übergebenen Spielstand
+	 * 
+	 * @param state
+	 *            Spielstand
+	 */
+	public RushHourGameplayControler(Object state) {
+		this();
+		if (state instanceof GameBoard) {
+			gameBoard = (GameBoard) state;
+			registerPlayer();
+		} else {
+			throw new IllegalArgumentException("No valid RushHour State");
+		}
+	}
+	
+	/**
+	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurück
+	 * 
+	 * @return Liste der Autos
+	 */
+	public Collection<IGameBoardObject> getCars() {
+		return gameBoard.getGameBoardObjects();
+	}
+
+	/**
+	 * Führt einen Zug auf dem Spielbrett durch
+	 * 
+	 * @param gameBoardObject
+	 *            Zu bewegendes Objekt auf dem Spielbrett
+	 * @param distance
+	 *            Distanz des Zuges
+	 * @throws IllegalMoveException
+	 */
+	public void moveCar(IGameBoardObject gameBoardObject, int distance)
+			throws IllegalMoveException {
+		if (gameBoardObject instanceof IMoveable) {
+			IMove move = new Move((IMoveable) gameBoardObject, distance);
+			gameBoard.move(move);
+		} else {
+			throw new IllegalMoveException("Auto nicht beweglich!");
+		}
+
+	}
+
+	/**
+	 * Speichert einen Spielstand im angegebenen Pfad
+	 * 
+	 * @param location Pfad und Dateiname
+	 * @throws IOException
+	 */
+	public void saveGame(String location) throws IOException {
+		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
+		fileSystemObjectStorage.serialize(gameBoard, location);
+	}
+
+	/**
+	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen Spielbretts aus
+	 * 
+	 * @return Liste der Züge
+	 */
+	public List<IMove> solveGame() {
+		FastSolver fastSolver = new FastSolver(gameBoard);
+		return fastSolver.solveGameBoard();
+	}
+
+	/**
+	 * Observer für Gewinnmitteilung registrieren
+	 * @param eventTarget Ziel des Aufrufs
+	 */
+	public void registerGameWon(IGameWonObserver eventTarget) {
+		gameState.registerGameWon(eventTarget);
+	}
+
+	/**
+	 * Spieler im GameState registrieren
+	 */
+	private void registerPlayer(){
+		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
+			if(gameBoardObject instanceof IPlayer){
+				gameState.addPlayer((IPlayer) gameBoardObject);
+			}
+		}
+	}
+	
+}

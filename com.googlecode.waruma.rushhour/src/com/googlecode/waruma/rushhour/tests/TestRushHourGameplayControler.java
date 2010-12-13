@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.IObjectStorage;
-import com.googlecode.waruma.rushhour.game.RushHourGameplayController;
+import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
 
 /**
  * Testet das Verhalten des RushHourGamePlayController
@@ -15,7 +15,7 @@ import com.googlecode.waruma.rushhour.game.RushHourGameplayController;
  * @author dep18237
  * 
  */
-public class TestRushHourGameplayController extends TestCase {
+public class TestRushHourGameplayControler extends TestCase {
 
 	private class MockGameBoardStorage implements IObjectStorage {
 		private Boolean calledLoad = false;
@@ -50,12 +50,12 @@ public class TestRushHourGameplayController extends TestCase {
 		}
 	}
 
-	private RushHourGameplayController controller;
+	private RushHourGameplayControler controller;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new RushHourGameplayController();
+		controller = new RushHourGameplayControler();
 	}
 
 	public void testGetCars() {
