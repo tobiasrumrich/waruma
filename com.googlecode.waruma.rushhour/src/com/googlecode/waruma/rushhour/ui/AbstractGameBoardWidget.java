@@ -1,9 +1,12 @@
 package com.googlecode.waruma.rushhour.ui;
 
+import java.awt.Color;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -19,6 +22,10 @@ public class AbstractGameBoardWidget extends Composite {
 	private int minHoeheFeld = 50;
 	private int minBreiteFeld = 50;
 	private String inField = "NULL!!";
+	private Point goalField;
+	private org.eclipse.swt.graphics.Color colorForHighlight = SWTResourceManager.getColor(0, 210, 0);
+	private org.eclipse.swt.graphics.Color colorForOdd =SWTResourceManager.getColor(166, 202, 240) ;
+	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
 
 	private class FieldMouseListener implements MouseTrackListener {
 
@@ -83,11 +90,9 @@ public class AbstractGameBoardWidget extends Composite {
 						true, true, 1, 1));
 
 				if ((i + j) % 2 == 0) {
-					spielbrett[i][j].setBackground(SWTResourceManager.getColor(
-							166, 202, 240));
+					spielbrett[i][j].setBackground(colorForOdd);
 				} else {
-					spielbrett[i][j].setBackground(SWTResourceManager.getColor(
-							119, 136, 153));
+					spielbrett[i][j].setBackground(colorForUnodd);
 				}
 				spielbrett[i][j].addMouseTrackListener(new FieldMouseListener(
 						i, j));
@@ -124,7 +129,19 @@ public class AbstractGameBoardWidget extends Composite {
 		return inField;
 	}
 
-	@Override
+	public void setHighlight(Point fieldPoint) {
+		spielbrett[fieldPoint.x][fieldPoint.y].setBackground( colorForHighlight);
+	}
+	
+	public void removeHighlight(Point fieldPoint) {
+		if ((fieldPoint.x + fieldPoint.y) % 2 == 0) {
+			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForOdd);
+		} else {
+			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForUnodd);
+		}
+		setBackground( colorForHighlight);
+	}
+	
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}

@@ -11,6 +11,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.layout.GridData;
@@ -230,16 +231,17 @@ public class RushHour {
 		// "/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		designerPreviewCar.setBounds(68, 22, 100, 200);
 
-		designerPreviewCar.addMouseListener(new MouseListener() {
 
+		designerPreviewCar.addMouseListener(new MouseListener() {
+			private Boolean mouseAlreadyDown = false;
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
+				if (!mouseAlreadyDown){
 				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(
 						shell, 1, 2,
 						"/com/googlecode/waruma/rushhour/ui/images/"
@@ -251,10 +253,19 @@ public class RushHour {
 				newCarFromDesigner.setSize(abstractGameBoardWidget
 						.getCurrentFieldSize());
 				// newCarFromDesigner.set
-				newCarFromDesigner.setLocation(arg0.x, arg0.y);
+				newCarFromDesigner.setLocation(
+						arg0.x + designerPreviewCar.getLocation().x
+								+ tabFolder.getLocation().x, arg0.y
+								+ designerPreviewCar.getLocation().y
+								+ tabFolder.getLocation().y);
 				carPool.add(newCarFromDesigner);
 				System.out
 						.println("INFO: User mouseDown Event on designerCar!");
+				}
+				else {
+					mouseAlreadyDown = true;
+					System.out.println("Mouse alread down");
+				}
 
 			}
 
@@ -268,11 +279,39 @@ public class RushHour {
 
 		Button button_2 = new Button(composite, SWT.NONE);
 		button_2.setBounds(10, 236, 31, 31);
-		button_2.setText("<-");
+		button_2.setText("<Remove");
+		button_2.addSelectionListener(new SelectionListener(){
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				abstractGameBoardWidget.removeHighlight(new Point(3,4));
+			}
+			
+		});
 
 		Button button_3 = new Button(composite, SWT.NONE);
-		button_3.setBounds(188, 236, 31, 31);
-		button_3.setText("->");
+		button_3.setBounds(188, 236, 90, 31);
+		button_3.setText("<SET HIGHLIGHT");
+		button_3.addSelectionListener(new SelectionListener(){
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				abstractGameBoardWidget.setHighlight(new Point(3,4));
+			}
+			
+		});
 
 		Label lblOrientierung = new Label(cmpDesigner, SWT.NONE);
 		lblOrientierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -280,10 +319,11 @@ public class RushHour {
 		lblOrientierung.setText("Fahrzeugtyp");
 
 		selFahrzeugart = new Combo(cmpDesigner, SWT.READ_ONLY);
-		selFahrzeugart.setItems(new String[] { "PKW (belegt 2 Felder}",
+		selFahrzeugart.setItems(new String[] { "PKW (belegt 2 Felder)",
 				"LKW (belegt 3 Felder)" });
 		selFahrzeugart.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
+		selFahrzeugart.select(0);
 
 		Label lblAussehen = new Label(cmpDesigner, SWT.NONE);
 		lblAussehen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -294,6 +334,7 @@ public class RushHour {
 		carFactory
 				.scanDirectory("./src/com/googlecode/waruma/rushhour/ui/images/");
 		selAussehen = new Combo(cmpDesigner, SWT.READ_ONLY);
+
 		selAussehen.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -329,7 +370,10 @@ public class RushHour {
 						data[i] = availableImages.get(i).getFilename();
 					}
 					// designerPreviewCar.
-
+					designerPreviewCar.setSize(new Point(100, 100));
+					designerPreviewCar.setBounds(
+							designerPreviewCar.getBounds().x,
+							designerPreviewCar.getBounds().y, 100, 200);
 					designerPreviewCar.changeImage(carFactory.getPath()
 							+ data[0]);
 
@@ -373,6 +417,13 @@ public class RushHour {
 		selAussehen.setItems(labels);
 		selAussehen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
+		selAussehen.select(0);
+		designerPreviewCar.setSize(new Point(100, 100));
+		designerPreviewCar.setBounds(
+				designerPreviewCar.getBounds().x,
+				designerPreviewCar.getBounds().y, 100, 200);
+		designerPreviewCar.changeImage(carFactory.getPath()
+				+ data[0]);
 
 		Label label_2 = new Label(cmpDesigner, SWT.NONE);
 		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
@@ -540,16 +591,20 @@ public class RushHour {
 					.getCurrentFieldSize().x) + boardX;
 			int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
 					.getCurrentFieldSize().y) + boardY;
-			if (newCarX<(boardX+abstractGameBoardWidget.getBounds().width-(abstractGameBoardWidget.getCurrentFieldSize().x /2 ))) {
-			Point location = new Point(newCarX, newCarY);
-			carWidget.setLocation(location);
+			if (newCarX < (boardX + abstractGameBoardWidget.getBounds().width - (abstractGameBoardWidget
+					.getCurrentFieldSize().x / 2))) {
+				Point location = new Point(newCarX, newCarY);
+				carWidget.setLocation(location);
 			}
 		}
 	}
+	
+
 
 	private class RushHourCarMouseListener implements MouseListener {
 
 		AbstractCarWidget observedCar;
+	
 
 		public RushHourCarMouseListener(AbstractCarWidget observedCar) {
 			super();
@@ -612,8 +667,7 @@ public class RushHour {
 								.getBounds().height);
 					observedCar.setLocation(neuesX, neuesY);
 				}
-				
-				
+
 				// BEGIN FieldControl
 				int currentX = observedCar.getLocation().x;
 				int currentY = observedCar.getLocation().y;
@@ -635,7 +689,6 @@ public class RushHour {
 				lblDebug.setText(posX + ":" + posY);
 				// END Field Control
 
-
 			}
 
 		};
@@ -647,18 +700,18 @@ public class RushHour {
 		public void mouseUp(MouseEvent e) {
 			observedCar.removeMouseMoveListener(mouseMoveListener);
 			int boardX = abstractGameBoardWidget.getLocation().x
-			+ cmpContainer.getLocation().x;
+					+ cmpContainer.getLocation().x;
 			int neuesX = observedCar.getLocation().x + e.x - clickX;
-			System.out.println(e.x + "neuesX");
-			if (neuesX < boardX+abstractGameBoardWidget.getBounds().width - (abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
-				repositionCarOnBoard(observedCar);	
-			}
-			else {
+			
+			if (neuesX < boardX + abstractGameBoardWidget.getBounds().width
+					- (abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
+				repositionCarOnBoard(observedCar);
+			} else {
 				System.out.println("TIME TO DISPOSE");
 				observedCar.dispose();
 				carPool.remove(observedCar);
 			}
-			
+
 		}
 
 		@Override
@@ -671,7 +724,8 @@ public class RushHour {
 		public void mouseDown(MouseEvent arg0) {
 			clickX = arg0.x;
 			clickY = arg0.y;
-			observedCar.addMouseMoveListener(mouseMoveListener);
+
+				observedCar.addMouseMoveListener(mouseMoveListener);
 
 			if (arg0.button == 3) {
 				switch (observedCar.getOrientation()) {
