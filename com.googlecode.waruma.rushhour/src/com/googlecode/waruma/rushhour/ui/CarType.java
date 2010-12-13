@@ -1,5 +1,5 @@
 package com.googlecode.waruma.rushhour.ui;
 
 public enum CarType {
-	TRUCK,CAR
+	TRUCK,CAR,PLAYER
 }

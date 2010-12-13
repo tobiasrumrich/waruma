@@ -9,7 +9,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 
 class CarMouseListener implements MouseListener {
 
-	private final RushHour mainWindow;
+    final RushHour mainWindow;
 	AbstractCarWidget observedCar;
 
 
@@ -28,9 +28,9 @@ class CarMouseListener implements MouseListener {
 			int boardWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getBounds().width;
 			int boardHeight = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getBounds().height;
 			int boardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().x
-					+ CarMouseListener.this.mainWindow.cmpContainer.getLocation().x;
+					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().x;
 			int boardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().y
-					+ CarMouseListener.this.mainWindow.cmpContainer.getLocation().y;
+					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().y;
 
 			if (observedCar.isLockedInCage()) {
 				if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
@@ -80,10 +80,10 @@ class CarMouseListener implements MouseListener {
 			int currentX = observedCar.getLocation().x;
 			int currentY = observedCar.getLocation().y;
 			int gameBoardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().x
-					+ CarMouseListener.this.mainWindow.cmpContainer.getLocation().x;
+					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().x;
 
 			int gameBoardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().y
-					+ CarMouseListener.this.mainWindow.cmpContainer.getLocation().y;
+					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().y;
 
 			int fieldSizeWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().x;
@@ -108,7 +108,7 @@ class CarMouseListener implements MouseListener {
 	public void mouseUp(MouseEvent e) {
 		observedCar.removeMouseMoveListener(mouseMoveListener);
 		int boardX = mainWindow.abstractGameBoardWidget.getLocation().x
-				+ mainWindow.cmpContainer.getLocation().x;
+				+ mainWindow.mainComposite.getLocation().x;
 		int neuesX = observedCar.getLocation().x + e.x - clickX;
 		
 		if (neuesX < boardX + mainWindow.abstractGameBoardWidget.getBounds().width
