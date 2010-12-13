@@ -9,7 +9,7 @@ import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
-import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
+import com.googlecode.waruma.rushhour.game.CollisionDetector;
 
 /**
  * 
@@ -34,13 +34,13 @@ public class TestPlayerCar extends TestCase {
 
 	private MockObserver mockObserver2;
 	
-	private RushHourCollisionDetector collisionDetector;
+	private CollisionDetector collisionDetector;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
-		collisionDetector = new RushHourCollisionDetector(6);
+		collisionDetector = new CollisionDetector(6);
 		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, collisionDetector);
 		car.setDestination(new Point(4, 2));
 

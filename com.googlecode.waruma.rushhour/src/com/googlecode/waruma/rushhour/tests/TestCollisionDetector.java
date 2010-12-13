@@ -12,9 +12,9 @@ import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IMoveable;
 import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
-import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
+import com.googlecode.waruma.rushhour.game.CollisionDetector;
 
-public class TestRushHourCollisionDetector extends TestCase {
+public class TestCollisionDetector extends TestCase {
 
 	private class MockMoveable extends AbstractGameBoardObject implements
 			IMoveable {
@@ -23,8 +23,6 @@ public class TestRushHourCollisionDetector extends TestCase {
 		 * 
 		 */
 		private static final long serialVersionUID = -8660743442145058342L;
-		private boolean calledMove = false;
-		private int distance = 0;
 
 		public MockMoveable(Boolean[][] collisionMap, Point position,
 				Orientation orientation) {
@@ -33,25 +31,35 @@ public class TestRushHourCollisionDetector extends TestCase {
 
 		@Override
 		public void move(int distance) throws IllegalMoveException {
-			calledMove = true;
-			this.distance = distance;
 		}
 
 		@Override
-		public void checkMove(int distance) throws IllegalMoveException {			
+		public void checkMove(int distance) throws IllegalMoveException {
 		}
 	}
+	
+	private class MockMoveableNoGameBoardObject implements IMoveable{
 
-	private RushHourCollisionDetector rushHourCollisionDetector;
+		@Override
+		public void move(int distance) throws IllegalMoveException {
+		}
+
+		@Override
+		public void checkMove(int distance) throws IllegalMoveException {
+		}
+		
+	}
+
+	private CollisionDetector rushHourCollisionDetector;
 	private Boolean[][] collisionMapCar;
 	private Boolean[][] collisionMapTruck;
 	private MockMoveable moveable1;
 	private MockMoveable moveable2;
-
 	private MockMoveable moveable3;
+	private MockMoveable moveable4;
 
 	private boolean addGameBoardObjectThrowsIllegalBoardPosEx(
-			RushHourCollisionDetector rushHourCollisionDetector,
+			CollisionDetector rushHourCollisionDetector,
 			IGameBoardObject moveable) {
 		try {
 			rushHourCollisionDetector.addGameBoardObject(moveable);
@@ -62,8 +70,8 @@ public class TestRushHourCollisionDetector extends TestCase {
 	}
 
 	private boolean moveThrowsIllegalMoveException(
-			RushHourCollisionDetector rushHourCollisionDetector,
-			IMoveable moveable, int distance) {
+			CollisionDetector rushHourCollisionDetector, IMoveable moveable,
+			int distance) {
 		IMove move = new Move(moveable, distance);
 		try {
 			rushHourCollisionDetector.checkMove(move);
@@ -76,17 +84,19 @@ public class TestRushHourCollisionDetector extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		rushHourCollisionDetector = new RushHourCollisionDetector(6);
+		rushHourCollisionDetector = new CollisionDetector(6);
 
 		collisionMapCar = new Boolean[2][0];
 		collisionMapTruck = new Boolean[3][0];
 
 		moveable1 = new MockMoveable(collisionMapCar, new Point(0, 0),
-				Orientation.EAST);
+				Orientation.WEST);
 		moveable2 = new MockMoveable(collisionMapCar, new Point(0, 0),
 				Orientation.EAST);
 		moveable3 = new MockMoveable(collisionMapTruck, new Point(0, 0),
 				Orientation.NORTH);
+		moveable4 = new MockMoveable(collisionMapTruck, new Point(0, 0),
+				Orientation.SOUTH);
 	}
 
 	@Override
@@ -104,6 +114,9 @@ public class TestRushHourCollisionDetector extends TestCase {
 
 			moveable3.setPosition(new Point(0, 3));
 			rushHourCollisionDetector.addGameBoardObject(moveable3);
+			
+			moveable4.setPosition(new Point(5, 2));
+			rushHourCollisionDetector.addGameBoardObject(moveable4);
 		} catch (Exception e) {
 			fail();
 		}
@@ -196,36 +209,73 @@ public class TestRushHourCollisionDetector extends TestCase {
 
 	public void testMoveValidInputs() throws IllegalBoardPositionException,
 			IllegalMoveException {
-		moveable1.setPosition(new Point(2, 5));
-		rushHourCollisionDetector.addGameBoardObject(moveable1);
-		
-		Move move = new Move(moveable1, -2);
+		moveable2.setPosition(new Point(2, 5));
+		rushHourCollisionDetector.addGameBoardObject(moveable2);
+
+		Move move = new Move(moveable2, -2);
 		rushHourCollisionDetector.checkMove(move);
 		rushHourCollisionDetector.doMove(move);
-		
-		moveable1.setPosition(new Point(0,5));
-		Move move2 = new Move(moveable1, 4);
+
+		moveable2.setPosition(new Point(0, 5));
+		Move move2 = new Move(moveable2, 4);
 		rushHourCollisionDetector.checkMove(move2);
 		rushHourCollisionDetector.doMove(move2);
-		
-		moveable1.setPosition(new Point(4,5));
-		Move move3 = new Move(moveable1, -3);
+
+		moveable2.setPosition(new Point(4, 5));
+		Move move3 = new Move(moveable2, -3);
 		rushHourCollisionDetector.checkMove(move3);
 		rushHourCollisionDetector.doMove(move3);
-		
-		moveable1.setPosition(new Point(1,5));
-		Move move4 = new Move(moveable1, 2);
+
+		moveable2.setPosition(new Point(1, 5));
+		Move move4 = new Move(moveable2, 2);
 		rushHourCollisionDetector.checkMove(move4);
 		rushHourCollisionDetector.doMove(move4);
-		
-		moveable1.setPosition(new Point(3,5));
-		Move move5 = new Move(moveable1, -1);
+
+		moveable2.setPosition(new Point(3, 5));
+		Move move5 = new Move(moveable2, -1);
 		rushHourCollisionDetector.checkMove(move5);
 		rushHourCollisionDetector.doMove(move5);
-		
-		moveable1.setPosition(new Point(2,5));
-		Move move6 = new Move(moveable1, 1);
+
+		moveable2.setPosition(new Point(2, 5));
+		Move move6 = new Move(moveable2, 1);
 		rushHourCollisionDetector.checkMove(move6);
-		rushHourCollisionDetector.doMove(move6);		
+		rushHourCollisionDetector.doMove(move6);
+	}
+	
+	public void testMoveNonGameBoardObject(){
+		MockMoveableNoGameBoardObject noGameBoardObject = new MockMoveableNoGameBoardObject();
+		IMove move = new Move(noGameBoardObject, 2);
+		boolean throwsException = false;
+		try {
+			rushHourCollisionDetector.checkMove(move);
+		} catch (IllegalMoveException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);		
+	}
+	
+	public void testDoMoveWithoutCheck(){
+		Move move = new Move(moveable2, -2);
+		boolean throwsException = false;
+		try {
+			rushHourCollisionDetector.doMove(move);
+		} catch (IllegalMoveException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
+	
+	public void testHitPoint(){
+		moveable1.setPosition(new Point(3, 5));
+		assertTrue(rushHourCollisionDetector.hitPoint(moveable1, new Point(3, 5)));
+		assertTrue(rushHourCollisionDetector.hitPoint(moveable1, new Point(4, 5)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(2, 5)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(5, 5)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(3, 4)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(4, 4)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(3, 6)));
+		assertFalse(rushHourCollisionDetector.hitPoint(moveable1, new Point(4, 6)));
+		assertFalse(rushHourCollisionDetector.hitPoint(null, new Point(3,4)));
+		
 	}
 }

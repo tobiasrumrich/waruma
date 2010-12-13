@@ -1,6 +1,7 @@
 package com.googlecode.waruma.rushhour.tests;
 
 import java.awt.Point;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -55,24 +56,6 @@ public class TestGameBoard extends TestCase {
 			// TODO Auto-generated method stub
 			return false;
 		}
-
-		@Override
-		public Boolean[][] getCollisionMap() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void doMoveWithoutCheck(IMove move) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public List<IMove> getValidMoves(IGameBoardObject gameBoardObject) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
 
 	private class MockMoveable extends AbstractGameBoardObject implements
@@ -95,6 +78,12 @@ public class TestGameBoard extends TestCase {
 			calledMove = true;
 			this.distance = distance;
 		}
+
+		@Override
+		public void checkMove(int distance) throws IllegalMoveException {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	private Boolean[][] collisionMapCar;
@@ -102,9 +91,7 @@ public class TestGameBoard extends TestCase {
 	private MockMoveable moveableCar;
 	private MockMoveable moveableTruck;
 	private GameBoard gameBoard;
-
 	private MockCollisionDetector mockCollisionDetector;
-
 	private MockMoveable moveableCar2;
 
 	@Override
@@ -131,13 +118,25 @@ public class TestGameBoard extends TestCase {
 		gameBoard.addGameBoardObject(moveableCar2);
 		gameBoard.addGameBoardObject(moveableTruck);
 
-		Set<IGameBoardObject> gameBoardObjects = gameBoard
+		Collection<IGameBoardObject> gameBoardObjects = gameBoard
 				.getGameBoardObjects();
 		assertEquals(3, gameBoardObjects.size());
 
 		assertTrue(gameBoardObjects.contains(moveableCar));
 		assertTrue(gameBoardObjects.contains(moveableCar2));
 		assertTrue(gameBoardObjects.contains(moveableTruck));
+	}
+	
+	public void testMoveNonExistingObject(){
+		boolean thrownException = false;
+		
+		try {
+			gameBoard.move(new Move(moveableCar, 2));
+		} catch (IllegalMoveException e) {
+			thrownException = true;
+		}
+		
+		assertTrue(thrownException);
 	}
 
 	public void testAddGameBoardObjectCollisionDelegation()
@@ -165,11 +164,6 @@ public class TestGameBoard extends TestCase {
 		assertEquals(moveableTruck, mockCollisionDetector.gameBoardObject);
 	}
 
-	public void testGameBoardInitialization() {
-		assertTrue(gameBoard.getGameBoardObjects() instanceof Set<?>);
-		assertTrue(gameBoard.getMoveHistory() instanceof Stack<?>);
-	}
-
 	public void testMoveWithLegalMove() throws IllegalMoveException,
 			IllegalBoardPositionException {
 		IMove move = new Move(moveableCar, 1);
@@ -184,12 +178,11 @@ public class TestGameBoard extends TestCase {
 			IllegalBoardPositionException {
 		IMove move = new Move(moveableCar, -42);
 		gameBoard.addGameBoardObject(moveableCar);
-		
+
 		Boolean exceptionThrown = false;
 		try {
-		gameBoard.move(move);
-		}
-		catch (IllegalMoveException e) {
+			gameBoard.move(move);
+		} catch (IllegalMoveException e) {
 			exceptionThrown = true;
 		}
 		assertTrue(exceptionThrown);
@@ -198,13 +191,12 @@ public class TestGameBoard extends TestCase {
 		assertEquals(mockCollisionDetector.move, null);
 	}
 
-	public void testMoveHistory() throws IllegalMoveException{
-		try {
+	public void testMoveHistory() throws IllegalMoveException,
+			IllegalBoardPositionException {
 		gameBoard.addGameBoardObject(moveableCar);
 		gameBoard.addGameBoardObject(moveableCar2);
 		gameBoard.addGameBoardObject(moveableTruck);
-		}
-		catch (IllegalBoardPositionException e) {}
+
 		gameBoard.move(new Move(moveableCar, 2));
 		gameBoard.move(new Move(moveableCar2, -3));
 		IMove move = new Move(moveableTruck, 1);
@@ -212,9 +204,10 @@ public class TestGameBoard extends TestCase {
 		gameBoard.move(new Move(moveableCar, 1));
 		gameBoard.move(new Move(moveableCar2, 2));
 		try {
-			gameBoard.move(new Move(moveableCar,-42));
+			gameBoard.move(new Move(moveableCar, -42));
+			fail();
+		} catch (IllegalMoveException e) {
 		}
-		catch (IllegalMoveException e) {}
 
 		Stack<IMove> history = gameBoard.getMoveHistory();
 		assertEquals(5, history.size());

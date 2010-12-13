@@ -68,7 +68,6 @@ public class FastSolver implements ISolver {
 			// Züge ermitteln
 			computeAllPossibleMoves(currentState);
 		}
-		System.out.println("Keine Lösung gefunden");
 		return null;
 	}
 	

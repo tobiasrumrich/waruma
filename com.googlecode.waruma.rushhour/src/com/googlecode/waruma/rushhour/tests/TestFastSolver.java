@@ -9,29 +9,81 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
+import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.FastSolver;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
-import com.googlecode.waruma.rushhour.game.RushHourCollisionDetector;
+import com.googlecode.waruma.rushhour.game.CollisionDetector;
 import com.googlecode.waruma.rushhour.game.StandardCar;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
 
 public class TestFastSolver extends TestCase {
 
+	private class MockNonMoveable implements IGameBoardObject{
+		private Point position;
+		private Boolean[][] collisionMap;
+		private Orientation orientation;
+		
+		public MockNonMoveable(Boolean[][] collisionMap, Point position, Orientation orientation){
+			this.position = position;
+			this.collisionMap = collisionMap;
+			this.orientation = orientation;
+		}
+		
+		@Override
+		public Boolean[][] getCollisionMap() {
+			return collisionMap;
+		}
+
+		@Override
+		public Orientation getOrientation() {
+			return orientation;
+		}
+
+		@Override
+		public Point getPosition() {
+			return position;
+		}
+
+		@Override
+		public void setPosition(Point position) {			
+			this.position = position;
+		}
+		
+	}
+	
 	private Boolean[][] collisionMapCar;
 	private ICollisionDetector collisionDetector;
 	private Boolean[][] collisionMapTruck;
 	private GameBoard gameBoard;
 
 	protected void setUp() throws Exception {
-		collisionDetector = new RushHourCollisionDetector(6, 6);
+		collisionDetector = new CollisionDetector(6, 6);
 		collisionMapCar = new Boolean[][] { { true }, { true } };
 		collisionMapTruck = new Boolean[][] { { true }, { true }, { true } };
 
 		gameBoard = new GameBoard(collisionDetector);
 	}
 
+	public void testNonMoveableObject(){
+		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(3, 0),
+				Orientation.SOUTH, collisionDetector);
+		playerCar.setDestination(new Point(3, 5));
+		MockNonMoveable nonMoveable = new MockNonMoveable(collisionMapCar, new Point(2,5), Orientation.EAST);
+		try{
+			gameBoard.addGameBoardObject(playerCar);
+			gameBoard.addGameBoardObject(nonMoveable);
+		}	catch (IllegalBoardPositionException e) {
+			fail("Fehler im Test oder GameBoard");
+		}	
+		
+		FastSolver solver = new FastSolver(gameBoard);
+		List<IMove> moveList = solver.solveGameBoard();
+		
+		assertEquals(moveList, null);
+	}
+	
 	public void testVeryEasyGame() {
 		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(0, 2),
 				Orientation.EAST, collisionDetector);

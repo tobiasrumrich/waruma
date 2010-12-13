@@ -14,7 +14,7 @@ public class AllTests {
 		suite.addTestSuite(TestGameState.class);
 		suite.addTestSuite(TestMove.class);
 		suite.addTestSuite(TestPlayerCar.class);
-		suite.addTestSuite(TestRushHourCollisionDetector.class);
+		suite.addTestSuite(TestCollisionDetector.class);
 		suite.addTestSuite(TestRushHourGameplayController.class);
 		suite.addTestSuite(TestStandardCar.class);
 		suite.addTestSuite(TestSteeringCar.class);

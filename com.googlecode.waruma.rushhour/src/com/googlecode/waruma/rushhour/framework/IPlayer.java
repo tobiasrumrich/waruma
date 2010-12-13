@@ -7,4 +7,6 @@ public interface IPlayer {
 			IReachedDestinationObserver eventTarget);
 
 	public Point getDestination();
+	
+	public boolean reachedDestination();
 }
