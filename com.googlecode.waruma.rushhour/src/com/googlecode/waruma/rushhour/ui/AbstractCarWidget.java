@@ -115,7 +115,7 @@ public class AbstractCarWidget extends Composite {
 		//setBackgroundImage(image);
 		this.setBackgroundImage(getImage(originalImage, orientation,
 				new Point(this.getBounds().width,this.getBounds().height)));
-		System.out.println("changeImage->this.getBounds() = " + this.getBounds());
+		//System.out.println("changeImage->this.getBounds() = " + this.getBounds());
 	}
 
 	public Orientation getOrientation() {

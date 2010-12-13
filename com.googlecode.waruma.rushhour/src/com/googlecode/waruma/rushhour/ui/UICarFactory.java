@@ -15,7 +15,7 @@ public class UICarFactory {
 		String[] entries = new File(location).list();
 
 		for (String file : entries) {
-			if (file.toUpperCase().endsWith(".PNG")) {
+			if (file.toUpperCase().endsWith("_CARIMG.PNG")) {
 				String[] filename = file.split("_");
 
 				// System.out.println(file + "--" + Arrays.toString(filename));

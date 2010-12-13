@@ -41,8 +41,8 @@ public class ImageCache implements IImageCache {
 				internalCache.get(filename).put(orientation, hashMap);
 
 			}
-			System.out.println("CACHE INFO: Added "+orientation + " with " +
-			 point);
+			//System.out.println("CACHE INFO: Added "+orientation + " with " +
+			// point);
 		}
 	}
 
@@ -61,8 +61,8 @@ public class ImageCache implements IImageCache {
 				&& internalCache.get(filename).containsKey(orientation)
 				&& internalCache.get(orientation).containsKey(point)) {
 
-			 System.out.println("CACHE INFO: Loaded from cache "+orientation +
-			 " with " + point);
+			 //System.out.println("CACHE INFO: Loaded from cache "+orientation +
+			 //" with " + point);
 			// Es liegt ein Bild im Cache
 			return internalCache.get(filename).get(orientation).get(point);
 
@@ -85,8 +85,8 @@ public class ImageCache implements IImageCache {
 			return true;
 
 		}
-		 System.out.println("CACHE INFO: Not found "+orientation + " with " +
-		 point);
+		 //System.out.println("CACHE INFO: Not found "+orientation + " with " +
+		 //point);
 		return false;
 	}
 }
