@@ -6,14 +6,13 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.DragDetectEvent;
-import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -22,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -255,9 +255,14 @@ public class RushHour {
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				AbstractCarWidget test = new AbstractCarWidget(shell, 11, 3, "/com/googlecode/waruma/rushhour/ui/images/2F_car_Peterwagen_carimg.png");
-				test.redraw();
-	
+				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(shell, 1, 2, "/com/googlecode/waruma/rushhour/ui/images/"
+						+ data[selAussehen.getSelectionIndex()]);
+				newCarFromDesigner.moveAbove(cmpContainer);
+				newCarFromDesigner.addMouseListener(new RushHourCarMouseListener(newCarFromDesigner));
+				newCarFromDesigner.setSize(abstractGameBoardWidget.getCurrentFieldSize());
+				//newCarFromDesigner.set
+				newCarFromDesigner.setLocation(arg0.x,arg0.y);
+				carPool.add(newCarFromDesigner);
 				System.out.println("INFO: User mouseDown Event on designerCar!");
 				
 			}
