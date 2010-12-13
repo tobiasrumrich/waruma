@@ -167,7 +167,7 @@ public class RushHour {
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
 		availableCars = carFactory.getAvailableImages(CarType.CAR);
 		availableTrucks = carFactory.getAvailableImages(CarType.TRUCK);
-		//availablePlayers = carFactory.getAvailableImages(CarType.PLAYER);
+		availablePlayers = carFactory.getAvailableImages(CarType.PLAYER);
 	}
 
 	/**

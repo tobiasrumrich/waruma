@@ -127,6 +127,14 @@ public class AbstractGameBoardWidget extends Composite {
 	}
 
 	
+	public int getHoehe() {
+		return hoehe;
+	}
+
+	public int getBreite() {
+		return breite;
+	}
+
 	public String woBinIch() {
 		/*
 		 * int aktuelleBreite = spielbrett[0][0].getSize().x; int aktuelleHoehe
