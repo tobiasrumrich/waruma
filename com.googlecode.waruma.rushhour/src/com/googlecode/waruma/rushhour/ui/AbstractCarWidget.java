@@ -88,7 +88,7 @@ public class AbstractCarWidget extends Composite {
 	 * @param style
 	 */
 	public AbstractCarWidget(Composite parent, int width, int height, String imageLocation) {
-		super(parent, SWT.EMBEDDED);
+		super(parent, SWT.ON_TOP);
 		this.fieldHeight = height;
 		this.fieldWidth = width;
 		initImageHandling(imageLocation);
