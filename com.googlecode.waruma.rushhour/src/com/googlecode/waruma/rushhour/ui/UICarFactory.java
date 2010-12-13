@@ -92,7 +92,7 @@ public class UICarFactory {
 			CarType carType = CarType.valueOf(filename[1].toUpperCase());
 			String carName = filename[2];
 			
-			ImageBean bean = new ImageBean(file,carSize,carType,carName);
+			ImageBean bean = new ImageBean( file,carSize,carType,carName);
 			arrayList.add(bean);
 		}
 		if (arrayList.isEmpty()) return new ArrayList<ImageBean>();
