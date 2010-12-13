@@ -1,7 +1,6 @@
 package com.googlecode.waruma.rushhour.ui;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -16,6 +15,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.TabItem;
 
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
-import org.eclipse.swt.widgets.Combo;
 
 public class RushHour {
 
@@ -177,6 +176,16 @@ public class RushHour {
 		gl_cmpContainer.marginHeight = 0;
 		cmpContainer.setLayout(gl_cmpContainer);
 		
+		
+		
+		
+		
+
+
+		
+
+
+
 
 
 		// Point point = new Point(minX, minY);
@@ -243,8 +252,8 @@ public class RushHour {
 		button_3.setText("->");
 
 		AbstractCarWidget newCar1 = new AbstractCarWidget(composite, 1, 2,
-				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
-		newCar1.setBounds(82, 250, 100, 200);
+		"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+newCar1.setBounds(82, 250, 100, 200);
 		newCar1.addMouseListener(new RushHourCarMouseListener(newCar1));
 		newCar1.setVisible(true);
 		carPool.add(newCar1);
@@ -285,6 +294,7 @@ public class RushHour {
 				designerPreviewCar
 						.changeImage("/com/googlecode/waruma/rushhour/ui/images/"
 								+ data[selAussehen.getSelectionIndex()]);
+				
 			}
 		});
 
@@ -303,10 +313,9 @@ public class RushHour {
 						data[i] = availableImages.get(i).getFilename();
 					}
 					//designerPreviewCar.
-					designerPreviewCar.setSize(new Point(100,200));
-					designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,100,200);
 					
 					designerPreviewCar.changeImage(carFactory.getPath()+data[0]);
+
 					
 					
 					break;
