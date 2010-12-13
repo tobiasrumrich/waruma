@@ -16,6 +16,7 @@ import com.swtdesigner.SWTResourceManager;
 
 public class AbstractGameBoardWidget extends Composite {
 
+	private Composite parent;
 	private Label[][] spielbrett;
 	private int hoehe;
 	private int breite;
@@ -68,7 +69,8 @@ public class AbstractGameBoardWidget extends Composite {
 	public AbstractGameBoardWidget(Composite parent, int style, int breite,
 			int hoehe) {
 		super(parent, style);
-
+		
+		this.parent = parent;
 		this.hoehe = hoehe;
 		this.breite = breite;
 
@@ -144,6 +146,21 @@ public class AbstractGameBoardWidget extends Composite {
 	
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+
+	void repositionCarOnBoard(AbstractCarWidget carWidget) {
+		if (carWidget.getPositionOnGameBoard() != null) {
+			int boardX = getLocation().x
+					+ parent.getLocation().x;
+			int boardY = getLocation().y
+					+ parent.getLocation().y;
+			int newCarX = (carWidget.getPositionOnGameBoard().x * getCurrentFieldSize().x) + boardX;
+			int newCarY = (carWidget.getPositionOnGameBoard().y * getCurrentFieldSize().y) + boardY;
+			if (newCarX < (boardX + getBounds().width - (getCurrentFieldSize().x / 2))) {
+				Point location = new Point(newCarX, newCarY);
+				carWidget.setLocation(location);
+			}
+		}
 	}
 
 }

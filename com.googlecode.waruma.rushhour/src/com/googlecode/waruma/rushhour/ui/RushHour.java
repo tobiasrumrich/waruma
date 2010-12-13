@@ -8,7 +8,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -30,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
 
 public class RushHour {
@@ -38,18 +36,19 @@ public class RushHour {
 	protected Shell shell;
 	private Label lblTime;
 	private Label lblZeit;
-	private AbstractGameBoardWidget abstractGameBoardWidget;
-	private Label lblDebug;
+	Label lblDebug;
 	private Label lblDebug2;
-	private TabFolder tabFolder;
-	private Composite cmpSpiel;
 	private TabItem tabSpielen;
 	private Menu menu;
-
-	private List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
-	private Composite cmpContainer;
+	List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
+	Composite cmpContainer;
 	private Combo selAussehen;
-	private AbstractCarWidget designerPreviewCar;
+	
+	public AbstractGameBoardWidget abstractGameBoardWidget;
+	public TabFolder tabFolder;
+	public Composite cmpSpiel;
+	public AbstractCarWidget designerPreviewCar;
+	
 	private String[] data;
 	private UICarFactory carFactory;
 	private Combo selFahrzeugart;
@@ -83,17 +82,14 @@ public class RushHour {
 		}
 	}
 
-	/**
-	 * Create contents of the window.
-	 */
-	protected void createContents() {
+	private void buildWindow(){
 		shell = new Shell();
 
 		shell.setSize(926, 549);
 		shell.setText("RushHour by WARUMa");
 		shell.setLayout(null);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-
+		
 		menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
 
@@ -158,11 +154,18 @@ public class RushHour {
 
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
+	}
+	
+	/**
+	 * Create contents of the window.
+	 */
+	protected void createContents() {
+		buildWindow();
 
 		AbstractCarWidget newCar2 = new AbstractCarWidget(shell, 1, 3,
 				"/com/googlecode/waruma/rushhour/ui/images/n_truck_red.png");
 		newCar2.setLocation(100, 176);
-		newCar2.addMouseListener(new RushHourCarMouseListener(newCar2));
+		newCar2.addMouseListener(new CarMouseListener(this, newCar2));
 		newCar2.setVisible(false);
 		carPool.add(newCar2);
 
@@ -233,7 +236,7 @@ public class RushHour {
 
 
 		designerPreviewCar.addMouseListener(new MouseListener() {
-			private Boolean mouseAlreadyDown = false;
+			
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				// TODO Auto-generated method stub
@@ -241,15 +244,15 @@ public class RushHour {
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				if (!mouseAlreadyDown){
+				
 				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(
 						shell, 1, 2,
 						"/com/googlecode/waruma/rushhour/ui/images/"
 								+ data[selAussehen.getSelectionIndex()]);
 				newCarFromDesigner.moveAbove(cmpContainer);
 				newCarFromDesigner
-						.addMouseListener(new RushHourCarMouseListener(
-								newCarFromDesigner));
+						.addMouseListener(new CarMouseListener(
+								RushHour.this, newCarFromDesigner));
 				newCarFromDesigner.setSize(abstractGameBoardWidget
 						.getCurrentFieldSize());
 				// newCarFromDesigner.set
@@ -261,11 +264,7 @@ public class RushHour {
 				carPool.add(newCarFromDesigner);
 				System.out
 						.println("INFO: User mouseDown Event on designerCar!");
-				}
-				else {
-					mouseAlreadyDown = true;
-					System.out.println("Mouse alread down");
-				}
+
 
 			}
 
@@ -551,19 +550,7 @@ public class RushHour {
 	}
 
 	private void resizeToDefinition() {
-		/*
-		 * tabFolder != null) { // TabFolder resizen
-		 * 
-		 * int margin = ((GridLayout)
-		 * abstractGameBoardWidget.getLayout()).marginHeight + ((GridLayout)
-		 * abstractGameBoardWidget.getLayout()).marginBottom; /*
-		 * tabFolder.setBounds( tabFolder.getBounds().x,
-		 * tabFolder.getBounds().y, shell.getBounds().width - 8, //
-		 * shell.getBounds().height - (tabSpielen.getBounds().height // +
-		 * cmpSpiel.getBounds().y + margin)); shell.getBounds().height -
-		 * (abstractGameBoardWidget.getLocation().y + cmpSpiel.getLocation().y +
-		 * tabFolder.getLocation().y + 18)); }
-		 */
+
 		if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 				&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
 			for (AbstractCarWidget currentCar : carPool) {
@@ -573,182 +560,11 @@ public class RushHour {
 
 		// Autos neu positionieren
 		for (AbstractCarWidget currentCar : carPool) {
-			repositionCarOnBoard(currentCar);
+			abstractGameBoardWidget.repositionCarOnBoard(currentCar);
 		}
 		// }
 
 		cmpContainer.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
-	}
-
-	private void repositionCarOnBoard(AbstractCarWidget carWidget) {
-		if (carWidget.getPositionOnGameBoard() != null) {
-			int boardX = abstractGameBoardWidget.getLocation().x
-					+ cmpContainer.getLocation().x;
-			int boardY = abstractGameBoardWidget.getLocation().y
-					+ cmpContainer.getLocation().y;
-			int newCarX = (carWidget.getPositionOnGameBoard().x * abstractGameBoardWidget
-					.getCurrentFieldSize().x) + boardX;
-			int newCarY = (carWidget.getPositionOnGameBoard().y * abstractGameBoardWidget
-					.getCurrentFieldSize().y) + boardY;
-			if (newCarX < (boardX + abstractGameBoardWidget.getBounds().width - (abstractGameBoardWidget
-					.getCurrentFieldSize().x / 2))) {
-				Point location = new Point(newCarX, newCarY);
-				carWidget.setLocation(location);
-			}
-		}
-	}
-	
-
-
-	private class RushHourCarMouseListener implements MouseListener {
-
-		AbstractCarWidget observedCar;
-	
-
-		public RushHourCarMouseListener(AbstractCarWidget observedCar) {
-			super();
-			this.observedCar = observedCar;
-		}
-
-		MouseMoveListener mouseMoveListener = new MouseMoveListener() {
-			public void mouseMove(MouseEvent arg0) {
-				// BEGIN CageControl
-				int neuesX = observedCar.getLocation().x + arg0.x - clickX;
-				int neuesY = observedCar.getLocation().y + arg0.y - clickY;
-
-				int boardWidth = abstractGameBoardWidget.getBounds().width;
-				int boardHeight = abstractGameBoardWidget.getBounds().height;
-				int boardX = abstractGameBoardWidget.getLocation().x
-						+ cmpContainer.getLocation().x;
-				int boardY = abstractGameBoardWidget.getLocation().y
-						+ cmpContainer.getLocation().y;
-
-				if (observedCar.isLockedInCage()) {
-					if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
-						neuesX = boardWidth + boardX
-								- observedCar.getBounds().width;
-
-					if (neuesX <= boardX)
-						neuesX = boardX;
-
-					if (neuesY > (boardY + boardHeight - observedCar
-							.getBounds().height))
-						neuesY = (boardY + boardHeight - observedCar
-								.getBounds().height);
-
-					if (neuesY <= boardY)
-						neuesY = boardY;
-
-					if (observedCar.isLockX())
-						observedCar.setLocation(observedCar.getLocation().x,
-								neuesY);
-					else if (observedCar.isLockY())
-						observedCar.setLocation(neuesX,
-								observedCar.getLocation().y);
-					else
-						observedCar.setLocation(neuesX, neuesY);
-					// END CageControl
-				} else {
-					if (neuesX <= boardX)
-						neuesX = boardX;
-
-					if (neuesX > (shell.getBounds().width
-							- observedCar.getBounds().width - 30))
-						neuesX = shell.getBounds().width
-								- observedCar.getBounds().width - 30;
-
-					if (neuesY <= boardY)
-						neuesY = boardY;
-
-					if (neuesY > (boardY + boardHeight - observedCar
-							.getBounds().height))
-						neuesY = (boardY + boardHeight - observedCar
-								.getBounds().height);
-					observedCar.setLocation(neuesX, neuesY);
-				}
-
-				// BEGIN FieldControl
-				int currentX = observedCar.getLocation().x;
-				int currentY = observedCar.getLocation().y;
-				int gameBoardX = abstractGameBoardWidget.getLocation().x
-						+ cmpContainer.getLocation().x;
-
-				int gameBoardY = abstractGameBoardWidget.getLocation().y
-						+ cmpContainer.getLocation().y;
-
-				int fieldSizeWidth = abstractGameBoardWidget
-						.getCurrentFieldSize().x;
-				int fieldSizeHeight = abstractGameBoardWidget
-						.getCurrentFieldSize().y;
-				int posX = (currentX - gameBoardX + (abstractGameBoardWidget
-						.getCurrentFieldSize().x / 2)) / fieldSizeWidth;
-				int posY = (currentY - gameBoardY + (abstractGameBoardWidget
-						.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
-				observedCar.setPositionOnGameBoard(new Point(posX, posY));
-				lblDebug.setText(posX + ":" + posY);
-				// END Field Control
-
-			}
-
-		};
-
-		int clickX;
-		int clickY;
-
-		@Override
-		public void mouseUp(MouseEvent e) {
-			observedCar.removeMouseMoveListener(mouseMoveListener);
-			int boardX = abstractGameBoardWidget.getLocation().x
-					+ cmpContainer.getLocation().x;
-			int neuesX = observedCar.getLocation().x + e.x - clickX;
-			
-			if (neuesX < boardX + abstractGameBoardWidget.getBounds().width
-					- (abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
-				repositionCarOnBoard(observedCar);
-			} else {
-				System.out.println("TIME TO DISPOSE");
-				observedCar.dispose();
-				carPool.remove(observedCar);
-			}
-
-		}
-
-		@Override
-		public void mouseDoubleClick(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseDown(MouseEvent arg0) {
-			clickX = arg0.x;
-			clickY = arg0.y;
-
-				observedCar.addMouseMoveListener(mouseMoveListener);
-
-			if (arg0.button == 3) {
-				switch (observedCar.getOrientation()) {
-				case NORTH:
-					observedCar.changeOrientation(Orientation.EAST,
-							abstractGameBoardWidget.getCurrentFieldSize());
-					break;
-				case EAST:
-					observedCar.changeOrientation(Orientation.SOUTH,
-							abstractGameBoardWidget.getCurrentFieldSize());
-					break;
-				case SOUTH:
-					observedCar.changeOrientation(Orientation.WEST,
-							abstractGameBoardWidget.getCurrentFieldSize());
-					break;
-				case WEST:
-					observedCar.changeOrientation(Orientation.NORTH,
-							abstractGameBoardWidget.getCurrentFieldSize());
-					break;
-				}
-
-			}
-
-		}
 	}
 }
