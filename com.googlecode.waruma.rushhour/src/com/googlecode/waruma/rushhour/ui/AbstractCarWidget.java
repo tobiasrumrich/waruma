@@ -84,7 +84,9 @@ public class AbstractCarWidget extends Composite {
 	
 	public void changeImage(String imageLocation) {
 		initImageHandling(imageLocation);
-		setBackgroundImage(image);
+		//setBackgroundImage(image);
+		this.setBackgroundImage(getImage(originalImage, orientation,
+				new Point(this.getBounds().x,this.getBounds().y)));
 	}
 
 	public Orientation getOrientation() {
@@ -192,6 +194,7 @@ public class AbstractCarWidget extends Composite {
 				newX,newY);
 
 	}
+	
 
 	@Override
 	protected void checkSubclass() {

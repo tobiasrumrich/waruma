@@ -218,9 +218,9 @@ public class RushHour {
 		gd_composite.heightHint = 282;
 		composite.setLayoutData(gd_composite);
 
-		
-		designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
-				"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
+		designerPreviewCar = new AbstractCarWidget(composite, 11, 3, "/com/googlecode/waruma/rushhour/ui/images/2F_car_Peterwagen_carimg.png");
+		//designerPreviewCar = new AbstractCarWidget(composite, SWT.NONE, 0,
+		//		"/com/googlecode/waruma/rushhour/ui/images/car_rot_bg_black.png");
 		designerPreviewCar.setBounds(68, 22, 100, 200);
 
 		Button button_2 = new Button(composite, SWT.NONE);
@@ -291,9 +291,11 @@ public class RushHour {
 						labels[i] = availableImages.get(i).getCarName();
 						data[i] = availableImages.get(i).getFilename();
 					}
-					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,100,200);
+					//designerPreviewCar.
+					designerPreviewCar.setSize(new Point(100,200));
+					designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,100,200);
 					
-					designerPreviewCar.changeImage(data[0]);
+					designerPreviewCar.changeImage(carFactory.getPath()+data[0]);
 					
 					
 					break;
@@ -305,9 +307,10 @@ public class RushHour {
 						labels[i] = availableImages.get(i).getCarName();
 						data[i] = availableImages.get(i).getFilename();
 					}
-					//designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,50,150);
+					designerPreviewCar.setSize(new Point(67,200));
+					designerPreviewCar.setBounds(designerPreviewCar.getBounds().x,designerPreviewCar.getBounds().y,67,200);
 					
-					designerPreviewCar.changeImage(data[0]);
+					designerPreviewCar.changeImage(carFactory.getPath()+data[0]);
 					break;
 
 				}
