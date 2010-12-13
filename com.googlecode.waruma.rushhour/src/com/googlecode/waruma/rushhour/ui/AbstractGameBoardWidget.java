@@ -24,6 +24,7 @@ public class AbstractGameBoardWidget extends Composite {
 	private int minBreiteFeld = 50;
 	private String inField = "NULL!!";
 	private Point goalField;
+	
 	private org.eclipse.swt.graphics.Color colorForHighlight = SWTResourceManager.getColor(0, 210, 0);
 	private org.eclipse.swt.graphics.Color colorForOdd =SWTResourceManager.getColor(166, 202, 240) ;
 	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
@@ -117,6 +118,15 @@ public class AbstractGameBoardWidget extends Composite {
 		return (spielbrett[0][0].getSize());
 	}
 
+	public Point getGoalField() {
+		return goalField;
+	}
+
+	public void setGoalField(Point goalField) {
+		this.goalField = goalField;
+	}
+
+	
 	public String woBinIch() {
 		/*
 		 * int aktuelleBreite = spielbrett[0][0].getSize().x; int aktuelleHoehe
