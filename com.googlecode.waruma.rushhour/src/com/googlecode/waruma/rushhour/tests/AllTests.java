@@ -15,7 +15,7 @@ public class AllTests {
 		suite.addTestSuite(TestMove.class);
 		suite.addTestSuite(TestPlayerCar.class);
 		suite.addTestSuite(TestCollisionDetector.class);
-		suite.addTestSuite(TestRushHourGameplayController.class);
+		suite.addTestSuite(TestRushHourGameplayControler.class);
 		suite.addTestSuite(TestStandardCar.class);
 		suite.addTestSuite(TestSteeringCar.class);
 		// $JUnit-END$
