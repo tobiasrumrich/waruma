@@ -1,5 +1,6 @@
 package com.googlecode.waruma.rushhour.tests;
 
+import java.awt.Point;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -28,6 +29,18 @@ public class TestGameState extends TestCase {
 		public void registerReachedDestination(
 				IReachedDestinationObserver eventTarget) {
 			observers.add(eventTarget);
+		}
+
+		@Override
+		public Point getDestination() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean reachedDestination() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 

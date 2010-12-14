@@ -37,6 +37,12 @@ public class TestSteeringCar extends TestCase {
 			called = true;
 			this.distance = distance;
 		}
+
+		@Override
+		public void checkMove(int distance) throws IllegalMoveException {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	private Boolean[][] collisionMap;
