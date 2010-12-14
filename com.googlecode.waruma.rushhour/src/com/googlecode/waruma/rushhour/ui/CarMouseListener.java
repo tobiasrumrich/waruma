@@ -114,10 +114,19 @@ class CarMouseListener implements MouseListener {
 		if (neuesX < boardX + mainWindow.abstractGameBoardWidget.getBounds().width
 				- (mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
 			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(observedCar);
+			
+			if(observedCar.knownInController){
+				observedCar.moveToPositionControler();
+			} else {
+				observedCar.addToBoardControler();				
+			}
+			
+			
 		} else {
 			System.out.println("TIME TO DISPOSE");
 			observedCar.dispose();
 			mainWindow.carPool.remove(observedCar);
+			// Remove
 		}
 
 	}

@@ -1,5 +1,6 @@
 package com.googlecode.waruma.rushhour.tests;
 
+
 import java.awt.Point;
 import java.util.List;
 
@@ -12,9 +13,9 @@ import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.Orientation;
+import com.googlecode.waruma.rushhour.game.CollisionDetector;
 import com.googlecode.waruma.rushhour.game.FastSolver;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
-import com.googlecode.waruma.rushhour.game.CollisionDetector;
 import com.googlecode.waruma.rushhour.game.StandardCar;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
 
