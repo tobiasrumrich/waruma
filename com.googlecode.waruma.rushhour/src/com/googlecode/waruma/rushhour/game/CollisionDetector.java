@@ -174,9 +174,9 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 			if(!checkCollision(objectBoundries)){
 				clearCollisionMap(oldObjectBoundries);
 				fillCollisionMap(objectBoundries);
-			}
-			
-			throw new IllegalBoardPositionException();			
+			} else {
+				throw new IllegalBoardPositionException();	
+			}		
 		} catch (IllegalMoveException e) {
 			throw new IllegalBoardPositionException();
 		}
