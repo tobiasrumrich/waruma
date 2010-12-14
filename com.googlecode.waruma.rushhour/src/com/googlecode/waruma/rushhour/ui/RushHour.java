@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import com.googlecode.waruma.rushhour.game.RushHourBoardCreationControler;
+import com.googlecode.waruma.rushhour.game.RushHourBoardCreationController;
 import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
 import com.swtdesigner.SWTResourceManager;
 
@@ -44,7 +44,7 @@ public class RushHour {
 	protected AbstractGameBoardWidget abstractGameBoardWidget;
 	protected TabFolder tabFolder;
 	protected Composite cmpSpiel;
-	protected RushHourBoardCreationControler boardCreationControler;
+	protected RushHourBoardCreationController boardCreationControler;
 	protected RushHourGameplayControler gameplayControler;
 	
 	
@@ -167,7 +167,7 @@ public class RushHour {
 	}
 	
 	private void initializeBoardCreationController(){
-		this.boardCreationControler = new RushHourBoardCreationControler(BOARDWIDTH, BOARDHEIGHT);
+		this.boardCreationControler = new RushHourBoardCreationController(BOARDWIDTH, BOARDHEIGHT);
 	}
 
 	/**
