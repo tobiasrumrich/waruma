@@ -10,6 +10,7 @@ public class AllTests {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(TestFastSolver.class);
 		suite.addTestSuite(TestFileSystemObjectStorage.class);
+		suite.addTestSuite(TestAdditionalFunctionality.class);
 		suite.addTestSuite(TestGameBoard.class);
 		suite.addTestSuite(TestGameState.class);
 		suite.addTestSuite(TestMove.class);
