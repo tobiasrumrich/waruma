@@ -164,8 +164,15 @@ class CarMouseListener implements MouseListener {
 						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
 				break;
 			}
-
 		}
+		
+	
+		observedCar.moveAbove(mainWindow.mainComposite);
+		for (AbstractCarWidget car : mainWindow.carPool) {
+			if(!car.equals(observedCar))
+				car.moveBelow(observedCar);
+		}
+		
 
 	}
 }

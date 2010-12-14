@@ -11,7 +11,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -28,6 +27,8 @@ import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
 import com.swtdesigner.SWTResourceManager;
 
 public class RushHour {
+	private static final int BOARDHEIGHT = 6;
+	private static final int BOARDWIDTH = 9;
 	final public static String IMAGEBASEPATH = "/com/googlecode/waruma/rushhour/ui/images/";
 	protected Shell shell;
 	private Label lblTime;
@@ -37,6 +38,7 @@ public class RushHour {
 	private TabItem tabSpielen;
 	private Menu menu;
 
+	protected AbstractCarWidget highestCar;
 	protected List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
 	protected Composite mainComposite;
 	protected AbstractGameBoardWidget abstractGameBoardWidget;
@@ -44,6 +46,7 @@ public class RushHour {
 	protected Composite cmpSpiel;
 	protected RushHourBoardCreationControler boardCreationControler;
 	protected RushHourGameplayControler gameplayControler;
+	
 	
 	private UICarFactory carFactory;
 
@@ -164,7 +167,7 @@ public class RushHour {
 	}
 	
 	private void initializeBoardCreationController(){
-		this.boardCreationControler = new RushHourBoardCreationControler();
+		this.boardCreationControler = new RushHourBoardCreationControler(BOARDWIDTH, BOARDHEIGHT);
 	}
 
 	/**
@@ -185,7 +188,7 @@ public class RushHour {
 		mainComposite.setLayout(gl_cmpContainer);
 
 		abstractGameBoardWidget = new AbstractGameBoardWidget(mainComposite,
-				SWT.NONE, 9, 6);
+				SWT.NONE, BOARDWIDTH, BOARDHEIGHT);
 		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 				true, true, 1, 1));
 		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget

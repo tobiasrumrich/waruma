@@ -22,10 +22,15 @@ public class RushHourBoardCreationControler {
 	private boolean hasPlayer;
 
 	public RushHourBoardCreationControler() {
-		this.collisionDetector = new CollisionDetector(6);
+		this(6, 6);
+	}
+	
+	public RushHourBoardCreationControler(int width, int height) {
+		this.collisionDetector = new CollisionDetector(width, height);
 		this.gameBoard = new GameBoard(this.collisionDetector);
 		this.hasPlayer = false;
 	}
+	
 
 	public IGameBoardObject createCar(org.eclipse.swt.graphics.Point position, Orientation orientation,
 			boolean steeringLock) throws IllegalBoardPositionException {

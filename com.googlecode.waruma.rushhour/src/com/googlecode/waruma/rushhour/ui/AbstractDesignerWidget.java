@@ -74,7 +74,12 @@ public class AbstractDesignerWidget extends Composite {
 						mainWindow.shell, mainWindow, 1, carLength, RushHour.IMAGEBASEPATH
 								+ imageFileName, lenkradschloss.getSelection(), isPlayer);
 				
-				newCarFromDesigner.moveAbove(mainWindow.mainComposite);
+				newCarFromDesigner.moveAbove(carCreationComposite);
+				
+				for (AbstractCarWidget car : mainWindow.carPool) {
+					newCarFromDesigner.moveAbove(mainWindow.mainComposite);
+				}
+				
 				
 				if(carTypeComboBox.getSelectionIndex() == 2){
 					newCarFromDesigner.addMouseListener(new PlayerCarMouseListener(

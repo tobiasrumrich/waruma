@@ -51,18 +51,19 @@ public class GameBoard implements Serializable {
 
 	/**
 	 * Entfernt ein GamBoardObject vom Spielfeld
+	 * 
 	 * @param gameBoardObject
 	 */
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
 		if (gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
 			try {
-			collisionDetector.removeGameBoardObject(gameBoardObject);
+				collisionDetector.removeGameBoardObject(gameBoardObject);
+			} catch (IllegalArgumentException e) {
 			}
-			catch (IllegalArgumentException e) {}
 			gameBoardObjects.remove(gameBoardObject.hashCode());
 		}
 
-}
+	}
 
 	/**
 	 * Bewegt ein GameBoardObject an die angegebene Position auf dem Spielbrett
@@ -77,10 +78,17 @@ public class GameBoard implements Serializable {
 		if (!gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
 			throw new IllegalBoardPositionException();
 		}
-		// CollisionMap aktualisieren
+
+		// Aus der Fahrzeugliste entfernen
 		collisionDetector.moveGameBoardObjectToPosition(gameBoardObject,
 				position);
+		
+		gameBoardObjects.remove(gameBoardObject.hashCode());
+		// CollisionMap aktualisieren
 		gameBoardObject.setPosition(position);
+		// Wieder mit neuem Hash hinzufügen
+		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
+
 	}
 
 	/**
