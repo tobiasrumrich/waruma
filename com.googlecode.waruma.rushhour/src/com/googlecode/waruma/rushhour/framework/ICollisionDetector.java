@@ -16,6 +16,8 @@ public interface ICollisionDetector {
 	public void moveGameBoardObjectToPosition(IGameBoardObject gameBoardObject,
 			Point position) throws IllegalBoardPositionException;
 
+	public void removeGameBoardObject(IGameBoardObject gameBoardObject);
+
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point);
 
 	public boolean validTile(Point point);
