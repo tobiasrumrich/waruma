@@ -50,7 +50,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Enterfnt ein GamBoardObject vom Spielfeld
+	 * Entfernt ein GamBoardObject vom Spielfeld
 	 * @param gameBoardObject
 	 */
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
