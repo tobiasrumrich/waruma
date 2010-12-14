@@ -120,6 +120,15 @@ public class TestCollisionDetector extends TestCase {
 		} catch (Exception e) {
 			fail();
 		}
+		
+		Boolean exceptionThrown = false;
+		try {
+			rushHourCollisionDetector.addGameBoardObject(null);
+		}
+		catch (IllegalBoardPositionException e) {
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
 	}
 
 	public void testAddGameBoardObjectCollision()
@@ -291,7 +300,7 @@ public class TestCollisionDetector extends TestCase {
 		try {
 			// 2,0 Car positionieren
 			rushHourCollisionDetector.moveGameBoardObjectToPosition(moveable1,
-					new Point(5, 5));
+					new Point(3, 3));
 		} catch (Exception e) {
 			fail();
 		}
@@ -299,7 +308,19 @@ public class TestCollisionDetector extends TestCase {
 		Boolean exceptionThrown = false;
 		try {
 			rushHourCollisionDetector.moveGameBoardObjectToPosition(moveable1,
-					new Point(1, 5));
+					new Point(6, 3));
+		} catch (IllegalBoardPositionException e) {
+			exceptionThrown = true;
+		} catch (Exception e) {
+			fail();
+		}
+
+		assertTrue(exceptionThrown);
+		
+		exceptionThrown = false;
+		try {
+			rushHourCollisionDetector.moveGameBoardObjectToPosition(null,
+					new Point(1, 1));
 		} catch (IllegalBoardPositionException e) {
 			exceptionThrown = true;
 		} catch (Exception e) {
