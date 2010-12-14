@@ -92,6 +92,15 @@ public class TestSteeringCar extends TestCase {
 		car.move(1);
 		assertTrue(mockMoveableObject.called);
 		assertEquals(1, mockMoveableObject.distance);
+		
+		Boolean exceptionThrown = false;
+		try {
+		car.checkMove(1);
+		}
+		catch (IllegalMoveException e) {
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
 	}
 
 	public void testSteeringCarInit() {
