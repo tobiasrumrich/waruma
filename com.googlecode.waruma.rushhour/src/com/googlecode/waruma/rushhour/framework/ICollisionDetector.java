@@ -21,4 +21,7 @@ public interface ICollisionDetector {
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point);
 
 	public boolean validTile(Point point);
+
+	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
+			Orientation orientation) throws IllegalBoardPositionException;
 }

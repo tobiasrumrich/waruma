@@ -84,6 +84,10 @@ public class RushHourBoardCreationControler {
 		gameBoard.repositionGameBoardObject(gameBoardObject, swtToAwtPoint(position));
 	}
 
+	public void changeRotation(IGameBoardObject gameBoardObject, Orientation orientation) throws IllegalBoardPositionException{
+		gameBoard.rotateGameBoardObject(gameBoardObject, orientation);
+	}
+	
 	public boolean validTile(org.eclipse.swt.graphics.Point position) {
 		return collisionDetector.validTile(swtToAwtPoint(position));
 	}

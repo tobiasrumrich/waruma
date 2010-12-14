@@ -7,6 +7,8 @@ public interface IGameBoardObject {
 	public Boolean[][] getCollisionMap();
 
 	public Orientation getOrientation();
+	
+	public void setOrientation(Orientation orientation);
 
 	public Point getPosition();
 

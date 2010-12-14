@@ -72,6 +72,40 @@ public class AbstractCarWidget extends Composite {
 		}
 	}
 	
+	public void rotateToOrientation(){
+		switch (orientation) {
+		case NORTH:
+			try{
+				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.EAST);
+				this.changeOrientation(Orientation.EAST,
+						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {}
+			break;
+		case EAST:
+			try{
+				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.SOUTH);
+				this.changeOrientation(Orientation.SOUTH,
+						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {}
+			break;
+		case SOUTH:
+			try{
+				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.WEST);
+				this.changeOrientation(Orientation.WEST,
+						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {}
+			break;
+		case WEST:
+			try{
+				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.NORTH);
+				this.changeOrientation(Orientation.NORTH,
+						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {}
+			break;
+		}
+		
+	}
+	
 	/**
 	 * The height in fields
 	 */
