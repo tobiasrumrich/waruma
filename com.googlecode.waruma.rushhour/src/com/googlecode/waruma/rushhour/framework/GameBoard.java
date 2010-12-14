@@ -50,6 +50,18 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
+	 * Enterfnt ein GamBoardObject vom Spielfeld
+	 * @param gameBoardObject
+	 */
+	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
+		if (gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
+			collisionDetector.removeGameBoardObject(gameBoardObject);
+			gameBoardObjects.remove(gameBoardObject.hashCode());
+		}
+
+}
+
+	/**
 	 * Bewegt ein GameBoardObject an die angegebene Position auf dem Spielbrett
 	 * 
 	 * @param gameBoardObject
