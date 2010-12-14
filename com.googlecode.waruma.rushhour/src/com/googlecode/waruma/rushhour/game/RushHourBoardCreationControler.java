@@ -71,6 +71,10 @@ public class RushHourBoardCreationControler {
 		return car;
 	}
 	
+	public void removeObjectFromBoard(IGameBoardObject gameBoardObject) {
+		gameBoard.removeGameBoardObject(gameBoardObject);
+	}
+	
 	public void changeCarPosition(IGameBoardObject gameBoardObject, org.eclipse.swt.graphics.Point position) throws IllegalBoardPositionException{
 		gameBoard.repositionGameBoardObject(gameBoardObject, swtToAwtPoint(position));
 	}
