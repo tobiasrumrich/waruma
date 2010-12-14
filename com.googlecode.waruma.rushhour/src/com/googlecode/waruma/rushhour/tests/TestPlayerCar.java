@@ -5,6 +5,7 @@ import java.awt.Point;
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
+import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
@@ -52,6 +53,14 @@ public class TestPlayerCar extends TestCase {
 	
 	}
 
+	public void testConstructorWithDestination ()  {
+		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, new Point(4,3), collisionDetector);
+		assertEquals(collisionMap, car.getCollisionMap());
+		assertEquals(new Point(4,3),car.getDestination());
+		assertEquals(new Point(5,5),car.getPosition());
+		assertEquals(Orientation.NORTH, car.getOrientation());
+	}
+	
 	public void testMoveNotReachedDestination() throws IllegalMoveException {
 
 		// Wir stehen auf (5,5) und fahren 3 Felder vorwärts
@@ -92,5 +101,6 @@ public class TestPlayerCar extends TestCase {
 		car.move(2);
 		assertTrue(mockObserver1.called);
 		assertTrue(mockObserver2.called);
+		assertTrue(car.reachedDestination());
 	}
 }

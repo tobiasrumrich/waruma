@@ -16,7 +16,7 @@ public class GameState implements IReachedDestinationObserver, IGameWonSubject {
 	private Set<IGameWonObserver> observers = new HashSet<IGameWonObserver>();
 	private Set<IPlayer> players = new HashSet<IPlayer>();
 
-	// Ein zukŸnftigt zu Ÿbwachender Player wird hinzugefŸgt
+	// Ein zukünftigt zu überwachender Player wird hinzugefŸgt
 	public void addPlayer(IPlayer player) {
 		players.add(player);
 		player.registerReachedDestination(this);
