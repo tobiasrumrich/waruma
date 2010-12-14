@@ -22,12 +22,13 @@ public class CollisionVector {
 	 * Erzeugt einen neuen Kollisionsvektor aus einem Spielbrettobjekt
 	 * 
 	 * @param gameBoardObject
-	 * @throws IllegalMoveException 
+	 * @throws IllegalMoveException
 	 */
-	public CollisionVector(IGameBoardObject gameBoardObject) throws IllegalMoveException {
-		if(gameBoardObject == null)
+	public CollisionVector(IGameBoardObject gameBoardObject)
+			throws IllegalMoveException {
+		if (gameBoardObject == null)
 			throw new IllegalMoveException();
-		
+
 		this.source = new Point(gameBoardObject.getPosition().x,
 				gameBoardObject.getPosition().y);
 		this.orientation = gameBoardObject.getOrientation();
@@ -50,9 +51,10 @@ public class CollisionVector {
 	 * 
 	 * @param gameBoardObject
 	 * @param movedistance
-	 * @throws IllegalMoveException 
+	 * @throws IllegalMoveException
 	 */
-	public CollisionVector(IGameBoardObject gameBoardObject, int movedistance) throws IllegalMoveException {
+	public CollisionVector(IGameBoardObject gameBoardObject, int movedistance)
+			throws IllegalMoveException {
 		this(gameBoardObject);
 		if (movedistance > 0) {
 			this.distance = this.distance + movedistance;
@@ -90,13 +92,23 @@ public class CollisionVector {
 
 		return list;
 	}
-	
+
 	/**
-	 * Setzt den Startpunkt des Vektors auf den definierten Punkt
+	 * Setzt den Startpunkt des Vektors auf den definierten Punkt, dabei wird
+	 * bei nördlicher und westlicher Orientierung der Punkt entsprechend
+	 * transformiert
 	 * 
 	 * @param point
 	 */
-	public void setPosition(Point point){
+	public void setAbsolutePosition(Point point) {
+		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
+		if (this.orientation == Orientation.NORTH) {
+			point = new Point(point.x, point.y + this.distance);
+		}
+		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
+		if (this.orientation == Orientation.WEST) {
+			point = new Point(point.x + this.distance, point.y);
+		}
 		this.source = point;
 	}
 
