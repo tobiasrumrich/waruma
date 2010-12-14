@@ -6,13 +6,8 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,7 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -29,6 +23,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import com.googlecode.waruma.rushhour.game.RushHourBoardCreationControler;
+import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
 import com.swtdesigner.SWTResourceManager;
 
 public class RushHour {
@@ -40,24 +36,21 @@ public class RushHour {
 	private Label lblDebug2;
 	private TabItem tabSpielen;
 	private Menu menu;
-	
-	
-	private Combo selAussehen;
 
-	public List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
-	public Composite mainComposite;
-	public AbstractGameBoardWidget abstractGameBoardWidget;
-	public TabFolder tabFolder;
-	public Composite cmpSpiel;
-	public AbstractCarWidget designerPreviewCar;
-
-	private String[] data;
+	protected List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
+	protected Composite mainComposite;
+	protected AbstractGameBoardWidget abstractGameBoardWidget;
+	protected TabFolder tabFolder;
+	protected Composite cmpSpiel;
+	protected RushHourBoardCreationControler boardCreationControler;
+	protected RushHourGameplayControler gameplayControler;
+	
 	private UICarFactory carFactory;
-	private Combo selFahrzeugart;
 
 	public List<ImageBean> availableCars;
 	public List<ImageBean> availableTrucks;
 	public List<ImageBean> availablePlayers;
+	protected AbstractDesignerWidget abstractDesignerWidget;
 
 	/**
 	 * Launch the application.
@@ -162,12 +155,16 @@ public class RushHour {
 		mntmberDasProgramm.setText("\u00DCber");
 	}
 
-	private void initalizeAvailableCarImages(){
+	private void initializeAvailableCarImages(){
 		carFactory = new UICarFactory();
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
 		availableCars = carFactory.getAvailableImages(CarType.CAR);
 		availableTrucks = carFactory.getAvailableImages(CarType.TRUCK);
 		availablePlayers = carFactory.getAvailableImages(CarType.PLAYER);
+	}
+	
+	private void initializeBoardCreationController(){
+		this.boardCreationControler = new RushHourBoardCreationControler();
 	}
 
 	/**
@@ -175,7 +172,8 @@ public class RushHour {
 	 */
 	protected void createContents() {
 		buildWindow();
-		initalizeAvailableCarImages();
+		initializeAvailableCarImages();
+		initializeBoardCreationController();
 
 		mainComposite = new Composite(shell, SWT.NONE);
 		mainComposite.setBounds(10, 10, 898, 466);
@@ -222,8 +220,8 @@ public class RushHour {
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
 
-		Composite cmpDesigner = new AbstractDesignerWidget(this, tabFolder, SWT.NONE);
-		tbtmDesigner.setControl(cmpDesigner);
+		abstractDesignerWidget = new AbstractDesignerWidget(this, tabFolder, SWT.NONE);
+		tbtmDesigner.setControl(abstractDesignerWidget);
 		
 
 		tabSpielen = new TabItem(tabFolder, SWT.NONE);

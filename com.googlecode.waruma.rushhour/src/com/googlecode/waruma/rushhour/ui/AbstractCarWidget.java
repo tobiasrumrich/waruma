@@ -13,16 +13,65 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
+import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
 
 public class AbstractCarWidget extends Composite {
 
+	private Point positionOnGameBoard;
+	private RushHour mainWindow;
 	private Image image;
 	private String imageFilename;
 	private IImageCache imageCache = new ImageCache();
 	private Image originalImage;
 	private Orientation orientation = Orientation.NORTH;
+	private boolean isLocked;
+	private boolean lockX = false;
+	private boolean lockY = false;
+	private boolean lockInCage = false;
+
+	protected boolean steeringLock;
+	protected boolean player;
+	protected int length;
+	protected boolean knownInController;
+	protected IGameBoardObject gameObject;
+
+	public void addToBoardControler() {
+		try {
+			if (this.length == 3) {
+				gameObject = mainWindow.boardCreationControler.createTruck(
+						positionOnGameBoard, orientation, steeringLock);
+			}
+			if (this.length == 2 && player) {
+				gameObject = mainWindow.boardCreationControler.createPlayerCar(
+						positionOnGameBoard,
+						mainWindow.abstractGameBoardWidget.getGoalField(),
+						orientation);
+			}
+			if (this.length == 2 && !player) {
+				gameObject = mainWindow.boardCreationControler.createCar(
+						positionOnGameBoard, orientation, steeringLock);
+			}
+		} catch (IllegalBoardPositionException e) {
+			// Auto entfernen
+			this.dispose();
+			mainWindow.carPool.remove(this);
+		}
+	}
+
+	public void moveToPositionControler(){
+		try {
+			mainWindow.boardCreationControler.changeCarPosition(gameObject, positionOnGameBoard);
+		} catch (IllegalBoardPositionException e) {
+			// Alte Position auf dem Spielbrett wieder herstellen
+			java.awt.Point oldPosition = gameObject.getPosition();
+			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
+			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
+		}
+	}
+	
 	/**
 	 * The height in fields
 	 */
@@ -31,7 +80,7 @@ public class AbstractCarWidget extends Composite {
 	 * The width in fields
 	 */
 	private int fieldWidth = 1;
-	
+
 	public int getFieldHeight() {
 		return fieldHeight;
 	}
@@ -48,10 +97,6 @@ public class AbstractCarWidget extends Composite {
 		this.fieldWidth = fieldWidth;
 	}
 
-	private boolean lockX = false;
-	private boolean lockY = false;
-	private boolean lockInCage = false;
-	
 	public boolean isLockedInCage() {
 		return lockInCage;
 	}
@@ -59,8 +104,6 @@ public class AbstractCarWidget extends Composite {
 	public void setLockInCage(boolean lockInCage) {
 		this.lockInCage = lockInCage;
 	}
-
-	private Point positionOnGameBoard;
 
 	public Point getPositionOnGameBoard() {
 		return positionOnGameBoard;
@@ -82,12 +125,13 @@ public class AbstractCarWidget extends Composite {
 
 		// Originalbild als aktuelles Bild setzen
 		image = originalImage;
-		
+
 		this.imageFilename = imageLocation;
 
 		// Bild in den Cache
-		imageCache.addImage(imageFilename,Orientation.NORTH, new Point(
-				image.getBounds().width, image.getBounds().height), image);
+		imageCache.addImage(imageFilename, Orientation.NORTH,
+				new Point(image.getBounds().width, image.getBounds().height),
+				image);
 	}
 
 	/**
@@ -96,8 +140,14 @@ public class AbstractCarWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractCarWidget(Composite parent, int width, int height, String imageLocation) {
+	public AbstractCarWidget(Composite parent, RushHour rushHour, int width,
+			int height, String imageLocation, boolean hasSteeringLock,
+			boolean isPlayer) {
 		super(parent, SWT.NONE);
+		mainWindow = rushHour;
+		this.player = isPlayer;
+		this.length = height;
+		this.steeringLock = hasSteeringLock;
 		this.fieldHeight = height;
 		this.fieldWidth = width;
 		initImageHandling(imageLocation);
@@ -109,13 +159,14 @@ public class AbstractCarWidget extends Composite {
 		setLayout(null);
 
 	}
-	
+
 	public void changeImage(String imageLocation) {
 		initImageHandling(imageLocation);
-		//setBackgroundImage(image);
-		this.setBackgroundImage(getImage(originalImage, orientation,
-				new Point(this.getBounds().width,this.getBounds().height)));
-		//System.out.println("changeImage->this.getBounds() = " + this.getBounds());
+		// setBackgroundImage(image);
+		this.setBackgroundImage(getImage(originalImage, orientation, new Point(
+				this.getBounds().width, this.getBounds().height)));
+		// System.out.println("changeImage->this.getBounds() = " +
+		// this.getBounds());
 	}
 
 	public Orientation getOrientation() {
@@ -127,7 +178,7 @@ public class AbstractCarWidget extends Composite {
 		Image newImage;
 
 		if (imageCache.checkCache(gOrientation, gSize)) {
-			newImage = imageCache.getImage(imageFilename,gOrientation, gSize);
+			newImage = imageCache.getImage(imageFilename, gOrientation, gSize);
 		} else {
 			ImageData imgData = rotateImage(gImage, gOrientation)
 					.getImageData();
@@ -141,12 +192,14 @@ public class AbstractCarWidget extends Composite {
 		return newImage;
 	}
 
-	public void changeOrientation(Orientation newOrientation,Point gameFieldSize) {
+	public void changeOrientation(Orientation newOrientation,
+			Point gameFieldSize) {
 
 		this.orientation = newOrientation;
 		setSize(gameFieldSize);
-		this.setBackgroundImage(getImage(originalImage, orientation,new Point(this.getBounds().width,this.getBounds().height)));
-	
+		this.setBackgroundImage(getImage(originalImage, orientation, new Point(
+				this.getBounds().width, this.getBounds().height)));
+
 	}
 
 	private Image rotateImage(Image rotateableImage, Orientation direction) {
@@ -202,28 +255,26 @@ public class AbstractCarWidget extends Composite {
 	public void setSize(Point gameFieldSize) {
 		int newX;
 		int newY;
-		
+
 		if (orientation == Orientation.NORTH
 				|| orientation == Orientation.SOUTH) {
-			
+
 			newX = gameFieldSize.x * fieldWidth;
 			newY = gameFieldSize.y * fieldHeight;
 
 			this.setBackgroundImage(getImage(originalImage, orientation,
-					new Point(newX,newY)));
+					new Point(newX, newY)));
 
 		} else {
 			newX = gameFieldSize.x * fieldHeight;
 			newY = gameFieldSize.y * fieldWidth;
 
 			this.setBackgroundImage(getImage(originalImage, orientation,
-					new Point(newX,newY)));
+					new Point(newX, newY)));
 		}
-		this.setBounds(this.getBounds().x, this.getBounds().y,
-				newX,newY);
+		this.setBounds(this.getBounds().x, this.getBounds().y, newX, newY);
 
 	}
-	
 
 	@Override
 	protected void checkSubclass() {
@@ -245,6 +296,5 @@ public class AbstractCarWidget extends Composite {
 	public void setLockY(boolean lockY) {
 		this.lockY = lockY;
 	}
-	
-	
+
 }

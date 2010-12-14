@@ -23,6 +23,8 @@ public class AbstractDesignerWidget extends Composite {
 	private Combo carImageComoBox;
 	protected String[] data;
 	private String[] labels;
+	private Composite carCreationComposite;
+	private Button lenkradschloss;
 
 	/**
 	 * Create the composite.
@@ -36,16 +38,15 @@ public class AbstractDesignerWidget extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.mainWindow = mainWindow;
 
-		// Container der die absolut positionierte Autoerstellung beinhaltet
-		final Composite carCreationComposite = new Composite(this, SWT.NONE);
+		carCreationComposite = new Composite(this, SWT.NONE);
 		carCreationComposite.setLayout(null);
 		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false,
 				2, 1);
 		gd_composite.heightHint = 282;
 		carCreationComposite.setLayoutData(gd_composite);
 
-		designerPreviewCar = new AbstractCarWidget(carCreationComposite, 11, 3,
-				RushHour.IMAGEBASEPATH + "2F_car_Peterwagen_carimg.png");
+		designerPreviewCar = new AbstractCarWidget(carCreationComposite, mainWindow, 11, 3,
+				RushHour.IMAGEBASEPATH + "2F_car_Peterwagen_carimg.png", false, false);
 		designerPreviewCar.setBounds(68, 22, 100, 200);
 
 		designerPreviewCar.addMouseListener(new MouseListener() {
@@ -64,9 +65,14 @@ public class AbstractDesignerWidget extends Composite {
 				if(carTypeComboBox.getSelectionIndex() == 1)
 					carLength = 3;
 				
+				boolean isPlayer = false;
+				
+				if(carTypeComboBox.getSelectionIndex() == 2)
+					isPlayer = true;
+				
 				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(
-						mainWindow.shell, 1, carLength, RushHour.IMAGEBASEPATH
-								+ imageFileName);
+						mainWindow.shell, mainWindow, 1, carLength, RushHour.IMAGEBASEPATH
+								+ imageFileName, lenkradschloss.getSelection(), isPlayer);
 				
 				newCarFromDesigner.moveAbove(mainWindow.mainComposite);
 				
@@ -211,13 +217,39 @@ public class AbstractDesignerWidget extends Composite {
 				1, 1));
 
 
-		Button btnLenkradschloss = new Button(this, SWT.CHECK);
-		btnLenkradschloss.setText("Lenkradschloss");
+		lenkradschloss = new Button(this, SWT.CHECK);
+		lenkradschloss.setText("Lenkradschloss");
 		Label label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 		new Label(this, SWT.NONE);
 
+	}
+	
+	
+	protected void addPlayerCarToCombobox() {
+		carTypeComboBox.setItems(new String[] { "PKW (belegt 2 Felder)",
+				"LKW (belegt 3 Felder)", "Spieler (belegt 2 Felder)"});
+		carTypeComboBox.select(0);
+	}
+	
+	protected void removePlayerCarToCombobox(){
+		carTypeComboBox.setItems(new String[] { "PKW (belegt 2 Felder)",
+				"LKW (belegt 3 Felder)"});
+		carTypeComboBox.select(0);
+		
+		List<ImageBean> images = mainWindow.availableCars;
+		labels = new String[images.size()];
+		data = new String[images.size()];
+		for (int i = 0; i < images.size(); i++) {
+			labels[i] = images.get(i).getCarName();
+			data[i] = images.get(i).getFilename();
+		}
+		designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH
+				+ data[0]);
+		
+		carImageComoBox.setItems(labels);
+		carImageComoBox.select(0);
 	}
 
 	@Override

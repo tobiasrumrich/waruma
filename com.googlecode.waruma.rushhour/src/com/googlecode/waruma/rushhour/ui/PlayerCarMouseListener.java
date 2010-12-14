@@ -6,26 +6,31 @@ import org.eclipse.swt.graphics.Point;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class PlayerCarMouseListener extends CarMouseListener {
+	private RushHour mainWindow;
 
 	public PlayerCarMouseListener(RushHour rushHour,
 			AbstractCarWidget observedCar) {
 		super(rushHour, observedCar);
+		this.mainWindow = rushHour;
+		this.mainWindow.abstractDesignerWidget.removePlayerCarToCombobox();
 	}
 
 	@Override
 	public void mouseUp(MouseEvent e) {
-		
+
 		Point goalField = mainWindow.abstractGameBoardWidget.getGoalField();
 		Point positionOnGameBoard = observedCar.getPositionOnGameBoard();
 		Orientation orientation = observedCar.getOrientation();
 		Point fieldPoint = null;
-		
-		int carX = observedCar.getLocation().x + e.x - (mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x / 2);
-		int boardBorder = mainWindow.abstractGameBoardWidget.getBounds().x + mainWindow.abstractGameBoardWidget.getBounds().width;
-		
+
+		int carX = observedCar.getLocation().x
+				+ e.x
+				- (mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x / 2);
+		int boardBorder = mainWindow.abstractGameBoardWidget.getBounds().x
+				+ mainWindow.abstractGameBoardWidget.getBounds().width;
+
 		if (carX < boardBorder) {
-			
-			
+
 			switch (orientation) {
 			case EAST:
 				fieldPoint = new Point(
@@ -46,8 +51,10 @@ public class PlayerCarMouseListener extends CarMouseListener {
 
 			mainWindow.abstractGameBoardWidget.setHighlight(fieldPoint);
 			mainWindow.abstractGameBoardWidget.setGoalField(fieldPoint);
+		} else {
+			mainWindow.abstractDesignerWidget.addPlayerCarToCombobox();
 		}
-		
+
 		super.mouseUp(e);
 	}
 
@@ -58,6 +65,7 @@ public class PlayerCarMouseListener extends CarMouseListener {
 		if (goalField != null) {
 			mainWindow.abstractGameBoardWidget.removeHighlight(goalField);
 		}
+
 	}
 
 }
