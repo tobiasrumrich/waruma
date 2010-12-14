@@ -118,7 +118,8 @@ class CarMouseListener implements MouseListener {
 			if(observedCar.knownInController){
 				observedCar.moveToPositionControler();
 			} else {
-				observedCar.addToBoardControler();				
+				observedCar.addToBoardControler();		
+				observedCar.knownInController = true;
 			}
 			
 			

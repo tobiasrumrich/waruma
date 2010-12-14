@@ -145,6 +145,16 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 			throw new IllegalBoardPositionException();
 		}
 	}
+	
+	public void removeGameBoardObject(IGameBoardObject gameBoardObject){
+		CollisionVector objectBoundries;
+		try {
+			objectBoundries = new CollisionVector(gameBoardObject);
+			clearCollisionMap(objectBoundries);
+		} catch (IllegalMoveException e) {
+			throw new IllegalArgumentException();
+		}		
+	}
 
 	/**
 	 * Versucht das Objekt auf die angegebene Position zu bewegen
@@ -159,7 +169,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		try {
 			CollisionVector oldObjectBoundries = new CollisionVector(gameBoardObject);
 			CollisionVector objectBoundries = new CollisionVector(gameBoardObject);
-			objectBoundries.setPosition(position);
+			objectBoundries.setAbsolutePosition(position);
 			// Keine Kollision
 			if(!checkCollision(objectBoundries)){
 				clearCollisionMap(oldObjectBoundries);
