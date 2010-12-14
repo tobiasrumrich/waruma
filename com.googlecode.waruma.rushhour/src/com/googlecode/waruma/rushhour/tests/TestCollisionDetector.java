@@ -287,7 +287,7 @@ public class TestCollisionDetector extends TestCase {
 
 	}
 
-	public void moveGameBoardObjectToPosition() {
+	public void testMoveGameBoardObjectToPosition() {
 		try {
 			// 2,0 Car positionieren
 			rushHourCollisionDetector.moveGameBoardObjectToPosition(moveable1,
@@ -295,7 +295,7 @@ public class TestCollisionDetector extends TestCase {
 		} catch (Exception e) {
 			fail();
 		}
-		
+
 		Boolean exceptionThrown = false;
 		try {
 			rushHourCollisionDetector.moveGameBoardObjectToPosition(moveable1,
@@ -305,7 +305,52 @@ public class TestCollisionDetector extends TestCase {
 		} catch (Exception e) {
 			fail();
 		}
-		
+
 		assertTrue(exceptionThrown);
 	}
+
+	public void testRemoveGameBoardObject() {
+		moveable1.setPosition(new Point(1, 3));
+		moveable1.setOrientation(Orientation.NORTH);
+
+		moveable2.setPosition(new Point(2, 3));
+		moveable2.setOrientation(Orientation.WEST);
+
+		try {
+			rushHourCollisionDetector.addGameBoardObject(moveable1);
+		} catch (IllegalBoardPositionException e) {
+			fail();
+		}
+
+		Move move = new Move(moveable1, -1);
+		try {
+			rushHourCollisionDetector.checkMove(move);
+			rushHourCollisionDetector.doMove(move);
+		} catch (IllegalMoveException e) {
+			fail();
+		}
+
+		rushHourCollisionDetector.removeGameBoardObject(moveable1);
+
+		Move move2 = new Move(moveable2, 1);
+		try {
+			rushHourCollisionDetector.checkMove(move2);
+			rushHourCollisionDetector.doMove(move2);
+		} catch (Exception e) {
+			fail();
+		}
+
+		Boolean exceptionThrown = false;
+
+		try {
+			rushHourCollisionDetector.removeGameBoardObject(null);
+		} catch (IllegalArgumentException e) {
+			exceptionThrown = true;
+		} catch (Exception e) {
+			fail();
+		}
+		assertTrue(exceptionThrown);
+
+	}
+
 }
