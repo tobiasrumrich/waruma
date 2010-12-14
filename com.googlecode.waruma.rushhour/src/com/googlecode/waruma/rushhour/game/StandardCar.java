@@ -68,9 +68,6 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 	
 	@Override
 	public void checkMove(int distance) throws IllegalMoveException {
-		if(distance == 0){
-			throw new IllegalMoveException();
-		}
 	}	
 
 	@Override
