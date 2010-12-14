@@ -16,16 +16,16 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  */
 
-public class RushHourBoardCreationControler {
+public class RushHourBoardCreationController {
 	private GameBoard gameBoard;
 	private CollisionDetector collisionDetector;
 	private boolean hasPlayer;
 
-	public RushHourBoardCreationControler() {
+	public RushHourBoardCreationController() {
 		this(6, 6);
 	}
 	
-	public RushHourBoardCreationControler(int width, int height) {
+	public RushHourBoardCreationController(int width, int height) {
 		this.collisionDetector = new CollisionDetector(width, height);
 		this.gameBoard = new GameBoard(this.collisionDetector);
 		this.hasPlayer = false;
@@ -67,7 +67,7 @@ public class RushHourBoardCreationControler {
 			throw new IllegalBoardPositionException(
 					"Es ist nur ein Spielerauto zulässig!");
 		}
-		PlayerCar car = new PlayerCar(new Boolean[][] { { true, true } },
+		PlayerCar car = new PlayerCar(new Boolean[][] { { true},{ true } },
 				swtToAwtPoint(position), orientation, collisionDetector);
 		car.setDestination(swtToAwtPoint(destination));
 		// throws IllegalBoardPositionException
