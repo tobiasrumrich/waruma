@@ -56,6 +56,20 @@ public class TestGameBoard extends TestCase {
 			// TODO Auto-generated method stub
 			return false;
 		}
+
+		@Override
+		public void moveGameBoardObjectToPosition(
+				IGameBoardObject gameBoardObject, Point position)
+				throws IllegalBoardPositionException {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean validTile(Point point) {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 
 	private class MockMoveable extends AbstractGameBoardObject implements
