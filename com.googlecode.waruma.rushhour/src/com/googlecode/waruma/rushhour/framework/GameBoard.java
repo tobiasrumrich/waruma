@@ -55,7 +55,10 @@ public class GameBoard implements Serializable {
 	 */
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
 		if (gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
+			try {
 			collisionDetector.removeGameBoardObject(gameBoardObject);
+			}
+			catch (IllegalArgumentException e) {}
 			gameBoardObjects.remove(gameBoardObject.hashCode());
 		}
 
