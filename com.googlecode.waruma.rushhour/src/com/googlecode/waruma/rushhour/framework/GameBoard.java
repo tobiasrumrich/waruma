@@ -90,6 +90,27 @@ public class GameBoard implements Serializable {
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 
 	}
+	
+	/**
+	 * Rotiert das übergebene Objekt in die übergebene Orientierung
+	 * @param gameBoardObject
+	 * @param orientation
+	 * @throws IllegalBoardPositionException 
+	 */
+	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
+			Orientation orientation) throws IllegalBoardPositionException {
+		if(!gameBoardObjects.containsKey(gameBoardObject.hashCode())){
+			throw new IllegalBoardPositionException();
+		}
+		
+		collisionDetector.rotateGameBoardObject(gameBoardObject, orientation);
+		
+		gameBoardObjects.remove(gameBoardObject.hashCode());
+		// CollisionMap aktualisieren
+		gameBoardObject.setOrientation(orientation);
+		// Wieder mit neuem Hash hinzufügen
+		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
+	}
 
 	/**
 	 * Gibt die Liste der auf dem Spielbrett vorhandenen Autos zurück
@@ -185,5 +206,7 @@ public class GameBoard implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 }

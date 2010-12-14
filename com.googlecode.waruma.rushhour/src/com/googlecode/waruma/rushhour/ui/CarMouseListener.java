@@ -146,28 +146,11 @@ class CarMouseListener implements MouseListener {
 			observedCar.addMouseMoveListener(mouseMoveListener);
 
 		if (arg0.button == 3) {
-			switch (observedCar.getOrientation()) {
-			case NORTH:
-				observedCar.changeOrientation(Orientation.EAST,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-				break;
-			case EAST:
-				observedCar.changeOrientation(Orientation.SOUTH,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-				break;
-			case SOUTH:
-				observedCar.changeOrientation(Orientation.WEST,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-				break;
-			case WEST:
-				observedCar.changeOrientation(Orientation.NORTH,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-				break;
-			}
+			observedCar.rotateToOrientation();
 		}
 		
 	
-		observedCar.moveAbove(mainWindow.mainComposite);
+		//observedCar.moveAbove(mainWindow.mainComposite);
 		for (AbstractCarWidget car : mainWindow.carPool) {
 			if(!car.equals(observedCar))
 				car.moveBelow(observedCar);

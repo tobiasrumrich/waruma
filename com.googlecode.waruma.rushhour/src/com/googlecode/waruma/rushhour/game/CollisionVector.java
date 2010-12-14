@@ -62,6 +62,38 @@ public class CollisionVector {
 			this.distance = movedistance;
 		}
 	}
+	
+	/**
+	 * Erzeugt einen neuen Kollisionsvektor für eine Zugdistanz aus einem
+	 * Spielbrettobjekt.
+	 * 
+	 * @param gameBoardObject
+	 * @param movedistance
+	 * @throws IllegalMoveException
+	 */
+	public CollisionVector(IGameBoardObject gameBoardObject, Orientation orientation)
+			throws IllegalMoveException {
+		if (gameBoardObject == null)
+			throw new IllegalMoveException();
+
+		this.source = new Point(gameBoardObject.getPosition().x,
+				gameBoardObject.getPosition().y);
+		this.orientation = orientation;
+		this.distance = gameBoardObject.getCollisionMap().length - 1;
+		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
+		if (this.orientation == Orientation.NORTH) {
+			this.source = new Point(this.source.x, this.source.y
+					+ this.distance);
+		}
+		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
+		if (this.orientation == Orientation.WEST) {
+			this.source = new Point(this.source.x + this.distance,
+					this.source.y);
+		}
+	
+	}
+	
+	
 
 	/**
 	 * Setzt den Vektorursprung um die übergebene Distanz um

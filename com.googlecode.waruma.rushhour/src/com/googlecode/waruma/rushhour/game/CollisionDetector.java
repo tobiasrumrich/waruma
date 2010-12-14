@@ -10,6 +10,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IMove;
+import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
  * Diese Klasse implementiert die RushHour spezifische Kollisionserkennung. *
@@ -145,15 +146,37 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 			throw new IllegalBoardPositionException();
 		}
 	}
-	
-	public void removeGameBoardObject(IGameBoardObject gameBoardObject){
+
+	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
 		CollisionVector objectBoundries;
 		try {
 			objectBoundries = new CollisionVector(gameBoardObject);
 			clearCollisionMap(objectBoundries);
 		} catch (IllegalMoveException e) {
 			throw new IllegalArgumentException();
-		}		
+		}
+	}
+
+	@Override
+	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
+			Orientation orientation) throws IllegalBoardPositionException {
+		try {
+			CollisionVector oldObjectBoundries = new CollisionVector(
+					gameBoardObject);
+			CollisionVector objectBoundries = new CollisionVector(gameBoardObject, orientation);
+			
+			clearCollisionMap(oldObjectBoundries);			
+			// Keine Kollision
+			if (!checkCollision(objectBoundries)) {
+				fillCollisionMap(objectBoundries);
+			} else {
+				fillCollisionMap(oldObjectBoundries);
+				throw new IllegalBoardPositionException();
+			}
+		} catch (IllegalMoveException e) {
+			// TODO Auto-generated catch block
+			throw new IllegalBoardPositionException();
+		}
 	}
 
 	/**
@@ -167,20 +190,23 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 			Point position) throws IllegalBoardPositionException {
 
 		try {
-			CollisionVector oldObjectBoundries = new CollisionVector(gameBoardObject);
-			CollisionVector objectBoundries = new CollisionVector(gameBoardObject);
+			CollisionVector oldObjectBoundries = new CollisionVector(
+					gameBoardObject);
+			CollisionVector objectBoundries = new CollisionVector(
+					gameBoardObject);
 			objectBoundries.setAbsolutePosition(position);
+			clearCollisionMap(oldObjectBoundries);
 			// Keine Kollision
-			if(!checkCollision(objectBoundries)){
-				clearCollisionMap(oldObjectBoundries);
+			if (!checkCollision(objectBoundries)) {
 				fillCollisionMap(objectBoundries);
 			} else {
-				throw new IllegalBoardPositionException();	
-			}		
+				fillCollisionMap(oldObjectBoundries);
+				throw new IllegalBoardPositionException();
+			}
 		} catch (IllegalMoveException e) {
 			throw new IllegalBoardPositionException();
 		}
-		
+
 	}
 
 	/**
