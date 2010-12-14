@@ -1,8 +1,11 @@
 package com.googlecode.waruma.rushhour.tests;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import com.googlecode.waruma.rushhour.framework.GameState;
 import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
@@ -21,12 +24,13 @@ public class TestGameState extends TestCase {
 
 	private class MockSubject implements IPlayer {
 
-		private List<IReachedDestinationObserver> observers;
+		private List<IReachedDestinationObserver> observers = new ArrayList<IReachedDestinationObserver>();
 
 		@Override
 		public void registerReachedDestination(
 				IReachedDestinationObserver eventTarget) {
 			observers.add(eventTarget);
+		
 		}
 
 		@Override
