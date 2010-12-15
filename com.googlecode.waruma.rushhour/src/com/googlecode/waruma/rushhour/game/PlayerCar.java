@@ -125,9 +125,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 75503;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((destination == null) ? 0 : destination.hashCode());
+		int result = prime* super.hashCode();
 		return result;
 	}
 
