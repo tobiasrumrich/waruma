@@ -59,6 +59,7 @@ public class RushHour implements IGameWonObserver {
 	public List<ImageBean> availableTrucks;
 	public List<ImageBean> availablePlayers;
 	protected DesignerWidget abstractDesignerWidget;
+	private Composite cmpSpielkontrolle;
 
 	/**
 	 * Launch the application.
@@ -349,79 +350,80 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
 
-		Composite cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
-
+	//cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
+		cmpSpielkontrolle = new SpielkontrolleComposite(cmpSpiel, SWT.NONE);
+//BBEGIN
 		cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
 				true, 1, 1));
-		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
-		gl_cmpSpielkontrolle.marginWidth = 3;
-		gl_cmpSpielkontrolle.marginTop = 3;
-		gl_cmpSpielkontrolle.marginRight = 3;
-		gl_cmpSpielkontrolle.marginLeft = 3;
-		gl_cmpSpielkontrolle.marginHeight = 3;
-		gl_cmpSpielkontrolle.marginBottom = 3;
-		cmpSpielkontrolle.setLayout(gl_cmpSpielkontrolle);
+//		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
+//		gl_cmpSpielkontrolle.marginWidth = 3;
+//		gl_cmpSpielkontrolle.marginTop = 3;
+//		gl_cmpSpielkontrolle.marginRight = 3;
+//		gl_cmpSpielkontrolle.marginLeft = 3;
+//		gl_cmpSpielkontrolle.marginHeight = 3;
+//		gl_cmpSpielkontrolle.marginBottom = 3;
+//		cmpSpielkontrolle.setLayout(gl_cmpSpielkontrolle);
+//
+//		Label lblSpieldaten = new Label(cmpSpielkontrolle, SWT.NONE);
+//		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
+//				false, 2, 1);
+//		gd_lblSpieldaten.widthHint = 138;
+//		lblSpieldaten.setLayoutData(gd_lblSpieldaten);
+//		lblSpieldaten.setFont(SWTResourceManager.getFont("Segoe UI", 9,
+//				SWT.BOLD));
+//		lblSpieldaten.setText("Spieldaten");
+//
+//		lblZeit = new Label(cmpSpielkontrolle, SWT.NONE);
+//		lblZeit.setText("Zeit");
+//
+//		lblTime = new Label(cmpSpielkontrolle, SWT.NONE);
+//		lblTime.setText("02:35");
+//
+//		Label lblZge = new Label(cmpSpielkontrolle, SWT.NONE);
+//		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+//				1, 1);
+//		gd_lblZge.heightHint = 13;
+//		lblZge.setLayoutData(gd_lblZge);
+//		lblZge.setText("Z\u00FCge");
+//
+//		Label lblMoves = new Label(cmpSpielkontrolle, SWT.NONE);
+//		lblMoves.setText("15");
 
-		Label lblSpieldaten = new Label(cmpSpielkontrolle, SWT.NONE);
-		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
-		gd_lblSpieldaten.widthHint = 138;
-		lblSpieldaten.setLayoutData(gd_lblSpieldaten);
-		lblSpieldaten.setFont(SWTResourceManager.getFont("Segoe UI", 9,
-				SWT.BOLD));
-		lblSpieldaten.setText("Spieldaten");
-
-		lblZeit = new Label(cmpSpielkontrolle, SWT.NONE);
-		lblZeit.setText("Zeit");
-
-		lblTime = new Label(cmpSpielkontrolle, SWT.NONE);
-		lblTime.setText("02:35");
-
-		Label lblZge = new Label(cmpSpielkontrolle, SWT.NONE);
-		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblZge.heightHint = 13;
-		lblZge.setLayoutData(gd_lblZge);
-		lblZge.setText("Z\u00FCge");
-
-		Label lblMoves = new Label(cmpSpielkontrolle, SWT.NONE);
-		lblMoves.setText("15");
-
-		lblDebug = new Label(cmpSpielkontrolle, SWT.NONE);
-		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				2, 1);
-		gd_lblDebug.heightHint = 15;
-		gd_lblDebug.widthHint = 142;
-		lblDebug.setLayoutData(gd_lblDebug);
-		lblDebug.setText("New Label");
-
-		lblDebug2 = new Label(cmpSpielkontrolle, SWT.NONE);
-		GridData gd_lblDebug2 = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
-		gd_lblDebug2.widthHint = 143;
-		lblDebug2.setLayoutData(gd_lblDebug2);
-		lblDebug2.setText("New Label");
-		new Label(cmpSpielkontrolle, SWT.NONE);
-		new Label(cmpSpielkontrolle, SWT.NONE);
-
-		Button btnLsen = new Button(cmpSpielkontrolle, SWT.NONE);
-		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				2, 1));
-		btnLsen.setText("L\u00F6sung");
-
-		Button button = new Button(cmpSpielkontrolle, SWT.NONE);
-		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
-		button.setText("<<");
-
-		Button button_1 = new Button(cmpSpielkontrolle, SWT.NONE);
-		button_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				1, 1));
-		button_1.setEnabled(false);
-		button_1.setText(">>");
-		new Label(cmpSpielkontrolle, SWT.NONE);
-		new Label(cmpSpielkontrolle, SWT.NONE);
-
+//		lblDebug = new Label(cmpSpielkontrolle, SWT.NONE);
+//		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+//				2, 1);
+//		gd_lblDebug.heightHint = 15;
+//		gd_lblDebug.widthHint = 142;
+//		lblDebug.setLayoutData(gd_lblDebug);
+//		lblDebug.setText("New Label");
+//
+//		lblDebug2 = new Label(cmpSpielkontrolle, SWT.NONE);
+//		GridData gd_lblDebug2 = new GridData(SWT.LEFT, SWT.CENTER, false,
+//				false, 2, 1);
+//		gd_lblDebug2.widthHint = 143;
+//		lblDebug2.setLayoutData(gd_lblDebug2);
+//		lblDebug2.setText("New Label");
+//		new Label(cmpSpielkontrolle, SWT.NONE);
+//		new Label(cmpSpielkontrolle, SWT.NONE);
+//
+//		Button btnLsen = new Button(cmpSpielkontrolle, SWT.NONE);
+//		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+//				2, 1));
+//		btnLsen.setText("L\u00F6sung");
+//
+//		Button button = new Button(cmpSpielkontrolle, SWT.NONE);
+//		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+//				1));
+//		button.setText("<<");
+//
+//		Button button_1 = new Button(cmpSpielkontrolle, SWT.NONE);
+//		button_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+//				1, 1));
+//		button_1.setEnabled(false);
+//		button_1.setText(">>");
+//		new Label(cmpSpielkontrolle, SWT.NONE);
+//		new Label(cmpSpielkontrolle, SWT.NONE);
+//END 
 		int minX = abstractGameBoardWidget.getMinWidth()
 				+ cmpSpielkontrolle.getBounds().width + 30;
 		int minY = abstractGameBoardWidget.getMinHeight()
