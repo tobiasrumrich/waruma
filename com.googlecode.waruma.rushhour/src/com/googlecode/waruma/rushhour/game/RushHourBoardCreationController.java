@@ -156,7 +156,7 @@ public class RushHourBoardCreationController {
 			gameBoard = (GameBoard) fileSystemObjectStorage.deserialize(location);
 			collisionDetector = gameBoard.getCollisionDetector();
 			gameBoard.rebuildGameBoardObjects();
-			unlockAllCars();
+			unlockAllCars(); 
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Fehler beim Laden der Datei");
 		}
