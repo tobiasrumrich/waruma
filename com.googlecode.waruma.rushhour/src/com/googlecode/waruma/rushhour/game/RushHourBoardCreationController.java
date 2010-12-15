@@ -2,12 +2,15 @@ package com.googlecode.waruma.rushhour.game;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.Collection;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
 import com.googlecode.waruma.rushhour.framework.FileSystemObjectStorage;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
+import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
+import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
@@ -18,7 +21,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  */
 public class RushHourBoardCreationController {
 	private GameBoard gameBoard;
-	private CollisionDetector collisionDetector;
+	private ICollisionDetector collisionDetector;
 	private boolean hasPlayer;
 
 	public RushHourBoardCreationController() {
@@ -129,6 +132,15 @@ public class RushHourBoardCreationController {
 	public void changeCarPosition(IGameBoardObject gameBoardObject, org.eclipse.swt.graphics.Point position) throws IllegalBoardPositionException{
 		gameBoard.repositionGameBoardObject(gameBoardObject, swtToAwtPoint(position));
 	}
+	
+	public void changeDestination(org.eclipse.swt.graphics.Point destination){
+		for (IGameBoardObject boardObject : gameBoard.getGameBoardObjects()) {
+			if(boardObject instanceof PlayerCar){
+				PlayerCar playerCar = (PlayerCar) boardObject;
+				playerCar.setDestination(swtToAwtPoint(destination));
+			}
+		}
+	}
 
 	public void changeRotation(IGameBoardObject gameBoardObject, Orientation orientation) throws IllegalBoardPositionException{
 		gameBoard.rotateGameBoardObject(gameBoardObject, orientation);
@@ -138,10 +150,15 @@ public class RushHourBoardCreationController {
 		return collisionDetector.validTile(swtToAwtPoint(position));
 	}
 
-	public void loadGameBoard(String location) throws IOException,
-			ClassNotFoundException {
+	public void loadGameBoard(String location) throws IOException{
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
-		gameBoard = (GameBoard) fileSystemObjectStorage.deserialize(location);
+		try {
+			gameBoard = (GameBoard) fileSystemObjectStorage.deserialize(location);
+			collisionDetector = gameBoard.getCollisionDetector();
+			gameBoard.rebuildGameBoardObjects();
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Fehler beim Laden der Datei");
+		}
 	}
 
 	public void saveGameBoard(String location) throws IOException {
@@ -151,6 +168,10 @@ public class RushHourBoardCreationController {
 	
 	public Object getCurrentState(){
 		return gameBoard;
+	}
+	
+	public Collection<IGameBoardObject> getGameBoardObjects(){
+		return gameBoard.getGameBoardObjects();
 	}
 	
 	private Point swtToAwtPoint(org.eclipse.swt.graphics.Point swtPoint){

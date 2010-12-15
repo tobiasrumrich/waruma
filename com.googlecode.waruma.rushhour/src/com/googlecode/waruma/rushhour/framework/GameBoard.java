@@ -19,6 +19,11 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 public class GameBoard implements Serializable {
 	private static final long serialVersionUID = -7059872709872532815L;
 	private ICollisionDetector collisionDetector;
+	
+	public ICollisionDetector getCollisionDetector() {
+		return collisionDetector;
+	}
+
 	// Manuelle Implementierung eines Hash-Sets, da sich in der Java HashSet
 	// implementierung der Hash nicht bei Änderungen am Objekt mitändert
 	private Map<Integer, IGameBoardObject> gameBoardObjects;
@@ -110,6 +115,16 @@ public class GameBoard implements Serializable {
 		gameBoardObject.setOrientation(orientation);
 		// Wieder mit neuem Hash hinzufügen
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
+	}
+	
+	public void rebuildGameBoardObjects(){
+		Collection<IGameBoardObject> boardObjects = gameBoardObjects.values();
+		HashMap<Integer, IGameBoardObject> newBoardObjects = new HashMap<Integer, IGameBoardObject>();
+		for (IGameBoardObject boardObject : boardObjects) {
+			newBoardObjects.put(boardObject.hashCode(), boardObject);
+		}
+		gameBoardObjects.clear();
+		gameBoardObjects = newBoardObjects;
 	}
 
 	/**

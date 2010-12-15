@@ -70,6 +70,19 @@ public class TestGameBoard extends TestCase {
 			// TODO Auto-generated method stub
 			return false;
 		}
+
+		@Override
+		public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
+				Orientation orientation) throws IllegalBoardPositionException {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	private class MockMoveable extends AbstractGameBoardObject implements

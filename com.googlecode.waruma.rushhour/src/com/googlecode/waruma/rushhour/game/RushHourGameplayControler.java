@@ -72,7 +72,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 			throw new IllegalArgumentException("No valid RushHour State");
 		}
 	}
-	
+
 	/**
 	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurück
 	 * 
@@ -96,7 +96,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		if (gameBoardObject instanceof IMoveable) {
 			IMove move = new Move((IMoveable) gameBoardObject, distance);
 			gameBoard.move(move);
-			if(!timerStarted){
+			if (!timerStarted) {
 				gameStartTime = System.currentTimeMillis();
 				timerStarted = true;
 			}
@@ -109,7 +109,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	/**
 	 * Speichert einen Spielstand im angegebenen Pfad
 	 * 
-	 * @param location Pfad und Dateiname
+	 * @param location
+	 *            Pfad und Dateiname
 	 * @throws IOException
 	 */
 	public void saveGame(String location) throws IOException {
@@ -117,8 +118,19 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
 
+	public void loadGame(String location) throws IOException {
+		FileSystemObjectStorage storage = new FileSystemObjectStorage();
+		try {
+			gameBoard = (GameBoard) storage.deserialize(location);
+			registerPlayer();
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("No valid RushHour State");
+		}
+	}
+
 	/**
-	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen Spielbretts aus
+	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen
+	 * Spielbretts aus
 	 * 
 	 * @return Liste der Züge
 	 */
@@ -129,33 +141,35 @@ public class RushHourGameplayControler implements IGameWonSubject {
 
 	/**
 	 * Observer für Gewinnmitteilung registrieren
-	 * @param eventTarget Ziel des Aufrufs
+	 * 
+	 * @param eventTarget
+	 *            Ziel des Aufrufs
 	 */
 	public void registerGameWon(IGameWonObserver eventTarget) {
 		gameState.registerGameWon(eventTarget);
 	}
-	
+
 	/**
-	 * Gibt die seit Spielstart verstrichene Zeit zurück.
-	 * Format der Darstellung: Stunden:Minuten:Sekunden
-	 *
+	 * Gibt die seit Spielstart verstrichene Zeit zurück. Format der
+	 * Darstellung: Stunden:Minuten:Sekunden
+	 * 
 	 * @return Zeitstring
 	 */
-	public String elapsedGameTime(){
+	public String elapsedGameTime() {
 		Date date = new Date(System.currentTimeMillis() - gameStartTime);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		return dateFormat.format(date);
 	}
-	
+
 	/**
 	 * Spieler im GameState registrieren
 	 */
-	private void registerPlayer(){
+	private void registerPlayer() {
 		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
-			if(gameBoardObject instanceof IPlayer){
+			if (gameBoardObject instanceof IPlayer) {
 				gameState.addPlayer((IPlayer) gameBoardObject);
 			}
 		}
 	}
-	
+
 }

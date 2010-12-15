@@ -74,14 +74,14 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractGameBoardObject other = (AbstractGameBoardObject) obj;
-		if (!Arrays.deepEquals(collisionMap, other.collisionMap))
+		if (collisionMap.length != other.collisionMap.length)
 			return false;
 		if (orientation != other.orientation)
 			return false;
 		if (position == null) {
 			if (other.position != null)
 				return false;
-		} else if (!position.equals(other.position))
+		} else if (position.x != other.position.x || position.y != other.position.y)
 			return false;
 		return true;
 	}

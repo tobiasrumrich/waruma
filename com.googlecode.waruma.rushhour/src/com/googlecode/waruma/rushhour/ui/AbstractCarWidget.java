@@ -15,7 +15,9 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
+import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
+import com.googlecode.waruma.rushhour.game.SteeringLock;
 import com.swtdesigner.SWTResourceManager;
 
 public class AbstractCarWidget extends Composite {
@@ -60,17 +62,18 @@ public class AbstractCarWidget extends Composite {
 			removeFromGameBoard();
 		}
 	}
-	
+
 	public void removeFromGameBoard() {
 		this.dispose();
-		if(knownInController)
+		if (knownInController)
 			mainWindow.boardCreationControler.removeObjectFromBoard(gameObject);
 		mainWindow.carPool.remove(this);
 	}
 
-	public boolean moveToPositionControler(){
+	public boolean moveToPositionControler() {
 		try {
-			mainWindow.boardCreationControler.changeCarPosition(gameObject, positionOnGameBoard);
+			mainWindow.boardCreationControler.changeCarPosition(gameObject,
+					positionOnGameBoard);
 			return true;
 		} catch (IllegalBoardPositionException e) {
 			// Alte Position auf dem Spielbrett wieder herstellen
@@ -80,42 +83,52 @@ public class AbstractCarWidget extends Composite {
 			return false;
 		}
 	}
-	
-	public void rotateToOrientation(){
+
+	public void rotateToOrientation() {
 		switch (orientation) {
 		case NORTH:
-			try{
-				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.EAST);
+			try {
+				mainWindow.boardCreationControler.changeRotation(gameObject,
+						Orientation.EAST);
 				this.changeOrientation(Orientation.EAST,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-			} catch (IllegalBoardPositionException e) {}
+						mainWindow.abstractGameBoardWidget
+								.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {
+			}
 			break;
 		case EAST:
-			try{
-				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.SOUTH);
+			try {
+				mainWindow.boardCreationControler.changeRotation(gameObject,
+						Orientation.SOUTH);
 				this.changeOrientation(Orientation.SOUTH,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-			} catch (IllegalBoardPositionException e) {}
+						mainWindow.abstractGameBoardWidget
+								.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {
+			}
 			break;
 		case SOUTH:
-			try{
-				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.WEST);
+			try {
+				mainWindow.boardCreationControler.changeRotation(gameObject,
+						Orientation.WEST);
 				this.changeOrientation(Orientation.WEST,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-			} catch (IllegalBoardPositionException e) {}
+						mainWindow.abstractGameBoardWidget
+								.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {
+			}
 			break;
 		case WEST:
-			try{
-				mainWindow.boardCreationControler.changeRotation(gameObject, Orientation.NORTH);
+			try {
+				mainWindow.boardCreationControler.changeRotation(gameObject,
+						Orientation.NORTH);
 				this.changeOrientation(Orientation.NORTH,
-						mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
-			} catch (IllegalBoardPositionException e) {}
+						mainWindow.abstractGameBoardWidget
+								.getCurrentFieldSize());
+			} catch (IllegalBoardPositionException e) {
+			}
 			break;
 		}
 	}
-	
-	
-	
+
 	/**
 	 * The height in fields
 	 */
@@ -159,8 +172,8 @@ public class AbstractCarWidget extends Composite {
 
 	/**
 	 * Interne Hilfsmethode die das Handling des Hintergrundbildes
-	 * initialisiert. Mit dem Aufruf wird der �bergebene Bilderpfas geladen und
-	 * das Bild als Hintergrund definiert
+	 * initialisiert. Mit dem Aufruf wird der �bergebene Bilderpfas geladen
+	 * und das Bild als Hintergrund definiert
 	 */
 	private void initImageHandling(String imageLocation) {
 		// Bild laden und als Originalbild abspeichern
@@ -168,7 +181,7 @@ public class AbstractCarWidget extends Composite {
 				imageLocation);
 
 		// Originalbild als aktuelles Bild setzen
-		image = originalImage;
+		this.image = originalImage;
 
 		this.imageFilename = imageLocation;
 
@@ -188,7 +201,7 @@ public class AbstractCarWidget extends Composite {
 			int height, String imageLocation, boolean hasSteeringLock,
 			boolean isPlayer) {
 		super(parent, SWT.NONE);
-		mainWindow = rushHour;
+		this.mainWindow = rushHour;
 		this.player = isPlayer;
 		this.length = height;
 		this.steeringLock = hasSteeringLock;
@@ -201,6 +214,55 @@ public class AbstractCarWidget extends Composite {
 				image.getBounds().width, image.getBounds().height);
 		this.setBackgroundImage(image);
 		setLayout(null);
+
+	}
+
+	public AbstractCarWidget(Composite parent, RushHour rushHour,
+			IGameBoardObject gameBoardObject) {
+		super(parent, SWT.NONE);
+		this.mainWindow = rushHour;
+		this.steeringLock = false;
+		this.player = false;
+		this.orientation = gameBoardObject.getOrientation();
+		this.isLocked = false;
+		this.gameObject = gameBoardObject;
+		this.knownInController = true;
+
+		int length = gameBoardObject.getCollisionMap().length;
+		this.fieldHeight = length;
+		this.fieldWidth = 1;
+
+		if (gameBoardObject instanceof IPlayer) {
+			IPlayer playerCar = (IPlayer) gameBoardObject;
+			java.awt.Point destination = playerCar.getDestination();
+			mainWindow.abstractGameBoardWidget.setGoalField(new Point(destination.x, destination.y));
+			mainWindow.abstractGameBoardWidget.setHighlight(new Point(destination.x, destination.y));
+			
+			this.player = true;
+		}
+
+		if (gameBoardObject instanceof SteeringLock) {
+			this.steeringLock = true;
+		}
+
+		String imagePath = RushHour.IMAGEBASEPATH;
+
+		if (length == 2 && this.player) {
+			imagePath += mainWindow.availablePlayers.get(0).getFilename();
+		}
+		if (length == 2 && !this.player) {
+			imagePath += mainWindow.availableCars.get(0).getFilename();
+		}
+		if (length == 3) {
+			imagePath += mainWindow.availableTrucks.get(0).getFilename();
+		}
+
+		initImageHandling(imagePath);
+		setSize(mainWindow.abstractGameBoardWidget.getCurrentFieldSize());
+
+		positionOnGameBoard = new Point(gameBoardObject.getPosition().x,
+				gameBoardObject.getPosition().y);
+		mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
 
 	}
 

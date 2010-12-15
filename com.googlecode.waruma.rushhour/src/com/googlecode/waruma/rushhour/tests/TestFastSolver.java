@@ -51,6 +51,12 @@ public class TestFastSolver extends TestCase {
 		public void setPosition(Point position) {			
 			this.position = position;
 		}
+
+		@Override
+		public void setOrientation(Orientation orientation) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 	

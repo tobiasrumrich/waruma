@@ -60,6 +60,7 @@ public class PlayerCarMouseListener extends CarMouseListener {
 
 			mainWindow.abstractGameBoardWidget.setHighlight(fieldPoint);
 			mainWindow.abstractGameBoardWidget.setGoalField(fieldPoint);
+			mainWindow.boardCreationControler.changeDestination(fieldPoint);
 
 		} else {
 			observedCar.removeFromGameBoard();
