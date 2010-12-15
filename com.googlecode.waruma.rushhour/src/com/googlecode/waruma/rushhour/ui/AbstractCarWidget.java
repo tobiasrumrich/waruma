@@ -54,21 +54,30 @@ public class AbstractCarWidget extends Composite {
 				gameObject = mainWindow.boardCreationControler.createCar(
 						positionOnGameBoard, orientation, steeringLock);
 			}
+			knownInController = true;
 		} catch (IllegalBoardPositionException e) {
 			// Auto entfernen
-			this.dispose();
-			mainWindow.carPool.remove(this);
+			removeFromGameBoard();
 		}
 	}
+	
+	public void removeFromGameBoard() {
+		this.dispose();
+		if(knownInController)
+			mainWindow.boardCreationControler.removeObjectFromBoard(gameObject);
+		mainWindow.carPool.remove(this);
+	}
 
-	public void moveToPositionControler(){
+	public boolean moveToPositionControler(){
 		try {
 			mainWindow.boardCreationControler.changeCarPosition(gameObject, positionOnGameBoard);
+			return true;
 		} catch (IllegalBoardPositionException e) {
 			// Alte Position auf dem Spielbrett wieder herstellen
 			java.awt.Point oldPosition = gameObject.getPosition();
 			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
 			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
+			return false;
 		}
 	}
 	
@@ -103,8 +112,9 @@ public class AbstractCarWidget extends Composite {
 			} catch (IllegalBoardPositionException e) {}
 			break;
 		}
-		
 	}
+	
+	
 	
 	/**
 	 * The height in fields
@@ -149,7 +159,7 @@ public class AbstractCarWidget extends Composite {
 
 	/**
 	 * Interne Hilfsmethode die das Handling des Hintergrundbildes
-	 * initialisiert. Mit dem Aufruf wird der übergebene Bilderpfas geladen und
+	 * initialisiert. Mit dem Aufruf wird der ï¿½bergebene Bilderpfas geladen und
 	 * das Bild als Hintergrund definiert
 	 */
 	private void initImageHandling(String imageLocation) {
@@ -237,9 +247,9 @@ public class AbstractCarWidget extends Composite {
 	}
 
 	private Image rotateImage(Image rotateableImage, Orientation direction) {
-		// Der folgende Code in dieser Methode wurde übernommen von
+		// Der folgende Code in dieser Methode wurde ï¿½bernommen von
 		// http://www.java2s.com/Tutorial/Java/0300__SWT-2D-Graphics/Rotateandflipanimage.htm
-		// und wurde geringfügig angepasst
+		// und wurde geringfï¿½gig angepasst
 		ImageData imgData = rotateableImage.getImageData();
 		int bytesPerPixel = imgData.bytesPerLine / imgData.width;
 		int destBytesPerLine = (direction == Orientation.SOUTH) ? imgData.width

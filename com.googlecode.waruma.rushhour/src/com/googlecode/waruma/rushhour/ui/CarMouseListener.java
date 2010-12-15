@@ -9,9 +9,9 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 
 class CarMouseListener implements MouseListener {
 
-    final RushHour mainWindow;
+	final RushHour mainWindow;
 	AbstractCarWidget observedCar;
-
+	boolean moveSuccessful;
 
 	public CarMouseListener(RushHour rushHour, AbstractCarWidget observedCar) {
 		super();
@@ -25,12 +25,18 @@ class CarMouseListener implements MouseListener {
 			int neuesX = observedCar.getLocation().x + arg0.x - clickX;
 			int neuesY = observedCar.getLocation().y + arg0.y - clickY;
 
-			int boardWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getBounds().width;
-			int boardHeight = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getBounds().height;
-			int boardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().x
-					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().x;
-			int boardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().y
-					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().y;
+			int boardWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getBounds().width;
+			int boardHeight = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getBounds().height;
+			int boardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getLocation().x
+					+ CarMouseListener.this.mainWindow.mainComposite
+							.getLocation().x;
+			int boardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getLocation().y
+					+ CarMouseListener.this.mainWindow.mainComposite
+							.getLocation().y;
 
 			if (observedCar.isLockedInCage()) {
 				if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
@@ -40,20 +46,18 @@ class CarMouseListener implements MouseListener {
 				if (neuesX <= boardX)
 					neuesX = boardX;
 
-				if (neuesY > (boardY + boardHeight - observedCar
-						.getBounds().height))
-					neuesY = (boardY + boardHeight - observedCar
-							.getBounds().height);
+				if (neuesY > (boardY + boardHeight - observedCar.getBounds().height))
+					neuesY = (boardY + boardHeight - observedCar.getBounds().height);
 
 				if (neuesY <= boardY)
 					neuesY = boardY;
 
 				if (observedCar.isLockX())
-					observedCar.setLocation(observedCar.getLocation().x,
-							neuesY);
+					observedCar
+							.setLocation(observedCar.getLocation().x, neuesY);
 				else if (observedCar.isLockY())
-					observedCar.setLocation(neuesX,
-							observedCar.getLocation().y);
+					observedCar
+							.setLocation(neuesX, observedCar.getLocation().y);
 				else
 					observedCar.setLocation(neuesX, neuesY);
 				// END CageControl
@@ -61,29 +65,31 @@ class CarMouseListener implements MouseListener {
 				if (neuesX <= boardX)
 					neuesX = boardX;
 
-				if (neuesX > (CarMouseListener.this.mainWindow.shell.getBounds().width
-						- observedCar.getBounds().width - 30))
+				if (neuesX > (CarMouseListener.this.mainWindow.shell
+						.getBounds().width - observedCar.getBounds().width - 30))
 					neuesX = CarMouseListener.this.mainWindow.shell.getBounds().width
 							- observedCar.getBounds().width - 30;
 
 				if (neuesY <= boardY)
 					neuesY = boardY;
 
-				if (neuesY > (boardY + boardHeight - observedCar
-						.getBounds().height))
-					neuesY = (boardY + boardHeight - observedCar
-							.getBounds().height);
+				if (neuesY > (boardY + boardHeight - observedCar.getBounds().height))
+					neuesY = (boardY + boardHeight - observedCar.getBounds().height);
 				observedCar.setLocation(neuesX, neuesY);
 			}
 
 			// BEGIN FieldControl
 			int currentX = observedCar.getLocation().x;
 			int currentY = observedCar.getLocation().y;
-			int gameBoardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().x
-					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().x;
+			int gameBoardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getLocation().x
+					+ CarMouseListener.this.mainWindow.mainComposite
+							.getLocation().x;
 
-			int gameBoardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget.getLocation().y
-					+ CarMouseListener.this.mainWindow.mainComposite.getLocation().y;
+			int gameBoardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+					.getLocation().y
+					+ CarMouseListener.this.mainWindow.mainComposite
+							.getLocation().y;
 
 			int fieldSizeWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().x;
@@ -94,7 +100,8 @@ class CarMouseListener implements MouseListener {
 			int posY = (currentY - gameBoardY + (CarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
 			observedCar.setPositionOnGameBoard(new Point(posX, posY));
-			CarMouseListener.this.mainWindow.lblDebug.setText(posX + ":" + posY);
+			CarMouseListener.this.mainWindow.lblDebug
+					.setText(posX + ":" + posY);
 			// END Field Control
 
 		}
@@ -110,24 +117,22 @@ class CarMouseListener implements MouseListener {
 		int boardX = mainWindow.abstractGameBoardWidget.getLocation().x
 				+ mainWindow.mainComposite.getLocation().x;
 		int neuesX = observedCar.getLocation().x + e.x - clickX;
-		
-		if (neuesX < boardX + mainWindow.abstractGameBoardWidget.getBounds().width
+
+		if (neuesX < boardX
+				+ mainWindow.abstractGameBoardWidget.getBounds().width
 				- (mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x / 2)) {
-			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(observedCar);
-			
-			if(observedCar.knownInController){
-				observedCar.moveToPositionControler();
+			mainWindow.abstractGameBoardWidget
+					.repositionCarOnBoard(observedCar);
+
+			if (observedCar.knownInController) {
+				moveSuccessful = observedCar.moveToPositionControler();
 			} else {
-				observedCar.addToBoardControler();		
+				observedCar.addToBoardControler();
 				observedCar.knownInController = true;
 			}
-			
-			
 		} else {
-			System.out.println("TIME TO DISPOSE");
-			observedCar.dispose();
-			mainWindow.carPool.remove(observedCar);
 			// Remove
+			observedCar.removeFromGameBoard();
 		}
 
 	}
@@ -143,19 +148,19 @@ class CarMouseListener implements MouseListener {
 		clickX = arg0.x;
 		clickY = arg0.y;
 
-			observedCar.addMouseMoveListener(mouseMoveListener);
+		observedCar.addMouseMoveListener(mouseMoveListener);
 
-		if (arg0.button == 3) {
-			observedCar.rotateToOrientation();
+		if (observedCar.getPositionOnGameBoard() != null) {
+			if (arg0.button == 3) {
+				observedCar.rotateToOrientation();
+			}
 		}
-		
-	
-		//observedCar.moveAbove(mainWindow.mainComposite);
+
+		// observedCar.moveAbove(mainWindow.mainComposite);
 		for (AbstractCarWidget car : mainWindow.carPool) {
-			if(!car.equals(observedCar))
+			if (!car.equals(observedCar))
 				car.moveBelow(observedCar);
 		}
-		
 
 	}
 }
