@@ -1,9 +1,10 @@
 package com.googlecode.waruma.rushhour.game;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.FileSystemObjectStorage;
@@ -25,15 +26,16 @@ import com.googlecode.waruma.rushhour.framework.Move;
 public class RushHourGameplayControler implements IGameWonSubject {
 
 	private GameState gameState;
-	private Timer gameTimer;
+	private long gameStartTime;
 	private GameBoard gameBoard;
+	private boolean timerStarted;
 
 	/**
 	 * Erstellt einen neuen GamePlayControler
 	 */
 	private RushHourGameplayControler() {
-		gameTimer = new Timer();
 		gameState = new GameState();
+		timerStarted = false;
 	}
 
 	/**
@@ -94,6 +96,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		if (gameBoardObject instanceof IMoveable) {
 			IMove move = new Move((IMoveable) gameBoardObject, distance);
 			gameBoard.move(move);
+			if(!timerStarted){
+				gameStartTime = System.currentTimeMillis();
+				timerStarted = true;
+			}
 		} else {
 			throw new IllegalMoveException("Auto nicht beweglich!");
 		}
@@ -128,7 +134,19 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	public void registerGameWon(IGameWonObserver eventTarget) {
 		gameState.registerGameWon(eventTarget);
 	}
-
+	
+	/**
+	 * Gibt die seit Spielstart verstrichene Zeit zurück.
+	 * Format der Darstellung: Stunden:Minuten:Sekunden
+	 *
+	 * @return Zeitstring
+	 */
+	public String elapsedGameTime(){
+		Date date = new Date(System.currentTimeMillis() - gameStartTime);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		return dateFormat.format(date);
+	}
+	
 	/**
 	 * Spieler im GameState registrieren
 	 */
