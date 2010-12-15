@@ -127,37 +127,38 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		setCollisionMap(collisionPath, false);
 	}
 
-	
-	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
 		try {
-			CollisionVector objectBoundries = new CollisionVector(gameBoardObject);
+			CollisionVector objectBoundries = new CollisionVector(
+					gameBoardObject);
 			clearCollisionMap(objectBoundries);
-			
+
 			boolean validMove = true;
-			while(validMove){
+			while (validMove) {
 				objectBoundries.moveBy(-1);
-				validMove = checkCollision(objectBoundries);
+				validMove = !checkCollision(objectBoundries);
 			}
 			objectBoundries.moveBy(1);
-			
+
 			int maxDistance = objectBoundries.getDistance();
 			validMove = true;
-			while(validMove){
+			while (validMove) {
 				maxDistance++;
 				objectBoundries.setDistance(maxDistance);
-				validMove = checkCollision(objectBoundries);
+				validMove = !checkCollision(objectBoundries);
 			}
-			objectBoundries.setDistance(maxDistance-1);
-			
+			objectBoundries.setDistance(maxDistance - 1);
+
 			fillCollisionMap(new CollisionVector(gameBoardObject));
-			
-			return new Rectangle(objectBoundries.getSource().x, objectBoundries.getSource().y, objectBoundries.getDistance(), 1);
+
+			return new Rectangle(objectBoundries.getSource().x,
+					objectBoundries.getSource().y,
+					objectBoundries.getDistance(), 1);
 		} catch (IllegalMoveException e) {
 			return null;
 		}
 	}
-	
-	
+
 	/**
 	 * Versucht das übergebene GameBoardObject in der CollisionMap hinzuzufügen.
 	 * 
@@ -196,9 +197,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		try {
 			CollisionVector oldObjectBoundries = new CollisionVector(
 					gameBoardObject);
-			CollisionVector objectBoundries = new CollisionVector(gameBoardObject, orientation);
-			
-			clearCollisionMap(oldObjectBoundries);			
+			CollisionVector objectBoundries = new CollisionVector(
+					gameBoardObject, orientation);
+
+			clearCollisionMap(oldObjectBoundries);
 			// Keine Kollision
 			if (!checkCollision(objectBoundries)) {
 				fillCollisionMap(objectBoundries);

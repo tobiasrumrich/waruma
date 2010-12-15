@@ -24,7 +24,7 @@ public class AbstractCarWidget extends Composite {
 	private IImageCache imageCache = new ImageCache();
 	private Image originalImage;
 	private Orientation orientation = Orientation.NORTH;
-	private boolean isLocked;
+	protected boolean isLocked;
 	private boolean lockX = false;
 	private boolean lockY = false;
 	private boolean lockInCage = false;
@@ -110,7 +110,10 @@ public class AbstractCarWidget extends Composite {
 		
 		try {
 			mainWindow.gameplayControler.moveCar(gameObject, distance);
-		} catch (IllegalMoveException e) {
+			if(steeringLock){
+				isLocked = true;
+			}
+		} catch (Exception e) {
 			java.awt.Point oldPosition = gameObject.getPosition();
 			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
 			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);

@@ -74,7 +74,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 			throw new IllegalArgumentException("No valid RushHour State");
 		}
 	}
-
+	
 	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
 		return gameBoard.getMoveRange(gameBoardObject);
 	}
@@ -123,6 +123,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
+	
+	public Object getCurrentState(){
+		return gameBoard;		
+	} 
 
 	public void loadGame(String location) throws IOException {
 		FileSystemObjectStorage storage = new FileSystemObjectStorage();
