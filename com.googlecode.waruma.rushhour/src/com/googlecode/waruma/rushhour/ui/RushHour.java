@@ -43,10 +43,10 @@ public class RushHour implements IGameWonObserver {
 	private TabItem tabSpielen;
 	private Menu menu;
 
-	protected AbstractCarWidget highestCar;
-	protected List<AbstractCarWidget> carPool = new ArrayList<AbstractCarWidget>();
+	protected CarWidget highestCar;
+	protected List<CarWidget> carPool = new ArrayList<CarWidget>();
 	protected Composite mainComposite;
-	protected AbstractGameBoardWidget abstractGameBoardWidget;
+	protected GameBoardWidget abstractGameBoardWidget;
 	protected TabFolder tabFolder;
 	protected Composite cmpSpiel;
 	protected boolean gameMode; // True - Design
@@ -58,7 +58,7 @@ public class RushHour implements IGameWonObserver {
 	public List<ImageBean> availableCars;
 	public List<ImageBean> availableTrucks;
 	public List<ImageBean> availablePlayers;
-	protected AbstractDesignerWidget abstractDesignerWidget;
+	protected DesignerWidget abstractDesignerWidget;
 
 	/**
 	 * Launch the application.
@@ -168,7 +168,7 @@ public class RushHour implements IGameWonObserver {
 				MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO
 						| SWT.ICON_QUESTION);
 				messageBox
-						.setMessage("Möchten Sie diese Anwendung wirklich beenden?");
+						.setMessage("Mï¿½chten Sie diese Anwendung wirklich beenden?");
 				int open = messageBox.open();
 				if (open == SWT.YES) {
 					shell.dispose();
@@ -193,7 +193,7 @@ public class RushHour implements IGameWonObserver {
 					.getGoalField());
 		}
 
-		for (AbstractCarWidget carPoolCar : carPool) {
+		for (CarWidget carPoolCar : carPool) {
 			carPoolCar.dispose();
 		}
 
@@ -211,7 +211,7 @@ public class RushHour implements IGameWonObserver {
 		}
 
 		for (IGameBoardObject boardObject : carsFromController) {
-			AbstractCarWidget abstractCarWidget = new AbstractCarWidget(shell,
+			CarWidget abstractCarWidget = new CarWidget(shell,
 					this, boardObject);
 
 			if (gameMode) {
@@ -237,7 +237,7 @@ public class RushHour implements IGameWonObserver {
 	private void switchToGameplay() {
 		Object gameState = boardCreationControler.getCurrentState();
 		this.gameplayControler = new RushHourGameplayControler(gameState);
-		for (AbstractCarWidget currentCar : carPool) {
+		for (CarWidget currentCar : carPool) {
 			currentCar.updateRushHourListener(new GameplayCarMouseListener(
 					this, currentCar));
 			currentCar.setLock();
@@ -249,7 +249,7 @@ public class RushHour implements IGameWonObserver {
 
 			Object gameState = gameplayControler.getCurrentState();
 			boardCreationControler.loadState(gameState);
-			for (AbstractCarWidget currentCar : carPool) {
+			for (CarWidget currentCar : carPool) {
 				if (currentCar.player) {
 					currentCar
 							.updateRushHourListener(new DesignerPlayerCarMouseListener(
@@ -297,7 +297,7 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpContainer.marginHeight = 0;
 		mainComposite.setLayout(gl_cmpContainer);
 
-		abstractGameBoardWidget = new AbstractGameBoardWidget(mainComposite,
+		abstractGameBoardWidget = new GameBoardWidget(mainComposite,
 				SWT.NONE, BOARDWIDTH, BOARDHEIGHT);
 		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 				true, true, 1, 1));
@@ -329,7 +329,7 @@ public class RushHour implements IGameWonObserver {
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
 
-		abstractDesignerWidget = new AbstractDesignerWidget(this, tabFolder,
+		abstractDesignerWidget = new DesignerWidget(this, tabFolder,
 				SWT.NONE);
 		tbtmDesigner.setControl(abstractDesignerWidget);
 
@@ -455,13 +455,13 @@ public class RushHour implements IGameWonObserver {
 
 		if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
 				&& abstractGameBoardWidget.getCurrentFieldSize().y > 0)
-			for (AbstractCarWidget currentCar : carPool) {
+			for (CarWidget currentCar : carPool) {
 				currentCar.setSize(abstractGameBoardWidget
 						.getCurrentFieldSize());
 			}
 
 		// Autos neu positionieren
-		for (AbstractCarWidget currentCar : carPool) {
+		for (CarWidget currentCar : carPool) {
 			abstractGameBoardWidget.repositionCarOnBoard(currentCar);
 		}
 		// }
