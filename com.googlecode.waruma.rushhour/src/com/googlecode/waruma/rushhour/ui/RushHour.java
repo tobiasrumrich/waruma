@@ -25,12 +25,13 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
+import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.game.RushHourBoardCreationController;
 import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
 import com.swtdesigner.SWTResourceManager;
 
-public class RushHour {
+public class RushHour implements IGameWonObserver {
 	private static final int BOARDHEIGHT = 6;
 	private static final int BOARDWIDTH = 6;
 	final public static String IMAGEBASEPATH = "/com/googlecode/waruma/rushhour/ui/images/";
@@ -215,11 +216,13 @@ public class RushHour {
 
 			if (gameMode) {
 				if (boardObject instanceof IPlayer) {
-					abstractCarWidget.updateRushHourListener(new DesignerPlayerCarMouseListener(this,
-							abstractCarWidget));
+					abstractCarWidget
+							.updateRushHourListener(new DesignerPlayerCarMouseListener(
+									this, abstractCarWidget));
 				} else {
-					abstractCarWidget.updateRushHourListener(new DesignerCarMouseListener(this,
-							abstractCarWidget));
+					abstractCarWidget
+							.updateRushHourListener(new DesignerCarMouseListener(
+									this, abstractCarWidget));
 				}
 			} else {
 
@@ -230,20 +233,40 @@ public class RushHour {
 
 		}
 	}
-	
-	private void switchToGameplay(){
+
+	private void switchToGameplay() {
 		Object gameState = boardCreationControler.getCurrentState();
 		this.gameplayControler = new RushHourGameplayControler(gameState);
 		for (AbstractCarWidget currentCar : carPool) {
-			currentCar.updateRushHourListener(new GameplayCarMouseListener(this, currentCar));
+			currentCar.updateRushHourListener(new GameplayCarMouseListener(
+					this, currentCar));
 			currentCar.setLock();
 		}
 	}
 
 	protected void switchToDesigner() {
-			
+		if (gameplayControler != null) {
+
+			Object gameState = gameplayControler.getCurrentState();
+			boardCreationControler.loadState(gameState);
+			for (AbstractCarWidget currentCar : carPool) {
+				if (currentCar.player) {
+					currentCar
+							.updateRushHourListener(new DesignerPlayerCarMouseListener(
+									this, currentCar));
+					currentCar.removeLock();
+					currentCar.isLocked = false;
+				} else {
+					currentCar
+							.updateRushHourListener(new DesignerCarMouseListener(
+									this, currentCar));
+					currentCar.removeLock();
+					currentCar.isLocked = false;
+				}
+			}
+		}
 	}
-	
+
 	private void initializeAvailableCarImages() {
 		carFactory = new UICarFactory();
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
@@ -420,7 +443,13 @@ public class RushHour {
 
 	}
 
-	
+	@Override
+	public void updateGameWon() {
+		MessageBox messageBox = new MessageBox(shell);
+		messageBox.setMessage("Sie haben den Penis gewonnen");
+		messageBox.setText("Spiel gewonnen!");
+		messageBox.open();
+	}
 
 	private void resizeToDefinition() {
 
@@ -440,4 +469,5 @@ public class RushHour {
 		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
 	}
+
 }

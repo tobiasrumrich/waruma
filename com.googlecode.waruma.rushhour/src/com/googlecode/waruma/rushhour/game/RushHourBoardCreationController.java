@@ -156,8 +156,20 @@ public class RushHourBoardCreationController {
 			gameBoard = (GameBoard) fileSystemObjectStorage.deserialize(location);
 			collisionDetector = gameBoard.getCollisionDetector();
 			gameBoard.rebuildGameBoardObjects();
+			unlockAllCars();
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Fehler beim Laden der Datei");
+		}
+	}
+	
+	public void loadState(Object state){
+		try{
+			gameBoard = (GameBoard) state;
+			collisionDetector = gameBoard.getCollisionDetector();
+			gameBoard.rebuildGameBoardObjects();
+			unlockAllCars();
+		} catch (Exception e){
+			throw new IllegalArgumentException();
 		}
 	}
 
@@ -168,6 +180,17 @@ public class RushHourBoardCreationController {
 	
 	public Object getCurrentState(){
 		return gameBoard;
+	}
+	
+	public void unlockAllCars(){
+		Collection<IGameBoardObject> boardObjects = gameBoard.getGameBoardObjects();
+		SteeringLock currentLockable;
+		for (IGameBoardObject boardObject : boardObjects) {
+			if(boardObject instanceof SteeringLock){
+				currentLockable = (SteeringLock) boardObject;
+				currentLockable.unlock();
+			}
+		}
 	}
 	
 	public Collection<IGameBoardObject> getGameBoardObjects(){
