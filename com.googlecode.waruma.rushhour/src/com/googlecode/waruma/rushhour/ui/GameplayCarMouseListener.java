@@ -86,7 +86,6 @@ class GameplayCarMouseListener implements MouseListener {
 			int posY = (currentY - gameBoardY + (mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
 			observedCar.setPositionOnGameBoard(new Point(posX, posY));
-			mainWindow.lblDebug.setText(posX + ":" + posY);
 			// END Field Control
 
 		}
