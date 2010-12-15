@@ -118,7 +118,9 @@ public class RushHour {
 				fileDialog.setFilterExtensions(filterExt);
 				String selected = fileDialog.open();
 				try {
-					initializeNewGame(selected);
+					if (selected != null) {
+						initializeNewGame(selected);
+					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
 					messageBox.setMessage("Bla falscher Pfad oder so");
@@ -140,10 +142,12 @@ public class RushHour {
 				fileDialog.setFilterExtensions(filterExt);
 				String selected = fileDialog.open();
 				try {
-					if (gameMode) {
-						boardCreationControler.saveGameBoard(selected);
-					} else {
-						gameplayControler.saveGame(selected);
+					if (selected != null) {
+						if (gameMode) {
+							boardCreationControler.saveGameBoard(selected);
+						} else {
+							gameplayControler.saveGame(selected);
+						}
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
@@ -151,7 +155,7 @@ public class RushHour {
 					messageBox.setText("gdsgs");
 					messageBox.open();
 				}
-				
+
 			}
 		});
 		mntmSpielSpeichern.setText("Spiel speichern");
@@ -182,21 +186,21 @@ public class RushHour {
 		mntmberDasProgramm.setText("\u00DCber");
 	}
 
-
 	protected void initializeNewGame(String fileName) throws IOException {
-		if(abstractGameBoardWidget.getGoalField() != null){
-			abstractGameBoardWidget.removeHighlight(abstractGameBoardWidget.getGoalField());
+		if (abstractGameBoardWidget.getGoalField() != null) {
+			abstractGameBoardWidget.removeHighlight(abstractGameBoardWidget
+					.getGoalField());
 		}
-		
+
 		for (AbstractCarWidget carPoolCar : carPool) {
 			carPoolCar.dispose();
 		}
-		
+
 		carPool.clear();
-	
+
 		Collection<IGameBoardObject> carsFromController = new ArrayList<IGameBoardObject>();
 		if (gameMode) {
-			//Designer
+			// Designer
 			boardCreationControler.loadGameBoard(fileName);
 			carsFromController = boardCreationControler.getGameBoardObjects();
 		} else {
@@ -204,28 +208,42 @@ public class RushHour {
 			gameplayControler.loadGame(fileName);
 			carsFromController = gameplayControler.getCars();
 		}
-		
+
 		for (IGameBoardObject boardObject : carsFromController) {
-			AbstractCarWidget abstractCarWidget = new AbstractCarWidget(shell, this, boardObject);
-			
-			if(gameMode){
-				if(boardObject instanceof IPlayer){
-					abstractCarWidget.addMouseListener(new PlayerCarMouseListener(
-							this, abstractCarWidget));
+			AbstractCarWidget abstractCarWidget = new AbstractCarWidget(shell,
+					this, boardObject);
+
+			if (gameMode) {
+				if (boardObject instanceof IPlayer) {
+					abstractCarWidget.updateRushHourListener(new DesignerPlayerCarMouseListener(this,
+							abstractCarWidget));
 				} else {
-					abstractCarWidget.addMouseListener(new CarMouseListener(
-							this, abstractCarWidget));
+					abstractCarWidget.updateRushHourListener(new DesignerCarMouseListener(this,
+							abstractCarWidget));
 				}
 			} else {
-				
+
 			}
-			
+
 			carPool.add(abstractCarWidget);
 			abstractCarWidget.moveAbove(mainComposite);
-			
+
+		}
+	}
+	
+	private void switchToGameplay(){
+		Object gameState = boardCreationControler.getCurrentState();
+		this.gameplayControler = new RushHourGameplayControler(gameState);
+		for (AbstractCarWidget currentCar : carPool) {
+			currentCar.updateRushHourListener(new GameplayCarMouseListener(this, currentCar));
+			currentCar.setLock();
 		}
 	}
 
+	protected void switchToDesigner() {
+			
+	}
+	
 	private void initializeAvailableCarImages() {
 		carFactory = new UICarFactory();
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
@@ -273,21 +291,17 @@ public class RushHour {
 				1, 1);
 		gd_tabFolder.widthHint = 239;
 		tabFolder.setLayoutData(gd_tabFolder);
-		// tabFolder.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		// // System.out.println(tabFolder.getSelectionIndex());
-		// if (tabFolder.getSelectionIndex() == 1) {
-		// for (AbstractCarWidget currentCar : carPool) {
-		// currentCar.setVisible(true);
-		// }
-		// } else {
-		// for (AbstractCarWidget currentCar : carPool) {
-		// currentCar.setVisible(false);
-		// }
-		// }
-		// }
-		// });
+		tabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// System.out.println(tabFolder.getSelectionIndex());
+				if (tabFolder.getSelectionIndex() == 1) {
+					switchToGameplay();
+				} else {
+					switchToDesigner();
+				}
+			}
+		});
 
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
@@ -405,6 +419,8 @@ public class RushHour {
 		});
 
 	}
+
+	
 
 	private void resizeToDefinition() {
 

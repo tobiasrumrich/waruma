@@ -1,19 +1,14 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import java.util.HashMap;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
@@ -34,11 +29,20 @@ public class AbstractCarWidget extends Composite {
 	private boolean lockY = false;
 	private boolean lockInCage = false;
 
+	protected MouseListener currentMouseListener;
 	protected boolean steeringLock;
 	protected boolean player;
 	protected int length;
 	protected boolean knownInController;
 	protected IGameBoardObject gameObject;
+
+	public void updateRushHourListener(MouseListener listener) {
+		if (currentMouseListener != null)
+			this.removeMouseListener(currentMouseListener);
+		
+		currentMouseListener = listener;
+		this.addMouseListener(listener);
+	}
 
 	public void addToBoardControler() {
 		try {
@@ -70,7 +74,7 @@ public class AbstractCarWidget extends Composite {
 		mainWindow.carPool.remove(this);
 	}
 
-	public boolean moveToPositionControler() {
+	public boolean moveToPositionController() {
 		try {
 			mainWindow.boardCreationControler.changeCarPosition(gameObject,
 					positionOnGameBoard);
@@ -83,7 +87,51 @@ public class AbstractCarWidget extends Composite {
 			return false;
 		}
 	}
+	
+	public void moveCar(){
+		
+		int distance = 0;
+		
+		if(orientation == Orientation.NORTH){
+			distance = gameObject.getPosition().y - positionOnGameBoard.y;
+		}
+		
+		if(orientation == Orientation.WEST){
+			distance = gameObject.getPosition().x - positionOnGameBoard.x;
+		}
+		
+		if(orientation == Orientation.SOUTH){
+			distance = positionOnGameBoard.y - gameObject.getPosition().y;
+		}
+		
+		if(orientation == Orientation.EAST){
+			distance = positionOnGameBoard.x - gameObject.getPosition().x;
+		}
+		
+		try {
+			mainWindow.gameplayControler.moveCar(gameObject, distance);
+		} catch (IllegalMoveException e) {
+			java.awt.Point oldPosition = gameObject.getPosition();
+			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
+			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
+		}
+	}
 
+	public void setLock(){
+		if(orientation == Orientation.NORTH || orientation == Orientation.SOUTH){
+			lockY = false;
+			lockX = true;
+		} else {
+			lockY = true;
+			lockX = false;
+		}
+	}
+	
+	public void removeLock() {
+		lockX = false;
+		lockY = false;
+	}
+	
 	public void rotateToOrientation() {
 		switch (orientation) {
 		case NORTH:
@@ -235,9 +283,11 @@ public class AbstractCarWidget extends Composite {
 		if (gameBoardObject instanceof IPlayer) {
 			IPlayer playerCar = (IPlayer) gameBoardObject;
 			java.awt.Point destination = playerCar.getDestination();
-			mainWindow.abstractGameBoardWidget.setGoalField(new Point(destination.x, destination.y));
-			mainWindow.abstractGameBoardWidget.setHighlight(new Point(destination.x, destination.y));
-			
+			mainWindow.abstractGameBoardWidget.setGoalField(new Point(
+					destination.x, destination.y));
+			mainWindow.abstractGameBoardWidget.setHighlight(new Point(
+					destination.x, destination.y));
+
 			this.player = true;
 		}
 

@@ -2,6 +2,8 @@ package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
@@ -24,4 +26,6 @@ public interface ICollisionDetector {
 
 	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
 			Orientation orientation) throws IllegalBoardPositionException;
+
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject);
 }

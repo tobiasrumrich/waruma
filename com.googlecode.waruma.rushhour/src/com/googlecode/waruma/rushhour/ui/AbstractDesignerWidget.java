@@ -83,11 +83,11 @@ public class AbstractDesignerWidget extends Composite {
 				
 				
 				if(carTypeComboBox.getSelectionIndex() == 2){
-					newCarFromDesigner.addMouseListener(new PlayerCarMouseListener(
+					newCarFromDesigner.updateRushHourListener(new DesignerPlayerCarMouseListener(
 							mainWindow, newCarFromDesigner));
 				}else{
-					newCarFromDesigner.addMouseListener(new CarMouseListener(
-						mainWindow, newCarFromDesigner));
+					newCarFromDesigner.updateRushHourListener(new DesignerCarMouseListener(
+							mainWindow, newCarFromDesigner));
 				}
 				
 				newCarFromDesigner.setSize(mainWindow.abstractGameBoardWidget

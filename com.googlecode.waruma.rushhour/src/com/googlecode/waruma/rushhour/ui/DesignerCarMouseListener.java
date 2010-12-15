@@ -7,13 +7,13 @@ import org.eclipse.swt.graphics.Point;
 
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
-class CarMouseListener implements MouseListener {
+class DesignerCarMouseListener implements MouseListener {
 
 	final RushHour mainWindow;
 	AbstractCarWidget observedCar;
 	boolean moveSuccessful;
 
-	public CarMouseListener(RushHour rushHour, AbstractCarWidget observedCar) {
+	public DesignerCarMouseListener(RushHour rushHour, AbstractCarWidget observedCar) {
 		super();
 		mainWindow = rushHour;
 		this.observedCar = observedCar;
@@ -25,17 +25,17 @@ class CarMouseListener implements MouseListener {
 			int neuesX = observedCar.getLocation().x + arg0.x - clickX;
 			int neuesY = observedCar.getLocation().y + arg0.y - clickY;
 
-			int boardWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int boardWidth = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getBounds().width;
-			int boardHeight = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int boardHeight = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getBounds().height;
-			int boardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int boardX = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getLocation().x
-					+ CarMouseListener.this.mainWindow.mainComposite
+					+ DesignerCarMouseListener.this.mainWindow.mainComposite
 							.getLocation().x;
-			int boardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int boardY = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getLocation().y
-					+ CarMouseListener.this.mainWindow.mainComposite
+					+ DesignerCarMouseListener.this.mainWindow.mainComposite
 							.getLocation().y;
 
 			if (observedCar.isLockedInCage()) {
@@ -65,9 +65,9 @@ class CarMouseListener implements MouseListener {
 				if (neuesX <= boardX)
 					neuesX = boardX;
 
-				if (neuesX > (CarMouseListener.this.mainWindow.shell
+				if (neuesX > (DesignerCarMouseListener.this.mainWindow.shell
 						.getBounds().width - observedCar.getBounds().width - 30))
-					neuesX = CarMouseListener.this.mainWindow.shell.getBounds().width
+					neuesX = DesignerCarMouseListener.this.mainWindow.shell.getBounds().width
 							- observedCar.getBounds().width - 30;
 
 				if (neuesY <= boardY)
@@ -81,26 +81,26 @@ class CarMouseListener implements MouseListener {
 			// BEGIN FieldControl
 			int currentX = observedCar.getLocation().x;
 			int currentY = observedCar.getLocation().y;
-			int gameBoardX = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int gameBoardX = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getLocation().x
-					+ CarMouseListener.this.mainWindow.mainComposite
+					+ DesignerCarMouseListener.this.mainWindow.mainComposite
 							.getLocation().x;
 
-			int gameBoardY = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int gameBoardY = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getLocation().y
-					+ CarMouseListener.this.mainWindow.mainComposite
+					+ DesignerCarMouseListener.this.mainWindow.mainComposite
 							.getLocation().y;
 
-			int fieldSizeWidth = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int fieldSizeWidth = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().x;
-			int fieldSizeHeight = CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int fieldSizeHeight = DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().y;
-			int posX = (currentX - gameBoardX + (CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int posX = (currentX - gameBoardX + (DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().x / 2)) / fieldSizeWidth;
-			int posY = (currentY - gameBoardY + (CarMouseListener.this.mainWindow.abstractGameBoardWidget
+			int posY = (currentY - gameBoardY + (DesignerCarMouseListener.this.mainWindow.abstractGameBoardWidget
 					.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
 			observedCar.setPositionOnGameBoard(new Point(posX, posY));
-			CarMouseListener.this.mainWindow.lblDebug
+			DesignerCarMouseListener.this.mainWindow.lblDebug
 					.setText(posX + ":" + posY);
 			// END Field Control
 
@@ -125,7 +125,7 @@ class CarMouseListener implements MouseListener {
 					.repositionCarOnBoard(observedCar);
 
 			if (observedCar.knownInController) {
-				moveSuccessful = observedCar.moveToPositionControler();
+				moveSuccessful = observedCar.moveToPositionController();
 			} else {
 				observedCar.addToBoardControler();
 				observedCar.knownInController = true;

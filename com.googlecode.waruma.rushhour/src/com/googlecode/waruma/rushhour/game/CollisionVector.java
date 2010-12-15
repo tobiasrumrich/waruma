@@ -18,6 +18,18 @@ public class CollisionVector {
 	private Orientation orientation;
 	private int distance;
 
+	public Point getSource() {
+		return source;
+	}
+	
+	public int getDistance() {
+		return distance;
+	}
+	
+	public void setDistance(int distance){
+		this.distance = distance;
+	}
+
 	/**
 	 * Erzeugt einen neuen Kollisionsvektor aus einem Spielbrettobjekt
 	 * 
