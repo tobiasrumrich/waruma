@@ -5,11 +5,11 @@ import org.eclipse.swt.graphics.Point;
 
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
-public class PlayerCarMouseListener extends CarMouseListener {
+public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 	private RushHour mainWindow;
 	private Point fieldPoint;
 
-	public PlayerCarMouseListener(RushHour rushHour,
+	public DesignerPlayerCarMouseListener(RushHour rushHour,
 			AbstractCarWidget observedCar) {
 		super(rushHour, observedCar);
 		this.mainWindow = rushHour;
@@ -32,7 +32,7 @@ public class PlayerCarMouseListener extends CarMouseListener {
 
 		moveSuccessful = false;
 		if (observedCar.knownInController) {
-			moveSuccessful = observedCar.moveToPositionControler();
+			moveSuccessful = observedCar.moveToPositionController();
 		}
 
 		if (carX < boardBorder) {

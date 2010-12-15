@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
@@ -125,6 +127,37 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		setCollisionMap(collisionPath, false);
 	}
 
+	
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+		try {
+			CollisionVector objectBoundries = new CollisionVector(gameBoardObject);
+			clearCollisionMap(objectBoundries);
+			
+			boolean validMove = true;
+			while(validMove){
+				objectBoundries.moveBy(-1);
+				validMove = checkCollision(objectBoundries);
+			}
+			objectBoundries.moveBy(1);
+			
+			int maxDistance = objectBoundries.getDistance();
+			validMove = true;
+			while(validMove){
+				maxDistance++;
+				objectBoundries.setDistance(maxDistance);
+				validMove = checkCollision(objectBoundries);
+			}
+			objectBoundries.setDistance(maxDistance-1);
+			
+			fillCollisionMap(new CollisionVector(gameBoardObject));
+			
+			return new Rectangle(objectBoundries.getSource().x, objectBoundries.getSource().y, objectBoundries.getDistance(), 1);
+		} catch (IllegalMoveException e) {
+			return null;
+		}
+	}
+	
+	
 	/**
 	 * Versucht das übergebene GameBoardObject in der CollisionMap hinzuzufügen.
 	 * 

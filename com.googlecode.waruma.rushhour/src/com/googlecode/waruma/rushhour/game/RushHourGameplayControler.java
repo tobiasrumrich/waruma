@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.FileSystemObjectStorage;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
@@ -73,6 +75,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		}
 	}
 
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+		return gameBoard.getMoveRange(gameBoardObject);
+	}
+	
 	/**
 	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurück
 	 * 

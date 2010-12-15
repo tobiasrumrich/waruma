@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
@@ -136,6 +138,10 @@ public class GameBoard implements Serializable {
 		return gameBoardObjects.values();
 	}
 
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+		return collisionDetector.getMoveRange(gameBoardObject);
+	}
+	
 	/**
 	 * Gibt den Stack der bisher ausgeführten Züge aus
 	 * 
