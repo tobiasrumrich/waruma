@@ -15,7 +15,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
 import com.swtdesigner.SWTResourceManager;
 
-public class AbstractCarWidget extends Composite {
+public class CarWidget extends Composite {
 
 	private Point positionOnGameBoard;
 	private RushHour mainWindow;
@@ -228,7 +228,7 @@ public class AbstractCarWidget extends Composite {
 	 */
 	private void initImageHandling(String imageLocation) {
 		// Bild laden und als Originalbild abspeichern
-		originalImage = SWTResourceManager.getImage(AbstractCarWidget.class,
+		originalImage = SWTResourceManager.getImage(CarWidget.class,
 				imageLocation);
 
 		// Originalbild als aktuelles Bild setzen
@@ -248,7 +248,7 @@ public class AbstractCarWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractCarWidget(Composite parent, RushHour rushHour, int width,
+	public CarWidget(Composite parent, RushHour rushHour, int width,
 			int height, String imageLocation, boolean hasSteeringLock,
 			boolean isPlayer) {
 		super(parent, SWT.NONE);
@@ -268,7 +268,7 @@ public class AbstractCarWidget extends Composite {
 
 	}
 
-	public AbstractCarWidget(Composite parent, RushHour rushHour,
+	public CarWidget(Composite parent, RushHour rushHour,
 			IGameBoardObject gameBoardObject) {
 		super(parent, SWT.NONE);
 		this.mainWindow = rushHour;

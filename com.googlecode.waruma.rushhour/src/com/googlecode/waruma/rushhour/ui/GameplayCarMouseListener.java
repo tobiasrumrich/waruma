@@ -11,11 +11,11 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 class GameplayCarMouseListener implements MouseListener {
 
 	final RushHour mainWindow;
-	AbstractCarWidget observedCar;
+	CarWidget observedCar;
 	boolean moveSuccessful;
 
 	public GameplayCarMouseListener(RushHour rushHour,
-			AbstractCarWidget observedCar) {
+			CarWidget observedCar) {
 		super();
 		mainWindow = rushHour;
 		this.observedCar = observedCar;
@@ -174,7 +174,7 @@ class GameplayCarMouseListener implements MouseListener {
 
 		observedCar.addMouseMoveListener(mouseMoveListener);
 
-		for (AbstractCarWidget car : mainWindow.carPool) {
+		for (CarWidget car : mainWindow.carPool) {
 			if (!car.equals(observedCar))
 				car.moveBelow(observedCar);
 		}

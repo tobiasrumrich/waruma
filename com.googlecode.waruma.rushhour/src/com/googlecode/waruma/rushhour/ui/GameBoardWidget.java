@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Label;
 
 import com.swtdesigner.SWTResourceManager;
 
-public class AbstractGameBoardWidget extends Composite {
+public class GameBoardWidget extends Composite {
 
 	private Composite parent;
 	private Label[][] spielbrett;
@@ -48,7 +48,7 @@ public class AbstractGameBoardWidget extends Composite {
 
 		@Override
 		public void mouseExit(MouseEvent arg0) {
-			inField = "Tschüssing";
+			inField = "Tschï¿½ssing";
 
 		}
 
@@ -67,7 +67,7 @@ public class AbstractGameBoardWidget extends Composite {
 	 * @param breite
 	 * @param hoehe
 	 */
-	public AbstractGameBoardWidget(Composite parent, int style, int breite,
+	public GameBoardWidget(Composite parent, int style, int breite,
 			int hoehe) {
 		super(parent, style);
 		
@@ -166,7 +166,7 @@ public class AbstractGameBoardWidget extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	void repositionCarOnBoard(AbstractCarWidget carWidget) {
+	void repositionCarOnBoard(CarWidget carWidget) {
 		if (carWidget.getPositionOnGameBoard() != null) {
 			int boardX = getLocation().x
 					+ parent.getLocation().x;

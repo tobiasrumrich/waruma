@@ -10,7 +10,7 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 	private Point fieldPoint;
 
 	public DesignerPlayerCarMouseListener(RushHour rushHour,
-			AbstractCarWidget observedCar) {
+			CarWidget observedCar) {
 		super(rushHour, observedCar);
 		this.mainWindow = rushHour;
 		this.mainWindow.abstractDesignerWidget.removePlayerCarToCombobox();

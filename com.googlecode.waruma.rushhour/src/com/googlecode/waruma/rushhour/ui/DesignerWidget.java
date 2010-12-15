@@ -15,9 +15,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class AbstractDesignerWidget extends Composite {
+public class DesignerWidget extends Composite {
 
-	private AbstractCarWidget designerPreviewCar;
+	private CarWidget designerPreviewCar;
 	private final RushHour mainWindow;
 	private Combo carTypeComboBox;
 	private Combo carImageComoBox;
@@ -32,7 +32,7 @@ public class AbstractDesignerWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractDesignerWidget(final RushHour mainWindow, Composite parent,
+	public DesignerWidget(final RushHour mainWindow, Composite parent,
 			int style) {
 		super(parent, style);
 		this.setLayout(new GridLayout(2, false));
@@ -45,7 +45,7 @@ public class AbstractDesignerWidget extends Composite {
 		gd_composite.heightHint = 282;
 		carCreationComposite.setLayoutData(gd_composite);
 
-		designerPreviewCar = new AbstractCarWidget(carCreationComposite, mainWindow, 11, 3,
+		designerPreviewCar = new CarWidget(carCreationComposite, mainWindow, 11, 3,
 				RushHour.IMAGEBASEPATH + "2F_car_Peterwagen_carimg.png", false, false);
 		designerPreviewCar.setBounds(68, 22, 100, 200);
 
@@ -70,14 +70,14 @@ public class AbstractDesignerWidget extends Composite {
 				if(carTypeComboBox.getSelectionIndex() == 2)
 					isPlayer = true;
 				
-				AbstractCarWidget newCarFromDesigner = new AbstractCarWidget(
+				CarWidget newCarFromDesigner = new CarWidget(
 						mainWindow.shell, mainWindow, 1, carLength, RushHour.IMAGEBASEPATH
 								+ imageFileName, lenkradschloss.getSelection(), isPlayer);
 				
 				
 				newCarFromDesigner.moveAbove(mainWindow.mainComposite);
 				
-				for (AbstractCarWidget car : mainWindow.carPool) {
+				for (CarWidget car : mainWindow.carPool) {
 					car.moveBelow(newCarFromDesigner);
 				}
 				
