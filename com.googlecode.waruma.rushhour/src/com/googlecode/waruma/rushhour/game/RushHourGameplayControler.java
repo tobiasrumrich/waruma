@@ -196,7 +196,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 			return dateFormat.format(date);
 		} else {
-			return "Game not started";
+			return "00:00:00";
 		}
 	}
 
