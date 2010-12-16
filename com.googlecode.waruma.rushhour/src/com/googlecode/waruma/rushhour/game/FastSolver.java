@@ -184,9 +184,10 @@ public class FastSolver implements ISolver {
 			IPlayer player = (IPlayer) gameBoardObject;
 			this.solutionX = (byte) player.getDestination().x;
 			this.solutionY = (byte) player.getDestination().y;
-			if (orientation) {
+			if (gameBoardObject.getOrientation() == Orientation.EAST) {
 				this.solutionX--;
-			} else {
+			} 
+			if (gameBoardObject.getOrientation() == Orientation.SOUTH) {
 				this.solutionY--;
 			}
 

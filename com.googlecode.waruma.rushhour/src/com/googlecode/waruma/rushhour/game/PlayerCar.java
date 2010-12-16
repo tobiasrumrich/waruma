@@ -21,7 +21,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
-	private Set<IReachedDestinationObserver> observers;
+	private transient Set<IReachedDestinationObserver> observers;
 	private ICollisionDetector collisionDetector;
 	private boolean reachedDestination;
 
@@ -92,6 +92,9 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 */
 	public void registerReachedDestination(
 			IReachedDestinationObserver eventTarget) {
+		if(observers == null){
+			observers = new HashSet<IReachedDestinationObserver>();
+		}
 		observers.add(eventTarget);
 	}
 

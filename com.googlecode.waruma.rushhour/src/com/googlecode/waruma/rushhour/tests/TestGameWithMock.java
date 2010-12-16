@@ -39,7 +39,6 @@ public class TestGameWithMock extends TestCase {
 	IGameBoardObject car1, car2, car3, car4, car5, car6, car7, truck1, truck2,
 			playerCar;
 	private RushHourGameplayControler gamePlayController;
-	private GameState gameState;
 	private RushHourWindowMock rushHourWindowMock;
 	private ArrayList<IGameBoardObject> listOfCars;
 
@@ -91,6 +90,7 @@ public class TestGameWithMock extends TestCase {
 		listOfCars.add(car7);
 		listOfCars.add(truck1);
 		listOfCars.add(truck2);
+		listOfCars.add(playerCar);
 		
 		Object currentState = boardCreationController.getCurrentState();
 
@@ -101,18 +101,13 @@ public class TestGameWithMock extends TestCase {
 		}
 
 		gamePlayController = new RushHourGameplayControler(gameBoard);
-		gameState = new GameState();
-		gameState.addPlayer((IPlayer) playerCar);
 
 		rushHourWindowMock = new RushHourWindowMock();
 		gamePlayController.registerGameWon(rushHourWindowMock);
-		((PlayerCar) playerCar).registerReachedDestination(gameState);
-
 	}
 
 	public void testSolver() {
-		ISolver solver = new FastSolver(gameBoard);
-		List<IMove> solverMoves = solver.solveGameBoard();
+		List<IMove> solverMoves = gamePlayController.solveGame();
 
 		for (IMove iMove : solverMoves) {
 			try {
@@ -129,8 +124,8 @@ public class TestGameWithMock extends TestCase {
 
 	public void testGetCars() {
 		Collection<IGameBoardObject> cars = gamePlayController.getCars();
-		for (IGameBoardObject iCar : cars) {
-			if (!listOfCars.contains(iCar)) {
+		for (IGameBoardObject boardObject : listOfCars) {
+			if(!gamePlayController.getCars().contains(boardObject)){
 				fail();
 			}
 		}
@@ -142,7 +137,9 @@ public class TestGameWithMock extends TestCase {
 		try {
 			gamePlayController.saveGame("temp_junit_serialized_game.tmp");
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail();
+			
 		}
 
 		RushHourBoardCreationController anotherBoardCreationController = new RushHourBoardCreationController(
