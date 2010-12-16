@@ -116,6 +116,7 @@ public class CarWidget extends Composite {
 			}
 			mainWindow.gamePlayWidget.showBackButton(true);
 			mainWindow.gamePlayWidget.showForthButton(false);
+			mainWindow.updateMoveCount();
 		} catch (Exception e) {
 			java.awt.Point oldPosition = gameObject.getPosition();
 			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
@@ -127,6 +128,7 @@ public class CarWidget extends Composite {
 		java.awt.Point position = gameObject.getPosition();
 		positionOnGameBoard = new Point(position.x, position.y);
 		mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
+		mainWindow.updateMoveCount();
 	}
 
 	public void setLock(){

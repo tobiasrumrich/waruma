@@ -24,6 +24,8 @@ public class GameplayWidget extends Composite {
 	private Button btnRueckwaerts;
 	private Button btnVorwaerts;
 	private final RushHour mainWindow;
+	protected Label lblZge;
+	protected Label lblMoves;
 
 	/**
 	 * Create the composite.
@@ -60,15 +62,19 @@ public class GameplayWidget extends Composite {
 		lblTime = new Label(this, SWT.NONE);
 		lblTime.setText("00:00:00");
 
-		Label lblZge = new Label(this, SWT.NONE);
+		lblZge = new Label(this, SWT.NONE);
 		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_lblZge.heightHint = 13;
 		lblZge.setLayoutData(gd_lblZge);
 		lblZge.setText("Züge");
 
-		Label lblMoves = new Label(this, SWT.NONE);
-		lblMoves.setText("15");
+		lblMoves = new Label(this, SWT.NONE);
+		lblMoves.setText("0");
+		GridData gd_lblMoves = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblMoves.widthHint = 142;
+		lblMoves.setLayoutData(gd_lblMoves);
 
 		lblDebug = new Label(this, SWT.NONE);
 		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,

@@ -59,9 +59,10 @@ public class FastSolver implements ISolver {
 	 */
 	public List<IMove> solveGameBoard() {
 		while (!stateQueue.isEmpty()) {
-			FastSolverState currentState = stateQueue.remove();			
+			FastSolverState currentState = stateQueue.remove();
 			// Ziel erreicht?
-			if (currentState.player.x == solutionX
+			if (currentState.player != null
+					&& currentState.player.x == solutionX
 					&& currentState.player.y == solutionY) {
 				return reconstructMoveList(currentState);
 			}
@@ -70,7 +71,7 @@ public class FastSolver implements ISolver {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Bestimmt alle in einem gegebenen SolverState durchführbaren Züge und
 	 * leitet diese an addStateToQueue weiter
@@ -158,8 +159,11 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Erstellt aus dem übergebenen GameBoardObject ein SolverCar mit den gleichen Eigenschaften
-	 * @param gameBoardObject Spielbrettobjekt
+	 * Erstellt aus dem übergebenen GameBoardObject ein SolverCar mit den
+	 * gleichen Eigenschaften
+	 * 
+	 * @param gameBoardObject
+	 *            Spielbrettobjekt
 	 * @return SolverCar
 	 */
 	private FastSolverCar createSolverCarFromGameBoardObject(
