@@ -133,8 +133,8 @@ public class RushHour implements IGameWonObserver {
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
-					messageBox.setMessage("Bla falscher Pfad oder so");
-					messageBox.setText("gdsgs");
+					messageBox.setMessage("Kein gültiger RushHour Spielstand!");
+					messageBox.setText("Fehler beim Laden der Datei");
 					messageBox.open();
 				}
 			}
@@ -161,8 +161,8 @@ public class RushHour implements IGameWonObserver {
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
-					messageBox.setMessage("Bla falscher Pfad oder so");
-					messageBox.setText("gdsgs");
+					messageBox.setMessage("Der Spielstand konnte nicht gespeichert werden. Bitte überprüfen Sie den angegebenen Pfad.");
+					messageBox.setText("Fehler beim Speichern der Datei");
 					messageBox.open();
 				}
 
@@ -212,6 +212,8 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	protected void initializeNewGame(String fileName) throws IOException {
+		tabFolder.setSelection(0);
+		
 		if (abstractGameBoardWidget.getGoalField() != null) {
 			abstractGameBoardWidget.removeHighlight(abstractGameBoardWidget
 					.getGoalField());
@@ -237,6 +239,8 @@ public class RushHour implements IGameWonObserver {
 		for (IGameBoardObject boardObject : carsFromController) {
 			CarWidget abstractCarWidget = new CarWidget(shell, this,
 					boardObject);
+			
+			abstractCarWidget.knownInController = true;
 
 			if (gameMode) {
 				if (boardObject instanceof IPlayer) {
@@ -249,7 +253,7 @@ public class RushHour implements IGameWonObserver {
 									this, abstractCarWidget));
 				}
 			} else {
-
+					
 			}
 
 			carPool.add(abstractCarWidget);
@@ -293,6 +297,7 @@ public class RushHour implements IGameWonObserver {
 			Object gameState = gameplayControler.getCurrentState();
 			boardCreationControler.loadState(gameState);
 			for (CarWidget currentCar : carPool) {
+				currentCar.knownInController = true;
 				if (currentCar.player) {
 					currentCar
 							.updateRushHourListener(new DesignerPlayerCarMouseListener(
