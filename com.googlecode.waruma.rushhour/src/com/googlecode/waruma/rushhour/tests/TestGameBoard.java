@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
@@ -82,6 +84,12 @@ public class TestGameBoard extends TestCase {
 				Orientation orientation) throws IllegalBoardPositionException {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 

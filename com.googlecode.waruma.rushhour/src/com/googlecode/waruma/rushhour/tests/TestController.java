@@ -31,7 +31,7 @@ import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
  * @author Rumrich
  * 
  */
-public class TestGameWithMock extends TestCase {
+public class TestController extends TestCase {
 
 	List<IGameBoardObject> carList = new ArrayList<IGameBoardObject>();
 	RushHourBoardCreationController boardCreationController;

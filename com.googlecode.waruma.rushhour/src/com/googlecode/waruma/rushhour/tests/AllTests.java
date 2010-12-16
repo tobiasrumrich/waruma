@@ -13,12 +13,13 @@ public class AllTests {
 		suite.addTestSuite(TestAdditionalFunctionality.class);
 		suite.addTestSuite(TestGameBoard.class);
 		suite.addTestSuite(TestGameState.class);
-		suite.addTestSuite(TestGameWithMock.class);
+		suite.addTestSuite(TestController.class);
 		suite.addTestSuite(TestMove.class);
 		suite.addTestSuite(TestPlayerCar.class);
 		suite.addTestSuite(TestCollisionDetector.class);
 		suite.addTestSuite(TestStandardCar.class);
 		suite.addTestSuite(TestSteeringCar.class);
+		
 		
 		// $JUnit-END$
 		return suite;
