@@ -277,6 +277,7 @@ public class RushHour implements IGameWonObserver {
 		}
 
 		gamePlayWidget.showBackButton(false);
+		gamePlayWidget.showForthButton(false);
 
 		final int time = 100;
 		final Runnable timer = new Runnable() {

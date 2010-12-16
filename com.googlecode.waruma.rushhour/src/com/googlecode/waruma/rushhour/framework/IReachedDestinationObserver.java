@@ -1,21 +1,26 @@
 package com.googlecode.waruma.rushhour.framework;
 
+/**
+ * Schnittstellendefinition für Observer die Player beobachten
+ * 
+ * @author Florian
+ */
 public interface IReachedDestinationObserver {
 
 	/**
-	 * teilt dem Observer mit, dass der IPlayer das Ziel erreicht hat
+	 * Teilt dem Observer mit, dass der IPlayer das Ziel erreicht hat
 	 * 
 	 * @param player
-	 *            IPlayer-Objekt, welches das Ziel erreicht hat
+	 *            Player der das Ziel erreicht hat
 	 */
 	public void updateReachedDestination(IPlayer player);
 
 	/**
-	 * fügt einen IPlayer in die Liste der observierten IPlayers hinzu und
+	 * Fügt einen Player in die Liste der observierten Players hinzu und
 	 * registriert sich beim Player
 	 * 
 	 * @param player
-	 *            zu observierender IPlayer
+	 *            Zu observierender Player
 	 */
 	public void addPlayer(IPlayer player);
 }

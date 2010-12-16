@@ -17,6 +17,11 @@ public interface IPlayer {
 	 */
 	public void registerReachedDestination(
 			IReachedDestinationObserver eventTarget);
+	
+	/**
+	 * Deregistriert alle Observer
+	 */
+	public void unregisterAllObservers();
 
 	public Point getDestination();
 
