@@ -205,6 +205,8 @@ public class RushHour implements IGameWonObserver {
 			if (!gameplayControler.hasMoveInHistory()) {
 				gamePlayWidget.showBackButton(false);
 			}
+			gamePlayWidget.showForthButton(false);
+			moveQueue = null;
 		}
 	}
 
@@ -307,6 +309,37 @@ public class RushHour implements IGameWonObserver {
 		}
 	}
 
+	public void doMoveFromSolver() {
+		if(moveQueue != null && !moveQueue.isEmpty()){
+			IMove move = moveQueue.poll();
+			IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
+			try {
+				gameplayControler.moveCar(gameBoardObject, move.getDistance());
+			} catch (IllegalMoveException e) {
+				gamePlayWidget.showForthButton(false);
+			}
+			
+			for (CarWidget car : carPool) {
+				if(car.gameObject.equals(gameBoardObject)){
+					car.moveCarInUi();
+					gamePlayWidget.showBackButton(true);
+				}
+			}
+		} else {
+			gamePlayWidget.showForthButton(false);
+		}
+	}
+
+	public void solveGameBoard() {
+		if (gameplayControler != null) {
+			List<IMove> moveList = gameplayControler.solveGame();
+			if (moveList != null && !moveList.isEmpty()) {
+				moveQueue = new LinkedList<IMove>(moveList);
+				gamePlayWidget.showForthButton(true);
+			}
+		}
+	}
+	
 	private void initializeAvailableCarImages() {
 		carFactory = new UICarFactory();
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
@@ -412,7 +445,7 @@ public class RushHour implements IGameWonObserver {
 
 	@Override
 	public void updateGameWon() {
-		GameWonNotifier gameWonWindow = new GameWonNotifier(shell, "ZZ:YY:XX",
+		GameWonNotifier gameWonWindow = new GameWonNotifier(this, gameplayControler.elapsedGameTime(),
 				33);
 		gameWonWindow.open();
 	}
@@ -436,33 +469,5 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	
-	public void doMoveFromSolver() {
-		if(moveQueue != null && !moveQueue.isEmpty()){
-			IMove move = moveQueue.poll();
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
-			try {
-				gameplayControler.moveCar(gameBoardObject, move.getDistance());
-			} catch (IllegalMoveException e) {
-				gamePlayWidget.showForthButton(false);
-			}
-			
-			for (CarWidget car : carPool) {
-				if(car.gameObject.equals(gameBoardObject)){
-					car.moveCarInUi();
-				}
-			}
-		} else {
-			gamePlayWidget.showForthButton(false);
-		}
-	}
 
-	public void solveGameBoard() {
-		if (gameplayControler != null) {
-			List<IMove> moveList = gameplayControler.solveGame();
-			if (moveList != null && !moveList.isEmpty()) {
-				moveQueue = new LinkedList<IMove>(moveList);
-				gamePlayWidget.showForthButton(true);
-			}
-		}
-	}
 }
