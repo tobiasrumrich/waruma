@@ -32,12 +32,12 @@ public class TestStandardCar extends TestCase {
 		// gestohlen und ist Richtung Polen ausgerichtet
 		car.setOrientation(Orientation.EAST);
 
-		// Wir stehen auf (5,5) und fahren 3 Felder vorw둹ts
+		// Wir stehen auf (5,5) und fahren 3 Felder vorw채rts
 		car.move(3);
 		// Wir sollten nun auf (8,5) stehen
 		assertEquals(new Point(8, 5), car.getPosition());
 
-		// Wir stehen auf (8,5) und fahren 6 Felder r웒kw둹ts
+		// Wir stehen auf (8,5) und fahren 6 Felder r체ckw채rts
 		car.move(-6);
 		// Wir sollten nun auf (2,5) stehen
 		assertEquals(new Point(2, 5), car.getPosition());
@@ -46,12 +46,12 @@ public class TestStandardCar extends TestCase {
 
 	public void testMoveWithNorth() throws IllegalMoveException {
 
-		// Wir stehen auf (5,5) und fahren 3 Felder vorw둹ts
+		// Wir stehen auf (5,5) und fahren 3 Felder vorw채rts
 		car.move(3);
 		// Wir sollten nun auf (5,2) stehen
 		assertEquals(new Point(5, 2), car.getPosition());
 
-		// Wir stehen auf (5,2) und fahren 6 Felder r웒kw둹ts
+		// Wir stehen auf (5,2) und fahren 6 Felder r체ckw채rts
 		car.move(-6);
 		// Wir sollten nun auf (5,8) stehen
 		assertEquals(new Point(5, 8), car.getPosition());
@@ -59,15 +59,15 @@ public class TestStandardCar extends TestCase {
 
 	public void testMoveWithSouth() throws IllegalMoveException {
 		// Wir positionieren unser Auto auf (5,5) und richten es mit unserem
-		// Kompass nach S웓en aus
+		// Kompass nach S체den aus
 		car.setOrientation(Orientation.SOUTH);
 
-		// Wir stehen auf (5,5) und fahren 3 Felder vorw둹ts
+		// Wir stehen auf (5,5) und fahren 3 Felder vorw채rts
 		car.move(3);
 		// Wir sollten nun auf (5,8) stehen
 		assertEquals(new Point(5, 8), car.getPosition());
 
-		// Wir stehen auf (5,8) und fahren 6 Felder r웒kw둹ts
+		// Wir stehen auf (5,8) und fahren 6 Felder r체ckw채rts
 		car.move(-6);
 		// Wir sollten nun auf (5,2) stehen
 		assertEquals(new Point(5, 2), car.getPosition());
@@ -76,15 +76,15 @@ public class TestStandardCar extends TestCase {
 
 	public void testMoveWithWest() throws IllegalMoveException {
 		// Wir positionieren unser Auto auf (5,5) und richten es mit unserem
-		// Kompass zu den alten Bundesl둵dern aus
+		// Kompass zu den alten Bundesl채ndern aus
 		car.setOrientation(Orientation.WEST);
 
-		// Wir stehen auf (5,5) und fahren 3 Felder vorw둹ts
+		// Wir stehen auf (5,5) und fahren 3 Felder vorw채rts
 		car.move(3);
 		// Wir sollten nun auf (2,5) stehen
 		assertEquals(new Point(2, 5), car.getPosition());
 
-		// Wir stehen auf (2,5) und fahren 6 Felder r웒kw둹ts
+		// Wir stehen auf (2,5) und fahren 6 Felder r체ckw채rts
 		car.move(-6);
 		// Wir sollten nun auf (8,5) stehen
 		assertEquals(new Point(8, 5), car.getPosition());
@@ -103,7 +103,7 @@ public class TestStandardCar extends TestCase {
 	}
 
 	/**
-	 * Dieser Test pr웖t das Verhalten des Konstruktors
+	 * Dieser Test pr체ft das Verhalten des Konstruktors
 	 */
 	public void testStandardCar() {
 		assertEquals(collisionMap, car.getCollisionMap());

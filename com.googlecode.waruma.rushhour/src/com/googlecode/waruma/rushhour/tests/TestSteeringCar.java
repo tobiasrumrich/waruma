@@ -61,7 +61,7 @@ public class TestSteeringCar extends TestCase {
 		thrownException = false;
 	}
 
-	// Wir testen, ob wir nicht zwei mal in die gleiche Richtung fahren können
+	// Wir testen, ob wir nicht zwei mal in die gleiche Richtung fahren k√∂nnen
 	public void testLock() throws IllegalMoveException {
 
 		car.move(1);
@@ -74,7 +74,7 @@ public class TestSteeringCar extends TestCase {
 	}
 
 	// Wir testen, ob wir nicht in zwei unterschiedliche Richtungen fahren
-	// können
+	// k√∂nnen
 	public void testLockDiffDirections() throws IllegalMoveException {
 
 		car.move(2);
