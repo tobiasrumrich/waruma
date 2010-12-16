@@ -65,7 +65,6 @@ public class RushHour implements IGameWonObserver {
 	public List<ImageBean> availablePlayers;
 	protected DesignerWidget abstractDesignerWidget;
 	protected GameplayWidget gamePlayWidget;
-	private Thread timeUpdaterThread;
 	private Display display;
 	private Queue<IMove> moveQueue;
 	private boolean gameWon;
@@ -215,6 +214,7 @@ public class RushHour implements IGameWonObserver {
 
 	protected void initializeNewGame(String fileName) throws IOException {
 		tabFolder.setSelection(0);
+		gameMode = true;
 		
 		if (abstractGameBoardWidget.getGoalField() != null) {
 			abstractGameBoardWidget.removeHighlight(abstractGameBoardWidget
@@ -266,6 +266,7 @@ public class RushHour implements IGameWonObserver {
 
 	private void switchToGameplay() {
 		Object gameState = boardCreationControler.getCurrentState();
+		gameMode = false;
 		gamePlayWidget.lblMoves.setText("0");
 		this.gameplayControler = new RushHourGameplayControler(gameState);
 		this.gameplayControler.registerGameWon(this);

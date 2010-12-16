@@ -71,7 +71,6 @@ public class GameBoard implements Serializable {
 			}
 			gameBoardObjects.remove(gameBoardObject.hashCode());
 		}
-
 	}
 
 	/**
