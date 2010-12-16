@@ -58,7 +58,7 @@ public class GameplayWidget extends Composite {
 		lblZeit.setText("Zeit");
 
 		lblTime = new Label(this, SWT.NONE);
-		lblTime.setText("Game not started");
+		lblTime.setText("00:00:00");
 
 		Label lblZge = new Label(this, SWT.NONE);
 		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
