@@ -3,32 +3,32 @@ package com.googlecode.waruma.rushhour.framework;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
 /**
- * 
+ * Schnittstelle für Bewegliche Objekte
  * 
  * @author Florian
  */
 public interface IMoveable {
 
 	/**
-	 * führt einen Zug durch
+	 * Führt einen Zug durch
 	 * 
 	 * @param distance
 	 *            Zugweite
 	 * 
 	 * @throws IllegalMoveException
-	 *             wird bei ungültigem Zug geworfen
+	 *             Bei ungültigem Zug
 	 */
 	public void move(int distance) throws IllegalMoveException;
 
 	/**
-	 * prüft, ob ein Zug möglich ist
+	 * Prüft, ob ein Zug möglich ist
 	 * 
 	 * @param distance
 	 *            Die Distanz, um die sich das IMoveable in positiver oder
 	 *            negativer Richtung bewegen möchte
 	 * 
 	 * @throws IllegalMoveException
-	 *             wird geworfen, wenn Zug nicht möglich
+	 *             Bei ungültigem Zug
 	 */
 	public void checkMove(int distance) throws IllegalMoveException;
 }

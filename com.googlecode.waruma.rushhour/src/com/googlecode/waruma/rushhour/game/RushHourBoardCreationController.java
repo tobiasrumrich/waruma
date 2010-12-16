@@ -186,6 +186,9 @@ public class RushHourBoardCreationController {
 		Collection<IGameBoardObject> boardObjects = gameBoard.getGameBoardObjects();
 		SteeringLock currentLockable;
 		for (IGameBoardObject boardObject : boardObjects) {
+			if(boardObject instanceof IPlayer){
+				((IPlayer) boardObject).unregisterAllObservers();
+			}
 			if(boardObject instanceof SteeringLock){
 				currentLockable = (SteeringLock) boardObject;
 				currentLockable.unlock();

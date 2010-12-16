@@ -124,10 +124,18 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		super.move(distance);
 		if (collisionDetector.hitPoint(this, destination)) {
 			reachedDestination = true;
+			System.out.println(observers.size());
 			for (IReachedDestinationObserver currentObserver : observers) {
 				currentObserver.updateReachedDestination(this);
 			}
 		}
+	}
+	
+	/**
+	 * Entfernt alle Observer aus der Liste
+	 */
+	public void unregisterAllObservers(){
+		observers.clear();
 	}
 
 	/*
