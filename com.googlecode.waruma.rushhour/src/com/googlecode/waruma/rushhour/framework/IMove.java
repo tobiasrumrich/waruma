@@ -20,7 +20,7 @@ public interface IMove {
 	 * @return Moveable Objekt
 	 */
 	public IMoveable getMoveable();
-	
+
 	/**
 	 * Dreht die Richtung eines Zuges um (-1 wird zu 1)
 	 */

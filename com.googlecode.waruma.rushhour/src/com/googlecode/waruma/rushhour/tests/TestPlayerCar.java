@@ -5,12 +5,11 @@ import java.awt.Point;
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
-import com.googlecode.waruma.rushhour.framework.ICollisionDetector;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver;
 import com.googlecode.waruma.rushhour.framework.Orientation;
-import com.googlecode.waruma.rushhour.game.PlayerCar;
 import com.googlecode.waruma.rushhour.game.CollisionDetector;
+import com.googlecode.waruma.rushhour.game.PlayerCar;
 
 /**
  * 
@@ -18,19 +17,19 @@ import com.googlecode.waruma.rushhour.game.CollisionDetector;
  * 
  */
 public class TestPlayerCar extends TestCase {
-	
+
 	private class MockObserver implements IReachedDestinationObserver {
 		private boolean called = false;
 
 		@Override
-		public void updateReachedDestination(IPlayer player) {
-			called = true;
+		public void addPlayer(IPlayer player) {
+			// TODO Auto-generated method stub
+
 		}
 
 		@Override
-		public void addPlayer(IPlayer player) {
-			// TODO Auto-generated method stub
-			
+		public void updateReachedDestination(IPlayer player) {
+			called = true;
 		}
 	}
 
@@ -40,7 +39,7 @@ public class TestPlayerCar extends TestCase {
 	private MockObserver mockObserver1;
 
 	private MockObserver mockObserver2;
-	
+
 	private CollisionDetector collisionDetector;
 
 	@Override
@@ -48,7 +47,8 @@ public class TestPlayerCar extends TestCase {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
 		collisionDetector = new CollisionDetector(6);
-		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, collisionDetector);
+		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
+				collisionDetector);
 		car.setDestination(new Point(4, 2));
 
 		mockObserver1 = new MockObserver();
@@ -56,17 +56,18 @@ public class TestPlayerCar extends TestCase {
 
 		car.registerReachedDestination(mockObserver1);
 		car.registerReachedDestination(mockObserver2);
-	
+
 	}
 
-	public void testConstructorWithDestination ()  {
-		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, new Point(4,3), collisionDetector);
+	public void testConstructorWithDestination() {
+		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
+				new Point(4, 3), collisionDetector);
 		assertEquals(collisionMap, car.getCollisionMap());
-		assertEquals(new Point(4,3),car.getDestination());
-		assertEquals(new Point(5,5),car.getPosition());
+		assertEquals(new Point(4, 3), car.getDestination());
+		assertEquals(new Point(5, 5), car.getPosition());
 		assertEquals(Orientation.NORTH, car.getOrientation());
 	}
-	
+
 	public void testMoveNotReachedDestination() throws IllegalMoveException {
 
 		// Wir stehen auf (5,5) und fahren 3 Felder vorwärts
@@ -109,18 +110,18 @@ public class TestPlayerCar extends TestCase {
 		assertTrue(mockObserver2.called);
 		assertTrue(car.reachedDestination());
 	}
-	
-	public void testUnregisterAllObserver() throws IllegalMoveException{
-		//Deregistriert alle Observer
+
+	public void testUnregisterAllObserver() throws IllegalMoveException {
+		// Deregistriert alle Observer
 		car.unregisterAllObservers();
-		
-		//Player erreicht das Ziel und benachrichtigt alle Observer
+
+		// Player erreicht das Ziel und benachrichtigt alle Observer
 		car.setOrientation(Orientation.EAST);
 		car.setPosition(new Point(2, 2));
 		car.setDestination(new Point(4, 2));
 		car.move(2);
-		
-		//Observer erhalten keine Benachrichtigung
+
+		// Observer erhalten keine Benachrichtigung
 		assertFalse(mockObserver1.called);
 		assertFalse(mockObserver2.called);
 	}

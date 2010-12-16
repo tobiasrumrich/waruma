@@ -24,6 +24,13 @@ public interface IGameBoardObject {
 	public Orientation getOrientation();
 
 	/**
+	 * Gibt die Position eines IGameBoardObjects (obere, linke Ecke)
+	 * 
+	 * @return Gibt die Position als Point zurück
+	 */
+	public Point getPosition();
+
+	/**
 	 * Setzt die Orientierung eines IGameBoardObjects
 	 * 
 	 * @param orientation
@@ -32,16 +39,10 @@ public interface IGameBoardObject {
 	public void setOrientation(Orientation orientation);
 
 	/**
-	 * Gibt die Position eines IGameBoardObjects (obere, linke Ecke)
-	 * 
-	 * @return Gibt die Position als Point zurück
-	 */
-	public Point getPosition();
-
-	/**
 	 * Setzt die Position eines IGameBoardObject (obere, linke Ecke)
 	 * 
-	 * @param position Neue Position als Point
+	 * @param position
+	 *            Neue Position als Point
 	 */
 	public void setPosition(Point position);
 

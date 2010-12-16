@@ -9,20 +9,6 @@ import java.awt.Point;
  */
 public interface IPlayer {
 
-	/**
-	 * Registriert einen Observer
-	 * 
-	 * @param eventTarget
-	 *            zu registrierender IReachedDestinationObserver
-	 */
-	public void registerReachedDestination(
-			IReachedDestinationObserver eventTarget);
-	
-	/**
-	 * Deregistriert alle Observer
-	 */
-	public void unregisterAllObservers();
-
 	public Point getDestination();
 
 	/**
@@ -31,4 +17,18 @@ public interface IPlayer {
 	 * @return true, wenn IPlayer sein Ziel erreicht hat
 	 */
 	public boolean reachedDestination();
+
+	/**
+	 * Registriert einen Observer
+	 * 
+	 * @param eventTarget
+	 *            zu registrierender IReachedDestinationObserver
+	 */
+	public void registerReachedDestination(
+			IReachedDestinationObserver eventTarget);
+
+	/**
+	 * Deregistriert alle Observer
+	 */
+	public void unregisterAllObservers();
 }

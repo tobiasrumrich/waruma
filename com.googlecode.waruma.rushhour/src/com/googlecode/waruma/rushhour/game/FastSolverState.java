@@ -126,20 +126,20 @@ public final class FastSolverState {
 	public int hashCode() {
 		int hashCode = 1;
 		for (byte[] element : collisionMap) {
-			for (int j = 0; j < element.length; j++) {
+			for (byte element2 : element) {
 				// Abh�ngig von dem Wert an der momentanen Position den Hash
 				// bestimmen
 				// Code in Anlehnung an die Boolean Hashmethode aus dem
 				// Java-Framework
-				if (element[j] == 1) {
+				if (element2 == 1) {
 					hashCode = 31 * hashCode + 1231;
 				}
 
-				if (element[j] == 2) {
+				if (element2 == 2) {
 					hashCode = 17 * hashCode + 1237;
 				}
 
-				if (element[j] == 0) {
+				if (element2 == 0) {
 					hashCode = 41 * hashCode + 1361;
 				}
 			}

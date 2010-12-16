@@ -29,6 +29,7 @@ public abstract class AbstractMoveable extends AbstractGameBoardObject
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IMoveable#checkMove(int)
 	 */
 	@Override
@@ -36,6 +37,7 @@ public abstract class AbstractMoveable extends AbstractGameBoardObject
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IMoveable#move(int)
 	 */
 	@Override

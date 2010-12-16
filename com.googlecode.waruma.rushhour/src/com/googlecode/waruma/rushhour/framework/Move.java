@@ -37,6 +37,7 @@ public class Move implements IMove, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IMove#getDistance()
 	 */
 	@Override
@@ -46,6 +47,7 @@ public class Move implements IMove, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IMove#getMoveable()
 	 */
 	@Override
@@ -55,6 +57,7 @@ public class Move implements IMove, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IMove#revertDirection()
 	 */
 	@Override

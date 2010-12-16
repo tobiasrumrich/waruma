@@ -14,6 +14,16 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
  */
 public interface ICollisionDetector {
 	/**
+	 * Versucht das übergebene GameBoardObject dem Spielbrett hinzuzufügen.
+	 * 
+	 * @param gameBoardObject
+	 * @throws IllegalBoardPositionException
+	 *             Bei einer ungültigen Position auf dem Spielbrett
+	 */
+	public void addGameBoardObject(IGameBoardObject gameBoardObject)
+			throws IllegalBoardPositionException;
+
+	/**
 	 * Überprüft den übergebenen Zug auf Gültigkeit
 	 * 
 	 * @param move
@@ -33,14 +43,24 @@ public interface ICollisionDetector {
 	public void doMove(IMove move) throws IllegalMoveException;
 
 	/**
-	 * Versucht das übergebene GameBoardObject dem Spielbrett hinzuzufügen.
+	 * Ermittelt den Korridor in dem sich das übergebe Objekt bewegen kann.
+	 * Dabei ist das Rectangle in Abhängigkeit der Orientierung des
+	 * GameBoardObjects zu verstehen. Der Ausgangspunkt ist der hintere linke
+	 * Punkt des Objektes.
 	 * 
 	 * @param gameBoardObject
-	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position auf dem Spielbrett
+	 * @return
 	 */
-	public void addGameBoardObject(IGameBoardObject gameBoardObject)
-			throws IllegalBoardPositionException;
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject);
+
+	/**
+	 * Überprüft ob das übergebene Objekt den spezifizierten Punkt berührt
+	 * 
+	 * @param gameBoardObject
+	 * @param point
+	 * @return True bei Berührung
+	 */
+	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point);
 
 	/**
 	 * Versucht das Objekt auf die angegebene Position zu bewegen
@@ -60,24 +80,6 @@ public interface ICollisionDetector {
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject);
 
 	/**
-	 * Überprüft ob das übergebene Objekt den spezifizierten Punkt berührt
-	 * 
-	 * @param gameBoardObject
-	 * @param point
-	 * @return True bei Berührung
-	 */
-	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point);
-
-	/**
-	 * überprüft ob ein Punkt auf dem Spielbrett frei und gültig ist und gibt
-	 * sofern die Überprüfung positiv war true zurück
-	 * 
-	 * @param point
-	 * @return True bei freiem Spielfeld
-	 */
-	public boolean validTile(Point point);
-
-	/**
 	 * Rotiert das Objekt auf dem Spielbrett in die übergebene Orientierung
 	 * 
 	 * @param gameBoardObject
@@ -89,12 +91,11 @@ public interface ICollisionDetector {
 			Orientation orientation) throws IllegalBoardPositionException;
 
 	/**
-	 * Ermittelt den Korridor in dem sich das übergebe Objekt bewegen kann.
-	 * Dabei ist das Rectangle in Abhängigkeit der Orientierung des GameBoardObjects zu verstehen.
-	 * Der Ausgangspunkt ist der hintere linke Punkt des Objektes.
+	 * überprüft ob ein Punkt auf dem Spielbrett frei und gültig ist und gibt
+	 * sofern die Überprüfung positiv war true zurück
 	 * 
-	 * @param gameBoardObject
-	 * @return
+	 * @param point
+	 * @return True bei freiem Spielfeld
 	 */
-	public Rectangle getMoveRange(IGameBoardObject gameBoardObject);
+	public boolean validTile(Point point);
 }

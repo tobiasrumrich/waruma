@@ -55,9 +55,10 @@ public class GameState implements IReachedDestinationObserver, IGameWonSubject {
 	public void updateReachedDestination(IPlayer player) {
 		players--;
 
-		if (players == 0)
+		if (players == 0) {
 			for (IGameWonObserver currentobserver : observers) {
 				currentobserver.updateGameWon();
 			}
+		}
 	}
 }

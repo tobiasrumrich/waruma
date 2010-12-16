@@ -33,15 +33,15 @@ public class TestSteeringCar extends TestCase {
 		}
 
 		@Override
-		public void move(int distance) throws IllegalMoveException {
-			called = true;
-			this.distance = distance;
+		public void checkMove(int distance) throws IllegalMoveException {
+			// TODO Auto-generated method stub
+
 		}
 
 		@Override
-		public void checkMove(int distance) throws IllegalMoveException {
-			// TODO Auto-generated method stub
-			
+		public void move(int distance) throws IllegalMoveException {
+			called = true;
+			this.distance = distance;
 		}
 	}
 
@@ -72,7 +72,6 @@ public class TestSteeringCar extends TestCase {
 		}
 		assertTrue(thrownException);
 	}
-	
 
 	// Wir testen, ob wir nicht in zwei unterschiedliche Richtungen fahren
 	// können
@@ -93,12 +92,11 @@ public class TestSteeringCar extends TestCase {
 		car.move(1);
 		assertTrue(mockMoveableObject.called);
 		assertEquals(1, mockMoveableObject.distance);
-		
+
 		Boolean exceptionThrown = false;
 		try {
-		car.checkMove(1);
-		}
-		catch (IllegalMoveException e) {
+			car.checkMove(1);
+		} catch (IllegalMoveException e) {
 			exceptionThrown = true;
 		}
 		assertTrue(exceptionThrown);
@@ -109,8 +107,7 @@ public class TestSteeringCar extends TestCase {
 		assertEquals(new Point(5, 5), car.getPosition());
 		assertEquals(Orientation.NORTH, car.getOrientation());
 	}
-	
-	
+
 	// Wir testen, ob wir ein gelocktes Moveable wieder unlocken können.
 	public void testUnlock() throws IllegalMoveException {
 

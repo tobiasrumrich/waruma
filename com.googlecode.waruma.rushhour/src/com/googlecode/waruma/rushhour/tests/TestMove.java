@@ -56,15 +56,15 @@ public class TestMove extends TestCase {
 		}
 		assertTrue(thrownException);
 	}
-	
+
 	public void testRevert() {
 		Move move = new Move(iMoveable, 1);
 		move.revertDirection();
-		
+
 		int shouldBeMinusOne = move.getDistance();
-		
+
 		assertTrue(shouldBeMinusOne == -1);
-		
+
 	}
 
 }

@@ -27,13 +27,41 @@ public class RushHourBoardCreationController {
 	public RushHourBoardCreationController() {
 		this(6, 6);
 	}
-	
+
 	public RushHourBoardCreationController(int width, int height) {
-		this.collisionDetector = new CollisionDetector(width, height);
-		this.gameBoard = new GameBoard(this.collisionDetector);
-		this.hasPlayer = false;
+		collisionDetector = new CollisionDetector(width, height);
+		gameBoard = new GameBoard(collisionDetector);
+		hasPlayer = false;
 	}
-	
+
+	/**
+	 * Ermöglicht das nachträgliche Verändern der Autoposition
+	 * 
+	 * @param gameBoardObject
+	 * @param position
+	 * @throws IllegalBoardPositionException
+	 */
+	public void changeCarPosition(IGameBoardObject gameBoardObject,
+			org.eclipse.swt.graphics.Point position)
+			throws IllegalBoardPositionException {
+		gameBoard.repositionGameBoardObject(gameBoardObject,
+				swtToAwtPoint(position));
+	}
+
+	public void changeDestination(org.eclipse.swt.graphics.Point destination) {
+		for (IGameBoardObject boardObject : gameBoard.getGameBoardObjects()) {
+			if (boardObject instanceof PlayerCar) {
+				PlayerCar playerCar = (PlayerCar) boardObject;
+				playerCar.setDestination(swtToAwtPoint(destination));
+			}
+		}
+	}
+
+	public void changeRotation(IGameBoardObject gameBoardObject,
+			Orientation orientation) throws IllegalBoardPositionException {
+		gameBoard.rotateGameBoardObject(gameBoardObject, orientation);
+	}
+
 	/**
 	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurück
 	 * 
@@ -47,12 +75,13 @@ public class RushHourBoardCreationController {
 	 * @throws IllegalBoardPositionException
 	 *             Bei einer ungültigen Position
 	 */
-	public IGameBoardObject createCar(org.eclipse.swt.graphics.Point position, Orientation orientation,
-			boolean steeringLock) throws IllegalBoardPositionException {
+	public IGameBoardObject createCar(org.eclipse.swt.graphics.Point position,
+			Orientation orientation, boolean steeringLock)
+			throws IllegalBoardPositionException {
 
 		IGameBoardObject car = new StandardCar(new Boolean[][] { { true },
 				{ true } }, swtToAwtPoint(position), orientation);
-		
+
 		if (steeringLock) {
 			car = new SteeringLock((AbstractMoveable) car);
 		}
@@ -60,33 +89,6 @@ public class RushHourBoardCreationController {
 		gameBoard.addGameBoardObject(car);
 
 		return car;
-	}
-
-	/**
-	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurück
-	 * 
-	 * @param position
-	 *            Position auf dem Spielfeld
-	 * @param orientation
-	 *            Orientierung des Autos
-	 * @param steeringLock
-	 *            Lenkradschloss
-	 * @return Hinzugefügtes Auto
-	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position
-	 */
-	public IGameBoardObject createTruck(org.eclipse.swt.graphics.Point position, Orientation orientation,
-			boolean steeringLock) throws IllegalBoardPositionException {
-		IGameBoardObject truck = new StandardCar(new Boolean[][] { { true },
-				{ true }, { true } }, swtToAwtPoint(position), orientation);
-		
-		if (steeringLock) {
-			truck = new SteeringLock((AbstractMoveable) truck);
-		}
-
-		gameBoard.addGameBoardObject(truck);
-
-		return truck;
 	}
 
 	/**
@@ -103,108 +105,117 @@ public class RushHourBoardCreationController {
 	 *             Bei ungültigen Positionen oder bereits vorhandenem
 	 *             Spielerauto
 	 */
-	public IGameBoardObject createPlayerCar(org.eclipse.swt.graphics.Point position, org.eclipse.swt.graphics.Point destination,
-			Orientation orientation) throws IllegalBoardPositionException {
+	public IGameBoardObject createPlayerCar(
+			org.eclipse.swt.graphics.Point position,
+			org.eclipse.swt.graphics.Point destination, Orientation orientation)
+			throws IllegalBoardPositionException {
 		if (hasPlayer) {
 			throw new IllegalBoardPositionException(
 					"Es ist nur ein Spielerauto zulässig!");
 		}
-		PlayerCar car = new PlayerCar(new Boolean[][] { { true},{ true } },
+		PlayerCar car = new PlayerCar(new Boolean[][] { { true }, { true } },
 				swtToAwtPoint(position), orientation, collisionDetector);
 		car.setDestination(swtToAwtPoint(destination));
 		// throws IllegalBoardPositionException
 		gameBoard.addGameBoardObject(car);
-		
+
 		return car;
 	}
-	
-	public void removeObjectFromBoard(IGameBoardObject gameBoardObject) {
-		gameBoard.removeGameBoardObject(gameBoardObject);
-	}
-	
+
 	/**
-	 * Ermöglicht das nachträgliche Verändern der Autoposition
+	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurück
 	 * 
-	 * @param gameBoardObject
 	 * @param position
+	 *            Position auf dem Spielfeld
+	 * @param orientation
+	 *            Orientierung des Autos
+	 * @param steeringLock
+	 *            Lenkradschloss
+	 * @return Hinzugefügtes Auto
 	 * @throws IllegalBoardPositionException
+	 *             Bei einer ungültigen Position
 	 */
-	public void changeCarPosition(IGameBoardObject gameBoardObject, org.eclipse.swt.graphics.Point position) throws IllegalBoardPositionException{
-		gameBoard.repositionGameBoardObject(gameBoardObject, swtToAwtPoint(position));
-	}
-	
-	public void changeDestination(org.eclipse.swt.graphics.Point destination){
-		for (IGameBoardObject boardObject : gameBoard.getGameBoardObjects()) {
-			if(boardObject instanceof PlayerCar){
-				PlayerCar playerCar = (PlayerCar) boardObject;
-				playerCar.setDestination(swtToAwtPoint(destination));
-			}
+	public IGameBoardObject createTruck(
+			org.eclipse.swt.graphics.Point position, Orientation orientation,
+			boolean steeringLock) throws IllegalBoardPositionException {
+		IGameBoardObject truck = new StandardCar(new Boolean[][] { { true },
+				{ true }, { true } }, swtToAwtPoint(position), orientation);
+
+		if (steeringLock) {
+			truck = new SteeringLock((AbstractMoveable) truck);
 		}
+
+		gameBoard.addGameBoardObject(truck);
+
+		return truck;
 	}
 
-	public void changeRotation(IGameBoardObject gameBoardObject, Orientation orientation) throws IllegalBoardPositionException{
-		gameBoard.rotateGameBoardObject(gameBoardObject, orientation);
-	}
-	
-	public boolean validTile(org.eclipse.swt.graphics.Point position) {
-		return collisionDetector.validTile(swtToAwtPoint(position));
+	public Object getCurrentState() {
+		return gameBoard;
 	}
 
-	public void loadGameBoard(String location) throws IOException{
+	public Collection<IGameBoardObject> getGameBoardObjects() {
+		return gameBoard.getGameBoardObjects();
+	}
+
+	public void loadGameBoard(String location) throws IOException {
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
 		try {
-			gameBoard = (GameBoard) fileSystemObjectStorage.deserialize(location);
+			gameBoard = (GameBoard) fileSystemObjectStorage
+					.deserialize(location);
 			collisionDetector = gameBoard.getCollisionDetector();
 			gameBoard.rebuildGameBoardObjects();
-			unlockAllCars(); 
+			unlockAllCars();
 		} catch (Exception e) {
 			throw new IOException("Die Datei konnte nicht geladen werden");
 		}
 	}
-	
-	public void loadState(Object state){
-		try{
+
+	public void loadState(Object state) {
+		try {
 			gameBoard = (GameBoard) state;
 			collisionDetector = gameBoard.getCollisionDetector();
 			gameBoard.rebuildGameBoardObjects();
 			unlockAllCars();
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	public void removeObjectFromBoard(IGameBoardObject gameBoardObject) {
+		gameBoard.removeGameBoardObject(gameBoardObject);
 	}
 
 	public void saveGameBoard(String location) throws IOException {
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
-	
-	public Object getCurrentState(){
-		return gameBoard;
+
+	private Point swtToAwtPoint(org.eclipse.swt.graphics.Point swtPoint) {
+		if (swtPoint == null) {
+			throw new IllegalArgumentException("Punkt nicht gesetzt");
+		}
+
+		return new Point(swtPoint.x, swtPoint.y);
 	}
-	
-	public void unlockAllCars(){
-		Collection<IGameBoardObject> boardObjects = gameBoard.getGameBoardObjects();
+
+	public void unlockAllCars() {
+		Collection<IGameBoardObject> boardObjects = gameBoard
+				.getGameBoardObjects();
 		SteeringLock currentLockable;
 		for (IGameBoardObject boardObject : boardObjects) {
-			if(boardObject instanceof IPlayer){
+			if (boardObject instanceof IPlayer) {
 				((IPlayer) boardObject).unregisterAllObservers();
 			}
-			if(boardObject instanceof SteeringLock){
+			if (boardObject instanceof SteeringLock) {
 				currentLockable = (SteeringLock) boardObject;
 				currentLockable.unlock();
 			}
 		}
 	}
-	
-	public Collection<IGameBoardObject> getGameBoardObjects(){
-		return gameBoard.getGameBoardObjects();
-	}
-	
-	private Point swtToAwtPoint(org.eclipse.swt.graphics.Point swtPoint){
-		if(swtPoint == null)
-			throw new IllegalArgumentException("Punkt nicht gesetzt");
-		
-		return new Point(swtPoint.x, swtPoint.y);
+
+	public boolean validTile(org.eclipse.swt.graphics.Point position) {
+		return collisionDetector.validTile(swtToAwtPoint(position));
 	}
 
 }

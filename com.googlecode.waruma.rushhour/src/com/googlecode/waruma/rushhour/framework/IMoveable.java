@@ -10,17 +10,6 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 public interface IMoveable {
 
 	/**
-	 * Führt einen Zug durch
-	 * 
-	 * @param distance
-	 *            Zugweite
-	 * 
-	 * @throws IllegalMoveException
-	 *             Bei ungültigem Zug
-	 */
-	public void move(int distance) throws IllegalMoveException;
-
-	/**
 	 * Prüft, ob ein Zug möglich ist
 	 * 
 	 * @param distance
@@ -31,4 +20,15 @@ public interface IMoveable {
 	 *             Bei ungültigem Zug
 	 */
 	public void checkMove(int distance) throws IllegalMoveException;
+
+	/**
+	 * Führt einen Zug durch
+	 * 
+	 * @param distance
+	 *            Zugweite
+	 * 
+	 * @throws IllegalMoveException
+	 *             Bei ungültigem Zug
+	 */
+	public void move(int distance) throws IllegalMoveException;
 }
