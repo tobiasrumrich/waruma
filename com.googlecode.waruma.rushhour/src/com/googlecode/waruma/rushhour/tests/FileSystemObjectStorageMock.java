@@ -8,7 +8,7 @@ public class FileSystemObjectStorageMock implements Serializable {
 	private static final long serialVersionUID = 8668861856199245352L;
 	private int fourtyTwo = 42;
 	private String iLoveSquidSoup = "iLoveSquidSoup";
-	private List<Integer> listInteger= new ArrayList();
+	private List<Integer> listInteger = new ArrayList();
 
 	// private List<ListObjectMock> incredibleList = new ArrayList();
 	public FileSystemObjectStorageMock() {
@@ -25,6 +25,38 @@ public class FileSystemObjectStorageMock implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		FileSystemObjectStorageMock other = (FileSystemObjectStorageMock) obj;
+		if (fourtyTwo != other.fourtyTwo) {
+			return false;
+		}
+		if (iLoveSquidSoup == null) {
+			if (other.iLoveSquidSoup != null) {
+				return false;
+			}
+		} else if (!iLoveSquidSoup.equals(other.iLoveSquidSoup)) {
+			return false;
+		}
+		if (listInteger == null) {
+			if (other.listInteger != null) {
+				return false;
+			}
+		} else if (!listInteger.equals(other.listInteger)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -36,29 +68,4 @@ public class FileSystemObjectStorageMock implements Serializable {
 		return result;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FileSystemObjectStorageMock other = (FileSystemObjectStorageMock) obj;
-		if (fourtyTwo != other.fourtyTwo)
-			return false;
-		if (iLoveSquidSoup == null) {
-			if (other.iLoveSquidSoup != null)
-				return false;
-		} else if (!iLoveSquidSoup.equals(other.iLoveSquidSoup))
-			return false;
-		if (listInteger == null) {
-			if (other.listInteger != null)
-				return false;
-		} else if (!listInteger.equals(other.listInteger))
-			return false;
-		return true;
-	}
-	
-	
 }

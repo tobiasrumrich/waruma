@@ -2,14 +2,11 @@ package com.googlecode.waruma.rushhour.tests;
 
 import java.awt.Point;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.swt.graphics.Rectangle;
-
-import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.eclipse.swt.graphics.Rectangle;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
@@ -55,6 +52,12 @@ public class TestGameBoard extends TestCase {
 		}
 
 		@Override
+		public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
 		public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 			// TODO Auto-generated method stub
 			return false;
@@ -65,32 +68,26 @@ public class TestGameBoard extends TestCase {
 				IGameBoardObject gameBoardObject, Point position)
 				throws IllegalBoardPositionException {
 			// TODO Auto-generated method stub
-			
-		}
 
-		@Override
-		public boolean validTile(Point point) {
-			// TODO Auto-generated method stub
-			return false;
 		}
 
 		@Override
 		public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
 				Orientation orientation) throws IllegalBoardPositionException {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
-		public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
+		public boolean validTile(Point point) {
 			// TODO Auto-generated method stub
-			return null;
+			return false;
 		}
 	}
 
@@ -101,8 +98,6 @@ public class TestGameBoard extends TestCase {
 		 * 
 		 */
 		private static final long serialVersionUID = 7058927463289079845L;
-		private boolean calledMove = false;
-		private int distance = 0;
 
 		public MockMoveable(Boolean[][] collisionMap, Point position,
 				Orientation orientation) {
@@ -110,15 +105,13 @@ public class TestGameBoard extends TestCase {
 		}
 
 		@Override
-		public void move(int distance) throws IllegalMoveException {
-			calledMove = true;
-			this.distance = distance;
-		}
-
-		@Override
 		public void checkMove(int distance) throws IllegalMoveException {
 			// TODO Auto-generated method stub
 
+		}
+
+		@Override
+		public void move(int distance) throws IllegalMoveException {
 		}
 	}
 
@@ -162,18 +155,6 @@ public class TestGameBoard extends TestCase {
 		assertTrue(gameBoardObjects.contains(moveableCar2));
 		assertTrue(gameBoardObjects.contains(moveableTruck));
 	}
-	
-	public void testMoveNonExistingObject(){
-		boolean thrownException = false;
-		
-		try {
-			gameBoard.move(new Move(moveableCar, 2));
-		} catch (IllegalMoveException e) {
-			thrownException = true;
-		}
-		
-		assertTrue(thrownException);
-	}
 
 	public void testAddGameBoardObjectCollisionDelegation()
 			throws IllegalBoardPositionException {
@@ -200,58 +181,6 @@ public class TestGameBoard extends TestCase {
 		assertEquals(moveableTruck, mockCollisionDetector.gameBoardObject);
 	}
 
-	public void testMoveWithLegalMove() throws IllegalMoveException,
-			IllegalBoardPositionException {
-		IMove move = new Move(moveableCar, 1);
-		gameBoard.addGameBoardObject(moveableCar);
-		gameBoard.move(move);
-		assertTrue(mockCollisionDetector.calledCheckMove);
-		assertTrue(mockCollisionDetector.calledDoMove);
-		assertEquals(mockCollisionDetector.move, move);
-	}
-
-	public void testMoveWithIllegalMove() throws IllegalMoveException,
-			IllegalBoardPositionException {
-		IMove move = new Move(moveableCar, -42);
-		gameBoard.addGameBoardObject(moveableCar);
-
-		Boolean exceptionThrown = false;
-		try {
-			gameBoard.move(move);
-		} catch (IllegalMoveException e) {
-			exceptionThrown = true;
-		}
-		assertTrue(exceptionThrown);
-		assertTrue(mockCollisionDetector.calledCheckMove);
-		assertFalse(mockCollisionDetector.calledDoMove);
-		assertEquals(mockCollisionDetector.move, null);
-	}
-
-	public void testUndoLatestMove() throws IllegalBoardPositionException, IllegalMoveException {
-		gameBoard.addGameBoardObject(moveableCar);
-		gameBoard.addGameBoardObject(moveableCar2);
-		gameBoard.addGameBoardObject(moveableTruck);
-		
-		IGameBoardObject boardObject = gameBoard.undoLatestMove();
-		assertNull(boardObject);
-		
-		
-		gameBoard.move(new Move(moveableCar, 2));
-		
-		boardObject = gameBoard.undoLatestMove();
-		assertEquals(moveableCar, boardObject);
-		
-		
-		
-		
-	}
-	
-	public void testMoveRange() throws IllegalBoardPositionException {
-		gameBoard.addGameBoardObject(moveableCar);
-		Rectangle moveRange = gameBoard.getMoveRange(moveableCar);
-		assertNull(moveRange);
-	}
-	
 	public void testMoveHistory() throws IllegalMoveException,
 			IllegalBoardPositionException {
 		gameBoard.addGameBoardObject(moveableCar);
@@ -277,5 +206,66 @@ public class TestGameBoard extends TestCase {
 		history.pop();
 
 		assertEquals(move, history.pop());
+	}
+
+	public void testMoveNonExistingObject() {
+		boolean thrownException = false;
+
+		try {
+			gameBoard.move(new Move(moveableCar, 2));
+		} catch (IllegalMoveException e) {
+			thrownException = true;
+		}
+
+		assertTrue(thrownException);
+	}
+
+	public void testMoveRange() throws IllegalBoardPositionException {
+		gameBoard.addGameBoardObject(moveableCar);
+		Rectangle moveRange = gameBoard.getMoveRange(moveableCar);
+		assertNull(moveRange);
+	}
+
+	public void testMoveWithIllegalMove() throws IllegalMoveException,
+			IllegalBoardPositionException {
+		IMove move = new Move(moveableCar, -42);
+		gameBoard.addGameBoardObject(moveableCar);
+
+		Boolean exceptionThrown = false;
+		try {
+			gameBoard.move(move);
+		} catch (IllegalMoveException e) {
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+		assertTrue(mockCollisionDetector.calledCheckMove);
+		assertFalse(mockCollisionDetector.calledDoMove);
+		assertEquals(mockCollisionDetector.move, null);
+	}
+
+	public void testMoveWithLegalMove() throws IllegalMoveException,
+			IllegalBoardPositionException {
+		IMove move = new Move(moveableCar, 1);
+		gameBoard.addGameBoardObject(moveableCar);
+		gameBoard.move(move);
+		assertTrue(mockCollisionDetector.calledCheckMove);
+		assertTrue(mockCollisionDetector.calledDoMove);
+		assertEquals(mockCollisionDetector.move, move);
+	}
+
+	public void testUndoLatestMove() throws IllegalBoardPositionException,
+			IllegalMoveException {
+		gameBoard.addGameBoardObject(moveableCar);
+		gameBoard.addGameBoardObject(moveableCar2);
+		gameBoard.addGameBoardObject(moveableTruck);
+
+		IGameBoardObject boardObject = gameBoard.undoLatestMove();
+		assertNull(boardObject);
+
+		gameBoard.move(new Move(moveableCar, 2));
+
+		boardObject = gameBoard.undoLatestMove();
+		assertEquals(moveableCar, boardObject);
+
 	}
 }

@@ -69,7 +69,9 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.game.StandardCar#equals(java.lang.Object)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.game.StandardCar#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -95,6 +97,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.framework.IPlayer#getDestination()
 	 */
 	@Override
@@ -117,6 +120,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.googlecode.waruma.rushhour.game.StandardCar#move(int)
 	 */
 	@Override
@@ -129,19 +133,12 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 			}
 		}
 	}
-	
-	/**
-	 * Entfernt alle Observer aus der Liste
-	 */
-	public void unregisterAllObservers(){
-		if(observers == null)
-			observers = new HashSet<IReachedDestinationObserver>();
-		observers.clear();
-	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.IPlayer#reachedDestination()
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IPlayer#reachedDestination()
 	 */
 	@Override
 	public boolean reachedDestination() {
@@ -172,6 +169,17 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 */
 	public void setDestination(Point destination) {
 		this.destination = destination;
+	}
+
+	/**
+	 * Entfernt alle Observer aus der Liste
+	 */
+	@Override
+	public void unregisterAllObservers() {
+		if (observers == null) {
+			observers = new HashSet<IReachedDestinationObserver>();
+		}
+		observers.clear();
 	}
 
 }

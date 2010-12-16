@@ -27,13 +27,6 @@ public class TestGameState extends TestCase {
 		private List<IReachedDestinationObserver> observers = new ArrayList<IReachedDestinationObserver>();
 
 		@Override
-		public void registerReachedDestination(
-				IReachedDestinationObserver eventTarget) {
-			observers.add(eventTarget);
-		
-		}
-
-		@Override
 		public Point getDestination() {
 			// TODO Auto-generated method stub
 			return null;
@@ -46,9 +39,16 @@ public class TestGameState extends TestCase {
 		}
 
 		@Override
+		public void registerReachedDestination(
+				IReachedDestinationObserver eventTarget) {
+			observers.add(eventTarget);
+
+		}
+
+		@Override
 		public void unregisterAllObservers() {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 

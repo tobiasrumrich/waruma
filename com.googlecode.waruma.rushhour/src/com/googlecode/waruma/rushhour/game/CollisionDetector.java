@@ -56,7 +56,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#addGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
+	 * 
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#
+	 * addGameBoardObject
+	 * (com.googlecode.waruma.rushhour.framework.IGameBoardObject)
 	 */
 	@Override
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
@@ -94,7 +97,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#checkMove(com.googlecode.waruma.rushhour.framework.IMove)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.ICollisionDetector#checkMove
+	 * (com.googlecode.waruma.rushhour.framework.IMove)
 	 */
 	@Override
 	public void checkMove(IMove move) throws IllegalMoveException {
@@ -131,7 +137,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#doMove(com.googlecode.waruma.rushhour.framework.IMove)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.ICollisionDetector#doMove(com
+	 * .googlecode.waruma.rushhour.framework.IMove)
 	 */
 	@Override
 	public void doMove(IMove move) throws IllegalMoveException {
@@ -148,6 +157,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -186,7 +196,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#getMoveRange(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.ICollisionDetector#getMoveRange
+	 * (com.googlecode.waruma.rushhour.framework.IGameBoardObject)
 	 */
 	@Override
 	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
@@ -223,6 +236,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -237,7 +251,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#hitPoint(com.googlecode.waruma.rushhour.framework.IGameBoardObject, java.awt.Point)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.ICollisionDetector#hitPoint(
+	 * com.googlecode.waruma.rushhour.framework.IGameBoardObject,
+	 * java.awt.Point)
 	 */
 	@Override
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
@@ -259,7 +277,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#moveGameBoardObjectToPosition(com.googlecode.waruma.rushhour.framework.IGameBoardObject, java.awt.Point)
+	 * 
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#
+	 * moveGameBoardObjectToPosition
+	 * (com.googlecode.waruma.rushhour.framework.IGameBoardObject,
+	 * java.awt.Point)
 	 */
 	@Override
 	public void moveGameBoardObjectToPosition(IGameBoardObject gameBoardObject,
@@ -287,7 +309,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#removeGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
+	 * 
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#
+	 * removeGameBoardObject
+	 * (com.googlecode.waruma.rushhour.framework.IGameBoardObject)
 	 */
 	@Override
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
@@ -302,7 +327,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#rotateGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject, com.googlecode.waruma.rushhour.framework.Orientation)
+	 * 
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#
+	 * rotateGameBoardObject
+	 * (com.googlecode.waruma.rushhour.framework.IGameBoardObject,
+	 * com.googlecode.waruma.rushhour.framework.Orientation)
 	 */
 	@Override
 	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
@@ -348,7 +377,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#validTile(java.awt.Point)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.ICollisionDetector#validTile
+	 * (java.awt.Point)
 	 */
 	@Override
 	public boolean validTile(Point point) {

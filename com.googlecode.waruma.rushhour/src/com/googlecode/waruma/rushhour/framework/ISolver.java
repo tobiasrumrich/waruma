@@ -8,7 +8,7 @@ import java.util.List;
  * @author Florian Warninghoff
  */
 public interface ISolver {
-	
+
 	/**
 	 * Löst das Spielbrett und gibt die zum Erreichen notwendigen Züge zurück
 	 * 

@@ -4,7 +4,8 @@ import java.awt.Point;
 import java.io.Serializable;
 
 /**
- * Implementiert die Basisfunktionalität zur Realisierung des {@link IGameBoardObject} Interface
+ * Implementiert die Basisfunktionalität zur Realisierung des
+ * {@link IGameBoardObject} Interface
  * 
  * @author Tobias Rumrich
  */
@@ -67,7 +68,10 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.IGameBoardObject#getCollisionMap()
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IGameBoardObject#getCollisionMap
+	 * ()
 	 */
 	@Override
 	public Boolean[][] getCollisionMap() {
@@ -76,7 +80,10 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.IGameBoardObject#getOrientation()
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IGameBoardObject#getOrientation
+	 * ()
 	 */
 	@Override
 	public Orientation getOrientation() {
@@ -85,7 +92,9 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.IGameBoardObject#getPosition()
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IGameBoardObject#getPosition()
 	 */
 	@Override
 	public Point getPosition() {

@@ -40,8 +40,6 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		timerStarted = false;
 	}
 
-
-
 	/**
 	 * Erstellt einen neuen GamePlayControler aus dem übergebenen Spielstand
 	 * 
@@ -58,8 +56,21 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		}
 	}
 
-	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
-		return gameBoard.getMoveRange(gameBoardObject);
+	/**
+	 * Gibt die seit Spielstart verstrichene Zeit zur�ck. Format der
+	 * Darstellung: Stunden:Minuten:Sekunden
+	 * 
+	 * @return Zeitstring
+	 */
+	public String elapsedGameTime() {
+		if (gameStartTime > 0) {
+			Date date = new Date(System.currentTimeMillis() - gameStartTime
+					- 60 * 60 * 1000);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+			return dateFormat.format(date);
+		} else {
+			return "00:00:00";
+		}
 	}
 
 	/**
@@ -69,6 +80,37 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 */
 	public Collection<IGameBoardObject> getCars() {
 		return gameBoard.getGameBoardObjects();
+	}
+
+	public Object getCurrentState() {
+		return gameBoard;
+	}
+
+	public Integer getMoveCount() {
+		return gameBoard.getMoveHistory().size();
+	}
+
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
+		return gameBoard.getMoveRange(gameBoardObject);
+	}
+
+	/**
+	 * Überprüft ob es einen Zug in der Movehistory gibt
+	 * 
+	 * @return True bei vorhandenem Zug
+	 */
+	public boolean hasMoveInHistory() {
+		return !gameBoard.getMoveHistory().isEmpty();
+	}
+
+	public void loadGame(String location) throws IOException {
+		FileSystemObjectStorage storage = new FileSystemObjectStorage();
+		try {
+			gameBoard = (GameBoard) storage.deserialize(location);
+			registerPlayer();
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("No valid RushHour State");
+		}
 	}
 
 	/**
@@ -96,28 +138,25 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Macht den zuletzt ausgeführten Zug r�ckg�ngig und gibt bei Erfolg das
-	 * bewegte Auto zur�ck
-	 * Macht den zuletzt ausgeführten Zug rückgängig und gibt bei Erfolg das
-	 * bewegte Auto zurück
+	 * Observer für Gewinnmitteilung registrieren
 	 * 
-	 * @return Bewegtes Auto mit neuer Position
+	 * @param eventTarget
+	 *            Ziel des Aufrufs
 	 */
-	public IGameBoardObject undoLatestMove() {
-		return gameBoard.undoLatestMove();
+	@Override
+	public void registerGameWon(IGameWonObserver eventTarget) {
+		gameState.registerGameWon(eventTarget);
 	}
-	
-	public Integer getMoveCount(){
-		return gameBoard.getMoveHistory().size();
-	}
-	
+
 	/**
-	 * Überprüft ob es einen Zug in der Movehistory gibt
-	 * 
-	 * @return True bei vorhandenem Zug
+	 * Spieler im GameState registrieren
 	 */
-	public boolean hasMoveInHistory(){
-		return !gameBoard.getMoveHistory().isEmpty();
+	private void registerPlayer() {
+		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
+			if (gameBoardObject instanceof IPlayer) {
+				gameState.addPlayer((IPlayer) gameBoardObject);
+			}
+		}
 	}
 
 	/**
@@ -132,20 +171,6 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
 
-	public Object getCurrentState() {
-		return gameBoard;
-	}
-
-	public void loadGame(String location) throws IOException {
-		FileSystemObjectStorage storage = new FileSystemObjectStorage();
-		try {
-			gameBoard = (GameBoard) storage.deserialize(location);
-			registerPlayer();
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException("No valid RushHour State");
-		}
-	}
-
 	/**
 	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen
 	 * Spielbretts aus
@@ -158,41 +183,14 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Observer für Gewinnmitteilung registrieren
+	 * Macht den zuletzt ausgeführten Zug r�ckg�ngig und gibt bei Erfolg das
+	 * bewegte Auto zur�ck Macht den zuletzt ausgeführten Zug rückgängig und
+	 * gibt bei Erfolg das bewegte Auto zurück
 	 * 
-	 * @param eventTarget
-	 *            Ziel des Aufrufs
+	 * @return Bewegtes Auto mit neuer Position
 	 */
-	public void registerGameWon(IGameWonObserver eventTarget) {
-		gameState.registerGameWon(eventTarget);
-	}
-
-	/**
-	 * Gibt die seit Spielstart verstrichene Zeit zur�ck. Format der
-	 * Darstellung: Stunden:Minuten:Sekunden
-	 * 
-	 * @return Zeitstring
-	 */
-	public String elapsedGameTime() {
-		if (gameStartTime > 0) {
-			Date date = new Date(System.currentTimeMillis() - gameStartTime
-					- 60 * 60 * 1000);
-			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-			return dateFormat.format(date);
-		} else {
-			return "00:00:00";
-		}
-	}
-
-	/**
-	 * Spieler im GameState registrieren
-	 */
-	private void registerPlayer() {
-		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
-			if (gameBoardObject instanceof IPlayer) {
-				gameState.addPlayer((IPlayer) gameBoardObject);
-			}
-		}
+	public IGameBoardObject undoLatestMove() {
+		return gameBoard.undoLatestMove();
 	}
 
 }

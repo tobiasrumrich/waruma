@@ -49,7 +49,7 @@ public class GameplayWidget extends Composite {
 		Label lblSpieldaten = new Label(this, SWT.NONE);
 		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1);
-		gd_lblSpieldaten.widthHint = 138;
+		gd_lblSpieldaten.widthHint = 150;
 		lblSpieldaten.setLayoutData(gd_lblSpieldaten);
 		lblSpieldaten.setFont(SWTResourceManager.getFont("Segoe UI", 9,
 				SWT.BOLD));
@@ -65,7 +65,7 @@ public class GameplayWidget extends Composite {
 		lblZge = new Label(this, SWT.NONE);
 		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
-		gd_lblZge.heightHint = 13;
+		gd_lblZge.heightHint = 42;
 		lblZge.setLayoutData(gd_lblZge);
 		lblZge.setText("Züge");
 
@@ -73,31 +73,17 @@ public class GameplayWidget extends Composite {
 		lblMoves.setText("0");
 		GridData gd_lblMoves = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
-		gd_lblMoves.widthHint = 142;
+		gd_lblMoves.widthHint = 170;
+		gd_lblMoves.heightHint = 42;
 		lblMoves.setLayoutData(gd_lblMoves);
 
-		lblDebug = new Label(this, SWT.NONE);
-		GridData gd_lblDebug = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				2, 1);
-		gd_lblDebug.heightHint = 15;
-		gd_lblDebug.widthHint = 142;
-		lblDebug.setLayoutData(gd_lblDebug);
-		lblDebug.setText("New Label");
+		
 
-		lblDebug2 = new Label(this, SWT.NONE);
-		GridData gd_lblDebug2 = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
-		gd_lblDebug2.widthHint = 143;
-		lblDebug2.setLayoutData(gd_lblDebug2);
-		lblDebug2.setText("New Label");
-		new Label(this, SWT.NONE);
-		new Label(this, SWT.NONE);
-
-		Button btnLsen = new Button(this, SWT.NONE);
-		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+		Button btnLoesen = new Button(this, SWT.NONE);
+		btnLoesen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
-		btnLsen.setText("Spielfeld lösen");
-		btnLsen.addSelectionListener(new SelectionListener() {
+		btnLoesen.setText("Spielfeld lösen");
+		btnLoesen.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -109,9 +95,9 @@ public class GameplayWidget extends Composite {
 		});
 
 		btnRueckwaerts = new Button(this, SWT.NONE);
-		btnRueckwaerts.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+		btnRueckwaerts.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1,
 				1));
-		btnRueckwaerts.setText("<< Schritt rückwärts");
+		btnRueckwaerts.setText("<<<");
 		btnRueckwaerts.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -125,10 +111,10 @@ public class GameplayWidget extends Composite {
 		});
 
 		btnVorwaerts = new Button(this, SWT.NONE);
-		btnVorwaerts.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+		btnVorwaerts.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false,
 				1, 1));
 		btnVorwaerts.setEnabled(false);
-		btnVorwaerts.setText("Schritt vorwärts >>");
+		btnVorwaerts.setText(">>>");
 		btnVorwaerts.addSelectionListener(new SelectionListener() {
 			
 			@Override

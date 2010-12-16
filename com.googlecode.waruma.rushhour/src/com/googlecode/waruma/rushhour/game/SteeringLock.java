@@ -23,7 +23,9 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 	private boolean moved = false;
 
 	/**
-	 * Erstellt ein neuen SteeringLock Decorator, der das übergebene Objekt erweitert.
+	 * Erstellt ein neuen SteeringLock Decorator, der das übergebene Objekt
+	 * erweitert.
+	 * 
 	 * @param moveable
 	 */
 	public SteeringLock(AbstractMoveable moveable) {
@@ -32,7 +34,10 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality#checkMove(int)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality
+	 * #checkMove(int)
 	 */
 	@Override
 	public void checkMove(int distance) throws IllegalMoveException {
@@ -44,7 +49,10 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality#equals(java.lang.Object)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality
+	 * #equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -66,7 +74,10 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality#hashCode()
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality
+	 * #hashCode()
 	 */
 	@Override
 	public int hashCode() {
@@ -78,7 +89,10 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality#move(int)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality
+	 * #move(int)
 	 */
 	@Override
 	public void move(int distance) throws IllegalMoveException {
