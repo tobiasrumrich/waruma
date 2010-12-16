@@ -283,5 +283,63 @@ public class TestController extends TestCase {
 				(GameBoard) anotherGamePlayControler.getCurrentState());
 
 	}
+	
+	
+	public void testElapsedGameTime() {
+		assertEquals("00:00:00",gamePlayController.elapsedGameTime());
+		try {
+			gamePlayController.moveCar(car3, 1);
+		} catch (IllegalMoveException e) {
+			fail("IllegalMoveException");
+			e.printStackTrace();
+		}
+		assertTrue(gamePlayController.elapsedGameTime() != "00:00:00");
+	}
+	
+	public void testHasMoveInHistory() {
+		assertFalse(gamePlayController.hasMoveInHistory());
+		try {
+			gamePlayController.moveCar(car3, 1);
+		} catch (IllegalMoveException e) {
+			fail("IllegalMoveException");
+			e.printStackTrace();
+		}
+		assertTrue(gamePlayController.hasMoveInHistory());
+	}
+	
+	public void testGetMoveCount() {
+		assertEquals(Integer.valueOf(0),gamePlayController.getMoveCount());
+		try {
+			gamePlayController.moveCar(car3, 1);
+		} catch (IllegalMoveException e) {
+			fail("IllegalMoveException");
+			e.printStackTrace();
+		}
+		assertEquals(Integer.valueOf(1), gamePlayController.getMoveCount());
+		try {
+			gamePlayController.moveCar(car3, -1);
+		} catch (IllegalMoveException e) {
+			fail("IllegalMoveException");
+			e.printStackTrace();
+		}
+		assertEquals(Integer.valueOf(2), gamePlayController.getMoveCount());
+		try {
+			gamePlayController.moveCar(truck1, 1);
+		} catch (IllegalMoveException e) {
+			fail("IllegalMoveException");
+			e.printStackTrace();
+		}
+		assertEquals(Integer.valueOf(3), gamePlayController.getMoveCount());
+		gamePlayController.undoLatestMove();
+		assertEquals(Integer.valueOf(2), gamePlayController.getMoveCount());
+	}
+	
+	public void testGetMoveRange(){
+		fail("not implemented");
+	}
+	
+	public void testUndoLatestMove() {
+		fail("not implemented");
+	}
 
 }
