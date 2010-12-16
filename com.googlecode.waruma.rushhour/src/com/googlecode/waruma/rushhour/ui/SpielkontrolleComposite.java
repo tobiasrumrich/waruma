@@ -21,14 +21,16 @@ public class SpielkontrolleComposite extends Composite {
 	private Label lblTime;
 	private Button btnRueckwaerts;
 	private Button btnVorwaerts;
+	private final RushHour mainWindow;
 
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public SpielkontrolleComposite(Composite parent, int style) {
+	public SpielkontrolleComposite(final RushHour mainWindow, Composite parent, int style) {
 		super(parent, style);
+		this.mainWindow = mainWindow;
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
 				true, 1, 1));
 		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
@@ -54,7 +56,7 @@ public class SpielkontrolleComposite extends Composite {
 		lblZeit.setText("Zeit");
 
 		lblTime = new Label(this, SWT.NONE);
-		lblTime.setText("02:35");
+		lblTime.setText("Game not started");
 
 		Label lblZge = new Label(this, SWT.NONE);
 		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
@@ -101,6 +103,15 @@ public class SpielkontrolleComposite extends Composite {
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 
+	}
+	
+	public void triggerElapsedTimeUpdate() {
+		String elapsedGameTime = mainWindow.gameplayControler.elapsedGameTime();
+		lblTime.setText(mainWindow.gameplayControler.elapsedGameTime());
+	}
+	
+	public Label getTimeLabel() {
+		return lblTime;
 	}
 
 	@Override
