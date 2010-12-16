@@ -10,9 +10,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
-import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
-import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
@@ -134,7 +132,8 @@ public class CarWidget extends Composite {
 	}
 
 	public void setLock(){
-		if(orientation == Orientation.NORTH || orientation == Orientation.SOUTH){
+		if(orientation == Orientation.NORTH || orientation == 
+			Orientation.SOUTH){
 			lockY = false;
 			lockX = true;
 		} else {
@@ -317,15 +316,18 @@ public class CarWidget extends Composite {
 		
 		if (length == 2 && this.player) {
 			int max = mainWindow.availablePlayers.size();
-			imagePath += mainWindow.availablePlayers.get(random.nextInt(max)).getFilename();
+			imagePath += mainWindow.availablePlayers.get(random.nextInt(max)).
+			getFilename();
 		}
 		if (length == 2 && !this.player) {
 			int max = mainWindow.availableCars.size();
-			imagePath += mainWindow.availableCars.get(random.nextInt(max)).getFilename();
+			imagePath += mainWindow.availableCars.get(random.nextInt(max)).
+			getFilename();
 		}
 		if (length == 3) {
 			int max = mainWindow.availableTrucks.size();
-			imagePath += mainWindow.availableTrucks.get(random.nextInt(max)).getFilename();
+			imagePath += mainWindow.availableTrucks.get(random.nextInt(max)).
+			getFilename();
 		}
 
 		initImageHandling(imagePath);
@@ -350,7 +352,8 @@ public class CarWidget extends Composite {
 		return orientation;
 	}
 
-	private Image getImage(Image gImage, Orientation gOrientation, Point gSize) {
+	private Image getImage(Image gImage, Orientation gOrientation, Point gSize)
+	{
 
 		Image newImage;
 
@@ -381,7 +384,8 @@ public class CarWidget extends Composite {
 
 	private Image rotateImage(Image rotateableImage, Orientation direction) {
 		// Der folgende Code in dieser Methode wurde �bernommen von
-		// http://www.java2s.com/Tutorial/Java/0300__SWT-2D-Graphics/Rotateandflipanimage.htm
+		// http://www.java2s.com/Tutorial/Java/0300__SWT-2D-Graphics/
+		//Rotateandflipanimage.htm
 		// und wurde geringf�gig angepasst
 		ImageData imgData = rotateableImage.getImageData();
 		int bytesPerPixel = imgData.bytesPerLine / imgData.width;
@@ -429,6 +433,7 @@ public class CarWidget extends Composite {
 
 	}
 
+	@Override
 	public void setSize(Point gameFieldSize) {
 		int newX;
 		int newY;

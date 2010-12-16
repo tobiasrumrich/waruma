@@ -129,12 +129,15 @@ public class TestGameBoard extends TestCase {
 		collisionMapCar = new Boolean[][] { { true, true } };
 		collisionMapTrucks = new Boolean[][] { { true, true, true } };
 
-		moveableCar = new MockMoveable(collisionMapCar, new Point(0, 0),
-				Orientation.EAST);
-		moveableCar2 = new MockMoveable(collisionMapCar, new Point(1000, 500),
-				Orientation.EAST);
-		moveableTruck = new MockMoveable(collisionMapTrucks, new Point(-500,
-				-1000), Orientation.EAST);
+		moveableCar =
+				new MockMoveable(collisionMapCar, new Point(0, 0),
+						Orientation.EAST);
+		moveableCar2 =
+				new MockMoveable(collisionMapCar, new Point(1000, 500),
+						Orientation.EAST);
+		moveableTruck =
+				new MockMoveable(collisionMapTrucks, new Point(-500, -1000),
+						Orientation.EAST);
 
 		mockCollisionDetector = new MockCollisionDetector();
 
@@ -147,8 +150,8 @@ public class TestGameBoard extends TestCase {
 		gameBoard.addGameBoardObject(moveableCar2);
 		gameBoard.addGameBoardObject(moveableTruck);
 
-		Collection<IGameBoardObject> gameBoardObjects = gameBoard
-				.getGameBoardObjects();
+		Collection<IGameBoardObject> gameBoardObjects =
+				gameBoard.getGameBoardObjects();
 		assertEquals(3, gameBoardObjects.size());
 
 		assertTrue(gameBoardObjects.contains(moveableCar));

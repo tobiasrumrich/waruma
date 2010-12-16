@@ -166,15 +166,19 @@ public class GameBoard implements Serializable {
 	public int hashCode() {
 		final int prime = 99991;
 		int result = 1;
-		result = prime
-				* result
-				+ ((collisionDetector == null) ? 0 : collisionDetector
-						.hashCode());
-		result = prime
-				* result
-				+ ((gameBoardObjects == null) ? 0 : gameBoardObjects.hashCode());
-		result = prime * result
-				+ ((moveHistory == null) ? 0 : moveHistory.hashCode());
+		result =
+				prime
+						* result
+						+ ((collisionDetector == null) ? 0 : collisionDetector
+								.hashCode());
+		result =
+				prime
+						* result
+						+ ((gameBoardObjects == null) ? 0 : gameBoardObjects
+								.hashCode());
+		result =
+				prime * result
+						+ ((moveHistory == null) ? 0 : moveHistory.hashCode());
 		return result;
 	}
 
@@ -201,7 +205,8 @@ public class GameBoard implements Serializable {
 	 */
 	public void rebuildGameBoardObjects() {
 		Collection<IGameBoardObject> boardObjects = gameBoardObjects.values();
-		HashMap<Integer, IGameBoardObject> newBoardObjects = new HashMap<Integer, IGameBoardObject>();
+		HashMap<Integer, IGameBoardObject> newBoardObjects =
+				new HashMap<Integer, IGameBoardObject>();
 		for (IGameBoardObject boardObject : boardObjects) {
 			newBoardObjects.put(boardObject.hashCode(), boardObject);
 		}

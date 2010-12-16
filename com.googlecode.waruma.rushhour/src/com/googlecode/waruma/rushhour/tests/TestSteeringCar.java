@@ -55,8 +55,9 @@ public class TestSteeringCar extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
-		mockMoveableObject = new MockMoveableObject(collisionMap, new Point(5,
-				5), Orientation.NORTH);
+		mockMoveableObject =
+				new MockMoveableObject(collisionMap, new Point(5, 5),
+						Orientation.NORTH);
 		car = new SteeringLock(mockMoveableObject);
 		thrownException = false;
 	}

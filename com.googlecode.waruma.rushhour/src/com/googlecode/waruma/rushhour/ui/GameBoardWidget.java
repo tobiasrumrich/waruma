@@ -1,7 +1,5 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import java.awt.Color;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -10,7 +8,6 @@ import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,18 +27,25 @@ public class GameBoardWidget extends Composite {
 	private String inField = "NULL!!";
 	private Point goalField;
 	private IImageCache imageCache = new ImageCache();
-	
-	private org.eclipse.swt.graphics.Color colorForHighlight = SWTResourceManager.getColor(0, 210, 0);
-	private org.eclipse.swt.graphics.Color colorForOdd =SWTResourceManager.getColor(166, 202, 240) ;
-	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
-	private Image tile_even = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_even.png");
-	private Image tile_odd = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_odd.png");
-	private Image tile_goal = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_goal.png");
+
+	private org.eclipse.swt.graphics.Color colorForHighlight =
+			SWTResourceManager.getColor(0, 210, 0);
+	private org.eclipse.swt.graphics.Color colorForOdd = SWTResourceManager
+			.getColor(166, 202, 240);
+	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager
+			.getColor(119, 136, 153);
+	private Image tile_even = SWTResourceManager.getImage(
+			GameBoardWidget.class,
+			"/com/googlecode/waruma/rushhour/ui/images/tile_even.png");
+	private Image tile_odd = SWTResourceManager.getImage(GameBoardWidget.class,
+			"/com/googlecode/waruma/rushhour/ui/images/tile_odd.png");
+	private Image tile_goal = SWTResourceManager.getImage(
+			GameBoardWidget.class,
+			"/com/googlecode/waruma/rushhour/ui/images/tile_goal.png");
 	private Image original_tile_even = tile_even;
 	private Image original_tile_odd = tile_odd;
-	private Image original_tile_goal = tile_goal;	
+	private Image original_tile_goal = tile_goal;
 	private String imageFilename = "Tiles";
-	
 
 	private class FieldMouseListener implements MouseTrackListener {
 
@@ -81,25 +85,24 @@ public class GameBoardWidget extends Composite {
 	 * @param breite
 	 * @param hoehe
 	 */
-	public GameBoardWidget(Composite parent, int style, int breite,
-			int hoehe) {
+	public GameBoardWidget(Composite parent, int style, int breite, int hoehe) {
 		super(parent, style);
-		
+
 		this.parent = parent;
 		this.hoehe = hoehe;
 		this.breite = breite;
 		this.addControlListener(new ControlListener() {
-			
+
 			@Override
 			public void controlResized(ControlEvent arg0) {
 				setSize();
-				
+
 			}
-			
+
 			@Override
 			public void controlMoved(ControlEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
@@ -116,7 +119,7 @@ public class GameBoardWidget extends Composite {
 			for (int i = 0; i < breite; i++) {
 
 				spielbrett[i][j] = new Label(this, SWT.NONE);
-		//			spielbrett[i][j].setText(i + ":" + j);
+				// spielbrett[i][j].setText(i + ":" + j);
 				spielbrett[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, true, 1, 1));
 
@@ -130,17 +133,19 @@ public class GameBoardWidget extends Composite {
 			}
 
 		}
-		
+
 	}
 
 	public int getMinHeight() {
 		return (hoehe * minHoeheFeld)
-				+ ((hoehe - 1) * ((GridLayout) this.getLayout()).horizontalSpacing);
+				+ ((hoehe - 1) * ((GridLayout) this.getLayout()).
+						horizontalSpacing);
 	}
 
 	public int getMinWidth() {
 		return (breite * minHoeheFeld)
-				+ ((breite - 1) * ((GridLayout) this.getLayout()).verticalSpacing);
+				+ ((breite - 1) * ((GridLayout) this.getLayout()).
+						verticalSpacing);
 	}
 
 	public Point getCurrentFieldSize() {
@@ -155,7 +160,6 @@ public class GameBoardWidget extends Composite {
 		this.goalField = goalField;
 	}
 
-	
 	public int getHoehe() {
 		return hoehe;
 	}
@@ -179,75 +183,91 @@ public class GameBoardWidget extends Composite {
 	}
 
 	public void setHighlight(Point fieldPoint) {
-		spielbrett[fieldPoint.x][fieldPoint.y].setBackground( colorForHighlight);
-		spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_goal));
+		spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForHighlight);
+		spielbrett[fieldPoint.x][fieldPoint.y]
+				.setBackgroundImage(getImage(original_tile_goal));
 	}
-	
+
 	public void removeHighlight(Point fieldPoint) {
 		if ((fieldPoint.x + fieldPoint.y) % 2 == 0) {
 			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForOdd);
-			spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_odd));
+			spielbrett[fieldPoint.x][fieldPoint.y]
+					.setBackgroundImage(getImage(original_tile_odd));
 		} else {
 			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForUnodd);
-			spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_even));
+			spielbrett[fieldPoint.x][fieldPoint.y]
+					.setBackgroundImage(getImage(original_tile_even));
 		}
-		setBackground( colorForHighlight);
+		setBackground(colorForHighlight);
 	}
-	
+
+	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
 	void repositionCarOnBoard(CarWidget carWidget) {
 		if (carWidget.getPositionOnGameBoard() != null) {
-			int boardX = getLocation().x
-					+ parent.getLocation().x;
-			int boardY = getLocation().y
-					+ parent.getLocation().y;
-			int newCarX = (carWidget.getPositionOnGameBoard().x * getCurrentFieldSize().x) + boardX;
-			int newCarY = (carWidget.getPositionOnGameBoard().y * getCurrentFieldSize().y) + boardY;
-			if (newCarX < (boardX + getBounds().width - (getCurrentFieldSize().x / 2))) {
+			int boardX = getLocation().x + parent.getLocation().x;
+			int boardY = getLocation().y + parent.getLocation().y;
+			int newCarX =
+					(carWidget.getPositionOnGameBoard().x *
+							getCurrentFieldSize().x)
+							+ boardX;
+			int newCarY =
+					(carWidget.getPositionOnGameBoard().y * 
+							getCurrentFieldSize().y)
+							+ boardY;
+			if (newCarX < (boardX + getBounds().width - 
+					(getCurrentFieldSize().x / 2))) {
 				Point location = new Point(newCarX, newCarY);
 				carWidget.setLocation(location);
 			}
 		}
 	}
-	
+
 	public void setSize() {
-		
-		
+
 		for (int j = 0; j < hoehe; j++) {
 			for (int i = 0; i < breite; i++) {
 
 				if ((i + j) % 2 == 0) {
-					spielbrett[i][j].setBackgroundImage(getImage(original_tile_odd));
+					spielbrett[i][j]
+							.setBackgroundImage(getImage(original_tile_odd));
 				} else {
-					spielbrett[i][j].setBackgroundImage(getImage(original_tile_even));
+					spielbrett[i][j]
+							.setBackgroundImage(getImage(original_tile_even));
 				}
 			}
 		}
-		
+
 		if (goalField != null) {
-			spielbrett[goalField.x][goalField.y].setBackgroundImage(getImage(original_tile_goal));
+			spielbrett[goalField.x][goalField.y]
+					.setBackgroundImage(getImage(original_tile_goal));
 		}
 	}
-	
+
 	private Image getImage(Image gImage) {
 
 		Image newImage;
 
-		if ((imageCache.checkCache(Orientation.NORTH, spielbrett[0][0].getSize()))) {
-			newImage = imageCache.getImage(imageFilename, Orientation.NORTH, spielbrett[0][0].getSize());
+		if ((imageCache.checkCache(Orientation.NORTH, spielbrett[0][0]
+				.getSize()))) {
+			newImage =
+					imageCache.getImage(imageFilename, Orientation.NORTH,
+							spielbrett[0][0].getSize());
 		} else {
-			
+
 			ImageData imgData = gImage.getImageData();
 
-			
-			imgData = imgData.scaledTo(this.getBounds().width/(breite),this.getBounds().height/(hoehe));
-			
+			imgData =
+					imgData.scaledTo(this.getBounds().width / (breite), this
+							.getBounds().height
+							/ (hoehe));
 
 			newImage = new Image(this.getDisplay(), imgData);
-			imageCache.addImage(imageFilename, Orientation.NORTH, spielbrett[0][0].getSize(), newImage);
+			imageCache.addImage(imageFilename, Orientation.NORTH,
+					spielbrett[0][0].getSize(), newImage);
 		}
 
 		return newImage;

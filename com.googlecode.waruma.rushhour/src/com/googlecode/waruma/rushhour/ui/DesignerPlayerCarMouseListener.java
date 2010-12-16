@@ -20,15 +20,18 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 	@Override
 	public void mouseUp(MouseEvent e) {
 		observedCar.removeMouseMoveListener(mouseMoveListener);
-		
+
 		Point positionOnGameBoard = observedCar.getPositionOnGameBoard();
 		Orientation orientation = observedCar.getOrientation();
 
-		int carX = observedCar.getLocation().x
-				+ e.x
-				- (mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x / 2);
-		int boardBorder = mainWindow.abstractGameBoardWidget.getBounds().x
-				+ mainWindow.abstractGameBoardWidget.getBounds().width;
+		int carX =
+				observedCar.getLocation().x
+						+ e.x
+						- (mainWindow.abstractGameBoardWidget
+								.getCurrentFieldSize().x / 2);
+		int boardBorder =
+				mainWindow.abstractGameBoardWidget.getBounds().x
+						+ mainWindow.abstractGameBoardWidget.getBounds().width;
 
 		moveSuccessful = false;
 		if (observedCar.knownInController) {
@@ -36,14 +39,15 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 		}
 
 		if (carX < boardBorder) {
-			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(observedCar);
+			mainWindow.abstractGameBoardWidget
+					.repositionCarOnBoard(observedCar);
 
 			if (moveSuccessful || !observedCar.knownInController) {
 				switch (orientation) {
 				case EAST:
-					fieldPoint = new Point(
-							mainWindow.abstractGameBoardWidget.getBreite() - 1,
-							positionOnGameBoard.y);
+					fieldPoint =
+							new Point(mainWindow.abstractGameBoardWidget
+									.getBreite() - 1, positionOnGameBoard.y);
 					break;
 				case WEST:
 					fieldPoint = new Point(0, positionOnGameBoard.y);
@@ -52,8 +56,10 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 					fieldPoint = new Point(positionOnGameBoard.x, 0);
 					break;
 				case SOUTH:
-					fieldPoint = new Point(positionOnGameBoard.x,
-							mainWindow.abstractGameBoardWidget.getHoehe() - 1);
+					fieldPoint =
+							new Point(positionOnGameBoard.x,
+									mainWindow.abstractGameBoardWidget
+											.getHoehe() - 1);
 					break;
 				}
 			}
@@ -73,8 +79,6 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 			observedCar.knownInController = true;
 		}
 	}
-
-
 
 	@Override
 	public void mouseDown(MouseEvent e) {

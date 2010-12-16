@@ -55,7 +55,8 @@ public abstract class AbstractAdditionalFunctionality extends AbstractMoveable
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		AbstractAdditionalFunctionality other = (AbstractAdditionalFunctionality) obj;
+		AbstractAdditionalFunctionality other =
+				(AbstractAdditionalFunctionality) obj;
 		if (abstractMoveable == null) {
 			if (other.abstractMoveable != null) {
 				return false;
@@ -111,9 +112,11 @@ public abstract class AbstractAdditionalFunctionality extends AbstractMoveable
 	public int hashCode() {
 		final int prime = 33889;
 		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((abstractMoveable == null) ? 0 : abstractMoveable.hashCode());
+		result =
+				prime
+						* result
+						+ ((abstractMoveable == null) ? 0 : abstractMoveable
+								.hashCode());
 		return result;
 	}
 

@@ -120,7 +120,9 @@ public class FastSolver implements ISolver {
 	private FastSolverCar createSolverCarFromGameBoardObject(
 			IGameBoardObject gameBoardObject) {
 		byte x, y, length;
-		boolean isPlayer = false, isLockCar = false, locked = false, orientation = false;
+		boolean isPlayer = false, isLockCar = false, locked = false, 
+		orientation =
+				false;
 		// Position extrahieren
 		x = (byte) gameBoardObject.getPosition().x;
 		y = (byte) gameBoardObject.getPosition().y;
@@ -154,8 +156,9 @@ public class FastSolver implements ISolver {
 		}
 
 		// Objekt instantiieren
-		FastSolverCar car = new FastSolverCar(x, y, length, orientation,
-				isPlayer, isLockCar, locked);
+		FastSolverCar car =
+				new FastSolverCar(x, y, length, orientation, isPlayer,
+						isLockCar, locked);
 		// Zuordnung speichern
 		gameBoardObjectMap.put(car.id, gameBoardObject);
 
@@ -174,8 +177,8 @@ public class FastSolver implements ISolver {
 		LinkedList<IMove> moveList = new LinkedList<IMove>();
 
 		while (currentState.previousState != null) {
-			IGameBoardObject movedObject = gameBoardObjectMap
-					.get(currentState.movedCar);
+			IGameBoardObject movedObject =
+					gameBoardObjectMap.get(currentState.movedCar);
 			int distance = currentState.movedDistance;
 
 			if ((movedObject.getOrientation() == Orientation.WEST)

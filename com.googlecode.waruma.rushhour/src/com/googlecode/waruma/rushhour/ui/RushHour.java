@@ -12,10 +12,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -34,12 +32,12 @@ import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.game.RushHourBoardCreationController;
 import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
-import com.swtdesigner.SWTResourceManager;
 
 public class RushHour implements IGameWonObserver {
 	private static final int BOARDHEIGHT = 6;
 	private static final int BOARDWIDTH = 6;
-	final public static String IMAGEBASEPATH = "/com/googlecode/waruma/rushhour/ui/images/";
+	final public static String IMAGEBASEPATH =
+			"/com/googlecode/waruma/rushhour/ui/images/";
 	protected Shell shell;
 	private Label lblTime;
 	private Label lblZeit;
@@ -161,8 +159,9 @@ public class RushHour implements IGameWonObserver {
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
-					messageBox
-							.setMessage("Der Spielstand konnte nicht gespeichert werden. Bitte überprüfen Sie den angegebenen Pfad.");
+					messageBox.setMessage("Der Spielstand konnte nicht "
+							+ "gespeichert werden. Bitte überprüfen "
+							+ "Sie den angegebenen Pfad.");
 					messageBox.setText("Fehler beim Speichern der Datei");
 					messageBox.open();
 				}
@@ -175,8 +174,9 @@ public class RushHour implements IGameWonObserver {
 		mntmProgrammBeenden.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO
-						| SWT.ICON_QUESTION);
+				MessageBox messageBox =
+						new MessageBox(shell, SWT.YES | SWT.NO
+								| SWT.ICON_QUESTION);
 				messageBox.setMessage("Möchten Sie RushHour wirklich beenden?");
 				int open = messageBox.open();
 				if (open == SWT.YES) {
@@ -212,11 +212,13 @@ public class RushHour implements IGameWonObserver {
 		}
 	}
 
-	protected RushHourBoardCreationController initializeNewGame(String fileName)
-			throws IOException {
+	protected RushHourBoardCreationController
+			initializeNewGame(String fileName) throws IOException {
 
-		Collection<IGameBoardObject> carsFromController = new ArrayList<IGameBoardObject>();
-		RushHourBoardCreationController controller = new RushHourBoardCreationController();
+		Collection<IGameBoardObject> carsFromController =
+				new ArrayList<IGameBoardObject>();
+		RushHourBoardCreationController controller =
+				new RushHourBoardCreationController();
 		// Designer
 		controller.loadGameBoard(fileName);
 		carsFromController = controller.getGameBoardObjects();
@@ -236,8 +238,8 @@ public class RushHour implements IGameWonObserver {
 		carPool.clear();
 
 		for (IGameBoardObject boardObject : carsFromController) {
-			CarWidget abstractCarWidget = new CarWidget(shell, this,
-					boardObject);
+			CarWidget abstractCarWidget =
+					new CarWidget(shell, this, boardObject);
 
 			abstractCarWidget.knownInController = true;
 
@@ -254,7 +256,7 @@ public class RushHour implements IGameWonObserver {
 			carPool.add(abstractCarWidget);
 			abstractCarWidget.moveAbove(mainComposite);
 		}
-		
+
 		return controller;
 
 	}
@@ -276,6 +278,7 @@ public class RushHour implements IGameWonObserver {
 
 		final int time = 100;
 		final Runnable timer = new Runnable() {
+			@Override
 			public void run() {
 				if (gamePlayWidget.getLblTime().isDisposed()
 						|| tabFolder.getSelectionIndex() == 0
@@ -318,8 +321,8 @@ public class RushHour implements IGameWonObserver {
 	public void doMoveFromSolver() {
 		if (moveQueue != null && !moveQueue.isEmpty()) {
 			IMove move = moveQueue.poll();
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move
-					.getMoveable();
+			IGameBoardObject gameBoardObject =
+					(IGameBoardObject) move.getMoveable();
 			try {
 				gameplayControler.moveCar(gameBoardObject, move.getDistance());
 			} catch (IllegalMoveException e) {
@@ -367,8 +370,8 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	private void initializeBoardCreationController() {
-		this.boardCreationControler = new RushHourBoardCreationController(
-				BOARDWIDTH, BOARDHEIGHT);
+		this.boardCreationControler =
+				new RushHourBoardCreationController(BOARDWIDTH, BOARDHEIGHT);
 	}
 
 	/**
@@ -388,12 +391,13 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpContainer.marginHeight = 0;
 		mainComposite.setLayout(gl_cmpContainer);
 
-		abstractGameBoardWidget = new GameBoardWidget(mainComposite, SWT.NONE,
-				BOARDWIDTH, BOARDHEIGHT);
+		abstractGameBoardWidget =
+				new GameBoardWidget(mainComposite, SWT.NONE, BOARDWIDTH,
+						BOARDHEIGHT);
 		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 				true, true, 1, 1));
-		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget
-				.getLayout();
+		GridLayout gridLayout =
+				(GridLayout) abstractGameBoardWidget.getLayout();
 		gridLayout.marginWidth = 0;
 		gridLayout.marginTop = 0;
 		gridLayout.marginRight = 0;
@@ -401,8 +405,8 @@ public class RushHour implements IGameWonObserver {
 		gridLayout.marginHeight = 0;
 
 		tabFolder = new TabFolder(mainComposite, SWT.NONE);
-		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, false, false,
-				1, 1);
+		GridData gd_tabFolder =
+				new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		gd_tabFolder.widthHint = 239;
 		tabFolder.setLayoutData(gd_tabFolder);
 		tabFolder.addSelectionListener(new SelectionAdapter() {
@@ -440,10 +444,12 @@ public class RushHour implements IGameWonObserver {
 
 		gamePlayWidget = new GameplayWidget(this, cmpSpiel, SWT.NONE);
 
-		int minX = abstractGameBoardWidget.getMinWidth()
-				+ gamePlayWidget.getBounds().width + 30;
-		int minY = abstractGameBoardWidget.getMinHeight()
-				+ gamePlayWidget.getBounds().height + 30;
+		int minX =
+				abstractGameBoardWidget.getMinWidth()
+						+ gamePlayWidget.getBounds().width + 30;
+		int minY =
+				abstractGameBoardWidget.getMinHeight()
+						+ gamePlayWidget.getBounds().height + 30;
 		resizeToDefinition();
 
 		shell.addControlListener(new ControlListener() {
@@ -463,9 +469,9 @@ public class RushHour implements IGameWonObserver {
 	@Override
 	public void updateGameWon() {
 		gameWon = true;
-		GameWonNotifier gameWonWindow = new GameWonNotifier(this,
-				gameplayControler.elapsedGameTime(),
-				gameplayControler.getMoveCount() + 1);
+		GameWonNotifier gameWonWindow =
+				new GameWonNotifier(this, gameplayControler.elapsedGameTime(),
+						gameplayControler.getMoveCount() + 1);
 		gameWonWindow.open();
 
 	}
@@ -484,8 +490,8 @@ public class RushHour implements IGameWonObserver {
 			abstractGameBoardWidget.repositionCarOnBoard(currentCar);
 		}
 
-		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
-				shell.getBounds().height - 65);
+		mainComposite.setBounds(12, 10, shell.getBounds().width - 30, shell
+				.getBounds().height - 65);
 	}
 
 }

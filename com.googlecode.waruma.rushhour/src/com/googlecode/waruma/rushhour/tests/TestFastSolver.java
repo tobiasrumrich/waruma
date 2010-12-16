@@ -80,34 +80,47 @@ public class TestFastSolver extends TestCase {
 	}
 
 	public void testHardGame() {
-		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(2, 2),
-				Orientation.EAST, collisionDetector);
+		PlayerCar playerCar =
+				new PlayerCar(collisionMapCar, new Point(2, 2),
+						Orientation.EAST, collisionDetector);
 		playerCar.setDestination(new Point(5, 2));
 
-		StandardCar car1 = new StandardCar(collisionMapCar, new Point(3, 0),
-				Orientation.NORTH);
-		StandardCar car2 = new StandardCar(collisionMapCar, new Point(0, 1),
-				Orientation.NORTH);
-		StandardCar car3 = new StandardCar(collisionMapCar, new Point(1, 1),
-				Orientation.WEST);
-		StandardCar car4 = new StandardCar(collisionMapCar, new Point(0, 3),
-				Orientation.EAST);
-		StandardCar car5 = new StandardCar(collisionMapCar, new Point(2, 3),
-				Orientation.SOUTH);
-		StandardCar car6 = new StandardCar(collisionMapCar, new Point(1, 4),
-				Orientation.NORTH);
-		StandardCar car7 = new StandardCar(collisionMapCar, new Point(4, 4),
-				Orientation.WEST);
-		StandardCar car8 = new StandardCar(collisionMapCar, new Point(2, 5),
-				Orientation.WEST);
-		StandardCar car9 = new StandardCar(collisionMapCar, new Point(4, 5),
-				Orientation.EAST);
-		StandardCar car10 = new StandardCar(collisionMapTruck, new Point(0, 0),
-				Orientation.WEST);
-		StandardCar car11 = new StandardCar(collisionMapTruck, new Point(4, 0),
-				Orientation.NORTH);
-		StandardCar car12 = new StandardCar(collisionMapTruck, new Point(5, 0),
-				Orientation.NORTH);
+		StandardCar car1 =
+				new StandardCar(collisionMapCar, new Point(3, 0),
+						Orientation.NORTH);
+		StandardCar car2 =
+				new StandardCar(collisionMapCar, new Point(0, 1),
+						Orientation.NORTH);
+		StandardCar car3 =
+				new StandardCar(collisionMapCar, new Point(1, 1),
+						Orientation.WEST);
+		StandardCar car4 =
+				new StandardCar(collisionMapCar, new Point(0, 3),
+						Orientation.EAST);
+		StandardCar car5 =
+				new StandardCar(collisionMapCar, new Point(2, 3),
+						Orientation.SOUTH);
+		StandardCar car6 =
+				new StandardCar(collisionMapCar, new Point(1, 4),
+						Orientation.NORTH);
+		StandardCar car7 =
+				new StandardCar(collisionMapCar, new Point(4, 4),
+						Orientation.WEST);
+		StandardCar car8 =
+				new StandardCar(collisionMapCar, new Point(2, 5),
+						Orientation.WEST);
+		StandardCar car9 =
+				new StandardCar(collisionMapCar, new Point(4, 5),
+						Orientation.EAST);
+		StandardCar car10 =
+				new StandardCar(collisionMapTruck, new Point(0, 0),
+						Orientation.WEST);
+		StandardCar car11 =
+				new StandardCar(collisionMapTruck, new Point(4, 0),
+						Orientation.NORTH);
+		StandardCar car12 =
+				new StandardCar(collisionMapTruck, new Point(5, 0),
+						Orientation.NORTH);
 
 		try {
 			gameBoard.addGameBoardObject(playerCar);
@@ -143,29 +156,40 @@ public class TestFastSolver extends TestCase {
 	}
 
 	public void testMediumGame() {
-		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(0, 2),
-				Orientation.EAST, collisionDetector);
+		PlayerCar playerCar =
+				new PlayerCar(collisionMapCar, new Point(0, 2),
+						Orientation.EAST, collisionDetector);
 		playerCar.setDestination(new Point(5, 2));
-		StandardCar car1 = new StandardCar(collisionMapCar, new Point(0, 0),
-				Orientation.WEST);
-		StandardCar car2 = new StandardCar(collisionMapCar, new Point(3, 0),
-				Orientation.NORTH);
-		StandardCar car3 = new StandardCar(collisionMapCar, new Point(4, 0),
-				Orientation.WEST);
-		StandardCar car4 = new StandardCar(collisionMapCar, new Point(0, 3),
-				Orientation.SOUTH);
-		StandardCar car5 = new StandardCar(collisionMapCar, new Point(1, 3),
-				Orientation.EAST);
-		StandardCar car6 = new StandardCar(collisionMapCar, new Point(3, 3),
-				Orientation.WEST);
-		StandardCar car7 = new StandardCar(collisionMapCar, new Point(0, 5),
-				Orientation.EAST);
-		StandardCar car8 = new StandardCar(collisionMapCar, new Point(3, 4),
-				Orientation.NORTH);
-		StandardCar truck1 = new StandardCar(collisionMapTruck,
-				new Point(2, 0), Orientation.SOUTH);
-		StandardCar truck2 = new StandardCar(collisionMapTruck,
-				new Point(5, 3), Orientation.SOUTH);
+		StandardCar car1 =
+				new StandardCar(collisionMapCar, new Point(0, 0),
+						Orientation.WEST);
+		StandardCar car2 =
+				new StandardCar(collisionMapCar, new Point(3, 0),
+						Orientation.NORTH);
+		StandardCar car3 =
+				new StandardCar(collisionMapCar, new Point(4, 0),
+						Orientation.WEST);
+		StandardCar car4 =
+				new StandardCar(collisionMapCar, new Point(0, 3),
+						Orientation.SOUTH);
+		StandardCar car5 =
+				new StandardCar(collisionMapCar, new Point(1, 3),
+						Orientation.EAST);
+		StandardCar car6 =
+				new StandardCar(collisionMapCar, new Point(3, 3),
+						Orientation.WEST);
+		StandardCar car7 =
+				new StandardCar(collisionMapCar, new Point(0, 5),
+						Orientation.EAST);
+		StandardCar car8 =
+				new StandardCar(collisionMapCar, new Point(3, 4),
+						Orientation.NORTH);
+		StandardCar truck1 =
+				new StandardCar(collisionMapTruck, new Point(2, 0),
+						Orientation.SOUTH);
+		StandardCar truck2 =
+				new StandardCar(collisionMapTruck, new Point(5, 3),
+						Orientation.SOUTH);
 
 		try {
 			gameBoard.addGameBoardObject(playerCar);
@@ -199,25 +223,34 @@ public class TestFastSolver extends TestCase {
 	}
 
 	public void testMediumGame2() {
-		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(3, 2),
-				Orientation.EAST, collisionDetector);
+		PlayerCar playerCar =
+				new PlayerCar(collisionMapCar, new Point(3, 2),
+						Orientation.EAST, collisionDetector);
 		playerCar.setDestination(new Point(5, 2));
-		StandardCar car1 = new StandardCar(collisionMapCar, new Point(4, 0),
-				Orientation.NORTH);
-		StandardCar car2 = new StandardCar(collisionMapCar, new Point(1, 3),
-				Orientation.WEST);
-		StandardCar car3 = new StandardCar(collisionMapCar, new Point(4, 3),
-				Orientation.SOUTH);
-		StandardCar car4 = new StandardCar(collisionMapCar, new Point(1, 4),
-				Orientation.NORTH);
-		StandardCar car5 = new StandardCar(collisionMapCar, new Point(4, 5),
-				Orientation.EAST);
-		StandardCar car10 = new StandardCar(collisionMapTruck, new Point(2, 0),
-				Orientation.SOUTH);
-		StandardCar car11 = new StandardCar(collisionMapTruck, new Point(5, 1),
-				Orientation.NORTH);
-		StandardCar car12 = new StandardCar(collisionMapTruck, new Point(3, 3),
-				Orientation.NORTH);
+		StandardCar car1 =
+				new StandardCar(collisionMapCar, new Point(4, 0),
+						Orientation.NORTH);
+		StandardCar car2 =
+				new StandardCar(collisionMapCar, new Point(1, 3),
+						Orientation.WEST);
+		StandardCar car3 =
+				new StandardCar(collisionMapCar, new Point(4, 3),
+						Orientation.SOUTH);
+		StandardCar car4 =
+				new StandardCar(collisionMapCar, new Point(1, 4),
+						Orientation.NORTH);
+		StandardCar car5 =
+				new StandardCar(collisionMapCar, new Point(4, 5),
+						Orientation.EAST);
+		StandardCar car10 =
+				new StandardCar(collisionMapTruck, new Point(2, 0),
+						Orientation.SOUTH);
+		StandardCar car11 =
+				new StandardCar(collisionMapTruck, new Point(5, 1),
+						Orientation.NORTH);
+		StandardCar car12 =
+				new StandardCar(collisionMapTruck, new Point(3, 3),
+						Orientation.NORTH);
 
 		try {
 			gameBoard.addGameBoardObject(playerCar);
@@ -249,11 +282,13 @@ public class TestFastSolver extends TestCase {
 	}
 
 	public void testNonMoveableObject() {
-		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(3, 0),
-				Orientation.SOUTH, collisionDetector);
+		PlayerCar playerCar =
+				new PlayerCar(collisionMapCar, new Point(3, 0),
+						Orientation.SOUTH, collisionDetector);
 		playerCar.setDestination(new Point(3, 5));
-		MockNonMoveable nonMoveable = new MockNonMoveable(collisionMapCar,
-				new Point(2, 5), Orientation.EAST);
+		MockNonMoveable nonMoveable =
+				new MockNonMoveable(collisionMapCar, new Point(2, 5),
+						Orientation.EAST);
 		try {
 			gameBoard.addGameBoardObject(playerCar);
 			gameBoard.addGameBoardObject(nonMoveable);
@@ -268,17 +303,22 @@ public class TestFastSolver extends TestCase {
 	}
 
 	public void testVeryEasyGame() {
-		PlayerCar playerCar = new PlayerCar(collisionMapCar, new Point(0, 2),
-				Orientation.EAST, collisionDetector);
+		PlayerCar playerCar =
+				new PlayerCar(collisionMapCar, new Point(0, 2),
+						Orientation.EAST, collisionDetector);
 		playerCar.setDestination(new Point(5, 2));
-		StandardCar truck1 = new StandardCar(collisionMapTruck,
-				new Point(2, 1), Orientation.NORTH);
-		StandardCar truck2 = new StandardCar(collisionMapTruck,
-				new Point(4, 1), Orientation.SOUTH);
-		StandardCar car1 = new StandardCar(collisionMapCar, new Point(2, 0),
-				Orientation.WEST);
-		SteeringLock car2 = new SteeringLock(new StandardCar(collisionMapCar,
-				new Point(2, 4), Orientation.EAST));
+		StandardCar truck1 =
+				new StandardCar(collisionMapTruck, new Point(2, 1),
+						Orientation.NORTH);
+		StandardCar truck2 =
+				new StandardCar(collisionMapTruck, new Point(4, 1),
+						Orientation.SOUTH);
+		StandardCar car1 =
+				new StandardCar(collisionMapCar, new Point(2, 0),
+						Orientation.WEST);
+		SteeringLock car2 =
+				new SteeringLock(new StandardCar(collisionMapCar, new Point(2,
+						4), Orientation.EAST));
 
 		try {
 			gameBoard.addGameBoardObject(playerCar);

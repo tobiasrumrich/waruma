@@ -64,8 +64,9 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 */
 	public String elapsedGameTime() {
 		if (gameStartTime > 0) {
-			Date date = new Date(System.currentTimeMillis() - gameStartTime
-					- 60 * 60 * 1000);
+			Date date =
+					new Date(System.currentTimeMillis() - gameStartTime - 60
+							* 60 * 1000);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 			return dateFormat.format(date);
 		} else {
@@ -152,7 +153,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 * Spieler im GameState registrieren
 	 */
 	private void registerPlayer() {
-		for (IGameBoardObject gameBoardObject : gameBoard.getGameBoardObjects()) {
+		for (IGameBoardObject gameBoardObject : 
+			gameBoard.getGameBoardObjects()) {
 			if (gameBoardObject instanceof IPlayer) {
 				gameState.addPlayer((IPlayer) gameBoardObject);
 			}
@@ -167,7 +169,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 * @throws IOException
 	 */
 	public void saveGame(String location) throws IOException {
-		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
+		FileSystemObjectStorage fileSystemObjectStorage =
+				new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
 

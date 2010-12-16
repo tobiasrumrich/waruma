@@ -21,17 +21,22 @@ class GameplayCarMouseListener implements MouseListener {
 	}
 
 	MouseMoveListener mouseMoveListener = new MouseMoveListener() {
+		@Override
 		public void mouseMove(MouseEvent arg0) {
 			// BEGIN CageControl
 			int neuesX = observedCar.getLocation().x + arg0.x - clickX;
 			int neuesY = observedCar.getLocation().y + arg0.y - clickY;
 
-			int boardWidth = mainWindow.abstractGameBoardWidget.getBounds().width;
-			int boardHeight = mainWindow.abstractGameBoardWidget.getBounds().height;
-			int boardX = mainWindow.abstractGameBoardWidget.getLocation().x
-					+ mainWindow.mainComposite.getLocation().x;
-			int boardY = mainWindow.abstractGameBoardWidget.getLocation().y
-					+ mainWindow.mainComposite.getLocation().y;
+			int boardWidth =
+					mainWindow.abstractGameBoardWidget.getBounds().width;
+			int boardHeight =
+					mainWindow.abstractGameBoardWidget.getBounds().height;
+			int boardX =
+					mainWindow.abstractGameBoardWidget.getLocation().x
+							+ mainWindow.mainComposite.getLocation().x;
+			int boardY =
+					mainWindow.abstractGameBoardWidget.getLocation().y
+							+ mainWindow.mainComposite.getLocation().y;
 
 			if (neuesX > (boardWidth + boardX - observedCar.getBounds().width))
 				neuesX = boardWidth + boardX - observedCar.getBounds().width;
@@ -44,8 +49,10 @@ class GameplayCarMouseListener implements MouseListener {
 				neuesY = minValue;
 			}
 
-			if (neuesY > (boardY + boardHeight - observedCar.getBounds().height))
-				neuesY = (boardY + boardHeight - observedCar.getBounds().height);
+			if (neuesY > (boardY + boardHeight - 
+					observedCar.getBounds().height))
+				neuesY =
+						(boardY + boardHeight - observedCar.getBounds().height);
 
 			if (neuesX > maxValue) {
 				neuesX = maxValue;
@@ -67,20 +74,26 @@ class GameplayCarMouseListener implements MouseListener {
 			// BEGIN FieldControl
 			int currentX = observedCar.getLocation().x;
 			int currentY = observedCar.getLocation().y;
-			int gameBoardX = mainWindow.abstractGameBoardWidget.getLocation().x
-					+ mainWindow.mainComposite.getLocation().x;
+			int gameBoardX =
+					mainWindow.abstractGameBoardWidget.getLocation().x
+							+ mainWindow.mainComposite.getLocation().x;
 
-			int gameBoardY = mainWindow.abstractGameBoardWidget.getLocation().y
-					+ mainWindow.mainComposite.getLocation().y;
+			int gameBoardY =
+					mainWindow.abstractGameBoardWidget.getLocation().y
+							+ mainWindow.mainComposite.getLocation().y;
 
-			int fieldSizeWidth = mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().x;
-			int fieldSizeHeight = mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().y;
-			int posX = (currentX - gameBoardX + (mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().x / 2)) / fieldSizeWidth;
-			int posY = (currentY - gameBoardY + (mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().y / 2)) / fieldSizeHeight;
+			int fieldSizeWidth =
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
+			int fieldSizeHeight =
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
+			int posX =
+					(currentX - gameBoardX + (mainWindow.abstractGameBoardWidget
+							.getCurrentFieldSize().x / 2))
+							/ fieldSizeWidth;
+			int posY =
+					(currentY - gameBoardY + (mainWindow.abstractGameBoardWidget
+							.getCurrentFieldSize().y / 2))
+							/ fieldSizeHeight;
 			observedCar.setPositionOnGameBoard(new Point(posX, posY));
 			// END Field Control
 
@@ -115,71 +128,91 @@ class GameplayCarMouseListener implements MouseListener {
 		clickX = arg0.x;
 		clickY = arg0.y;
 
-		Rectangle moveBoundries = mainWindow.gameplayControler
-				.getMoveRange(observedCar.gameObject);
+		Rectangle moveBoundries =
+				mainWindow.gameplayControler
+						.getMoveRange(observedCar.gameObject);
 
-		int boardX = mainWindow.abstractGameBoardWidget.getLocation().x
-				+ mainWindow.mainComposite.getLocation().x;
-		int boardY = mainWindow.abstractGameBoardWidget.getLocation().y
-				+ mainWindow.mainComposite.getLocation().y;
+		int boardX =
+				mainWindow.abstractGameBoardWidget.getLocation().x
+						+ mainWindow.mainComposite.getLocation().x;
+		int boardY =
+				mainWindow.abstractGameBoardWidget.getLocation().y
+						+ mainWindow.mainComposite.getLocation().y;
 
 		if (observedCar.getOrientation() == Orientation.NORTH) {
-			maxValue = boardY
-					+ moveBoundries.y
-					* mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
-			minValue = maxValue
-					- (moveBoundries.width * mainWindow.abstractGameBoardWidget
-							.getCurrentFieldSize().y);
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().y;
+			maxValue =
+					boardY
+							+ moveBoundries.y
+							* mainWindow.abstractGameBoardWidget
+									.getCurrentFieldSize().y;
+			minValue =
+					maxValue
+							- (moveBoundries.width * mainWindow.abstractGameBoardWidget
+									.getCurrentFieldSize().y);
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
 		}
 
 		if (observedCar.getOrientation() == Orientation.SOUTH) {
-			minValue = boardY
-					+ moveBoundries.y
-					* mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
-			maxValue = minValue
-					+ (moveBoundries.width * mainWindow.abstractGameBoardWidget
-							.getCurrentFieldSize().y);
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().y;
+			minValue =
+					boardY
+							+ moveBoundries.y
+							* mainWindow.abstractGameBoardWidget
+									.getCurrentFieldSize().y;
+			maxValue =
+					minValue
+							+ (moveBoundries.width * mainWindow.
+									abstractGameBoardWidget
+									.getCurrentFieldSize().y);
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
 		}
 
 		if (observedCar.getOrientation() == Orientation.EAST) {
-			minValue = boardX
-					+ moveBoundries.x
-					* mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
-			maxValue = minValue
-					+ (moveBoundries.width * mainWindow.abstractGameBoardWidget
-							.getCurrentFieldSize().x);
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().x;
+			minValue =
+					boardX
+							+ moveBoundries.x
+							* mainWindow.abstractGameBoardWidget
+									.getCurrentFieldSize().x;
+			maxValue =
+					minValue
+							+ (moveBoundries.width * mainWindow.
+									abstractGameBoardWidget
+									.getCurrentFieldSize().x);
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
 		}
 
 		if (observedCar.getOrientation() == Orientation.WEST) {
-			maxValue = boardX
-					+ moveBoundries.x
-					* mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
-			minValue = maxValue
-					- (moveBoundries.width * mainWindow.abstractGameBoardWidget
-							.getCurrentFieldSize().x);
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().x;
+			maxValue =
+					boardX
+							+ moveBoundries.x
+							* mainWindow.abstractGameBoardWidget
+									.getCurrentFieldSize().x;
+			minValue =
+					maxValue
+							- (moveBoundries.width * mainWindow.
+									abstractGameBoardWidget
+									.getCurrentFieldSize().x);
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
 		}
 
 		if (observedCar.getFieldHeight() == 3
-				&& (observedCar.getOrientation() == Orientation.NORTH || observedCar
+				&& (observedCar.getOrientation() == Orientation.NORTH || 
+						observedCar
 						.getOrientation() == Orientation.SOUTH)) {
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().y;
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().y;
 
 		}
-		
+
 		if (observedCar.getFieldHeight() == 3
-				&& (observedCar.getOrientation() == Orientation.WEST || observedCar
+				&& (observedCar.getOrientation() == Orientation.WEST || 
+						observedCar
 						.getOrientation() == Orientation.EAST)) {
-			maxValue -= mainWindow.abstractGameBoardWidget
-					.getCurrentFieldSize().x;
+			maxValue -=
+					mainWindow.abstractGameBoardWidget.getCurrentFieldSize().x;
 
 		}
 

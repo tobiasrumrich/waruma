@@ -61,10 +61,14 @@ public class FileSystemObjectStorageMock implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + fourtyTwo;
-		result = prime * result
-				+ ((iLoveSquidSoup == null) ? 0 : iLoveSquidSoup.hashCode());
-		result = prime * result
-				+ ((listInteger == null) ? 0 : listInteger.hashCode());
+		result =
+				prime
+						* result
+						+ ((iLoveSquidSoup == null) ? 0 : iLoveSquidSoup
+								.hashCode());
+		result =
+				prime * result
+						+ ((listInteger == null) ? 0 : listInteger.hashCode());
 		return result;
 	}
 

@@ -17,9 +17,8 @@ public class FileSystemObjectStorage implements IObjectStorage {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.googlecode.waruma.rushhour.framework.IObjectStorage#deserialize(java
-	 * .lang.String)
+	 * @see com.googlecode.waruma.rushhour.framework.IObjectStorage#deserialize
+	 * (java .lang.String)
 	 */
 	@Override
 	public Serializable deserialize(String location) throws IOException,
@@ -43,9 +42,8 @@ public class FileSystemObjectStorage implements IObjectStorage {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.googlecode.waruma.rushhour.framework.IObjectStorage#serialize(java
-	 * .io.Serializable, java.lang.String)
+	 * @see com.googlecode.waruma.rushhour.framework.IObjectStorage#serialize
+	 * (java .io.Serializable, java.lang.String)
 	 */
 	@Override
 	public void serialize(Serializable serializableObject, String location)
