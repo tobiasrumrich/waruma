@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
+import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.SteeringLock;
@@ -118,6 +119,12 @@ public class CarWidget extends Composite {
 			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);
 			mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
 		}
+	}
+	
+	public void moveCarInUi(){
+		java.awt.Point position = gameObject.getPosition();
+		positionOnGameBoard = new Point(position.x, position.y);
+		mainWindow.abstractGameBoardWidget.repositionCarOnBoard(this);
 	}
 
 	public void setLock(){

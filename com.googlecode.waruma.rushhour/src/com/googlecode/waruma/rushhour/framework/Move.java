@@ -37,4 +37,9 @@ public class Move implements IMove, Serializable {
 		return moveable;
 	}
 
+	@Override
+	public void revertDirection() {
+		this.distance *= -1;
+	}
+
 }

@@ -21,7 +21,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 public class GameBoard implements Serializable {
 	private static final long serialVersionUID = -7059872709872532815L;
 	private ICollisionDetector collisionDetector;
-	
+
 	public ICollisionDetector getCollisionDetector() {
 		return collisionDetector;
 	}
@@ -51,6 +51,7 @@ public class GameBoard implements Serializable {
 	 */
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
+		moveHistory.clear();
 		collisionDetector.addGameBoardObject(gameBoardObject);
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 
@@ -62,6 +63,7 @@ public class GameBoard implements Serializable {
 	 * @param gameBoardObject
 	 */
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
+		moveHistory.clear();
 		if (gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
 			try {
 				collisionDetector.removeGameBoardObject(gameBoardObject);
@@ -86,10 +88,11 @@ public class GameBoard implements Serializable {
 			throw new IllegalBoardPositionException();
 		}
 
+		moveHistory.clear();
 		// Aus der Fahrzeugliste entfernen
 		collisionDetector.moveGameBoardObjectToPosition(gameBoardObject,
 				position);
-		
+
 		gameBoardObjects.remove(gameBoardObject.hashCode());
 		// CollisionMap aktualisieren
 		gameBoardObject.setPosition(position);
@@ -97,29 +100,31 @@ public class GameBoard implements Serializable {
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 
 	}
-	
+
 	/**
 	 * Rotiert das übergebene Objekt in die übergebene Orientierung
+	 * 
 	 * @param gameBoardObject
 	 * @param orientation
-	 * @throws IllegalBoardPositionException 
+	 * @throws IllegalBoardPositionException
 	 */
 	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
 			Orientation orientation) throws IllegalBoardPositionException {
-		if(!gameBoardObjects.containsKey(gameBoardObject.hashCode())){
+		if (!gameBoardObjects.containsKey(gameBoardObject.hashCode())) {
 			throw new IllegalBoardPositionException();
 		}
-		
+		moveHistory.clear();
+
 		collisionDetector.rotateGameBoardObject(gameBoardObject, orientation);
-		
+
 		gameBoardObjects.remove(gameBoardObject.hashCode());
 		// CollisionMap aktualisieren
 		gameBoardObject.setOrientation(orientation);
 		// Wieder mit neuem Hash hinzufügen
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 	}
-	
-	public void rebuildGameBoardObjects(){
+
+	public void rebuildGameBoardObjects() {
 		Collection<IGameBoardObject> boardObjects = gameBoardObjects.values();
 		HashMap<Integer, IGameBoardObject> newBoardObjects = new HashMap<Integer, IGameBoardObject>();
 		for (IGameBoardObject boardObject : boardObjects) {
@@ -127,6 +132,7 @@ public class GameBoard implements Serializable {
 		}
 		gameBoardObjects.clear();
 		gameBoardObjects = newBoardObjects;
+		moveHistory.clear();
 	}
 
 	/**
@@ -138,10 +144,35 @@ public class GameBoard implements Serializable {
 		return gameBoardObjects.values();
 	}
 
-	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+	/**
+	 * Gibt ein Rectangle mit dem gültigen Zugkorridor zurück
+	 * 
+	 * @param gameBoardObject
+	 * @return Zugkorridor
+	 */
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
 		return collisionDetector.getMoveRange(gameBoardObject);
 	}
-	
+
+	/**
+	 * Macht den letzten ausgeführten Zug rückgängig
+	 * 
+	 * @return Bewegtes Objekt mit neuen Koordinaten
+	 */
+	public IGameBoardObject undoLatestMove() {
+		if (!moveHistory.isEmpty()) {
+			IMove move = moveHistory.pop();
+			move.revertDirection();
+			try {
+				checkAndDoMove(move);
+				return (IGameBoardObject)move.getMoveable();
+			} catch (IllegalMoveException e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Gibt den Stack der bisher ausgeführten Züge aus
 	 * 
@@ -152,15 +183,14 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Diese Methode führt einen Spielzug anhand des übergebenen IMove Objektes
-	 * aus, sofern die Prüfungen positiv waren.
+	 * Prüft einen Zug und führt ihn, sofern möglich aus.
 	 * 
 	 * @param move
 	 *            Auszuführender Zug
 	 * @throws IllegalMoveException
 	 *             Bei ungültigem Zug
 	 */
-	public void move(IMove move) throws IllegalMoveException {
+	private void checkAndDoMove(IMove move) throws IllegalMoveException {
 		IMoveable moveable = move.getMoveable();
 		int distance = move.getDistance();
 		// Objekt nicht auf dem Spielbrett
@@ -180,6 +210,20 @@ public class GameBoard implements Serializable {
 		moveable.move(distance);
 		gameBoardObjects.put(moveable.hashCode(), (IGameBoardObject) moveable);
 
+	}
+
+	/**
+	 * Diese Methode führt einen Spielzug anhand des übergebenen IMove Objektes
+	 * aus, sofern die Prüfungen positiv waren.
+	 * 
+	 * @param move
+	 *            Auszuführender Zug
+	 * @throws IllegalMoveException
+	 *             Bei ungültigem Zug
+	 */
+	public void move(IMove move) throws IllegalMoveException {
+		// Zug durchführen
+		checkAndDoMove(move);
 		// Move History aktualisieren
 		moveHistory.push(move);
 
@@ -227,7 +271,5 @@ public class GameBoard implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 
 }
