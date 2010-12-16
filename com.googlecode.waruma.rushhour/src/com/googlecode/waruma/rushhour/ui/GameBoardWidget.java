@@ -36,8 +36,10 @@ public class GameBoardWidget extends Composite {
 	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
 	private Image tile_even = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_even.png");
 	private Image tile_odd = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_odd.png");
+	private Image tile_goal = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_goal.png");
 	private Image original_tile_even = tile_even;
 	private Image original_tile_odd = tile_odd;
+	private Image original_tile_goal = tile_goal;	
 	private String imageFilename = "Tiles";
 	
 
@@ -114,7 +116,7 @@ public class GameBoardWidget extends Composite {
 			for (int i = 0; i < breite; i++) {
 
 				spielbrett[i][j] = new Label(this, SWT.NONE);
-				spielbrett[i][j].setText(i + ":" + j);
+		//			spielbrett[i][j].setText(i + ":" + j);
 				spielbrett[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, true, 1, 1));
 
@@ -178,13 +180,16 @@ public class GameBoardWidget extends Composite {
 
 	public void setHighlight(Point fieldPoint) {
 		spielbrett[fieldPoint.x][fieldPoint.y].setBackground( colorForHighlight);
+		spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_goal));
 	}
 	
 	public void removeHighlight(Point fieldPoint) {
 		if ((fieldPoint.x + fieldPoint.y) % 2 == 0) {
 			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForOdd);
+			spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_odd));
 		} else {
 			spielbrett[fieldPoint.x][fieldPoint.y].setBackground(colorForUnodd);
+			spielbrett[fieldPoint.x][fieldPoint.y].setBackgroundImage(getImage(original_tile_even));
 		}
 		setBackground( colorForHighlight);
 	}
@@ -234,7 +239,7 @@ public class GameBoardWidget extends Composite {
 			ImageData imgData = gImage.getImageData();
 
 			
-			imgData = imgData.scaledTo(parent.getBounds().width/(breite + 2),parent.getBounds().height/(hoehe));
+			imgData = imgData.scaledTo(this.getBounds().width/(breite),this.getBounds().height/(hoehe));
 			
 
 			newImage = new Image(this.getDisplay(), imgData);
