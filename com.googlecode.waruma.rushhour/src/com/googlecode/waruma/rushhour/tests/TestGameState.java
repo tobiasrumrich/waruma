@@ -79,7 +79,7 @@ public class TestGameState extends TestCase {
 		// den Mock-Observer bei GameState registrieren
 		gameState.registerGameWon(mockObserver);
 
-		// 2 Mock-Subjects hinzuf웗en
+		// 2 Mock-Subjects hinzuf체gen
 		gameState.addPlayer(mockSubject1);
 		gameState.addPlayer(mockSubject2);
 
@@ -89,7 +89,7 @@ public class TestGameState extends TestCase {
 		// 2. und letzter Mock-Subject im Ziel
 		gameState.updateReachedDestination(mockSubject2);
 
-		// pr웖en, dass Mock-Observer benachrichtigt wird
+		// pr체fen, dass Mock-Observer benachrichtigt wird
 		assertTrue(mockObserver.called);
 	}
 
@@ -99,14 +99,14 @@ public class TestGameState extends TestCase {
 		// den Mock-Observer bei GameState registrieren
 		gameState.registerGameWon(mockObserver);
 
-		// 2 Mock-Subjects hinzuf웗en
+		// 2 Mock-Subjects hinzuf체gen
 		gameState.addPlayer(mockSubject1);
 		gameState.addPlayer(mockSubject2);
 
 		// 1 Mock-Subject ist im Ziel
 		gameState.updateReachedDestination(mockSubject1);
 
-		// pr웖en, dass Mock-Observer nicht benachrichtigt wurde
+		// pr체fen, dass Mock-Observer nicht benachrichtigt wurde
 		assertFalse(mockObserver.called);
 	}
 
@@ -116,13 +116,13 @@ public class TestGameState extends TestCase {
 		// den Mock-Observer bei GameState registrieren
 		gameState.registerGameWon(mockObserver);
 
-		// 1 Mock-Subject hinzuf웗en
+		// 1 Mock-Subject hinzuf체gen
 		gameState.addPlayer(mockSubject1);
 
 		// 1 Mock-Subject ist im Ziel
 		gameState.updateReachedDestination(mockSubject1);
 
-		// pr웖en, dass Mock-Observer nicht benachrichtigt wurde
+		// pr체fen, dass Mock-Observer nicht benachrichtigt wurde
 		assertTrue(mockObserver.called);
 	}
 }

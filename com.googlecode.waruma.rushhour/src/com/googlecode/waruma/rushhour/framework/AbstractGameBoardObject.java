@@ -14,11 +14,9 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 	private Point position;
 	private Orientation orientation;
 
-	// TODO Andere Konstruktoren
 
 	public AbstractGameBoardObject(Boolean[][] collisionMap, Point position,
 			Orientation orientation) {
-		// TODO Prüfungen
 		this.collisionMap = collisionMap;
 		this.position = position;
 		this.orientation = orientation;

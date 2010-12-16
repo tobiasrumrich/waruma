@@ -63,12 +63,12 @@ public class TestPlayerCar extends TestCase {
 	
 	public void testMoveNotReachedDestination() throws IllegalMoveException {
 
-		// Wir stehen auf (5,5) und fahren 3 Felder vorwärts
+		// Wir stehen auf (5,5) und fahren 3 Felder vorw√§rts
 		car.move(3);
 		// Wir sollten nun auf (5,2) stehen
 		assertEquals(new Point(5, 2), car.getPosition());
 
-		// Wir stehen auf (5,2) und fahren 6 Felder rückwärts
+		// Wir stehen auf (5,2) und fahren 6 Felder r√ºckw√§rts
 		car.move(-6);
 		// Wir sollten nun auf (5,8) stehen
 		assertEquals(new Point(5, 8), car.getPosition());
