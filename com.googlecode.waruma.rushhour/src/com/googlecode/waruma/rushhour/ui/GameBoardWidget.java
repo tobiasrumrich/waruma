@@ -51,6 +51,7 @@ public class GameBoardWidget extends Composite {
 			
 			@Override
 			public void controlResized(ControlEvent arg0) {
+				arg0.
 				// TODO Auto-generated method stub
 				
 			}
