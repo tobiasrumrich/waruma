@@ -8,8 +8,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.GameBoard;
 import com.googlecode.waruma.rushhour.framework.GameState;
@@ -24,6 +28,7 @@ import com.googlecode.waruma.rushhour.game.FastSolver;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
 import com.googlecode.waruma.rushhour.game.RushHourBoardCreationController;
 import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
+import com.googlecode.waruma.rushhour.game.SteeringLock;
 
 /**
  * Testet den RushHourGameplayController
@@ -33,10 +38,10 @@ import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
  */
 public class TestController extends TestCase {
 
-	List<IGameBoardObject> carList = new ArrayList<IGameBoardObject>();
-	RushHourBoardCreationController boardCreationController;
-	GameBoard gameBoard;
-	IGameBoardObject car1, car2, car3, car4, car5, car6, car7, truck1, truck2,
+	private List<IGameBoardObject> carList = new ArrayList<IGameBoardObject>();
+	private RushHourBoardCreationController boardCreationController;
+	private GameBoard gameBoard;
+	private IGameBoardObject car1, car2, car3, car4, car5, car6, car7, truck1, truck2,
 			playerCar;
 	private RushHourGameplayControler gamePlayController;
 	private RushHourWindowMock rushHourWindowMock;
@@ -54,7 +59,7 @@ public class TestController extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		boardCreationController = new RushHourBoardCreationController(6, 6);
+		boardCreationController = new RushHourBoardCreationController();
 
 		car1 = boardCreationController.createCar(new Point(0, 0),
 				Orientation.SOUTH, false);
@@ -104,6 +109,126 @@ public class TestController extends TestCase {
 
 		rushHourWindowMock = new RushHourWindowMock();
 		gamePlayController.registerGameWon(rushHourWindowMock);
+	}
+	
+	public void testGameBoardObjects(){
+		 Collection<IGameBoardObject> boardObjects = boardCreationController.getGameBoardObjects();
+		 assertEquals(10, boardObjects.size());
+		 
+		 boardCreationController.removeObjectFromBoard(car4);
+		 
+		 boardObjects = boardCreationController.getGameBoardObjects();
+		 assertEquals(9, boardObjects.size());
+	}
+	
+	public void testRotateGameBoadObject(){
+		try {
+			boardCreationController.changeRotation(car1, Orientation.EAST);
+		} catch (IllegalBoardPositionException e) {
+			fail();
+		}
+		boolean thrownEx = false;
+		
+		try {
+			boardCreationController.changeRotation(car6, Orientation.WEST);
+		} catch (IllegalBoardPositionException e) {
+			thrownEx = true;
+		}
+		
+		assertTrue(thrownEx);
+	}
+	
+	public void testValidTile(){
+		assertTrue(boardCreationController.validTile(new Point(2, 4)));
+		assertFalse(boardCreationController.validTile(new Point(3, 2)));
+	}
+	
+	public void testRepositionGameBoadObject(){
+		try {
+			boardCreationController.changeCarPosition(car1, new Point(0, 4));
+		} catch (IllegalBoardPositionException e) {
+			fail();
+		}
+		
+		boolean thrown = false;
+		try {
+			boardCreationController.changeCarPosition(null, new Point(1,2));
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+	
+	public void testChangeDestination(){
+		boardCreationController.changeDestination(new Point(4,2));
+	}
+	
+	public void testSaveAndRestore(){
+		try {
+			boardCreationController.saveGameBoard("bctest.ser");
+		} catch (IOException e) {
+			fail();
+		}
+		
+		RushHourBoardCreationController newController = new RushHourBoardCreationController();
+		
+		try {
+			newController.loadGameBoard("bctest.ser");
+		} catch (IOException e) {
+			fail();
+		}
+		
+		assertEquals(10, newController.getGameBoardObjects().size());
+		
+		Object state = boardCreationController.getCurrentState();
+		
+		newController.loadState(state);
+		
+		boolean thrown = false;
+		try{
+			newController.loadState(null);
+		} catch (IllegalArgumentException e) {
+			thrown = true;
+		}
+		
+		assertTrue(thrown);
+		
+		thrown = false;
+		try {
+			boardCreationController.loadGameBoard(null);
+		} catch (IOException e) {
+			thrown = true;
+		}
+		
+		assertTrue(thrown);
+		
+	}
+	
+	public void testUnlockAllCars() throws IllegalBoardPositionException{
+		SteeringLock steeringLockCar = (SteeringLock) boardCreationController.createCar(new Point(5, 0), Orientation.SOUTH, true);
+		try {
+			steeringLockCar.move(2);
+		} catch (IllegalMoveException e) {
+			fail();
+		}
+		
+		boolean thrownEx = false;
+		
+		try{
+		steeringLockCar.move(1);
+		} catch (IllegalMoveException e) {
+			thrownEx = true;
+		}
+		
+		assertTrue(thrownEx);
+		
+		boardCreationController.unlockAllCars();
+		
+		try{
+			steeringLockCar.move(1);		
+		} catch (IllegalMoveException e) {
+			fail();
+		}
 	}
 
 	public void testSolver() {
