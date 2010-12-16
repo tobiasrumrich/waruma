@@ -113,8 +113,13 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
+<<<<<<< .mine
+	 * Macht den zuletzt ausgeführten Zug r�ckg�ngig und gibt bei Erfolg das
+	 * bewegte Auto zur�ck
+=======
 	 * Macht den zuletzt ausgeführten Zug rückgängig und gibt bei Erfolg das
 	 * bewegte Auto zurück
+>>>>>>> .r259
 	 * 
 	 * @return Bewegtes Auto mit neuer Position
 	 */
