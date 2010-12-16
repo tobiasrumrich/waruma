@@ -113,6 +113,16 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
+	 * Macht den zuletzt ausgeführten Zug rückgängig und gibt bei Erfolg das
+	 * bewegte Auto zurück
+	 * 
+	 * @return Bewegtes Auto mit neuer Position
+	 */
+	public IGameBoardObject undoLatestMove() {
+		return gameBoard.undoLatestMove();
+	}
+
+	/**
 	 * Speichert einen Spielstand im angegebenen Pfad
 	 * 
 	 * @param location
@@ -167,7 +177,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 */
 	public String elapsedGameTime() {
 		if (gameStartTime > 0) {
-			Date date = new Date(System.currentTimeMillis() - gameStartTime - 60*60*1000);
+			Date date = new Date(System.currentTimeMillis() - gameStartTime
+					- 60 * 60 * 1000);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 			return dateFormat.format(date);
 		} else {
