@@ -10,8 +10,8 @@ import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 /*
  * @author fabian
  * 
- * Decorater-Klasse für die SteeringCar-Eigenschaft. Das SteeringLockObjekt hat zusätzlich eine moved-Variable, die auf "true" gesetzt wird, wenn das Objekt einmal bewegt wurde.
- * Beim nächsten Versuch das Objekt zu bewegen, wird eine IllegalMoveException geworfen.
+ * Decorater-Klasse f√ºr die SteeringCar-Eigenschaft. Das SteeringLockObjekt hat zus√§tzlich eine moved-Variable, die auf "true" gesetzt wird, wenn das Objekt einmal bewegt wurde.
+ * Beim n√§chsten Versuch das Objekt zu bewegen, wird eine IllegalMoveException geworfen.
  * 
  */
 

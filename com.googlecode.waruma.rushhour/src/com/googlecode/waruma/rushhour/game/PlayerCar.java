@@ -35,7 +35,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 * @param orientation
 	 *            Orientierung
 	 * @param collisionDetector
-	 *            Kollisionsdetektor zur Überprüfung auf erreichen des
+	 *            Kollisionsdetektor zur ÃœberprÃ¼fung auf erreichen des
 	 *            Zielpunktes
 	 */
 	public PlayerCar(Boolean[][] collisionMap, Point position,
@@ -58,7 +58,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 * @param destination
 	 *            Zielpunkt
 	 * @param collisionDetector
-	 *            Kollisionsdetektor zur Überprüfung auf erreichen des
+	 *            Kollisionsdetektor zur ÃœberprÃ¼fung auf erreichen des
 	 *            Zielpunktes
 	 */
 	public PlayerCar(Boolean[][] collisionMap, Point position,
@@ -69,7 +69,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	}
 
 	/**
-	 * Führt einen Zug durch
+	 * FÃ¼hrt einen Zug durch
 	 * 
 	 * @param distance
 	 *            Zugweite
@@ -106,7 +106,7 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	}
 
 	/**
-	 * Gibt das Ziel des PlayerCars zurück
+	 * Gibt das Ziel des PlayerCars zurÃ¼ck
 	 * 
 	 * @return Zielpunkt
 	 */

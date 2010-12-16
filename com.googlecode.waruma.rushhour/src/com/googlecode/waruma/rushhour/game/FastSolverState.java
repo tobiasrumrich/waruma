@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Diese Klasse repräsentiert eine vom Solver untersuchte Spielbrettposition.
- * Die Kollisionserkennung wurde aus Performancegründen in einer deutlich
+ * Diese Klasse reprÃ¤sentiert eine vom Solver untersuchte Spielbrettposition.
+ * Die Kollisionserkennung wurde aus PerformancegrÃ¼nden in einer deutlich
  * entschlankten Version direkt im SolverState implementiert.
  * 
  * @author Florian
@@ -29,7 +29,7 @@ public final class FastSolverState {
 	 * @param width
 	 *            Breite des Spielbretts
 	 * @param height
-	 *            Höhe des Spielbretts
+	 *            HÃ¶he des Spielbretts
 	 */
 	public FastSolverState(int width, int height) {
 		cars = new ArrayList<FastSolverCar>();
@@ -43,11 +43,11 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Erzeugt einen neuen Nachfolger des übergebenen Status, wobei die Felder
+	 * Erzeugt einen neuen Nachfolger des ï¿½bergebenen Status, wobei die Felder
 	 * auf die gleichen Werte gesetzt werden.
 	 * 
 	 * @param previousState
-	 *            Vorgängerstatus
+	 *            Vorgï¿½ngerstatus
 	 */
 	public FastSolverState(FastSolverState previousState) {
 		this.cars = previousState.deepCloneCars();
@@ -62,11 +62,11 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Fügt dem Status ein Auto hinzu und aktualisiert die Kollisionsmap. Eine
-	 * Kollisionsprüfung wird dabei nicht durchgeführt.
+	 * Fï¿½gt dem Status ein Auto hinzu und aktualisiert die Kollisionsmap. Eine
+	 * Kollisionsprï¿½fung wird dabei nicht durchgefï¿½hrt.
 	 * 
 	 * @param car
-	 *            Hinzuzufügendes SolverCar
+	 *            Hinzuzufï¿½gendes SolverCar
 	 */
 	public void addSolverCar(FastSolverCar car) {
 		// Kollisionsmap aktualisieren
@@ -79,7 +79,7 @@ public final class FastSolverState {
 				collisionMap[car.x][y] = 2;
 			}
 		}
-		// Zur Liste hinzufügen
+		// Zur Liste hinzufï¿½gen
 		cars.add(car);
 		// Ist Spielerauto
 		if (car.isPlayer) {
@@ -88,14 +88,14 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Hilfsfunktion zur Ermittlung ob die übergebene Koordinate auf dem
+	 * Hilfsfunktion zur Ermittlung ob die ï¿½bergebene Koordinate auf dem
 	 * Spielfeld liegt und leer ist.
 	 * 
 	 * @param x
 	 *            X-Koordinate
 	 * @param y
 	 *            Y-Koordinate
-	 * @return True bei gültigem und leeren Feld
+	 * @return True bei gï¿½ltigem und leeren Feld
 	 */
 	private boolean validTile(int x, int y) {
 		if (x < 0 || x >= collisionMap.length)
@@ -108,19 +108,19 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Überprüft ob das Feld, das in der übergebenen Distanz entfernt vom Auto
+	 * ï¿½berprï¿½ft ob das Feld, das in der ï¿½bergebenen Distanz entfernt vom Auto
 	 * liegt frei ist.
 	 * 
 	 * @param car
-	 *            Auto für das geprüft wird
+	 *            Auto fï¿½r das geprï¿½ft wird
 	 * @param distance
 	 *            Distanz vom Auto - Kann positiv und negativ sein
-	 * @return True bei gültigem und leeren Feld
+	 * @return True bei gï¿½ltigem und leeren Feld
 	 */
 	public boolean validTile(FastSolverCar car, byte distance) {
 		if (car.locked)
 			return false;
-		// Bei positiven Zügen die Autolänge auf die Distanz addieren
+		// Bei positiven Zï¿½gen die Autolï¿½nge auf die Distanz addieren
 		if (distance > 0)
 			distance += car.length - 1;
 		// Auf X- oder Y-Achse bewegen - true entspricht einer hor. Bewegung
@@ -133,7 +133,7 @@ public final class FastSolverState {
 
 	/**
 	 * Verschiebt das Auto an der angegeben Listenposition ohne
-	 * Kollisionserkennung um die übergebene Distanz
+	 * Kollisionserkennung um die ï¿½bergebene Distanz
 	 * 
 	 * @param arrayPosition
 	 *            Index des Autos aus der Liste
@@ -151,7 +151,7 @@ public final class FastSolverState {
 			}
 			// Position aktualisieren
 			car.x += distance;
-			// In collisionMap einfügen
+			// In collisionMap einfï¿½gen
 			for (int x = car.x; x < car.x + car.length; x++) {
 				collisionMap[x][car.y] = 1;
 			}
@@ -163,7 +163,7 @@ public final class FastSolverState {
 			}
 			// Position aktualisieren
 			car.y += distance;
-			// In collisionMap einfügen
+			// In collisionMap einfï¿½gen
 			for (int y = car.y; y < car.y + car.length; y++) {
 				collisionMap[car.x][y] = 2;
 			}
@@ -187,8 +187,8 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Erstellt eine Kopie der CollisionMap Verwendet aus Performancegründen
-	 * System.arraycopy für das Kopieren der Subarrays
+	 * Erstellt eine Kopie der CollisionMap Verwendet aus Performancegrï¿½nden
+	 * System.arraycopy fï¿½r das Kopieren der Subarrays
 	 * 
 	 * @return Kopie der CollisionMap
 	 */
@@ -204,7 +204,7 @@ public final class FastSolverState {
 
 	/**
 	 * Erzeugt den zur Identifizierung des SolverStates verwendeten HashCode.
-	 * Der HashCode wird nur in Abhängigkeit der collisionMap gebildet.
+	 * Der HashCode wird nur in Abhï¿½ngigkeit der collisionMap gebildet.
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -213,7 +213,7 @@ public final class FastSolverState {
 		int hashCode = 1;
 		for (int i = 0; i < collisionMap.length; i++) {
 			for (int j = 0; j < collisionMap[i].length; j++) {
-				// Abhängig von dem Wert an der momentanen Position den Hash
+				// Abhï¿½ngig von dem Wert an der momentanen Position den Hash
 				// bestimmen
 				// Code in Anlehnung an die Boolean Hashmethode aus dem
 				// Java-Framework

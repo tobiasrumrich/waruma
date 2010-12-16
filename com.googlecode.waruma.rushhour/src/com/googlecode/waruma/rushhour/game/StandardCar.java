@@ -11,9 +11,9 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  * @author fabian
  * 
- *         Diese Klasse stellt ein Standardauto dar. Sie hält die obere, linke
+ *         Diese Klasse stellt ein Standardauto dar. Sie h√§lt die obere, linke
  *         Koordinate, die Kollisionsmap und die Orientierung des Auto auf dem
- *         Spielbrett. Dazu ermöglicht sie das Bewegen eines Autos (Änderung der
+ *         Spielbrett. Dazu erm√∂glicht sie das Bewegen eines Autos (√Ñnderung der
  *         Position in point) durch Aufrufen move()-Funktion.
  * 
  */

@@ -3,11 +3,11 @@ package com.googlecode.waruma.rushhour.game;
 import java.util.Random;
 
 /**
- * Dies ist die nach Anforderungen minimal mögliche Implementierung eines Autos.
+ * Dies ist die nach Anforderungen minimal mÃ¶gliche Implementierung eines Autos.
  * Auf Erweiterbarkeit wurde hier zu Gunsten von Performance bewusst verzichtet.
- * Um eine Klassenzuordnung zur Kompilierungszeit zu ermöglichen ist die Klasse 
- * final. Die Datentypen sind auf Grund von Speicherkomplexität und Performance
- * primitiv und so klein wie irgendmöglich.
+ * Um eine Klassenzuordnung zur Kompilierungszeit zu ermÃ¶glichen ist die Klasse 
+ * final. Die Datentypen sind auf Grund von SpeicherkomplexitÃ¤t und Performance
+ * primitiv und so klein wie irgendmÃ¶glich.
  * @author Florian
  */
 public final class FastSolverCar {
@@ -16,11 +16,11 @@ public final class FastSolverCar {
 	public boolean isPlayer, isLockCar, locked, orientation;
 	
 	/**
-	 * Erzeugt ein neues Auto Objekt und weist ihm eine zufällige Id zu
+	 * Erzeugt ein neues Auto Objekt und weist ihm eine zufÃ¤llige Id zu
 	 * die vom Solver zur Zuordnung zu den Originalautos verwendet wird
 	 * @param X-Koordinate
 	 * @param Y-Koordinate
-	 * @param Länge des Autos
+	 * @param LÃ¤nge des Autos
 	 * @param true - horizonal, false - vertikal
 	 * @param Ist Spielerauto
 	 * @param Hat Lenkradschloss
@@ -40,7 +40,7 @@ public final class FastSolverCar {
 	}
 	
 	/**
-	 * Erzeugt ein FastSolverCar mit den gleichen Eigenschaften wie das Übergebene
+	 * Erzeugt ein FastSolverCar mit den gleichen Eigenschaften wie das Ã¼bergebene
 	 * @param Kopiervorlage
 	 */
 	public FastSolverCar(FastSolverCar car){
