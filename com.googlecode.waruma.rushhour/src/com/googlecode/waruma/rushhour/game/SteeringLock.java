@@ -7,11 +7,15 @@ import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
 import com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 
-/*
- * @author fabian
+
+/**
  * 
- * Decorater-Klasse für die SteeringCar-Eigenschaft. Das SteeringLockObjekt hat zusätzlich eine moved-Variable, die auf "true" gesetzt wird, wenn das Objekt einmal bewegt wurde.
- * Beim nächsten Versuch das Objekt zu bewegen, wird eine IllegalMoveException geworfen.
+ * @author fmalinowski
+ * 
+ * Decorater-Klasse für die SteeringCar-Eigenschaft. Das SteeringLockObjekt hat
+ * zusätzlich eine moved-Variable, die auf "true" gesetzt wird, wenn das Objekt
+ * einmal bewegt wurde. Beim nächsten Versuch das Objekt zu bewegen, wird eine
+ * IllegalMoveException geworfen.
  * 
  */
 
@@ -39,6 +43,9 @@ public class SteeringLock extends AbstractAdditionalFunctionality implements
 		}
 	}
 	
+	/**
+	 * setzt den lock zurück, sodass ein zuvor gelocktes Auto wieder entlockt ist.
+	 */
 	public void unlock(){
 		moved = false;
 	}
