@@ -7,7 +7,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
@@ -15,22 +16,60 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.swtdesigner.SWTResourceManager;
 
 public class GameBoardWidget extends Composite {
 
 	private Composite parent;
-	private Label[][] spielbrett;
+	public Label[][] spielbrett;
 	private int hoehe;
 	private int breite;
 	private int minHoeheFeld = 50;
 	private int minBreiteFeld = 50;
 	private String inField = "NULL!!";
 	private Point goalField;
+	private IImageCache imageCache = new ImageCache();
 	
 	private org.eclipse.swt.graphics.Color colorForHighlight = SWTResourceManager.getColor(0, 210, 0);
 	private org.eclipse.swt.graphics.Color colorForOdd =SWTResourceManager.getColor(166, 202, 240) ;
 	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
+	private Image tile_even = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_even.png");
+	private Image tile_odd = SWTResourceManager.getImage(GameBoardWidget.class, "/com/googlecode/waruma/rushhour/ui/images/tile_odd.png");
+	private Image original_tile_even = tile_even;
+	private Image original_tile_odd = tile_odd;
+	private String imageFilename = "Tiles";
+	
+
+	private class FieldMouseListener implements MouseTrackListener {
+
+		private int fieldX;
+		private int fieldY;
+
+		public FieldMouseListener(int fieldX, int fieldY) {
+			this.fieldX = fieldX;
+			this.fieldY = fieldY;
+		}
+
+		@Override
+		public void mouseEnter(MouseEvent arg0) {
+			inField = fieldX + "--" + fieldY;
+			// System.out.println("Mausposition auf Spielfeld: " + fieldX + ":"
+			// + fieldY);
+		}
+
+		@Override
+		public void mouseExit(MouseEvent arg0) {
+			inField = "Tsch�ssing";
+
+		}
+
+		@Override
+		public void mouseHover(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 
 	/**
 	 * Create the composite.
@@ -51,8 +90,7 @@ public class GameBoardWidget extends Composite {
 			
 			@Override
 			public void controlResized(ControlEvent arg0) {
-				arg0.
-				// TODO Auto-generated method stub
+				setSize();
 				
 			}
 			
@@ -85,9 +123,12 @@ public class GameBoardWidget extends Composite {
 				} else {
 					spielbrett[i][j].setBackground(colorForUnodd);
 				}
+				spielbrett[i][j].addMouseTrackListener(new FieldMouseListener(
+						i, j));
 			}
 
 		}
+		
 	}
 
 	public int getMinHeight() {
@@ -165,6 +206,42 @@ public class GameBoardWidget extends Composite {
 				carWidget.setLocation(location);
 			}
 		}
+	}
+	
+	public void setSize() {
+		
+		
+		for (int j = 0; j < hoehe; j++) {
+			for (int i = 0; i < breite; i++) {
+
+				if ((i + j) % 2 == 0) {
+					spielbrett[i][j].setBackgroundImage(getImage(original_tile_odd));
+				} else {
+					spielbrett[i][j].setBackgroundImage(getImage(original_tile_even));
+				}
+			}
+		}
+	}
+	
+	private Image getImage(Image gImage) {
+
+		Image newImage;
+
+		if ((imageCache.checkCache(Orientation.NORTH, spielbrett[0][0].getSize()))) {
+			newImage = imageCache.getImage(imageFilename, Orientation.NORTH, spielbrett[0][0].getSize());
+		} else {
+			
+			ImageData imgData = gImage.getImageData();
+
+			
+			imgData = imgData.scaledTo(parent.getBounds().width/(breite + 2),parent.getBounds().height/(hoehe));
+			
+
+			newImage = new Image(this.getDisplay(), imgData);
+			imageCache.addImage(imageFilename, Orientation.NORTH, spielbrett[0][0].getSize(), newImage);
+		}
+
+		return newImage;
 	}
 
 }
