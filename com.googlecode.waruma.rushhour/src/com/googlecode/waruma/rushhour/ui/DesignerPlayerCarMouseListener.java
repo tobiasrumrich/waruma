@@ -80,6 +80,7 @@ public class DesignerPlayerCarMouseListener extends DesignerCarMouseListener {
 	public void mouseDown(MouseEvent e) {
 		super.mouseDown(e);
 		Point goalField = mainWindow.abstractGameBoardWidget.getGoalField();
+		fieldPoint = goalField;
 		if (goalField != null && observedCar.getPositionOnGameBoard() != null) {
 			mainWindow.abstractGameBoardWidget.removeHighlight(goalField);
 		}

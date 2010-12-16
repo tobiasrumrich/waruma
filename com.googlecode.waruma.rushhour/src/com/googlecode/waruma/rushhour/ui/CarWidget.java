@@ -1,5 +1,7 @@
 package com.googlecode.waruma.rushhour.ui;
 
+import java.util.Random;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
@@ -311,14 +313,19 @@ public class CarWidget extends Composite {
 
 		String imagePath = RushHour.IMAGEBASEPATH;
 
+		Random random = new Random();		
+		
 		if (length == 2 && this.player) {
-			imagePath += mainWindow.availablePlayers.get(0).getFilename();
+			int max = mainWindow.availablePlayers.size();
+			imagePath += mainWindow.availablePlayers.get(random.nextInt(max)).getFilename();
 		}
 		if (length == 2 && !this.player) {
-			imagePath += mainWindow.availableCars.get(0).getFilename();
+			int max = mainWindow.availableCars.size();
+			imagePath += mainWindow.availableCars.get(random.nextInt(max)).getFilename();
 		}
 		if (length == 3) {
-			imagePath += mainWindow.availableTrucks.get(0).getFilename();
+			int max = mainWindow.availableTrucks.size();
+			imagePath += mainWindow.availableTrucks.get(random.nextInt(max)).getFilename();
 		}
 
 		initImageHandling(imagePath);
