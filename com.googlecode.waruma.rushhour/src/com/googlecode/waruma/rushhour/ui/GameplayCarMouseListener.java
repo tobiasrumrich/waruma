@@ -14,8 +14,7 @@ class GameplayCarMouseListener implements MouseListener {
 	CarWidget observedCar;
 	boolean moveSuccessful;
 
-	public GameplayCarMouseListener(RushHour rushHour,
-			CarWidget observedCar) {
+	public GameplayCarMouseListener(RushHour rushHour, CarWidget observedCar) {
 		super();
 		mainWindow = rushHour;
 		this.observedCar = observedCar;
@@ -40,8 +39,8 @@ class GameplayCarMouseListener implements MouseListener {
 			if (neuesX < minValue) {
 				neuesX = minValue;
 			}
-			
-			if(neuesY < minValue){
+
+			if (neuesY < minValue) {
 				neuesY = minValue;
 			}
 
@@ -51,13 +50,12 @@ class GameplayCarMouseListener implements MouseListener {
 			if (neuesX > maxValue) {
 				neuesX = maxValue;
 			}
-			
-			if(neuesY > maxValue){
+
+			if (neuesY > maxValue) {
 				neuesY = maxValue;
 			}
-			
-			
-			if(observedCar.isLocked)
+
+			if (observedCar.isLocked)
 				observedCar.setLocation(observedCar.getLocation());
 			else if (observedCar.isLockX())
 				observedCar.setLocation(observedCar.getLocation().x, neuesY);
@@ -65,8 +63,6 @@ class GameplayCarMouseListener implements MouseListener {
 				observedCar.setLocation(neuesX, observedCar.getLocation().y);
 			else
 				observedCar.setLocation(neuesX, neuesY);
-			
-			
 
 			// BEGIN FieldControl
 			int currentX = observedCar.getLocation().x;
@@ -168,7 +164,23 @@ class GameplayCarMouseListener implements MouseListener {
 					- (moveBoundries.width * mainWindow.abstractGameBoardWidget
 							.getCurrentFieldSize().x);
 			maxValue -= mainWindow.abstractGameBoardWidget
-			.getCurrentFieldSize().x;
+					.getCurrentFieldSize().x;
+		}
+
+		if (observedCar.getFieldHeight() == 3
+				&& (observedCar.getOrientation() == Orientation.NORTH || observedCar
+						.getOrientation() == Orientation.SOUTH)) {
+			maxValue -= mainWindow.abstractGameBoardWidget
+					.getCurrentFieldSize().y;
+
+		}
+		
+		if (observedCar.getFieldHeight() == 3
+				&& (observedCar.getOrientation() == Orientation.WEST || observedCar
+						.getOrientation() == Orientation.EAST)) {
+			maxValue -= mainWindow.abstractGameBoardWidget
+					.getCurrentFieldSize().x;
+
 		}
 
 		observedCar.addMouseMoveListener(mouseMoveListener);
