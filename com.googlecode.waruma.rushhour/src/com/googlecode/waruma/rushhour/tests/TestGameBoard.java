@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import org.eclipse.swt.graphics.Rectangle;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
@@ -226,6 +227,30 @@ public class TestGameBoard extends TestCase {
 		assertEquals(mockCollisionDetector.move, null);
 	}
 
+	public void testUndoLatestMove() throws IllegalBoardPositionException, IllegalMoveException {
+		gameBoard.addGameBoardObject(moveableCar);
+		gameBoard.addGameBoardObject(moveableCar2);
+		gameBoard.addGameBoardObject(moveableTruck);
+		
+		IGameBoardObject boardObject = gameBoard.undoLatestMove();
+		assertNull(boardObject);
+		
+		
+		gameBoard.move(new Move(moveableCar, 2));
+		
+		boardObject = gameBoard.undoLatestMove();
+		assertEquals(moveableCar, boardObject);
+		
+		
+		
+		
+	}
+	
+	public void testGetMoveRange() {
+		Rectangle moveRange = gameBoard.getMoveRange(moveableCar);
+		assertNotNull(moveRange);
+	}
+	
 	public void testMoveHistory() throws IllegalMoveException,
 			IllegalBoardPositionException {
 		gameBoard.addGameBoardObject(moveableCar);
