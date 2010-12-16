@@ -3,7 +3,9 @@ package com.googlecode.waruma.rushhour.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -24,8 +26,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 import com.googlecode.waruma.rushhour.framework.IGameWonObserver;
+import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.game.RushHourBoardCreationController;
 import com.googlecode.waruma.rushhour.game.RushHourGameplayControler;
@@ -62,6 +66,7 @@ public class RushHour implements IGameWonObserver {
 	protected GameplayWidget gamePlayWidget;
 	private Thread timeUpdaterThread;
 	private Display display;
+	private Queue<IMove> moveQueue;
 
 	/**
 	 * Launch the application.
@@ -170,8 +175,7 @@ public class RushHour implements IGameWonObserver {
 			public void widgetSelected(SelectionEvent e) {
 				MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO
 						| SWT.ICON_QUESTION);
-				messageBox
-						.setMessage("Möchten Sie RushHour wirklich beenden?");
+				messageBox.setMessage("Möchten Sie RushHour wirklich beenden?");
 				int open = messageBox.open();
 				if (open == SWT.YES) {
 					shell.dispose();
@@ -189,19 +193,19 @@ public class RushHour implements IGameWonObserver {
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
 	}
-	
+
 	public void undoLatestMove() {
-		if(gameplayControler != null){
+		if (gameplayControler != null) {
 			IGameBoardObject boardObject = gameplayControler.undoLatestMove();
 			for (CarWidget car : carPool) {
-				if(car.gameObject.equals(boardObject)){
+				if (car.gameObject.equals(boardObject)) {
 					car.moveCarInUi();
 				}
 			}
-			if(!gameplayControler.hasMoveInHistory()){
+			if (!gameplayControler.hasMoveInHistory()) {
 				gamePlayWidget.showBackButton(false);
 			}
-		}		
+		}
 	}
 
 	protected void initializeNewGame(String fileName) throws IOException {
@@ -262,7 +266,7 @@ public class RushHour implements IGameWonObserver {
 		}
 
 		gamePlayWidget.showBackButton(false);
-		
+
 		final int time = 500;
 		final Runnable timer = new Runnable() {
 			public void run() {
@@ -385,8 +389,6 @@ public class RushHour implements IGameWonObserver {
 
 		gamePlayWidget = new GameplayWidget(this, cmpSpiel, SWT.NONE);
 
-
-
 		int minX = abstractGameBoardWidget.getMinWidth()
 				+ gamePlayWidget.getBounds().width + 30;
 		int minY = abstractGameBoardWidget.getMinHeight()
@@ -410,10 +412,11 @@ public class RushHour implements IGameWonObserver {
 
 	@Override
 	public void updateGameWon() {
-		GameWonNotifier gameWonWindow = new GameWonNotifier(shell,"ZZ:YY:XX",33);
+		GameWonNotifier gameWonWindow = new GameWonNotifier(shell, "ZZ:YY:XX",
+				33);
 		gameWonWindow.open();
 	}
-	
+
 	private void resizeToDefinition() {
 
 		if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
@@ -433,5 +436,33 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	
+	public void doMoveFromSolver() {
+		if(moveQueue != null && !moveQueue.isEmpty()){
+			IMove move = moveQueue.poll();
+			IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
+			try {
+				gameplayControler.moveCar(gameBoardObject, move.getDistance());
+			} catch (IllegalMoveException e) {
+				gamePlayWidget.showForthButton(false);
+			}
+			
+			for (CarWidget car : carPool) {
+				if(car.gameObject.equals(gameBoardObject)){
+					car.moveCarInUi();
+				}
+			}
+		} else {
+			gamePlayWidget.showForthButton(false);
+		}
+	}
 
+	public void solveGameBoard() {
+		if (gameplayControler != null) {
+			List<IMove> moveList = gameplayControler.solveGame();
+			if (moveList != null && !moveList.isEmpty()) {
+				moveQueue = new LinkedList<IMove>(moveList);
+				gamePlayWidget.showForthButton(true);
+			}
+		}
+	}
 }

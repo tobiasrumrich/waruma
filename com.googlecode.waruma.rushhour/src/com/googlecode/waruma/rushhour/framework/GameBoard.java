@@ -165,7 +165,7 @@ public class GameBoard implements Serializable {
 			move.revertDirection();
 			try {
 				checkAndDoMove(move);
-				return (IGameBoardObject)move.getMoveable();
+				return (IGameBoardObject) move.getMoveable();
 			} catch (IllegalMoveException e) {
 				return null;
 			}

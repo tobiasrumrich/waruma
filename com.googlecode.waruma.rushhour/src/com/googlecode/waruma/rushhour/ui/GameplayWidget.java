@@ -91,6 +91,16 @@ public class GameplayWidget extends Composite {
 		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
 		btnLsen.setText("Spielfeld lösen");
+		btnLsen.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				mainWindow.solveGameBoard();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
 
 		btnRueckwaerts = new Button(this, SWT.NONE);
 		btnRueckwaerts.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
@@ -113,9 +123,26 @@ public class GameplayWidget extends Composite {
 				1, 1));
 		btnVorwaerts.setEnabled(false);
 		btnVorwaerts.setText("Schritt vorwärts >>");
+		btnVorwaerts.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				mainWindow.doMoveFromSolver();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
+		
+		
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 
+	}
+	
+	public void showForthButton(boolean show){
+		btnVorwaerts.setEnabled(show);
 	}
 	
 	public void showBackButton(boolean show){
