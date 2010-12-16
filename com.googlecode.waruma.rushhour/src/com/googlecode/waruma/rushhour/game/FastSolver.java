@@ -53,26 +53,6 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Bestimmt über Breitensuche die zum Gewinnen nötigen Züge
-	 * 
-	 * @return Liste der Züge zum Erreichen der Zielposition
-	 */
-	public List<IMove> solveGameBoard() {
-		while (!stateQueue.isEmpty()) {
-			FastSolverState currentState = stateQueue.remove();
-			// Ziel erreicht?
-			if (currentState.player != null
-					&& currentState.player.x == solutionX
-					&& currentState.player.y == solutionY) {
-				return reconstructMoveList(currentState);
-			}
-			// Z�ge ermitteln
-			computeAllPossibleMoves(currentState);
-		}
-		return null;
-	}
-
-	/**
 	 * Bestimmt alle in einem gegebenen SolverState durchführbaren Züge und
 	 * leitet diese an addStateToQueue weiter
 	 * 
@@ -130,35 +110,6 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Rekonstuiert von dem übergebenen Status aus eine Liste der bisher
-	 * getätigten Züge in Ausführungsreihenfolge
-	 * 
-	 * @param currentState
-	 *            Solver-Status
-	 * @return Liste der Züge
-	 */
-	private List<IMove> reconstructMoveList(FastSolverState currentState) {
-		LinkedList<IMove> moveList = new LinkedList<IMove>();
-
-		while (currentState.previousState != null) {
-			IGameBoardObject movedObject = gameBoardObjectMap
-					.get(currentState.movedCar);
-			int distance = currentState.movedDistance;
-
-			if (movedObject.getOrientation() == Orientation.WEST
-					|| movedObject.getOrientation() == Orientation.NORTH) {
-				distance *= -1;
-			}
-
-			IMove move = new Move((IMoveable) movedObject, distance);
-			moveList.addFirst(move);
-			currentState = currentState.previousState;
-		}
-
-		return moveList;
-	}
-
-	/**
 	 * Erstellt aus dem übergebenen GameBoardObject ein SolverCar mit den
 	 * gleichen Eigenschaften
 	 * 
@@ -175,20 +126,20 @@ public class FastSolver implements ISolver {
 		y = (byte) gameBoardObject.getPosition().y;
 		length = (byte) gameBoardObject.getCollisionMap().length;
 		// Richtung setzen
-		if (gameBoardObject.getOrientation() == Orientation.EAST
-				|| gameBoardObject.getOrientation() == Orientation.WEST) {
+		if ((gameBoardObject.getOrientation() == Orientation.EAST)
+				|| (gameBoardObject.getOrientation() == Orientation.WEST)) {
 			orientation = true;
 		}
 		// Spielerdaten extrahieren
 		if (gameBoardObject instanceof IPlayer) {
 			IPlayer player = (IPlayer) gameBoardObject;
-			this.solutionX = (byte) player.getDestination().x;
-			this.solutionY = (byte) player.getDestination().y;
+			solutionX = (byte) player.getDestination().x;
+			solutionY = (byte) player.getDestination().y;
 			if (gameBoardObject.getOrientation() == Orientation.EAST) {
-				this.solutionX--;
-			} 
+				solutionX--;
+			}
 			if (gameBoardObject.getOrientation() == Orientation.SOUTH) {
-				this.solutionY--;
+				solutionY--;
 			}
 
 			isPlayer = true;
@@ -209,5 +160,55 @@ public class FastSolver implements ISolver {
 		gameBoardObjectMap.put(car.id, gameBoardObject);
 
 		return car;
+	}
+
+	/**
+	 * Rekonstuiert von dem übergebenen Status aus eine Liste der bisher
+	 * getätigten Züge in Ausführungsreihenfolge
+	 * 
+	 * @param currentState
+	 *            Solver-Status
+	 * @return Liste der Züge
+	 */
+	private List<IMove> reconstructMoveList(FastSolverState currentState) {
+		LinkedList<IMove> moveList = new LinkedList<IMove>();
+
+		while (currentState.previousState != null) {
+			IGameBoardObject movedObject = gameBoardObjectMap
+					.get(currentState.movedCar);
+			int distance = currentState.movedDistance;
+
+			if ((movedObject.getOrientation() == Orientation.WEST)
+					|| (movedObject.getOrientation() == Orientation.NORTH)) {
+				distance *= -1;
+			}
+
+			IMove move = new Move((IMoveable) movedObject, distance);
+			moveList.addFirst(move);
+			currentState = currentState.previousState;
+		}
+
+		return moveList;
+	}
+
+	/**
+	 * Bestimmt über Breitensuche die zum Gewinnen nötigen Züge
+	 * 
+	 * @return Liste der Züge zum Erreichen der Zielposition
+	 */
+	@Override
+	public List<IMove> solveGameBoard() {
+		while (!stateQueue.isEmpty()) {
+			FastSolverState currentState = stateQueue.remove();
+			// Ziel erreicht?
+			if ((currentState.player != null)
+					&& (currentState.player.x == solutionX)
+					&& (currentState.player.y == solutionY)) {
+				return reconstructMoveList(currentState);
+			}
+			// Züge ermitteln
+			computeAllPossibleMoves(currentState);
+		}
+		return null;
 	}
 }

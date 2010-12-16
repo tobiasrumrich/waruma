@@ -15,7 +15,7 @@ import com.googlecode.waruma.rushhour.framework.IMove;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
- * Diese Klasse implementiert die RushHour spezifische Kollisionserkennung. *
+ * Implementiert die RushHour spezifische Kollisionserkennung
  * 
  * @author Florian
  */
@@ -54,22 +54,23 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		}
 	}
 
-	/**
-	 * überprüft ob ein Punkt auf dem Spielbrett frei und gültig ist und gibt
-	 * sofern die Überprüfung positiv war true zurück
-	 * 
-	 * @param point
-	 * @return True bei freiem Spielfeld
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#addGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
 	 */
-	public boolean validTile(Point point) {
-		if (point != null) {
-			if (point.x < 0 || point.x >= collisionMap.length)
-				return false;
-			if (point.y < 0 || point.y >= collisionMap[point.x].length)
-				return false;
-			return collisionMap[point.x][point.y];
-		} else {
-			throw new IllegalArgumentException();
+	@Override
+	public void addGameBoardObject(IGameBoardObject gameBoardObject)
+			throws IllegalBoardPositionException {
+		CollisionVector collisionPath;
+		try {
+			collisionPath = new CollisionVector(gameBoardObject);
+			if (!checkCollision(collisionPath)) {
+				fillCollisionMap(collisionPath);
+			} else {
+				throw new IllegalBoardPositionException();
+			}
+		} catch (IllegalMoveException e) {
+			throw new IllegalBoardPositionException();
 		}
 	}
 
@@ -91,22 +92,32 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		return false;
 	}
 
-	/**
-	 * Setzt alle Felder des CollisionPath auf den übergebenen Wert
-	 * 
-	 * @param collisionPath
-	 * @param value
-	 *            True für Belegtes Feld
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#checkMove(com.googlecode.waruma.rushhour.framework.IMove)
 	 */
-	private void setCollisionMap(CollisionVector collisionPath, boolean value) {
-		List<Point> pathPoints = collisionPath.getPoints();
-
-		for (Point point : pathPoints) {
-			if (point.x >= 0 && point.x < collisionMap.length && point.y >= 0
-					&& point.y < collisionMap[point.x].length) {
-				collisionMap[point.x][point.y] = value;
+	@Override
+	public void checkMove(IMove move) throws IllegalMoveException {
+		if (move.getMoveable() instanceof IGameBoardObject) {
+			IGameBoardObject gameBoardObject = (IGameBoardObject) move
+					.getMoveable();
+			CollisionVector objectBoundries = new CollisionVector(
+					gameBoardObject);
+			CollisionVector moveBoundries = new CollisionVector(
+					gameBoardObject, move.getDistance());
+			// Objekt von der Karte entfernen
+			clearCollisionMap(objectBoundries);
+			// Zug Prüfen
+			if (checkCollision(moveBoundries)) {
+				fillCollisionMap(objectBoundries);
+				throw new IllegalMoveException();
 			}
+			fillCollisionMap(objectBoundries);
+			lastCheckedMove = move;
+		} else {
+			throw new IllegalMoveException();
 		}
+
 	}
 
 	/**
@@ -118,6 +129,52 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		setCollisionMap(collisionPath, true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#doMove(com.googlecode.waruma.rushhour.framework.IMove)
+	 */
+	@Override
+	public void doMove(IMove move) throws IllegalMoveException {
+		if (move.equals(lastCheckedMove)) {
+			CollisionVector objectBoundries = new CollisionVector(
+					(IGameBoardObject) move.getMoveable());
+			clearCollisionMap(objectBoundries);
+			objectBoundries.moveBy(move.getDistance());
+			fillCollisionMap(objectBoundries);
+		} else {
+			throw new IllegalMoveException();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		CollisionDetector other = (CollisionDetector) obj;
+		if (!Arrays.deepEquals(collisionMap, other.collisionMap)) {
+			return false;
+		}
+		if (lastCheckedMove == null) {
+			if (other.lastCheckedMove != null) {
+				return false;
+			}
+		} else if (!lastCheckedMove.equals(other.lastCheckedMove)) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Setzt alle Felder des CollisionPath auf belegt
 	 * 
@@ -127,6 +184,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		setCollisionMap(collisionPath, false);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#getMoveRange(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
+	 */
+	@Override
 	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
 		try {
 			CollisionVector objectBoundries = new CollisionVector(
@@ -159,28 +221,75 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		}
 	}
 
-	/**
-	 * Versucht das übergebene GameBoardObject in der CollisionMap hinzuzufügen.
-	 * 
-	 * @param gameBoardObject
-	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position auf dem Spielbrett
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
-	public void addGameBoardObject(IGameBoardObject gameBoardObject)
-			throws IllegalBoardPositionException {
-		CollisionVector collisionPath;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.deepHashCode(collisionMap);
+		result = prime * result
+				+ ((lastCheckedMove == null) ? 0 : lastCheckedMove.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#hitPoint(com.googlecode.waruma.rushhour.framework.IGameBoardObject, java.awt.Point)
+	 */
+	@Override
+	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 		try {
-			collisionPath = new CollisionVector(gameBoardObject);
-			if (!checkCollision(collisionPath)) {
-				fillCollisionMap(collisionPath);
+			CollisionVector collisionPath = new CollisionVector(gameBoardObject);
+			List<Point> pathPoints = collisionPath.getPoints();
+
+			for (Point pathPoint : pathPoints) {
+				if (pathPoint.equals(point)) {
+					return true;
+				}
+			}
+
+			return false;
+		} catch (IllegalMoveException e) {
+			return false;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#moveGameBoardObjectToPosition(com.googlecode.waruma.rushhour.framework.IGameBoardObject, java.awt.Point)
+	 */
+	@Override
+	public void moveGameBoardObjectToPosition(IGameBoardObject gameBoardObject,
+			Point position) throws IllegalBoardPositionException {
+
+		try {
+			CollisionVector oldObjectBoundries = new CollisionVector(
+					gameBoardObject);
+			CollisionVector objectBoundries = new CollisionVector(
+					gameBoardObject);
+			objectBoundries.setAbsolutePosition(position);
+			clearCollisionMap(oldObjectBoundries);
+			// Keine Kollision
+			if (!checkCollision(objectBoundries)) {
+				fillCollisionMap(objectBoundries);
 			} else {
+				fillCollisionMap(oldObjectBoundries);
 				throw new IllegalBoardPositionException();
 			}
 		} catch (IllegalMoveException e) {
 			throw new IllegalBoardPositionException();
 		}
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#removeGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject)
+	 */
+	@Override
 	public void removeGameBoardObject(IGameBoardObject gameBoardObject) {
 		CollisionVector objectBoundries;
 		try {
@@ -191,6 +300,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#rotateGameBoardObject(com.googlecode.waruma.rushhour.framework.IGameBoardObject, com.googlecode.waruma.rushhour.framework.Orientation)
+	 */
 	@Override
 	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
 			Orientation orientation) throws IllegalBoardPositionException {
@@ -215,135 +328,41 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Versucht das Objekt auf die angegebene Position zu bewegen
+	 * Setzt alle Felder des CollisionPath auf den übergebenen Wert
 	 * 
-	 * @param gameBoardObject
-	 * @param position
-	 * @throws IllegalBoardPositionException
+	 * @param collisionPath
+	 * @param value
+	 *            True für Belegtes Feld
 	 */
-	public void moveGameBoardObjectToPosition(IGameBoardObject gameBoardObject,
-			Point position) throws IllegalBoardPositionException {
+	private void setCollisionMap(CollisionVector collisionPath, boolean value) {
+		List<Point> pathPoints = collisionPath.getPoints();
 
-		try {
-			CollisionVector oldObjectBoundries = new CollisionVector(
-					gameBoardObject);
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject);
-			objectBoundries.setAbsolutePosition(position);
-			clearCollisionMap(oldObjectBoundries);
-			// Keine Kollision
-			if (!checkCollision(objectBoundries)) {
-				fillCollisionMap(objectBoundries);
-			} else {
-				fillCollisionMap(oldObjectBoundries);
-				throw new IllegalBoardPositionException();
+		for (Point point : pathPoints) {
+			if ((point.x >= 0) && (point.x < collisionMap.length)
+					&& (point.y >= 0)
+					&& (point.y < collisionMap[point.x].length)) {
+				collisionMap[point.x][point.y] = value;
 			}
-		} catch (IllegalMoveException e) {
-			throw new IllegalBoardPositionException();
 		}
-
 	}
 
-	/**
-	 * Überprüft den übergebenen Zug auf Gültigkeit
-	 * 
-	 * @param move
-	 * @throws IllegalMoveException
-	 *             Bei einem ungültigen Zug
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.ICollisionDetector#validTile(java.awt.Point)
 	 */
-	public void checkMove(IMove move) throws IllegalMoveException {
-		if (move.getMoveable() instanceof IGameBoardObject) {
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move
-					.getMoveable();
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject);
-			CollisionVector moveBoundries = new CollisionVector(
-					gameBoardObject, move.getDistance());
-			// Objekt von der Karte entfernen
-			clearCollisionMap(objectBoundries);
-			// Zug Prüfen
-			if (checkCollision(moveBoundries)) {
-				fillCollisionMap(objectBoundries);
-				throw new IllegalMoveException();
-			}
-			fillCollisionMap(objectBoundries);
-			lastCheckedMove = move;
-		} else {
-			throw new IllegalMoveException();
-		}
-
-	}
-
-	/**
-	 * Führt den übergebenen Zug aus, sofern es der zuletzt übergebene ist
-	 * 
-	 * @param move
-	 * @throws IllegalMoveException
-	 *             Wenn der Zug nicht der zuvor überprüfte ist
-	 */
-	public void doMove(IMove move) throws IllegalMoveException {
-		if (move.equals(lastCheckedMove)) {
-			CollisionVector objectBoundries = new CollisionVector(
-					(IGameBoardObject) move.getMoveable());
-			clearCollisionMap(objectBoundries);
-			objectBoundries.moveBy(move.getDistance());
-			fillCollisionMap(objectBoundries);
-		} else {
-			throw new IllegalMoveException();
-		}
-	}
-
-	/**
-	 * Überprüft ob das übergebene Objekt den spezifizierten Punkt berührt
-	 * 
-	 * @param gameBoardObject
-	 * @param point
-	 * @return True bei Berührung
-	 */
-	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
-		try {
-			CollisionVector collisionPath = new CollisionVector(gameBoardObject);
-			List<Point> pathPoints = collisionPath.getPoints();
-
-			for (Point pathPoint : pathPoints) {
-				if (pathPoint.equals(point)) {
-					return true;
-				}
-			}
-
-			return false;
-		} catch (IllegalMoveException e) {
-			return false;
-		}
-	}
-
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.deepHashCode(collisionMap);
-		result = prime * result
-				+ ((lastCheckedMove == null) ? 0 : lastCheckedMove.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CollisionDetector other = (CollisionDetector) obj;
-		if (!Arrays.deepEquals(collisionMap, other.collisionMap))
-			return false;
-		if (lastCheckedMove == null) {
-			if (other.lastCheckedMove != null)
+	public boolean validTile(Point point) {
+		if (point != null) {
+			if ((point.x < 0) || (point.x >= collisionMap.length)) {
 				return false;
-		} else if (!lastCheckedMove.equals(other.lastCheckedMove))
-			return false;
-		return true;
+			}
+			if ((point.y < 0) || (point.y >= collisionMap[point.x].length)) {
+				return false;
+			}
+			return collisionMap[point.x][point.y];
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 }
