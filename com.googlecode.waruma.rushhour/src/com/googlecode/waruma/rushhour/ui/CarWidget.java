@@ -115,6 +115,7 @@ public class CarWidget extends Composite {
 				isLocked = true;
 			}
 			mainWindow.gamePlayWidget.showBackButton(true);
+			mainWindow.gamePlayWidget.showForthButton(false);
 		} catch (Exception e) {
 			java.awt.Point oldPosition = gameObject.getPosition();
 			positionOnGameBoard = new Point(oldPosition.x, oldPosition.y);

@@ -336,6 +336,11 @@ public class RushHour implements IGameWonObserver {
 			if (moveList != null && !moveList.isEmpty()) {
 				moveQueue = new LinkedList<IMove>(moveList);
 				gamePlayWidget.showForthButton(true);
+			} else {
+				MessageBox messageBox = new MessageBox(shell);
+				messageBox.setMessage("Dieses Spielfeld ist unlösbar!");
+				messageBox.setText("Keine Lösung möglich");
+				messageBox.open();
 			}
 		}
 	}
