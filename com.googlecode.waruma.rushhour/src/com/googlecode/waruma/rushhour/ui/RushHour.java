@@ -67,6 +67,7 @@ public class RushHour implements IGameWonObserver {
 	private Thread timeUpdaterThread;
 	private Display display;
 	private Queue<IMove> moveQueue;
+	private boolean gameWon;
 
 	/**
 	 * Launch the application.
@@ -269,12 +270,12 @@ public class RushHour implements IGameWonObserver {
 
 		gamePlayWidget.showBackButton(false);
 
-		final int time = 500;
+		final int time = 100;
 		final Runnable timer = new Runnable() {
 			public void run() {
 				if (gamePlayWidget.getLblTime().isDisposed()
 						|| tabFolder.getSelectionIndex() == 0
-						|| mainComposite.isDisposed()) {
+						|| mainComposite.isDisposed() || gameWon) {
 					return;
 				}
 				gamePlayWidget.getLblTime().setText(
@@ -288,7 +289,7 @@ public class RushHour implements IGameWonObserver {
 
 	protected void switchToDesigner() {
 		if (gameplayControler != null) {
-
+			gameWon = false;
 			Object gameState = gameplayControler.getCurrentState();
 			boardCreationControler.loadState(gameState);
 			for (CarWidget currentCar : carPool) {
@@ -328,6 +329,11 @@ public class RushHour implements IGameWonObserver {
 		} else {
 			gamePlayWidget.showForthButton(false);
 		}
+	}
+	
+	public void updateMoveCount() {
+		gamePlayWidget.lblMoves.setText(gameplayControler.getMoveCount().toString());
+		
 	}
 
 	public void solveGameBoard() {
@@ -450,9 +456,11 @@ public class RushHour implements IGameWonObserver {
 
 	@Override
 	public void updateGameWon() {
+		gameWon = true;
 		GameWonNotifier gameWonWindow = new GameWonNotifier(this, gameplayControler.elapsedGameTime(),
-				33);
+				gameplayControler.getMoveCount());
 		gameWonWindow.open();
+		
 	}
 
 	private void resizeToDefinition() {
@@ -472,6 +480,9 @@ public class RushHour implements IGameWonObserver {
 		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
 	}
+
+	
+
 
 	
 
