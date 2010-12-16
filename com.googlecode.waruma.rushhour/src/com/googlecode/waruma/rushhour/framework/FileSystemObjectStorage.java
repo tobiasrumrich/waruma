@@ -13,38 +13,56 @@ import java.io.Serializable;
  * @author Tobias Rumrich
  */
 public class FileSystemObjectStorage implements IObjectStorage {
-	
-	@Override
-	public void serialize(Serializable serializableObject, String location) throws IOException {
 
-		if (location == null || location.equals("")) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IObjectStorage#deserialize(java
+	 * .lang.String)
+	 */
+	@Override
+	public Serializable deserialize(String location) throws IOException,
+			ClassNotFoundException {
+		if ((location == null) || location.equals("")) {
 			throw new IllegalArgumentException("Illegal filename");
 		}
-		
-		//vgl. http://java.sun.com/developer/technicalArticles/Programming/serialization/
-		
-		FileOutputStream fileOutput = new FileOutputStream(location);
-		ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
-		objectOutput.writeObject(serializableObject);
-		objectOutput.close();
-		fileOutput.close();
-	}
 
-	@Override
-	public Serializable deserialize(String location) throws IOException, ClassNotFoundException {
-		if (location == null || location.equals("")) {
-			throw new IllegalArgumentException("Illegal filename");
-		}
-		
-		//vgl. http://java.sun.com/developer/technicalArticles/Programming/serialization/
-		
+		// vgl.
+		// http://java.sun.com/developer/technicalArticles/Programming/serialization/
+
 		FileInputStream fileOutput = new FileInputStream(location);
 		ObjectInputStream objectInput = new ObjectInputStream(fileOutput);
 		Serializable readObject = (Serializable) objectInput.readObject();
 		objectInput.close();
 		fileOutput.close();
-		
+
 		return readObject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IObjectStorage#serialize(java
+	 * .io.Serializable, java.lang.String)
+	 */
+	@Override
+	public void serialize(Serializable serializableObject, String location)
+			throws IOException {
+
+		if ((location == null) || location.equals("")) {
+			throw new IllegalArgumentException("Illegal filename");
+		}
+
+		// vgl.
+		// http://java.sun.com/developer/technicalArticles/Programming/serialization/
+
+		FileOutputStream fileOutput = new FileOutputStream(location);
+		ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
+		objectOutput.writeObject(serializableObject);
+		objectOutput.close();
+		fileOutput.close();
 	}
 
 }

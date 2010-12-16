@@ -1,23 +1,28 @@
 package com.googlecode.waruma.rushhour.framework;
 
+/**
+ * Schnittstellendefinition für einen Zug
+ * 
+ * @author Florian
+ */
 public interface IMove {
 
 	/**
-	 * gibt die Distanz des IMoves zurück
+	 * Gibt die Distanz des Zuges zurück
 	 * 
 	 * @return Distanz eines IMoves
 	 */
 	public int getDistance();
 
 	/**
-	 * gibt das IMoveable-Objekt zurück
+	 * Gibt das Moveable Objekt zurück
 	 * 
-	 * @return iMoveable-Objekt
+	 * @return Moveable Objekt
 	 */
 	public IMoveable getMoveable();
 	
 	/**
-	 * dreht die Richtung eines IMoves um (-1 wird zu 1)
+	 * Dreht die Richtung eines Zuges um (-1 wird zu 1)
 	 */
 	public void revertDirection();
 
