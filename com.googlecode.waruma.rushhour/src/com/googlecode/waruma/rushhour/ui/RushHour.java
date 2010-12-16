@@ -241,6 +241,7 @@ public class RushHour implements IGameWonObserver {
 	private void switchToGameplay() {
 		Object gameState = boardCreationControler.getCurrentState();
 		this.gameplayControler = new RushHourGameplayControler(gameState);
+		this.gameplayControler.registerGameWon(this);
 		for (CarWidget currentCar : carPool) {
 			currentCar.updateRushHourListener(new GameplayCarMouseListener(
 					this, currentCar));
@@ -365,11 +366,7 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
 
-	//cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 		cmpSpielkontrolle = new SpielkontrolleComposite(this, cmpSpiel, SWT.NONE);
-//BEGIN
-//		cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
-//				true, 1, 1));
 
 		int minX = abstractGameBoardWidget.getMinWidth()
 				+ cmpSpielkontrolle.getBounds().width + 30;
@@ -394,10 +391,8 @@ public class RushHour implements IGameWonObserver {
 
 	@Override
 	public void updateGameWon() {
-		MessageBox messageBox = new MessageBox(shell);
-		messageBox.setMessage("Sie haben den Penis gewonnen");
-		messageBox.setText("Spiel gewonnen!");
-		messageBox.open();
+		GameWonNotifier gameWonWindow = new GameWonNotifier(shell,"ZZ:YY:XX",33);
+		gameWonWindow.open();
 	}
 
 	private void resizeToDefinition() {
@@ -413,7 +408,6 @@ public class RushHour implements IGameWonObserver {
 		for (CarWidget currentCar : carPool) {
 			abstractGameBoardWidget.repositionCarOnBoard(currentCar);
 		}
-		// }
 
 		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
