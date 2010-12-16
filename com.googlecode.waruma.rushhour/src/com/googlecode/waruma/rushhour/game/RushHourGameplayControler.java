@@ -21,7 +21,7 @@ import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Move;
 
 /**
- * Verwaltet die Aufrufe der Spielablauflogik durch die Präsentationsschickt
+ * Verwaltet die Aufrufe der Spielablauflogik durch die Prï¿½sentationsschickt
  * 
  * @author Florian
  */
@@ -44,7 +44,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 * Erstellt einen neuen GamePlayControler durch laden eines Spielstandes
 	 * 
 	 * @param location
-	 *            Speicherort auf dem Datenträger
+	 *            Speicherort auf dem Datentrï¿½ger
 	 * @throws IOException
 	 */
 	public RushHourGameplayControler(String location) throws IOException {
@@ -60,7 +60,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Erstellt einen neuen GamePlayControler aus dem übergebenen Spielstand
+	 * Erstellt einen neuen GamePlayControler aus dem ï¿½bergebenen Spielstand
 	 * 
 	 * @param state
 	 *            Spielstand
@@ -80,7 +80,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 	
 	/**
-	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurück
+	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurï¿½ck
 	 * 
 	 * @return Liste der Autos
 	 */
@@ -89,7 +89,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Führt einen Zug auf dem Spielbrett durch
+	 * Fï¿½hrt einen Zug auf dem Spielbrett durch
 	 * 
 	 * @param gameBoardObject
 	 *            Zu bewegendes Objekt auf dem Spielbrett
@@ -139,10 +139,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen
+	 * Gibt die Liste mit den Notwendigen Zï¿½gen zur Lï¿½sung des momentanen
 	 * Spielbretts aus
 	 * 
-	 * @return Liste der Züge
+	 * @return Liste der Zï¿½ge
 	 */
 	public List<IMove> solveGame() {
 		FastSolver fastSolver = new FastSolver(gameBoard);
@@ -150,7 +150,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Observer für Gewinnmitteilung registrieren
+	 * Observer fï¿½r Gewinnmitteilung registrieren
 	 * 
 	 * @param eventTarget
 	 *            Ziel des Aufrufs
@@ -160,7 +160,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Gibt die seit Spielstart verstrichene Zeit zurück. Format der
+	 * Gibt die seit Spielstart verstrichene Zeit zurï¿½ck. Format der
 	 * Darstellung: Stunden:Minuten:Sekunden
 	 * 
 	 * @return Zeitstring
