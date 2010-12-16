@@ -23,7 +23,26 @@ public final class FastSolverState {
 	public byte[][] collisionMap;
 
 	/**
-	 * Erzeugt einen neuen SolverState mit einer leern Kollisionsmap in den
+	 * Erzeugt einen neuen Nachfolger des übergebenen Status, wobei die Felder
+	 * auf die gleichen Werte gesetzt werden.
+	 * 
+	 * @param previousState
+	 *            Vorgängerstatus
+	 */
+	public FastSolverState(FastSolverState previousState) {
+		cars = previousState.deepCloneCars();
+		collisionMap = previousState.deepCloneCollisionMap();
+		this.previousState = previousState;
+		// Player ermitteln
+		for (FastSolverCar car : cars) {
+			if (car.isPlayer) {
+				player = car;
+			}
+		}
+	}
+
+	/**
+	 * Erzeugt einen neuen SolverState mit einer leeren Kollisionsmap in den
 	 * angegebenen Dimensionen
 	 * 
 	 * @param width
@@ -43,30 +62,11 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Erzeugt einen neuen Nachfolger des �bergebenen Status, wobei die Felder
-	 * auf die gleichen Werte gesetzt werden.
-	 * 
-	 * @param previousState
-	 *            Vorg�ngerstatus
-	 */
-	public FastSolverState(FastSolverState previousState) {
-		this.cars = previousState.deepCloneCars();
-		this.collisionMap = previousState.deepCloneCollisionMap();
-		this.previousState = previousState;
-		// Player ermitteln
-		for (FastSolverCar car : cars) {
-			if (car.isPlayer) {
-				player = car;
-			}
-		}
-	}
-
-	/**
-	 * F�gt dem Status ein Auto hinzu und aktualisiert die Kollisionsmap. Eine
-	 * Kollisionspr�fung wird dabei nicht durchgef�hrt.
+	 * Fügt dem Status ein Auto hinzu und aktualisiert die Kollisionsmap. Eine
+	 * Kollisionsprüfung wird dabei nicht durchgeführt.
 	 * 
 	 * @param car
-	 *            Hinzuzuf�gendes SolverCar
+	 *            Hinzuzufügendes SolverCar
 	 */
 	public void addSolverCar(FastSolverCar car) {
 		// Kollisionsmap aktualisieren
@@ -79,7 +79,7 @@ public final class FastSolverState {
 				collisionMap[car.x][y] = 2;
 			}
 		}
-		// Zur Liste hinzuf�gen
+		// Zur Liste hinzufügen
 		cars.add(car);
 		// Ist Spielerauto
 		if (car.isPlayer) {
@@ -88,61 +88,78 @@ public final class FastSolverState {
 	}
 
 	/**
-	 * Hilfsfunktion zur Ermittlung ob die �bergebene Koordinate auf dem
-	 * Spielfeld liegt und leer ist.
+	 * Erstellt eine Kopie der CollisionMap
 	 * 
-	 * @param x
-	 *            X-Koordinate
-	 * @param y
-	 *            Y-Koordinate
-	 * @return True bei g�ltigem und leeren Feld
+	 * @return Kopie des Car-Liste
 	 */
-	private boolean validTile(int x, int y) {
-		if (x < 0 || x >= collisionMap.length)
-			return false;
-		if (y < 0 || y >= collisionMap[x].length)
-			return false;
-		if (collisionMap[x][y] == 0)
-			return true;
-		return false;
+	private List<FastSolverCar> deepCloneCars() {
+		List<FastSolverCar> clone = new ArrayList<FastSolverCar>(cars.size());
+		for (FastSolverCar car : cars) {
+			clone.add(new FastSolverCar(car));
+		}
+		return clone;
 	}
 
 	/**
-	 * �berpr�ft ob das Feld, das in der �bergebenen Distanz entfernt vom Auto
-	 * liegt frei ist.
+	 * Erstellt eine Kopie der CollisionMap Verwendet aus Performancegründen
+	 * System.arraycopy für das Kopieren der Subarrays
 	 * 
-	 * @param car
-	 *            Auto f�r das gepr�ft wird
-	 * @param distance
-	 *            Distanz vom Auto - Kann positiv und negativ sein
-	 * @return True bei g�ltigem und leeren Feld
+	 * @return Kopie der CollisionMap
 	 */
-	public boolean validTile(FastSolverCar car, byte distance) {
-		if (car.locked)
-			return false;
-		// Bei positiven Z�gen die Autol�nge auf die Distanz addieren
-		if (distance > 0)
-			distance += car.length - 1;
-		// Auf X- oder Y-Achse bewegen - true entspricht einer hor. Bewegung
-		if (car.orientation == true) {
-			return validTile(car.x + distance, car.y);
-		} else {
-			return validTile(car.x, car.y + distance);
+	private byte[][] deepCloneCollisionMap() {
+		byte[][] clonedCollisionMap = new byte[collisionMap.length][];
+		for (int i = 0; i < collisionMap.length; i++) {
+			clonedCollisionMap[i] = new byte[collisionMap[i].length];
+			System.arraycopy(collisionMap[i], 0, clonedCollisionMap[i], 0,
+					collisionMap[i].length);
 		}
+		return clonedCollisionMap;
+	}
+
+	/**
+	 * Erzeugt den zur Identifizierung des SolverStates verwendeten HashCode.
+	 * Der HashCode wird nur in Abhängigkeit der collisionMap gebildet.
+	 * 
+	 * @return Hashcode des Status
+	 */
+	@Override
+	public int hashCode() {
+		int hashCode = 1;
+		for (byte[] element : collisionMap) {
+			for (int j = 0; j < element.length; j++) {
+				// Abh�ngig von dem Wert an der momentanen Position den Hash
+				// bestimmen
+				// Code in Anlehnung an die Boolean Hashmethode aus dem
+				// Java-Framework
+				if (element[j] == 1) {
+					hashCode = 31 * hashCode + 1231;
+				}
+
+				if (element[j] == 2) {
+					hashCode = 17 * hashCode + 1237;
+				}
+
+				if (element[j] == 0) {
+					hashCode = 41 * hashCode + 1361;
+				}
+			}
+		}
+
+		return hashCode;
 	}
 
 	/**
 	 * Verschiebt das Auto an der angegeben Listenposition ohne
-	 * Kollisionserkennung um die �bergebene Distanz
+	 * Kollisionserkennung um die übergebene Distanz
 	 * 
 	 * @param arrayPosition
 	 *            Index des Autos aus der Liste
 	 * @param distance
 	 *            Distanz des Zuges
 	 */
-	public void moveCar(byte arrayPosition, byte distance) {	
+	public void moveCar(byte arrayPosition, byte distance) {
 		FastSolverCar car = cars.get(arrayPosition);
-		
+
 		if (car.orientation == true) {
 			// Aus collisionMap entfernen
 			for (int x = car.x; x < car.x + car.length; x++) {
@@ -168,66 +185,58 @@ public final class FastSolverState {
 				collisionMap[car.x][y] = 2;
 			}
 		}
-		
+
 		// Speichern welches Auto bewegt wurde
 		movedCar = car.id;
 		movedDistance = distance;
 	}
-	
+
 	/**
-	 * Erstellt eine Kopie der CollisionMap
+	 * Überprüft ob das Feld das in der übergebenen Distanz entfernt vom Auto
+	 * liegt frei ist.
 	 * 
-	 * @return Kopie des Car-Liste
+	 * @param car
+	 *            Auto für das geprüft wird
+	 * @param distance
+	 *            Distanz vom Auto - Kann positiv und negativ sein
+	 * @return True bei gültigem und leeren Feld
 	 */
-	private List<FastSolverCar> deepCloneCars() {
-		List<FastSolverCar> clone = new ArrayList<FastSolverCar>(cars.size());
-		for (FastSolverCar car : cars)
-			clone.add(new FastSolverCar(car));
-		return clone;
+	public boolean validTile(FastSolverCar car, byte distance) {
+		if (car.locked) {
+			return false;
+		}
+		// Bei positiven Z�gen die Autol�nge auf die Distanz addieren
+		if (distance > 0) {
+			distance += car.length - 1;
+		}
+		// Auf X- oder Y-Achse bewegen - true entspricht einer hor. Bewegung
+		if (car.orientation == true) {
+			return validTile(car.x + distance, car.y);
+		} else {
+			return validTile(car.x, car.y + distance);
+		}
 	}
 
 	/**
-	 * Erstellt eine Kopie der CollisionMap Verwendet aus Performancegr�nden
-	 * System.arraycopy f�r das Kopieren der Subarrays
+	 * Hilfsfunktion zur Ermittlung, ob die übergebene Koordinate auf dem
+	 * Spielfeld liegt und leer ist.
 	 * 
-	 * @return Kopie der CollisionMap
+	 * @param x
+	 *            X-Koordinate
+	 * @param y
+	 *            Y-Koordinate
+	 * @return True bei gültigem und leeren Feld
 	 */
-	private byte[][] deepCloneCollisionMap() {
-		byte[][] clonedCollisionMap = new byte[collisionMap.length][];
-		for (int i = 0; i < collisionMap.length; i++) {
-			clonedCollisionMap[i] = new byte[collisionMap[i].length];
-			System.arraycopy(collisionMap[i], 0, clonedCollisionMap[i], 0,
-					collisionMap[i].length);
+	private boolean validTile(int x, int y) {
+		if ((x < 0) || (x >= collisionMap.length)) {
+			return false;
 		}
-		return clonedCollisionMap;
-	}
-
-	/**
-	 * Erzeugt den zur Identifizierung des SolverStates verwendeten HashCode.
-	 * Der HashCode wird nur in Abh�ngigkeit der collisionMap gebildet.
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int hashCode = 1;
-		for (int i = 0; i < collisionMap.length; i++) {
-			for (int j = 0; j < collisionMap[i].length; j++) {
-				// Abh�ngig von dem Wert an der momentanen Position den Hash
-				// bestimmen
-				// Code in Anlehnung an die Boolean Hashmethode aus dem
-				// Java-Framework
-				if (collisionMap[i][j] == 1)
-					hashCode = 31 * hashCode + 1231;
-
-				if (collisionMap[i][j] == 2)
-					hashCode = 17 * hashCode + 1237;
-
-				if (collisionMap[i][j] == 0)
-					hashCode = 41 * hashCode + 1361;
-			}
+		if ((y < 0) || (y >= collisionMap[x].length)) {
+			return false;
 		}
-
-		return hashCode;
+		if (collisionMap[x][y] == 0) {
+			return true;
+		}
+		return false;
 	}
 }

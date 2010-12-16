@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 import com.googlecode.waruma.rushhour.framework.AbstractMoveable;
-import com.googlecode.waruma.rushhour.framework.AdditionalFunctionality;
+import com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality;
 import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
 
 /*
@@ -15,7 +15,7 @@ import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
  * 
  */
 
-public class SteeringLock extends AdditionalFunctionality implements
+public class SteeringLock extends AbstractAdditionalFunctionality implements
 		IGameBoardObject, Serializable {
 
 	/**
