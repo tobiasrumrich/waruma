@@ -226,6 +226,10 @@ public class GameBoardWidget extends Composite {
 				}
 			}
 		}
+		
+		if (goalField != null) {
+			spielbrett[goalField.x][goalField.y].setBackgroundImage(getImage(original_tile_goal));
+		}
 	}
 	
 	private Image getImage(Image gImage) {
