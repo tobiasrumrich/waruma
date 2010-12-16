@@ -8,7 +8,7 @@ import java.util.List;
  * Die Kollisionserkennung wurde aus Performancegründen in einer deutlich
  * entschlankten Version direkt im SolverState implementiert.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public final class FastSolverState {
 	public FastSolverState previousState;

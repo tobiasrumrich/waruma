@@ -10,7 +10,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 /**
  * Diese Klasse implementiert die Kollisionserkennung.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public interface ICollisionDetector {
 	/**

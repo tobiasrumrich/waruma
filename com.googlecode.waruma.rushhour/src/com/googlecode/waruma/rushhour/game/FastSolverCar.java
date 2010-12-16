@@ -9,7 +9,7 @@ import java.util.Random;
  * final. Die Datentypen sind auf Grund von Speicherkomplexität und Performance
  * primitiv und so klein wie irgendmöglich.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public final class FastSolverCar {
 	public int id;

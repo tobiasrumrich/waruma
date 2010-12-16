@@ -17,7 +17,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * Stellt die Vermittlungsfunktionen zwischen Präsentation und Fachlogik zur
  * Erstellung von Spielfeldern zur Verfügung
  * 
- * @author Fabian & Tobias
+ * @author Tobias Rumrich, Fabian Malinowski, Florian Warninghoff
  */
 public class RushHourBoardCreationController {
 	private GameBoard gameBoard;

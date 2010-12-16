@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Schnittstellendefinition für Solver
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public interface ISolver {
 	

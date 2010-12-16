@@ -13,7 +13,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * Spielbrett. Dazu ermöglicht sie das Bewegen eines Autos (Änderung der
  * Position in point) durch Aufrufen move()-Funktion.
  * 
- * @author fabian
+ * @author Tobias Rumrich
  */
 public class StandardCar extends AbstractMoveable implements Serializable {
 

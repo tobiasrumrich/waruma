@@ -3,7 +3,7 @@ package com.googlecode.waruma.rushhour.framework;
 /**
  * Schnittstelle für Objekte die über den Spielgewinn benachrichtigen
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public interface IGameWonSubject {
 

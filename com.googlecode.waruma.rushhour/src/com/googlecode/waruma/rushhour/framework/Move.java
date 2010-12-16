@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Implementiert IMove
  * 
- * @author mail2fabi - Fabian Malinowski
+ * @author Tobias Rumrich
  */
 public class Move implements IMove, Serializable {
 	/**
