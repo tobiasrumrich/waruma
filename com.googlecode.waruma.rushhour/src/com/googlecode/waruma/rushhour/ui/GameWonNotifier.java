@@ -1,19 +1,22 @@
 package com.googlecode.waruma.rushhour.ui;
 
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import com.swtdesigner.SWTResourceManager;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+import com.swtdesigner.SWTResourceManager;
 
 public class GameWonNotifier extends Dialog {
 
 	protected Object result;
 	protected Shell shlSpielGewonnen;
+	private RushHour mainWindow;
 	private int countMoves;
 	private String time;
 
@@ -22,11 +25,13 @@ public class GameWonNotifier extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public GameWonNotifier(Shell parent, String time, int countMoves) {
-		super(parent, SWT.APPLICATION_MODAL);
+	public GameWonNotifier(RushHour mainWindow, String time, int countMoves) {
+		super(mainWindow.shell, SWT.APPLICATION_MODAL);
 		this.time = time;
 		this.countMoves = countMoves;
+		this.mainWindow = mainWindow;
 		setText("Spiel gewonnen!");
+		
 	}
 
 	/**
@@ -35,8 +40,19 @@ public class GameWonNotifier extends Dialog {
 	 */
 	public Object open() {
 		createContents();
+		int parentX = mainWindow.shell.getLocation().x;
+		int parentY = mainWindow.shell.getLocation().y;
+		int parentWidth = mainWindow.shell.getBounds().width;
+		int parentHeight = mainWindow.shell.getBounds().height;
+		
+		int newX = parentX  + ((parentWidth / 2) - (shlSpielGewonnen.getBounds().width / 2));
+		int newY = parentY + ((parentHeight / 2) - (shlSpielGewonnen.getBounds().height / 2));
+		
+		shlSpielGewonnen.setLocation(newX, newY);
 		shlSpielGewonnen.open();
 		shlSpielGewonnen.layout();
+
+		
 		Display display = getParent().getDisplay();
 		while (!shlSpielGewonnen.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -93,7 +109,10 @@ public class GameWonNotifier extends Dialog {
 		btnZurckZumDesigner.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				mainWindow.tabFolder.setSelection(0);
+				mainWindow.switchToDesigner();
 				shlSpielGewonnen.dispose();
+
 			}
 		});
 		btnZurckZumDesigner.setBounds(519, 163, 141, 23);
