@@ -1,6 +1,8 @@
 package com.googlecode.waruma.rushhour.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -9,11 +11,11 @@ import org.eclipse.swt.widgets.Label;
 
 import com.swtdesigner.SWTResourceManager;
 /**
- * Composite für die Spielkontrolle
+ * Composite fÃ¼r die Spielkontrolle
  * @author Rumrich
  *
  */
-public class SpielkontrolleComposite extends Composite {
+public class GameplayWidget extends Composite {
 
 	private Label lblDebug;
 	private Label lblDebug2;
@@ -28,7 +30,7 @@ public class SpielkontrolleComposite extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public SpielkontrolleComposite(final RushHour mainWindow, Composite parent, int style) {
+	public GameplayWidget(final RushHour mainWindow, Composite parent, int style) {
 		super(parent, style);
 		this.mainWindow = mainWindow;
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
@@ -63,7 +65,7 @@ public class SpielkontrolleComposite extends Composite {
 				1, 1);
 		gd_lblZge.heightHint = 13;
 		lblZge.setLayoutData(gd_lblZge);
-		lblZge.setText("Z\u00FCge");
+		lblZge.setText("Züge");
 
 		Label lblMoves = new Label(this, SWT.NONE);
 		lblMoves.setText("15");
@@ -88,12 +90,23 @@ public class SpielkontrolleComposite extends Composite {
 		Button btnLsen = new Button(this, SWT.NONE);
 		btnLsen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
-		btnLsen.setText("L\u00F6sung");
+		btnLsen.setText("Spielfeld lösen");
 
 		btnRueckwaerts = new Button(this, SWT.NONE);
 		btnRueckwaerts.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
 		btnRueckwaerts.setText("<< Schritt rückwärts");
+		btnRueckwaerts.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				mainWindow.undoLatestMove();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
 
 		btnVorwaerts = new Button(this, SWT.NONE);
 		btnVorwaerts.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
@@ -103,6 +116,10 @@ public class SpielkontrolleComposite extends Composite {
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 
+	}
+	
+	public void showBackButton(boolean show){
+		btnRueckwaerts.setEnabled(show);
 	}
 	
 	public Label getLblTime() {
