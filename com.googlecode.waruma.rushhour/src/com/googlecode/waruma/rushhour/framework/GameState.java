@@ -14,11 +14,11 @@ import java.util.Set;
 
 public class GameState implements IReachedDestinationObserver, IGameWonSubject {
 	private Set<IGameWonObserver> observers = new HashSet<IGameWonObserver>();
-	private Set<IPlayer> players = new HashSet<IPlayer>();
+	private int players = 0;
 
 	// Ein zuknftigt zu überwachender Player wird hinzugefügt
 	public void addPlayer(IPlayer player) {
-		players.add(player);
+		players++;
 		player.registerReachedDestination(this);
 	}
 
@@ -30,9 +30,9 @@ public class GameState implements IReachedDestinationObserver, IGameWonSubject {
 	// ReachedDestination Event wird behandelt
 	@Override
 	public void updateReachedDestination(IPlayer player) {
-		players.remove(player);
+		players--;
 
-		if (players.isEmpty())
+		if (players == 0)
 			for (IGameWonObserver currentobserver : observers) {
 				currentobserver.updateGameWon();
 			}

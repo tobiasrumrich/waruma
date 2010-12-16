@@ -121,6 +121,15 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	public IGameBoardObject undoLatestMove() {
 		return gameBoard.undoLatestMove();
 	}
+	
+	/**
+	 * Überprüft ob es einen Zug zum rückgängig machen in der MoveHistory gibt
+	 * 
+	 * @return True bei vorhandenem Zug
+	 */
+	public boolean hasMoveInHistory(){
+		return !gameBoard.getMoveHistory().isEmpty();
+	}
 
 	/**
 	 * Speichert einen Spielstand im angegebenen Pfad
