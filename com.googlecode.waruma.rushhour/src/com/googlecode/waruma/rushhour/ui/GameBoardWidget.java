@@ -3,8 +3,11 @@ package com.googlecode.waruma.rushhour.ui;
 import java.awt.Color;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
@@ -29,36 +32,6 @@ public class GameBoardWidget extends Composite {
 	private org.eclipse.swt.graphics.Color colorForOdd =SWTResourceManager.getColor(166, 202, 240) ;
 	private org.eclipse.swt.graphics.Color colorForUnodd = SWTResourceManager.getColor(119, 136, 153);
 
-	private class FieldMouseListener implements MouseTrackListener {
-
-		private int fieldX;
-		private int fieldY;
-
-		public FieldMouseListener(int fieldX, int fieldY) {
-			this.fieldX = fieldX;
-			this.fieldY = fieldY;
-		}
-
-		@Override
-		public void mouseEnter(MouseEvent arg0) {
-			inField = fieldX + "--" + fieldY;
-			// System.out.println("Mausposition auf Spielfeld: " + fieldX + ":"
-			// + fieldY);
-		}
-
-		@Override
-		public void mouseExit(MouseEvent arg0) {
-			inField = "Tsch�ssing";
-
-		}
-
-		@Override
-		public void mouseHover(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-	}
-
 	/**
 	 * Create the composite.
 	 * 
@@ -74,6 +47,20 @@ public class GameBoardWidget extends Composite {
 		this.parent = parent;
 		this.hoehe = hoehe;
 		this.breite = breite;
+		this.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		spielbrett = new Label[breite][hoehe];
 		GridLayout gridLayout = new GridLayout(breite, false);
@@ -97,8 +84,6 @@ public class GameBoardWidget extends Composite {
 				} else {
 					spielbrett[i][j].setBackground(colorForUnodd);
 				}
-				spielbrett[i][j].addMouseTrackListener(new FieldMouseListener(
-						i, j));
 			}
 
 		}
