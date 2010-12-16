@@ -74,11 +74,11 @@ public class RushHourGameplayControler implements IGameWonSubject {
 			throw new IllegalArgumentException("No valid RushHour State");
 		}
 	}
-	
-	public Rectangle getMoveRange(IGameBoardObject gameBoardObject){
+
+	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
 		return gameBoard.getMoveRange(gameBoardObject);
 	}
-	
+
 	/**
 	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zur�ck
 	 * 
@@ -123,10 +123,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
-	
-	public Object getCurrentState(){
-		return gameBoard;		
-	} 
+
+	public Object getCurrentState() {
+		return gameBoard;
+	}
 
 	public void loadGame(String location) throws IOException {
 		FileSystemObjectStorage storage = new FileSystemObjectStorage();
@@ -166,9 +166,13 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 * @return Zeitstring
 	 */
 	public String elapsedGameTime() {
-		Date date = new Date(System.currentTimeMillis() - gameStartTime);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		return dateFormat.format(date);
+		if (gameStartTime > 0) {
+			Date date = new Date(System.currentTimeMillis() - gameStartTime - 60*60*1000);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+			return dateFormat.format(date);
+		} else {
+			return "Game not started";
+		}
 	}
 
 	/**
