@@ -54,29 +54,39 @@ public class TestController extends TestCase {
 		super.setUp();
 		boardCreationController = new RushHourBoardCreationController();
 
-		car1 = boardCreationController.createCar(new Point(0, 0),
-				Orientation.SOUTH, false);
-		car2 = boardCreationController.createCar(new Point(1, 1),
-				Orientation.EAST, false);
-		car3 = boardCreationController.createCar(new Point(3, 1),
-				Orientation.EAST, false);
+		car1 =
+				boardCreationController.createCar(new Point(0, 0),
+						Orientation.SOUTH, false);
+		car2 =
+				boardCreationController.createCar(new Point(1, 1),
+						Orientation.EAST, false);
+		car3 =
+				boardCreationController.createCar(new Point(3, 1),
+						Orientation.EAST, false);
 
-		playerCar = boardCreationController.createPlayerCar(new Point(0, 2),
-				new Point(5, 2), Orientation.EAST);
+		playerCar =
+				boardCreationController.createPlayerCar(new Point(0, 2),
+						new Point(5, 2), Orientation.EAST);
 
-		car4 = boardCreationController.createCar(new Point(0, 3),
-				Orientation.EAST, false);
-		car5 = boardCreationController.createCar(new Point(2, 2),
-				Orientation.SOUTH, false);
-		car6 = boardCreationController.createCar(new Point(3, 2),
-				Orientation.SOUTH, false);
-		car7 = boardCreationController.createCar(new Point(1, 4),
-				Orientation.SOUTH, false);
+		car4 =
+				boardCreationController.createCar(new Point(0, 3),
+						Orientation.EAST, false);
+		car5 =
+				boardCreationController.createCar(new Point(2, 2),
+						Orientation.SOUTH, false);
+		car6 =
+				boardCreationController.createCar(new Point(3, 2),
+						Orientation.SOUTH, false);
+		car7 =
+				boardCreationController.createCar(new Point(1, 4),
+						Orientation.SOUTH, false);
 
-		truck1 = boardCreationController.createTruck(new Point(2, 5),
-				Orientation.EAST, false);
-		truck2 = boardCreationController.createTruck(new Point(4, 2),
-				Orientation.SOUTH, false);
+		truck1 =
+				boardCreationController.createTruck(new Point(2, 5),
+						Orientation.EAST, false);
+		truck2 =
+				boardCreationController.createTruck(new Point(4, 2),
+						Orientation.SOUTH, false);
 
 		listOfCars = new ArrayList<IGameBoardObject>();
 		listOfCars.add(car1);
@@ -120,8 +130,8 @@ public class TestController extends TestCase {
 	}
 
 	public void testGameBoardObjects() {
-		Collection<IGameBoardObject> boardObjects = boardCreationController
-				.getGameBoardObjects();
+		Collection<IGameBoardObject> boardObjects =
+				boardCreationController.getGameBoardObjects();
 		assertEquals(10, boardObjects.size());
 
 		boardCreationController.removeObjectFromBoard(car4);
@@ -131,8 +141,8 @@ public class TestController extends TestCase {
 	}
 
 	public void testGameStore() {
-		GameBoard currentState = (GameBoard) gamePlayController
-				.getCurrentState();
+		GameBoard currentState =
+				(GameBoard) gamePlayController.getCurrentState();
 		try {
 			gamePlayController.saveGame("temp_junit_serialized_game.tmp");
 		} catch (IOException e) {
@@ -142,10 +152,10 @@ public class TestController extends TestCase {
 		}
 
 		new RushHourBoardCreationController(6, 6);
-		GameBoard emptyBoard = (GameBoard) boardCreationController
-				.getCurrentState();
-		RushHourGameplayControler anotherGamePlayControler = new RushHourGameplayControler(
-				emptyBoard);
+		GameBoard emptyBoard =
+				(GameBoard) boardCreationController.getCurrentState();
+		RushHourGameplayControler anotherGamePlayControler =
+				new RushHourGameplayControler(emptyBoard);
 
 		try {
 			anotherGamePlayControler.loadGame("temp_junit_serialized_game.tmp");
@@ -250,7 +260,8 @@ public class TestController extends TestCase {
 			fail();
 		}
 
-		RushHourBoardCreationController newController = new RushHourBoardCreationController();
+		RushHourBoardCreationController newController =
+				new RushHourBoardCreationController();
 
 		try {
 			newController.loadGameBoard("bctest.ser");
@@ -289,9 +300,8 @@ public class TestController extends TestCase {
 
 		for (IMove iMove : solverMoves) {
 			try {
-				gamePlayController.moveCar(
-						(IGameBoardObject) iMove.getMoveable(),
-						iMove.getDistance());
+				gamePlayController.moveCar((IGameBoardObject) iMove
+						.getMoveable(), iMove.getDistance());
 			} catch (IllegalMoveException e) {
 				fail("solver delivered illegal moves!");
 			}
@@ -301,8 +311,9 @@ public class TestController extends TestCase {
 	}
 
 	public void testUnlockAllCars() throws IllegalBoardPositionException {
-		SteeringLock steeringLockCar = (SteeringLock) boardCreationController
-				.createCar(new Point(5, 0), Orientation.SOUTH, true);
+		SteeringLock steeringLockCar =
+				(SteeringLock) boardCreationController.createCar(
+						new Point(5, 0), Orientation.SOUTH, true);
 		try {
 			steeringLockCar.move(2);
 		} catch (IllegalMoveException e) {

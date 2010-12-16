@@ -111,8 +111,9 @@ public abstract class AbstractGameBoardObject implements IGameBoardObject,
 		final int prime = 20533;
 		int result = 1;
 		result = prime * result + collisionMap.length;
-		result = prime * result
-				+ ((orientation == null) ? 0 : orientation.hashCode());
+		result =
+				prime * result
+						+ ((orientation == null) ? 0 : orientation.hashCode());
 		result = prime * result + ((position == null) ? 0 : position.x);
 		result = prime * result + ((position == null) ? 0 : position.y);
 

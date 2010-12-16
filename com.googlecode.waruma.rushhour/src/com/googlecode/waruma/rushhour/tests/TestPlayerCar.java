@@ -47,8 +47,9 @@ public class TestPlayerCar extends TestCase {
 		super.setUp();
 		collisionMap = new Boolean[][] { { true, true } };
 		collisionDetector = new CollisionDetector(6);
-		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
-				collisionDetector);
+		car =
+				new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
+						collisionDetector);
 		car.setDestination(new Point(4, 2));
 
 		mockObserver1 = new MockObserver();
@@ -60,8 +61,9 @@ public class TestPlayerCar extends TestCase {
 	}
 
 	public void testConstructorWithDestination() {
-		car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
-				new Point(4, 3), collisionDetector);
+		car =
+				new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
+						new Point(4, 3), collisionDetector);
 		assertEquals(collisionMap, car.getCollisionMap());
 		assertEquals(new Point(4, 3), car.getDestination());
 		assertEquals(new Point(5, 5), car.getPosition());

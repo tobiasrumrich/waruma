@@ -18,8 +18,9 @@ public class TestMove extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Boolean[][] collisionMap = { { true, true } };
-		iMoveable = new StandardCar(collisionMap, new Point(2, 3),
-				Orientation.NORTH);
+		iMoveable =
+				new StandardCar(collisionMap, new Point(2, 3),
+						Orientation.NORTH);
 	}
 
 	public void testGetDistance() {

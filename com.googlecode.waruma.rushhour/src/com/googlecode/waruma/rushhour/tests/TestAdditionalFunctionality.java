@@ -33,10 +33,12 @@ public class TestAdditionalFunctionality extends TestCase {
 
 		Boolean[][] collisionMap = new Boolean[][] { { true, true } };
 		CollisionDetector collisionDetector = new CollisionDetector(6);
-		PlayerCar car = new PlayerCar(collisionMap, new Point(5, 5),
-				Orientation.NORTH, collisionDetector);
-		StandardCar standardCar = new StandardCar(new Boolean[][] { { true,
-				true } }, new Point(3, 3), Orientation.NORTH);
+		PlayerCar car =
+				new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH,
+						collisionDetector);
+		StandardCar standardCar =
+				new StandardCar(new Boolean[][] { { true, true } }, new Point(
+						3, 3), Orientation.NORTH);
 		steeringLockCar = new SteeringLock(standardCar);
 
 		aFunc = new MockAbstractAdditionalFunctionality(car);

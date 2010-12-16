@@ -91,14 +91,18 @@ public class TestCollisionDetector extends TestCase {
 		collisionMapCar = new Boolean[2][0];
 		collisionMapTruck = new Boolean[3][0];
 
-		moveable1 = new MockMoveable(collisionMapCar, new Point(0, 0),
-				Orientation.WEST);
-		moveable2 = new MockMoveable(collisionMapCar, new Point(0, 0),
-				Orientation.EAST);
-		moveable3 = new MockMoveable(collisionMapTruck, new Point(0, 0),
-				Orientation.NORTH);
-		moveable4 = new MockMoveable(collisionMapTruck, new Point(0, 0),
-				Orientation.SOUTH);
+		moveable1 =
+				new MockMoveable(collisionMapCar, new Point(0, 0),
+						Orientation.WEST);
+		moveable2 =
+				new MockMoveable(collisionMapCar, new Point(0, 0),
+						Orientation.EAST);
+		moveable3 =
+				new MockMoveable(collisionMapTruck, new Point(0, 0),
+						Orientation.NORTH);
+		moveable4 =
+				new MockMoveable(collisionMapTruck, new Point(0, 0),
+						Orientation.SOUTH);
 	}
 
 	@Override
@@ -292,7 +296,8 @@ public class TestCollisionDetector extends TestCase {
 	}
 
 	public void testMoveNonGameBoardObject() {
-		MockMoveableNoGameBoardObject noGameBoardObject = new MockMoveableNoGameBoardObject();
+		MockMoveableNoGameBoardObject noGameBoardObject =
+				new MockMoveableNoGameBoardObject();
 		IMove move = new Move(noGameBoardObject, 2);
 		boolean throwsException = false;
 		try {

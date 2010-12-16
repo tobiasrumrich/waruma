@@ -105,12 +105,12 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	@Override
 	public void checkMove(IMove move) throws IllegalMoveException {
 		if (move.getMoveable() instanceof IGameBoardObject) {
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move
-					.getMoveable();
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject);
-			CollisionVector moveBoundries = new CollisionVector(
-					gameBoardObject, move.getDistance());
+			IGameBoardObject gameBoardObject =
+					(IGameBoardObject) move.getMoveable();
+			CollisionVector objectBoundries =
+					new CollisionVector(gameBoardObject);
+			CollisionVector moveBoundries =
+					new CollisionVector(gameBoardObject, move.getDistance());
 			// Objekt von der Karte entfernen
 			clearCollisionMap(objectBoundries);
 			// Zug Prüfen
@@ -145,8 +145,8 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	@Override
 	public void doMove(IMove move) throws IllegalMoveException {
 		if (move.equals(lastCheckedMove)) {
-			CollisionVector objectBoundries = new CollisionVector(
-					(IGameBoardObject) move.getMoveable());
+			CollisionVector objectBoundries =
+					new CollisionVector((IGameBoardObject) move.getMoveable());
 			clearCollisionMap(objectBoundries);
 			objectBoundries.moveBy(move.getDistance());
 			fillCollisionMap(objectBoundries);
@@ -204,8 +204,8 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	@Override
 	public Rectangle getMoveRange(IGameBoardObject gameBoardObject) {
 		try {
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject);
+			CollisionVector objectBoundries =
+					new CollisionVector(gameBoardObject);
 			clearCollisionMap(objectBoundries);
 
 			boolean validMove = true;
@@ -226,9 +226,8 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 
 			fillCollisionMap(new CollisionVector(gameBoardObject));
 
-			return new Rectangle(objectBoundries.getSource().x,
-					objectBoundries.getSource().y,
-					objectBoundries.getDistance(), 1);
+			return new Rectangle(objectBoundries.getSource().x, objectBoundries
+					.getSource().y, objectBoundries.getDistance(), 1);
 		} catch (IllegalMoveException e) {
 			return null;
 		}
@@ -244,8 +243,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.deepHashCode(collisionMap);
-		result = prime * result
-				+ ((lastCheckedMove == null) ? 0 : lastCheckedMove.hashCode());
+		result =
+				prime
+						* result
+						+ ((lastCheckedMove == null) ? 0 : lastCheckedMove
+								.hashCode());
 		return result;
 	}
 
@@ -260,7 +262,8 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	@Override
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 		try {
-			CollisionVector collisionPath = new CollisionVector(gameBoardObject);
+			CollisionVector collisionPath =
+					new CollisionVector(gameBoardObject);
 			List<Point> pathPoints = collisionPath.getPoints();
 
 			for (Point pathPoint : pathPoints) {
@@ -288,10 +291,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 			Point position) throws IllegalBoardPositionException {
 
 		try {
-			CollisionVector oldObjectBoundries = new CollisionVector(
-					gameBoardObject);
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject);
+			CollisionVector oldObjectBoundries =
+					new CollisionVector(gameBoardObject);
+			CollisionVector objectBoundries =
+					new CollisionVector(gameBoardObject);
 			objectBoundries.setAbsolutePosition(position);
 			clearCollisionMap(oldObjectBoundries);
 			// Keine Kollision
@@ -337,10 +340,10 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	public void rotateGameBoardObject(IGameBoardObject gameBoardObject,
 			Orientation orientation) throws IllegalBoardPositionException {
 		try {
-			CollisionVector oldObjectBoundries = new CollisionVector(
-					gameBoardObject);
-			CollisionVector objectBoundries = new CollisionVector(
-					gameBoardObject, orientation);
+			CollisionVector oldObjectBoundries =
+					new CollisionVector(gameBoardObject);
+			CollisionVector objectBoundries =
+					new CollisionVector(gameBoardObject, orientation);
 
 			clearCollisionMap(oldObjectBoundries);
 			// Keine Kollision

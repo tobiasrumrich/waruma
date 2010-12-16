@@ -30,8 +30,9 @@ public class CollisionVector {
 			throw new IllegalMoveException();
 		}
 
-		source = new Point(gameBoardObject.getPosition().x,
-				gameBoardObject.getPosition().y);
+		source =
+				new Point(gameBoardObject.getPosition().x, gameBoardObject
+						.getPosition().y);
 		orientation = gameBoardObject.getOrientation();
 		distance = gameBoardObject.getCollisionMap().length - 1;
 		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
@@ -76,8 +77,9 @@ public class CollisionVector {
 			throw new IllegalMoveException();
 		}
 
-		source = new Point(gameBoardObject.getPosition().x,
-				gameBoardObject.getPosition().y);
+		source =
+				new Point(gameBoardObject.getPosition().x, gameBoardObject
+						.getPosition().y);
 		this.orientation = orientation;
 		distance = gameBoardObject.getCollisionMap().length - 1;
 		// Vektorursprung auf hinterstes Feld des GameBoardObjects setzen
@@ -124,11 +126,13 @@ public class CollisionVector {
 		List<Point> list = new ArrayList<Point>();
 
 		if (distance >= 0) {
-			for (int currentDistance = 0; currentDistance <= distance; currentDistance++) {
+			for (int currentDistance = 0; currentDistance <= distance; 
+			currentDistance++) {
 				list.add(getPointAt(currentDistance));
 			}
 		} else {
-			for (int currentDistance = 0; currentDistance >= distance; currentDistance--) {
+			for (int currentDistance = 0; currentDistance >= distance; 
+			currentDistance--) {
 				list.add(getPointAt(currentDistance));
 			}
 		}

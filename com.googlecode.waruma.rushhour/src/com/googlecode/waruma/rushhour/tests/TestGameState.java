@@ -24,7 +24,8 @@ public class TestGameState extends TestCase {
 
 	private class MockSubject implements IPlayer {
 
-		private List<IReachedDestinationObserver> observers = new ArrayList<IReachedDestinationObserver>();
+		private List<IReachedDestinationObserver> observers =
+				new ArrayList<IReachedDestinationObserver>();
 
 		@Override
 		public Point getDestination() {

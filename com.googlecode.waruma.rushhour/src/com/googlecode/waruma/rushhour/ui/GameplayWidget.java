@@ -10,10 +10,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.swtdesigner.SWTResourceManager;
+
 /**
  * Composite fÃ¼r die Spielkontrolle
+ * 
  * @author Rumrich
- *
+ * 
  */
 public class GameplayWidget extends Composite {
 
@@ -29,14 +31,15 @@ public class GameplayWidget extends Composite {
 
 	/**
 	 * Create the composite.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
-	public GameplayWidget(final RushHour mainWindow, Composite parent, int style) {
+	public GameplayWidget(final RushHour mainWindow, Composite parent, 
+			int style) {
 		super(parent, style);
 		this.mainWindow = mainWindow;
-		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
-				true, 1, 1));
+		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		GridLayout gl_cmpSpielkontrolle = new GridLayout(2, false);
 		gl_cmpSpielkontrolle.marginWidth = 3;
 		gl_cmpSpielkontrolle.marginTop = 3;
@@ -47,8 +50,8 @@ public class GameplayWidget extends Composite {
 		this.setLayout(gl_cmpSpielkontrolle);
 
 		Label lblSpieldaten = new Label(this, SWT.NONE);
-		GridData gd_lblSpieldaten = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
+		GridData gd_lblSpieldaten =
+				new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
 		gd_lblSpieldaten.widthHint = 150;
 		lblSpieldaten.setLayoutData(gd_lblSpieldaten);
 		lblSpieldaten.setFont(SWTResourceManager.getFont("Segoe UI", 9,
@@ -56,95 +59,94 @@ public class GameplayWidget extends Composite {
 		lblSpieldaten.setText("Spieldaten");
 
 		lblZeit = new Label(this, SWT.NONE);
-		
+
 		lblZeit.setText("Zeit");
 
 		lblTime = new Label(this, SWT.NONE);
 		lblTime.setText("00:00:00");
 
 		lblZge = new Label(this, SWT.NONE);
-		GridData gd_lblZge = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
+		GridData gd_lblZge =
+				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblZge.heightHint = 42;
 		lblZge.setLayoutData(gd_lblZge);
 		lblZge.setText("Züge");
 
 		lblMoves = new Label(this, SWT.NONE);
 		lblMoves.setText("0");
-		GridData gd_lblMoves = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
+		GridData gd_lblMoves =
+				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblMoves.widthHint = 170;
 		gd_lblMoves.heightHint = 42;
 		lblMoves.setLayoutData(gd_lblMoves);
-
-		
 
 		Button btnLoesen = new Button(this, SWT.NONE);
 		btnLoesen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				2, 1));
 		btnLoesen.setText("Spielfeld lösen");
 		btnLoesen.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				mainWindow.solveGameBoard();
 			}
-			
+
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
 		});
 
 		btnRueckwaerts = new Button(this, SWT.NONE);
-		btnRueckwaerts.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1,
-				1));
+		btnRueckwaerts.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
+				false, 1, 1));
 		btnRueckwaerts.setText("<<<");
 		btnRueckwaerts.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				mainWindow.undoLatestMove();
-				
+
 			}
-			
+
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
 		});
 
 		btnVorwaerts = new Button(this, SWT.NONE);
-		btnVorwaerts.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false,
-				1, 1));
+		btnVorwaerts.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true,
+				false, 1, 1));
 		btnVorwaerts.setEnabled(false);
 		btnVorwaerts.setText(">>>");
 		btnVorwaerts.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				mainWindow.doMoveFromSolver();
-				
+
 			}
-			
+
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
 		});
-		
-		
+
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 
 	}
-	
-	public void showForthButton(boolean show){
+
+	public void showForthButton(boolean show) {
 		btnVorwaerts.setEnabled(show);
 	}
-	
-	public void showBackButton(boolean show){
+
+	public void showBackButton(boolean show) {
 		btnRueckwaerts.setEnabled(show);
 	}
-	
+
 	public Label getLblTime() {
 		return lblTime;
 	}
-	
 
 	@Override
 	protected void checkSubclass() {

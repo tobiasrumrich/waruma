@@ -79,8 +79,9 @@ public class RushHourBoardCreationController {
 			Orientation orientation, boolean steeringLock)
 			throws IllegalBoardPositionException {
 
-		IGameBoardObject car = new StandardCar(new Boolean[][] { { true },
-				{ true } }, swtToAwtPoint(position), orientation);
+		IGameBoardObject car =
+				new StandardCar(new Boolean[][] { { true }, { true } },
+						swtToAwtPoint(position), orientation);
 
 		if (steeringLock) {
 			car = new SteeringLock((AbstractMoveable) car);
@@ -105,16 +106,19 @@ public class RushHourBoardCreationController {
 	 *             Bei ungültigen Positionen oder bereits vorhandenem
 	 *             Spielerauto
 	 */
-	public IGameBoardObject createPlayerCar(
-			org.eclipse.swt.graphics.Point position,
-			org.eclipse.swt.graphics.Point destination, Orientation orientation)
-			throws IllegalBoardPositionException {
+	public IGameBoardObject
+			createPlayerCar(org.eclipse.swt.graphics.Point position,
+					org.eclipse.swt.graphics.Point destination,
+					Orientation orientation)
+					throws IllegalBoardPositionException {
 		if (hasPlayer) {
 			throw new IllegalBoardPositionException(
 					"Es ist nur ein Spielerauto zulässig!");
 		}
-		PlayerCar car = new PlayerCar(new Boolean[][] { { true }, { true } },
-				swtToAwtPoint(position), orientation, collisionDetector);
+		PlayerCar car =
+				new PlayerCar(new Boolean[][] { { true }, { true } },
+						swtToAwtPoint(position), orientation, 
+						collisionDetector);
 		car.setDestination(swtToAwtPoint(destination));
 		// throws IllegalBoardPositionException
 		gameBoard.addGameBoardObject(car);
@@ -138,8 +142,10 @@ public class RushHourBoardCreationController {
 	public IGameBoardObject createTruck(
 			org.eclipse.swt.graphics.Point position, Orientation orientation,
 			boolean steeringLock) throws IllegalBoardPositionException {
-		IGameBoardObject truck = new StandardCar(new Boolean[][] { { true },
-				{ true }, { true } }, swtToAwtPoint(position), orientation);
+		IGameBoardObject truck =
+				new StandardCar(
+						new Boolean[][] { { true }, { true }, { true } },
+						swtToAwtPoint(position), orientation);
 
 		if (steeringLock) {
 			truck = new SteeringLock((AbstractMoveable) truck);
@@ -159,10 +165,11 @@ public class RushHourBoardCreationController {
 	}
 
 	public void loadGameBoard(String location) throws IOException {
-		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
+		FileSystemObjectStorage fileSystemObjectStorage =
+				new FileSystemObjectStorage();
 		try {
-			gameBoard = (GameBoard) fileSystemObjectStorage
-					.deserialize(location);
+			gameBoard =
+					(GameBoard) fileSystemObjectStorage.deserialize(location);
 			collisionDetector = gameBoard.getCollisionDetector();
 			gameBoard.rebuildGameBoardObjects();
 			unlockAllCars();
@@ -187,7 +194,8 @@ public class RushHourBoardCreationController {
 	}
 
 	public void saveGameBoard(String location) throws IOException {
-		FileSystemObjectStorage fileSystemObjectStorage = new FileSystemObjectStorage();
+		FileSystemObjectStorage fileSystemObjectStorage =
+				new FileSystemObjectStorage();
 		fileSystemObjectStorage.serialize(gameBoard, location);
 	}
 
@@ -200,8 +208,8 @@ public class RushHourBoardCreationController {
 	}
 
 	public void unlockAllCars() {
-		Collection<IGameBoardObject> boardObjects = gameBoard
-				.getGameBoardObjects();
+		Collection<IGameBoardObject> boardObjects =
+				gameBoard.getGameBoardObjects();
 		SteeringLock currentLockable;
 		for (IGameBoardObject boardObject : boardObjects) {
 			if (boardObject instanceof IPlayer) {

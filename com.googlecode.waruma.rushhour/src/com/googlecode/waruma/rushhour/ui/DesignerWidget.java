@@ -32,21 +32,26 @@ public class DesignerWidget extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public DesignerWidget(final RushHour mainWindow, Composite parent,
-			int style) {
+	public DesignerWidget(final RushHour mainWindow, Composite parent, int style) {
 		super(parent, style);
 		this.setLayout(new GridLayout(2, false));
 		this.mainWindow = mainWindow;
 
 		carCreationComposite = new Composite(this, SWT.NONE);
 		carCreationComposite.setLayout(null);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false,
-				2, 1);
+		GridData gd_composite =
+				new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
 		gd_composite.heightHint = 282;
 		carCreationComposite.setLayoutData(gd_composite);
 
-		designerPreviewCar = new CarWidget(carCreationComposite, mainWindow, 11, 3,
-				RushHour.IMAGEBASEPATH + "2F_car_Peterwagen_carimg.png", false, false);
+		designerPreviewCar =
+				new CarWidget(
+						carCreationComposite,
+						mainWindow,
+						11,
+						3,
+						RushHour.IMAGEBASEPATH + "2F_car_Peterwagen_carimg.png",
+						false, false);
 		designerPreviewCar.setBounds(68, 22, 100, 200);
 
 		designerPreviewCar.addMouseListener(new MouseListener() {
@@ -58,46 +63,51 @@ public class DesignerWidget extends Composite {
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				String imageFileName = data[carImageComoBox.getSelectionIndex()];
+				String imageFileName =
+						data[carImageComoBox.getSelectionIndex()];
 
 				int carLength = 2;
 
-				if(carTypeComboBox.getSelectionIndex() == 1)
+				if (carTypeComboBox.getSelectionIndex() == 1)
 					carLength = 3;
-				
+
 				boolean isPlayer = false;
-				
-				if(carTypeComboBox.getSelectionIndex() == 2)
+
+				if (carTypeComboBox.getSelectionIndex() == 2)
 					isPlayer = true;
-				
-				CarWidget newCarFromDesigner = new CarWidget(
-						mainWindow.shell, mainWindow, 1, carLength, RushHour.IMAGEBASEPATH
-								+ imageFileName, lenkradschloss.getSelection(), isPlayer);
-				
-				
+
+				CarWidget newCarFromDesigner =
+						new CarWidget(mainWindow.shell, mainWindow, 1,
+								carLength, RushHour.IMAGEBASEPATH
+										+ imageFileName, lenkradschloss
+										.getSelection(), isPlayer);
+
 				newCarFromDesigner.moveAbove(mainWindow.mainComposite);
-				
+
 				for (CarWidget car : mainWindow.carPool) {
 					car.moveBelow(newCarFromDesigner);
 				}
-				
-				
-				if(carTypeComboBox.getSelectionIndex() == 2){
-					newCarFromDesigner.updateRushHourListener(new DesignerPlayerCarMouseListener(
-							mainWindow, newCarFromDesigner));
-				}else{
-					newCarFromDesigner.updateRushHourListener(new DesignerCarMouseListener(
-							mainWindow, newCarFromDesigner));
+
+				if (carTypeComboBox.getSelectionIndex() == 2) {
+					newCarFromDesigner
+							.updateRushHourListener(
+									new DesignerPlayerCarMouseListener(
+									mainWindow, newCarFromDesigner));
+				} else {
+					newCarFromDesigner
+							.updateRushHourListener(
+									new DesignerCarMouseListener(
+									mainWindow, newCarFromDesigner));
 				}
-				
+
 				newCarFromDesigner.setSize(mainWindow.abstractGameBoardWidget
 						.getCurrentFieldSize());
-				newCarFromDesigner.setLocation(
-						arg0.x + designerPreviewCar.getLocation().x
-								+ mainWindow.tabFolder.getLocation().x,
+				newCarFromDesigner.setLocation(arg0.x
+						+ designerPreviewCar.getLocation().x
+						+ mainWindow.tabFolder.getLocation().x,
 
-						arg0.y + designerPreviewCar.getLocation().y
-								+ mainWindow.tabFolder.getLocation().y);
+				arg0.y + designerPreviewCar.getLocation().y
+						+ mainWindow.tabFolder.getLocation().y);
 				mainWindow.carPool.add(newCarFromDesigner);
 			}
 
@@ -129,7 +139,8 @@ public class DesignerWidget extends Composite {
 		carImageComoBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String imageFileName = data[carImageComoBox.getSelectionIndex()];
+				String imageFileName =
+						data[carImageComoBox.getSelectionIndex()];
 
 				designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH
 						+ imageFileName);
@@ -222,7 +233,6 @@ public class DesignerWidget extends Composite {
 		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-
 		lenkradschloss = new Button(this, SWT.CHECK);
 		lenkradschloss.setText("Lenkradschloss");
 		Label label = new Label(this, SWT.NONE);
@@ -231,19 +241,18 @@ public class DesignerWidget extends Composite {
 		new Label(this, SWT.NONE);
 
 	}
-	
-	
+
 	protected void addPlayerCarToCombobox() {
 		carTypeComboBox.setItems(new String[] { "PKW (belegt 2 Felder)",
-				"LKW (belegt 3 Felder)", "Spieler (belegt 2 Felder)"});
+				"LKW (belegt 3 Felder)", "Spieler (belegt 2 Felder)" });
 		carTypeComboBox.select(0);
 	}
-	
-	protected void removePlayerCarToCombobox(){
+
+	protected void removePlayerCarToCombobox() {
 		carTypeComboBox.setItems(new String[] { "PKW (belegt 2 Felder)",
-				"LKW (belegt 3 Felder)"});
+				"LKW (belegt 3 Felder)" });
 		carTypeComboBox.select(0);
-		
+
 		List<ImageBean> images = mainWindow.availableCars;
 		labels = new String[images.size()];
 		data = new String[images.size()];
@@ -251,9 +260,8 @@ public class DesignerWidget extends Composite {
 			labels[i] = images.get(i).getCarName();
 			data[i] = images.get(i).getFilename();
 		}
-		designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH
-				+ data[0]);
-		
+		designerPreviewCar.changeImage(RushHour.IMAGEBASEPATH + data[0]);
+
 		carImageComoBox.setItems(labels);
 		carImageComoBox.select(0);
 	}
