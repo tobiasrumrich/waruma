@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Implementiert die Basisfunktionalität zur Realisierung des {@link IGameBoardObject} Interface
  * 
- * @author Florian
+ * @author Tobias Rumrich
  */
 public abstract class AbstractGameBoardObject implements IGameBoardObject,
 		Serializable {

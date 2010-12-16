@@ -23,7 +23,7 @@ import com.googlecode.waruma.rushhour.framework.Move;
 /**
  * Verwaltet die Aufrufe der Spielablauflogik durch die Präsentationsschickt
  * 
- * @author Florian
+ * @author Tobias Rumrich, Fabian Malinowski, Florian Warninghoff
  */
 public class RushHourGameplayControler implements IGameWonSubject {
 
@@ -40,24 +40,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 		timerStarted = false;
 	}
 
-	/**
-	 * Erstellt einen neuen GamePlayControler durch laden eines Spielstandes
-	 * 
-	 * @param location
-	 *            Speicherort auf dem Datenträger
-	 * @throws IOException
-	 */
-	public RushHourGameplayControler(String location) throws IOException {
-		this();
 
-		FileSystemObjectStorage storage = new FileSystemObjectStorage();
-		try {
-			gameBoard = (GameBoard) storage.deserialize(location);
-			registerPlayer();
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException("No valid RushHour State");
-		}
-	}
 
 	/**
 	 * Erstellt einen neuen GamePlayControler aus dem übergebenen Spielstand

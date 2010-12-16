@@ -15,7 +15,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * Diese Klasse implementiert das Spielerauto. Bei erreichen des Ziels werden
  * die registrierten Observer benachrichtigt.
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	private static final long serialVersionUID = -5048696909045388704L;

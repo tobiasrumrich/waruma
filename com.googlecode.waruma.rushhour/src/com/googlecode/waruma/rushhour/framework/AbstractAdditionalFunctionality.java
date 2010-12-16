@@ -9,7 +9,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
  * Implementiert die Decorator-Durchreichung für Zusatzfunktionen von
  * beweglichen Spielbrettobjekten
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public abstract class AbstractAdditionalFunctionality extends AbstractMoveable
 		implements Serializable {

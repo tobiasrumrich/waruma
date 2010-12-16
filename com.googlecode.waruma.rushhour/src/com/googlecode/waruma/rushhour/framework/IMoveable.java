@@ -5,7 +5,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 /**
  * Schnittstelle für Bewegliche Objekte
  * 
- * @author Florian
+ * @author Tobias Rumrich
  */
 public interface IMoveable {
 

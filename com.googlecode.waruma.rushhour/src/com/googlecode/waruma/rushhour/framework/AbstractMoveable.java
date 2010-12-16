@@ -9,7 +9,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
  * Dummyklasse die {@link AbstractGameBoardObject} und {@link IMoveable} vereint
  * um den Decorator für alle Funktionen nutzbar zu machen
  * 
- * @author Florian
+ * @author Tobias Rumrich
  */
 public abstract class AbstractMoveable extends AbstractGameBoardObject
 		implements IMoveable, Serializable {

@@ -5,7 +5,7 @@ import java.awt.Point;
 /**
  * Stellt eine allgemeine Schnittstelle für Objekte auf dem Spielbrett dar
  * 
- * @author Fabian
+ * @author Fabian Malinowski
  */
 public interface IGameBoardObject {
 

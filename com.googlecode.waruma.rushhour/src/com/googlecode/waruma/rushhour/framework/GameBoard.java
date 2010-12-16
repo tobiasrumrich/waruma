@@ -16,7 +16,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
  * Das GameBoard orchestriet das Ausführen von Zügen und sorgt dafür, dass das
  * Spiel bei destruktiven Operationen in einem konsistenten Zustand bleibt.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public class GameBoard implements Serializable {
 	private static final long serialVersionUID = -7059872709872532815L;

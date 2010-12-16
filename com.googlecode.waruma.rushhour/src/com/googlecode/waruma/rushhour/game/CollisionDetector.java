@@ -17,7 +17,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 /**
  * Implementiert die RushHour spezifische Kollisionserkennung
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public class CollisionDetector implements ICollisionDetector, Serializable {
 	private static final long serialVersionUID = -121255920300069932L;

@@ -3,7 +3,7 @@ package com.googlecode.waruma.rushhour.framework;
 /**
  * Schnittstellendefinition für Observer die Player beobachten
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public interface IReachedDestinationObserver {
 

@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
@@ -335,7 +336,10 @@ public class TestController extends TestCase {
 	}
 	
 	public void testGetMoveRange(){
-		fail("not implemented");
+		Rectangle moveRange = gamePlayController.getMoveRange(car3);
+		assertEquals(3, moveRange.x);
+		assertEquals(1, moveRange.y);
+		assertEquals(2, moveRange.width);
 	}
 
 }

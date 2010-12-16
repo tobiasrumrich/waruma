@@ -3,7 +3,7 @@ package com.googlecode.waruma.rushhour.framework;
 /**
  * Schnittstellendefinition für einen Zug
  * 
- * @author Florian
+ * @author Tobias Rumrich
  */
 public interface IMove {
 

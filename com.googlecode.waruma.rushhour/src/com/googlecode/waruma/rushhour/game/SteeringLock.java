@@ -13,7 +13,7 @@ import com.googlecode.waruma.rushhour.framework.IGameBoardObject;
  * einmal bewegt wurde. Beim nächsten Versuch das Objekt zu bewegen, wird eine
  * IllegalMoveException geworfen.
  * 
- * @author fmalinowski
+ * @author Fabian Malinowski
  */
 
 public class SteeringLock extends AbstractAdditionalFunctionality implements

@@ -11,7 +11,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 /**
  * Diese Klasse implementiert den zur Kollisionserkennung verwendeten Vektor.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public class CollisionVector {
 	private Point source;

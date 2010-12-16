@@ -5,7 +5,7 @@ import java.awt.Point;
 /**
  * Schnittstelle für Spielerobjekte
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public interface IPlayer {
 

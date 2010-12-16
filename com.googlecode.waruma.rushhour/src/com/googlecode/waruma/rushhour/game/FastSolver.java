@@ -25,7 +25,7 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * wurde bei der Implementierung sehr auf Effizienz und weniger auf
  * Erweiterbarkeit und Verwenung bereits vorhandener Funktionalitüten geachtet.
  * 
- * @author Florian
+ * @author Florian Warninghoff
  */
 public class FastSolver implements ISolver {
 	private Set<Integer> visitedStates;

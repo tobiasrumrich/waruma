@@ -246,9 +246,10 @@ public class TestGameBoard extends TestCase {
 		
 	}
 	
-	public void testGetMoveRange() {
+	public void testMoveRange() throws IllegalBoardPositionException {
+		gameBoard.addGameBoardObject(moveableCar);
 		Rectangle moveRange = gameBoard.getMoveRange(moveableCar);
-		assertNotNull(moveRange);
+		assertNull(moveRange);
 	}
 	
 	public void testMoveHistory() throws IllegalMoveException,

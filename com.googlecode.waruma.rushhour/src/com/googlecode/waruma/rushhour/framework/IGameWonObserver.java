@@ -4,7 +4,7 @@ package com.googlecode.waruma.rushhour.framework;
  * Schnittstellte die für Spiel-Gewonnen Benachrichtigungen implementiert werden
  * muss
  * 
- * @author Florian
+ * @author Fabian Malinowski
  */
 public interface IGameWonObserver {
 
