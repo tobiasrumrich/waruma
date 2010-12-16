@@ -61,6 +61,7 @@ public class RushHour implements IGameWonObserver {
 	protected DesignerWidget abstractDesignerWidget;
 	private SpielkontrolleComposite cmpSpielkontrolle;
 	private Thread timeUpdaterThread;
+	private Display display;
 
 	/**
 	 * Launch the application.
@@ -81,14 +82,12 @@ public class RushHour implements IGameWonObserver {
 	 */
 	public void open() {
 		gameMode = true;
-		Display display = Display.getDefault();
+		display = Display.getDefault();
 		createContents();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
-				if (cmpSpielkontrolle != null && gameplayControler != null)
-					this.cmpSpielkontrolle.triggerElapsedTimeUpdate();
 				display.sleep();
 			}
 		}
@@ -247,10 +246,21 @@ public class RushHour implements IGameWonObserver {
 					this, currentCar));
 			currentCar.setLock();
 		}
-		timeUpdaterThread = new TimeUpdaterThread();
-		timeUpdaterThread.start();
+		
+		  final int time = 500;
+		    final Runnable timer = new Runnable() {
+		      public void run() {
+		        if (cmpSpielkontrolle.getLblTime().isDisposed() || tabFolder.getSelectionIndex() == 0 || mainComposite.isDisposed()) {
+		        	return;
+		        }
+		        cmpSpielkontrolle.getLblTime().setText(gameplayControler.elapsedGameTime());
+		        display.timerExec(time, this);
+		      }
+		    };
+		    display.timerExec(time, timer);
+	    
 	}
-
+	
 	protected void switchToDesigner() {
 		if (gameplayControler != null) {
 
@@ -271,7 +281,6 @@ public class RushHour implements IGameWonObserver {
 					currentCar.isLocked = false;
 				}
 			}
-			timeUpdaterThread.interrupt();
 		}
 	}
 

@@ -105,14 +105,10 @@ public class SpielkontrolleComposite extends Composite {
 
 	}
 	
-	public void triggerElapsedTimeUpdate() {
-		String elapsedGameTime = mainWindow.gameplayControler.elapsedGameTime();
-		lblTime.setText(mainWindow.gameplayControler.elapsedGameTime());
-	}
-	
-	public Label getTimeLabel() {
+	public Label getLblTime() {
 		return lblTime;
 	}
+	
 
 	@Override
 	protected void checkSubclass() {
