@@ -3,7 +3,6 @@ package com.googlecode.waruma.rushhour.framework;
 import java.io.Serializable;
 
 /**
- * Blablablabla
  * 
  * @author mail2fabi - Fabian Malinowski
  */

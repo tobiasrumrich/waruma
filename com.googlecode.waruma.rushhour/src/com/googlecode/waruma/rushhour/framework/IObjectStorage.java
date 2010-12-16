@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public interface IObjectStorage {
 	/**
-	 * Speichert ein Objekt an den über location übergebenen einen Speicherort.
+	 * Speichert ein Objekt an den Ã¼ber location Ã¼bergebenen einen Speicherort.
 	 * @param location ist der Speicherort(Filesystem, Database, FTP, WebDAV,...)
 	 */
 	public Object deserialize(String location) throws IOException, ClassNotFoundException;

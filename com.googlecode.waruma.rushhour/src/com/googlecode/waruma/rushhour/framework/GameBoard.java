@@ -13,7 +13,7 @@ import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
 /**
- * Das GameBoard orchestriet das Ausführen von Zügen und sorgt dafür, dass das
+ * Das GameBoard orchestriet das AusfÃ¼hren von ZÃ¼gen und sorgt dafÃ¼r, dass das
  * Spiel bei destruktiven Operationen in einem konsistenten Zustand bleibt.
  * 
  * @author Florian
@@ -27,12 +27,12 @@ public class GameBoard implements Serializable {
 	}
 
 	// Manuelle Implementierung eines Hash-Sets, da sich in der Java HashSet
-	// implementierung der Hash nicht bei Änderungen am Objekt mitändert
+	// implementierung der Hash nicht bei Ã„nderungen am Objekt mitÃ¤ndert
 	private Map<Integer, IGameBoardObject> gameBoardObjects;
 	private Stack<IMove> moveHistory;
 
 	/**
-	 * Erstellt eine neues GameBoard unter Verwendung des übergebenen
+	 * Erstellt eine neues GameBoard unter Verwendung des Ã¼bergebenen
 	 * CollisionDetectors
 	 * 
 	 * @param collisionDetector
@@ -44,7 +44,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Fügt dem Spielbrett ein neues GameBoardObject hinzu
+	 * FÃ¼gt dem Spielbrett ein neues GameBoardObject hinzu
 	 * 
 	 * @param gameBoardObject
 	 * @throws IllegalBoardPositionException
@@ -96,13 +96,13 @@ public class GameBoard implements Serializable {
 		gameBoardObjects.remove(gameBoardObject.hashCode());
 		// CollisionMap aktualisieren
 		gameBoardObject.setPosition(position);
-		// Wieder mit neuem Hash hinzufügen
+		// Wieder mit neuem Hash hinzufï¿½gen
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 
 	}
 
 	/**
-	 * Rotiert das übergebene Objekt in die übergebene Orientierung
+	 * Rotiert das Ã¼bergebene Objekt in die Ã¼bergebene Orientierung
 	 * 
 	 * @param gameBoardObject
 	 * @param orientation
@@ -120,7 +120,7 @@ public class GameBoard implements Serializable {
 		gameBoardObjects.remove(gameBoardObject.hashCode());
 		// CollisionMap aktualisieren
 		gameBoardObject.setOrientation(orientation);
-		// Wieder mit neuem Hash hinzufügen
+		// Wieder mit neuem Hash hinzufï¿½gen
 		gameBoardObjects.put(gameBoardObject.hashCode(), gameBoardObject);
 	}
 
@@ -136,7 +136,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Gibt die Liste der auf dem Spielbrett vorhandenen Autos zurück
+	 * Gibt die Liste der auf dem Spielbrett vorhandenen Autos zurÃ¼ck
 	 * 
 	 * @return Collection der Autos
 	 */
@@ -145,7 +145,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Gibt ein Rectangle mit dem gültigen Zugkorridor zurück
+	 * Gibt ein Rectangle mit dem gÃ¼ltigen Zugkorridor zurÃ¼ck
 	 * 
 	 * @param gameBoardObject
 	 * @return Zugkorridor
@@ -155,7 +155,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Macht den letzten ausgeführten Zug rückgängig
+	 * Macht den letzten ausgefÃ¼hrten Zug rÃ¼ckgÃ¤ngig
 	 * 
 	 * @return Bewegtes Objekt mit neuen Koordinaten
 	 */
@@ -174,7 +174,7 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Gibt den Stack der bisher ausgeführten Züge aus
+	 * Gibt den Stack der bisher ausgefÃ¼hrten ZÃ¼ge aus
 	 * 
 	 * @return MoveHistory Stack
 	 */
@@ -183,12 +183,12 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Prüft einen Zug und führt ihn, sofern möglich aus.
+	 * PrÃ¼ft einen Zug und fÃ¼hrt ihn, sofern mÃ¶glich, aus.
 	 * 
 	 * @param move
-	 *            Auszuführender Zug
+	 *            AuszufÃ¼hrender Zug
 	 * @throws IllegalMoveException
-	 *             Bei ungültigem Zug
+	 *             Bei ungÃ¼ltigem Zug
 	 */
 	private void checkAndDoMove(IMove move) throws IllegalMoveException {
 		IMoveable moveable = move.getMoveable();
@@ -198,7 +198,7 @@ public class GameBoard implements Serializable {
 			throw new IllegalMoveException();
 		}
 
-		// Zug prüfen
+		// Zug prÃ¼fen
 		collisionDetector.checkMove(move);
 		moveable.checkMove(distance);
 
@@ -213,16 +213,16 @@ public class GameBoard implements Serializable {
 	}
 
 	/**
-	 * Diese Methode führt einen Spielzug anhand des übergebenen IMove Objektes
-	 * aus, sofern die Prüfungen positiv waren.
+	 * Diese Methode fÃ¼hrt einen Spielzug anhand des Ã¼bergebenen IMove Objektes
+	 * aus, sofern die PrÃ¼fungen positiv waren.
 	 * 
 	 * @param move
-	 *            Auszuführender Zug
+	 *            AuszufÃ¼hrender Zug
 	 * @throws IllegalMoveException
-	 *             Bei ungültigem Zug
+	 *             Bei ungÃ¼ltigem Zug
 	 */
 	public void move(IMove move) throws IllegalMoveException {
-		// Zug durchführen
+		// Zug durchfÃ¼hren
 		checkAndDoMove(move);
 		// Move History aktualisieren
 		moveHistory.push(move);
