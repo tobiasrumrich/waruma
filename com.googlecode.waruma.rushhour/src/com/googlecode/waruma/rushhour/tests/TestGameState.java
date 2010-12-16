@@ -44,6 +44,12 @@ public class TestGameState extends TestCase {
 			// TODO Auto-generated method stub
 			return false;
 		}
+
+		@Override
+		public void unregisterAllObservers() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	private GameState gameState;

@@ -26,6 +26,12 @@ public class TestPlayerCar extends TestCase {
 		public void updateReachedDestination(IPlayer player) {
 			called = true;
 		}
+
+		@Override
+		public void addPlayer(IPlayer player) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	public Boolean[][] collisionMap;
