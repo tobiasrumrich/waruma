@@ -21,7 +21,7 @@ import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Move;
 
 /**
- * Verwaltet die Aufrufe der Spielablauflogik durch die Pr�sentationsschickt
+ * Verwaltet die Aufrufe der Spielablauflogik durch die Präsentationsschickt
  * 
  * @author Florian
  */
@@ -44,7 +44,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	 * Erstellt einen neuen GamePlayControler durch laden eines Spielstandes
 	 * 
 	 * @param location
-	 *            Speicherort auf dem Datentr�ger
+	 *            Speicherort auf dem Datenträger
 	 * @throws IOException
 	 */
 	public RushHourGameplayControler(String location) throws IOException {
@@ -60,7 +60,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Erstellt einen neuen GamePlayControler aus dem �bergebenen Spielstand
+	 * Erstellt einen neuen GamePlayControler aus dem übergebenen Spielstand
 	 * 
 	 * @param state
 	 *            Spielstand
@@ -80,7 +80,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zur�ck
+	 * Gibt eine Collection der auf dem Spielbrett vorhandenen Autos zurück
 	 * 
 	 * @return Liste der Autos
 	 */
@@ -89,7 +89,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * F�hrt einen Zug auf dem Spielbrett durch
+	 * Fährt einen Zug auf dem Spielbrett durch
 	 * 
 	 * @param gameBoardObject
 	 *            Zu bewegendes Objekt auf dem Spielbrett
@@ -113,8 +113,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Macht den zuletzt ausgef�hrten Zug r�ckg�ngig und gibt bei Erfolg das
-	 * bewegte Auto zur�ck
+	 * Macht den zuletzt ausgeführten Zug rückgängig und gibt bei Erfolg das
+	 * bewegte Auto zurück
 	 * 
 	 * @return Bewegtes Auto mit neuer Position
 	 */
@@ -158,10 +158,10 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Gibt die Liste mit den Notwendigen Z�gen zur L�sung des momentanen
+	 * Gibt die Liste mit den Notwendigen Zügen zur Lösung des momentanen
 	 * Spielbretts aus
 	 * 
-	 * @return Liste der Z�ge
+	 * @return Liste der Züge
 	 */
 	public List<IMove> solveGame() {
 		FastSolver fastSolver = new FastSolver(gameBoard);
@@ -169,7 +169,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Observer f�r Gewinnmitteilung registrieren
+	 * Observer für Gewinnmitteilung registrieren
 	 * 
 	 * @param eventTarget
 	 *            Ziel des Aufrufs
