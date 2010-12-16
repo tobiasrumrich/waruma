@@ -59,7 +59,7 @@ public class RushHour implements IGameWonObserver {
 	public List<ImageBean> availableTrucks;
 	public List<ImageBean> availablePlayers;
 	protected DesignerWidget abstractDesignerWidget;
-	private SpielkontrolleComposite cmpSpielkontrolle;
+	protected GameplayWidget gamePlayWidget;
 	private Thread timeUpdaterThread;
 	private Display display;
 
@@ -92,7 +92,6 @@ public class RushHour implements IGameWonObserver {
 			}
 		}
 	}
-
 
 	private void buildWindow() {
 		shell = new Shell();
@@ -172,7 +171,7 @@ public class RushHour implements IGameWonObserver {
 				MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO
 						| SWT.ICON_QUESTION);
 				messageBox
-						.setMessage("M�chten Sie diese Anwendung wirklich beenden?");
+						.setMessage("Möchten Sie RushHour wirklich beenden?");
 				int open = messageBox.open();
 				if (open == SWT.YES) {
 					shell.dispose();
@@ -189,6 +188,20 @@ public class RushHour implements IGameWonObserver {
 
 		MenuItem mntmberDasProgramm = new MenuItem(menu_2, SWT.NONE);
 		mntmberDasProgramm.setText("\u00DCber");
+	}
+	
+	public void undoLatestMove() {
+		if(gameplayControler != null){
+			IGameBoardObject boardObject = gameplayControler.undoLatestMove();
+			for (CarWidget car : carPool) {
+				if(car.gameObject.equals(boardObject)){
+					car.moveCarInUi();
+				}
+			}
+			if(!gameplayControler.hasMoveInHistory()){
+				gamePlayWidget.showBackButton(false);
+			}
+		}		
 	}
 
 	protected void initializeNewGame(String fileName) throws IOException {
@@ -215,8 +228,8 @@ public class RushHour implements IGameWonObserver {
 		}
 
 		for (IGameBoardObject boardObject : carsFromController) {
-			CarWidget abstractCarWidget = new CarWidget(shell,
-					this, boardObject);
+			CarWidget abstractCarWidget = new CarWidget(shell, this,
+					boardObject);
 
 			if (gameMode) {
 				if (boardObject instanceof IPlayer) {
@@ -247,21 +260,26 @@ public class RushHour implements IGameWonObserver {
 					this, currentCar));
 			currentCar.setLock();
 		}
+
+		gamePlayWidget.showBackButton(false);
 		
-		  final int time = 500;
-		    final Runnable timer = new Runnable() {
-		      public void run() {
-		        if (cmpSpielkontrolle.getLblTime().isDisposed() || tabFolder.getSelectionIndex() == 0 || mainComposite.isDisposed()) {
-		        	return;
-		        }
-		        cmpSpielkontrolle.getLblTime().setText(gameplayControler.elapsedGameTime());
-		        display.timerExec(time, this);
-		      }
-		    };
-		    display.timerExec(time, timer);
-	    
+		final int time = 500;
+		final Runnable timer = new Runnable() {
+			public void run() {
+				if (gamePlayWidget.getLblTime().isDisposed()
+						|| tabFolder.getSelectionIndex() == 0
+						|| mainComposite.isDisposed()) {
+					return;
+				}
+				gamePlayWidget.getLblTime().setText(
+						gameplayControler.elapsedGameTime());
+				display.timerExec(time, this);
+			}
+		};
+		display.timerExec(time, timer);
+
 	}
-	
+
 	protected void switchToDesigner() {
 		if (gameplayControler != null) {
 
@@ -315,8 +333,8 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpContainer.marginHeight = 0;
 		mainComposite.setLayout(gl_cmpContainer);
 
-		abstractGameBoardWidget = new GameBoardWidget(mainComposite,
-				SWT.NONE, BOARDWIDTH, BOARDHEIGHT);
+		abstractGameBoardWidget = new GameBoardWidget(mainComposite, SWT.NONE,
+				BOARDWIDTH, BOARDHEIGHT);
 		abstractGameBoardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 				true, true, 1, 1));
 		GridLayout gridLayout = (GridLayout) abstractGameBoardWidget
@@ -346,8 +364,7 @@ public class RushHour implements IGameWonObserver {
 		TabItem tbtmDesigner = new TabItem(tabFolder, SWT.NONE);
 		tbtmDesigner.setText("Designer");
 
-		abstractDesignerWidget = new DesignerWidget(this, tabFolder,
-				SWT.NONE);
+		abstractDesignerWidget = new DesignerWidget(this, tabFolder, SWT.NONE);
 		tbtmDesigner.setControl(abstractDesignerWidget);
 
 		tabSpielen = new TabItem(tabFolder, SWT.NONE);
@@ -366,12 +383,21 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
 
+<<<<<<< .mine
+		// cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
+		gamePlayWidget = new GameplayWidget(this, cmpSpiel, SWT.NONE);
+		// BEGIN
+		// cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL,
+		// false,
+		// true, 1, 1));
+=======
 		cmpSpielkontrolle = new SpielkontrolleComposite(this, cmpSpiel, SWT.NONE);
+>>>>>>> .r251
 
 		int minX = abstractGameBoardWidget.getMinWidth()
-				+ cmpSpielkontrolle.getBounds().width + 30;
+				+ gamePlayWidget.getBounds().width + 30;
 		int minY = abstractGameBoardWidget.getMinHeight()
-				+ cmpSpielkontrolle.getBounds().height + 30;
+				+ gamePlayWidget.getBounds().height + 30;
 		resizeToDefinition();
 
 		shell.addControlListener(new ControlListener() {
@@ -394,7 +420,7 @@ public class RushHour implements IGameWonObserver {
 		GameWonNotifier gameWonWindow = new GameWonNotifier(shell,"ZZ:YY:XX",33);
 		gameWonWindow.open();
 	}
-
+	
 	private void resizeToDefinition() {
 
 		if (abstractGameBoardWidget.getCurrentFieldSize().x > 0
@@ -412,5 +438,7 @@ public class RushHour implements IGameWonObserver {
 		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
 	}
+
+	
 
 }
