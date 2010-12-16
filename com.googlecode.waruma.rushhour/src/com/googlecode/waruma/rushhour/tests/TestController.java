@@ -307,7 +307,7 @@ public class TestController extends TestCase {
 		assertTrue(gamePlayController.hasMoveInHistory());
 	}
 	
-	public void testGetMoveCount() {
+	public void testGetMoveCountAndLatestMove() {
 		assertEquals(Integer.valueOf(0),gamePlayController.getMoveCount());
 		try {
 			gamePlayController.moveCar(car3, 1);
@@ -335,10 +335,6 @@ public class TestController extends TestCase {
 	}
 	
 	public void testGetMoveRange(){
-		fail("not implemented");
-	}
-	
-	public void testUndoLatestMove() {
 		fail("not implemented");
 	}
 
