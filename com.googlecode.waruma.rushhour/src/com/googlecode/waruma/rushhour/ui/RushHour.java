@@ -383,16 +383,9 @@ public class RushHour implements IGameWonObserver {
 		gl_cmpSpiel.horizontalSpacing = 10;
 		cmpSpiel.setLayout(gl_cmpSpiel);
 
-<<<<<<< .mine
-		// cmpSpielkontrolle = new Composite(cmpSpiel, SWT.NONE);
 		gamePlayWidget = new GameplayWidget(this, cmpSpiel, SWT.NONE);
-		// BEGIN
-		// cmpSpielkontrolle.setLayoutData(new GridData(SWT.LEFT, SWT.FILL,
-		// false,
-		// true, 1, 1));
-=======
-		cmpSpielkontrolle = new SpielkontrolleComposite(this, cmpSpiel, SWT.NONE);
->>>>>>> .r251
+
+
 
 		int minX = abstractGameBoardWidget.getMinWidth()
 				+ gamePlayWidget.getBounds().width + 30;

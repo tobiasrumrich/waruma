@@ -113,8 +113,8 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 
 	/**
-	 * Macht den zuletzt ausgeführten Zug rückgängig und gibt bei Erfolg das
-	 * bewegte Auto zurück
+	 * Macht den zuletzt ausgefï¿½hrten Zug rï¿½ckgï¿½ngig und gibt bei Erfolg das
+	 * bewegte Auto zurï¿½ck
 	 * 
 	 * @return Bewegtes Auto mit neuer Position
 	 */
@@ -123,7 +123,7 @@ public class RushHourGameplayControler implements IGameWonSubject {
 	}
 	
 	/**
-	 * Überprüft ob es einen Zug zum rückgängig machen in der MoveHistory gibt
+	 * ÃœberprÃ¼ft ob es einen Zug in der Movehistory gibt
 	 * 
 	 * @return True bei vorhandenem Zug
 	 */
