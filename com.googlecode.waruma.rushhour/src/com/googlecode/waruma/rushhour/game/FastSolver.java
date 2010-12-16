@@ -18,12 +18,12 @@ import com.googlecode.waruma.rushhour.framework.Move;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
- * Der FastSolver bestimmt für ein beliebiges Spielbrett, sofern vorhanden, die
- * beste Lösung. Er ist in der Lage die Lösung für das komplexeste bekannte
- * RushHour Spielbrett (24.000 Brettpositionen, 93 Züge bis zur Lösung) in
+ * Der FastSolver bestimmt fÃ¼r ein beliebiges Spielbrett, sofern vorhanden, die
+ * beste LÃ¶sung. Er ist in der Lage die LÃ¶sung fÃ¼r das komplexeste bekannte
+ * RushHour Spielbrett (24.000 Brettpositionen, 93 ZÃ¼ge bis zur LÃ¼sung) in
  * deutlich unter einer Sekunde zu berechnen. Um dieses Ergebnis zu erreichen
  * wurde bei der Implementierung sehr auf Effizienz und weniger auf
- * Erweiterbarkeit und Verwenung bereits vorhandener Funktionalitäten geachtet.
+ * Erweiterbarkeit und Verwenung bereits vorhandener FunktionalitÃ¼ten geachtet.
  * 
  * @author Florian
  */
@@ -34,7 +34,7 @@ public class FastSolver implements ISolver {
 	private byte solutionX, solutionY;
 
 	/**
-	 * Erstellt ein neue Instanz des Fastsolvers für das übergebene Spielbrett
+	 * Erstellt ein neue Instanz des Fastsolvers fÃ¼r das Ã¼bergebene Spielbrett
 	 * 
 	 * @param gameBoard
 	 *            Beliebiges RushHour-Spielbrett
@@ -53,9 +53,9 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Bestimmt über Breitensuche die zum Gewinnen nötigen Züge
+	 * Bestimmt Ã¼ber Breitensuche die zum Gewinnen nÃ¶tigen ZÃ¼ge
 	 * 
-	 * @return Liste der Züge zum Erreichen der Zielposition
+	 * @return Liste der ZÃ¼ge zum Erreichen der Zielposition
 	 */
 	public List<IMove> solveGameBoard() {
 		while (!stateQueue.isEmpty()) {
@@ -65,18 +65,18 @@ public class FastSolver implements ISolver {
 					&& currentState.player.y == solutionY) {
 				return reconstructMoveList(currentState);
 			}
-			// Züge ermitteln
+			// Zï¿½ge ermitteln
 			computeAllPossibleMoves(currentState);
 		}
 		return null;
 	}
 	
 	/**
-	 * Bestimmt alle in einem gegebenen SolverState durchführbaren Züge und
+	 * Bestimmt alle in einem gegebenen SolverState durchfÃ¼hrbaren ZÃ¼ge und
 	 * leitet diese an addStateToQueue weiter
 	 * 
 	 * @param state
-	 *            SolverState der geprüft wird
+	 *            SolverState der geprÃ¼ft wird
 	 */
 	private void computeAllPossibleMoves(FastSolverState state) {
 		byte listIndex = 0;
@@ -106,8 +106,8 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Erstellt den neuen SolverState auf der Basis des übergeben Status und
-	 * Zuges und fügt diesen, sofern er neu ist in die Queue der zu
+	 * Erstellt den neuen SolverState auf der Basis des Ã¼bergeben Status und
+	 * Zuges und fÃ¼gt diesen, sofern er neu ist in die Queue der zu
 	 * untersuchenden Stati ein.
 	 * 
 	 * @param state
@@ -129,12 +129,12 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Rekonstuiert von dem übergebenen Status aus eine Liste der bisher
-	 * getätigten Züge in Ausführungsreihenfolge
+	 * Rekonstuiert von dem Ã¼bergebenen Status aus eine Liste der bisher
+	 * getÃ¤tigten ZÃ¼ge in AusfÃ¼hrungsreihenfolge
 	 * 
 	 * @param currentState
 	 *            Solver-Status
-	 * @return Liste der Züge
+	 * @return Liste der ZÃ¼ge
 	 */
 	private List<IMove> reconstructMoveList(FastSolverState currentState) {
 		LinkedList<IMove> moveList = new LinkedList<IMove>();
@@ -158,7 +158,7 @@ public class FastSolver implements ISolver {
 	}
 
 	/**
-	 * Erstellt aus dem übergebenen GameBoardObject ein SolverCar mit den gleichen Eigenschaften
+	 * Erstellt aus dem Ã¼bergebenen GameBoardObject ein SolverCar mit den gleichen Eigenschaften
 	 * @param gameBoardObject Spielbrettobjekt
 	 * @return SolverCar
 	 */

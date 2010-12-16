@@ -14,8 +14,8 @@ import com.googlecode.waruma.rushhour.framework.IPlayer;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 
 /**
- * Stellt die Vermittlungsfunktionen zwischen Präsentation und Fachlogik zur
- * Erstellung von Spielfeldern zur Verfügung
+ * Stellt die Vermittlungsfunktionen zwischen PrÃ¤sentation und Fachlogik zur
+ * Erstellung von Spielfeldern zur VerfÃ¼gung
  * 
  * @author Fabian & Tobias
  */
@@ -35,7 +35,7 @@ public class RushHourBoardCreationController {
 	}
 	
 	/**
-	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurück
+	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurÃ¼ck
 	 * 
 	 * @param position
 	 *            Position auf dem Spielfeld
@@ -43,9 +43,9 @@ public class RushHourBoardCreationController {
 	 *            Orientierung des Autos
 	 * @param steeringLock
 	 *            Lenkradschloss
-	 * @return Hinzugefügtes Auto
+	 * @return HinzugefÃ¼gtes Auto
 	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position
+	 *             Bei einer ungÃ¼ltigen Position
 	 */
 	public IGameBoardObject createCar(org.eclipse.swt.graphics.Point position, Orientation orientation,
 			boolean steeringLock) throws IllegalBoardPositionException {
@@ -63,7 +63,7 @@ public class RushHourBoardCreationController {
 	}
 
 	/**
-	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurück
+	 * Erstellt ein Auto auf dem Spielbrett und gibt das GameBoardobjekt zurÃ¼ck
 	 * 
 	 * @param position
 	 *            Position auf dem Spielfeld
@@ -71,9 +71,9 @@ public class RushHourBoardCreationController {
 	 *            Orientierung des Autos
 	 * @param steeringLock
 	 *            Lenkradschloss
-	 * @return Hinzugefügtes Auto
+	 * @return HinzugefÃ¼gtes Auto
 	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position
+	 *             Bei einer ungÃ¼ltigen Position
 	 */
 	public IGameBoardObject createTruck(org.eclipse.swt.graphics.Point position, Orientation orientation,
 			boolean steeringLock) throws IllegalBoardPositionException {
@@ -98,16 +98,16 @@ public class RushHourBoardCreationController {
 	 *            Zielposition
 	 * @param orientation
 	 *            Orientierung
-	 * @return Hinzugefügtes Spielerauto
+	 * @return HinzugefÃ¼gtes Spielerauto
 	 * @throws IllegalBoardPositionException
-	 *             Bei ungültigen Positionen oder bereits vorhandenem
+	 *             Bei ungÃ¼ltigen Positionen oder bereits vorhandenem
 	 *             Spielerauto
 	 */
 	public IGameBoardObject createPlayerCar(org.eclipse.swt.graphics.Point position, org.eclipse.swt.graphics.Point destination,
 			Orientation orientation) throws IllegalBoardPositionException {
 		if (hasPlayer) {
 			throw new IllegalBoardPositionException(
-					"Es ist nur ein Spielerauto zulässig!");
+					"Es ist nur ein Spielerauto zulÃ¤ssig!");
 		}
 		PlayerCar car = new PlayerCar(new Boolean[][] { { true},{ true } },
 				swtToAwtPoint(position), orientation, collisionDetector);
@@ -123,7 +123,7 @@ public class RushHourBoardCreationController {
 	}
 	
 	/**
-	 * Ermöglicht das nachträgliche Verändern der Autoposition
+	 * ErmÃ¶glicht das nachtrÃ¤gliche VerÃ¤ndern der Autoposition
 	 * 
 	 * @param gameBoardObject
 	 * @param position

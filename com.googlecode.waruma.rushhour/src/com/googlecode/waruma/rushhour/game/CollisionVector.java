@@ -58,7 +58,7 @@ public class CollisionVector {
 	}
 
 	/**
-	 * Erzeugt einen neuen Kollisionsvektor für eine Zugdistanz aus einem
+	 * Erzeugt einen neuen Kollisionsvektor fÃ¼r eine Zugdistanz aus einem
 	 * Spielbrettobjekt.
 	 * 
 	 * @param gameBoardObject
@@ -76,7 +76,7 @@ public class CollisionVector {
 	}
 	
 	/**
-	 * Erzeugt einen neuen Kollisionsvektor für eine Zugdistanz aus einem
+	 * Erzeugt einen neuen Kollisionsvektor fÃ¼r eine Zugdistanz aus einem
 	 * Spielbrettobjekt.
 	 * 
 	 * @param gameBoardObject
@@ -108,7 +108,7 @@ public class CollisionVector {
 	
 
 	/**
-	 * Setzt den Vektorursprung um die übergebene Distanz um
+	 * Setzt den Vektorursprung um die Ã¼bergebene Distanz um
 	 * 
 	 * @param ammount
 	 */
@@ -117,7 +117,7 @@ public class CollisionVector {
 	}
 
 	/**
-	 * Gibt eine Liste aller Punkte auf dem Vektor zurück
+	 * Gibt eine Liste aller Punkte auf dem Vektor zurÃ¼ck
 	 * 
 	 * @return Liste der Punkte
 	 */
@@ -139,7 +139,7 @@ public class CollisionVector {
 
 	/**
 	 * Setzt den Startpunkt des Vektors auf den definierten Punkt, dabei wird
-	 * bei nördlicher und westlicher Orientierung der Punkt entsprechend
+	 * bei nÃ¶rdlicher und westlicher Orientierung der Punkt entsprechend
 	 * transformiert
 	 * 
 	 * @param point
@@ -157,7 +157,7 @@ public class CollisionVector {
 	}
 
 	/**
-	 * Bestimmt den Punkt in der übergebenen Entfernung
+	 * Bestimmt den Punkt in der Ã¼bergebenen Entfernung
 	 * 
 	 * @param distance
 	 * @return Point
