@@ -29,7 +29,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	 * quadratischen Spielfeld
 	 * 
 	 * @param size
-	 *            Kantenlänge
+	 *            KantenlÃ¤nge
 	 */
 	public CollisionDetector(int size) {
 		this(size, size);
@@ -42,7 +42,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	 * @param width
 	 *            Breite des Spielfeldes
 	 * @param height
-	 *            Höhe des Spielfeldes
+	 *            HÃ¶he des Spielfeldes
 	 */
 	public CollisionDetector(int width, int height) {
 		collisionMap = new boolean[width][height];
@@ -55,8 +55,8 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Überprpüft ob ein Punkt auf dem Spielbrett frei und gültig ist und gibt
-	 * sofern die Überprüfung positiv war true zurück
+	 * Ã¼berprÃ¼ft ob ein Punkt auf dem Spielbrett frei und gÃ¼ltig ist und gibt
+	 * sofern die ÃœberprÃ¼fung positiv war true zurÃ¼ck
 	 * 
 	 * @param point
 	 * @return True bei freiem Spielfeld
@@ -74,7 +74,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Überprüft ob der Pfad Kollisionen beinhaltet
+	 * ÃœberprÃ¼ft ob der Pfad Kollisionen beinhaltet
 	 * 
 	 * @param collisionPath
 	 * @return True bei Kollision
@@ -92,11 +92,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Setzt alle Felder des CollisionPath auf den übergebenen Wert
+	 * Setzt alle Felder des CollisionPath auf den Ã¼bergebenen Wert
 	 * 
 	 * @param collisionPath
 	 * @param value
-	 *            True für Belegtes Feld
+	 *            True fÃ¼r Belegtes Feld
 	 */
 	private void setCollisionMap(CollisionVector collisionPath, boolean value) {
 		List<Point> pathPoints = collisionPath.getPoints();
@@ -160,11 +160,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Versucht das übergebene GameBoardObject in der CollisionMap hinzuzufügen.
+	 * Versucht das Ã¼bergebene GameBoardObject in der CollisionMap hinzuzufÃ¼gen.
 	 * 
 	 * @param gameBoardObject
 	 * @throws IllegalBoardPositionException
-	 *             Bei einer ungültigen Position auf dem Spielbrett
+	 *             Bei einer ungÃ¼ltigen Position auf dem Spielbrett
 	 */
 	public void addGameBoardObject(IGameBoardObject gameBoardObject)
 			throws IllegalBoardPositionException {
@@ -245,11 +245,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Überprüft den übergebenen Zug auf Gültigkeit
+	 * ÃœberprÃ¼ft den Ã¼bergebenen Zug auf GÃ¼ltigkeit
 	 * 
 	 * @param move
 	 * @throws IllegalMoveException
-	 *             Bei einem ungültigen Zug
+	 *             Bei einem ungÃ¼ltigen Zug
 	 */
 	public void checkMove(IMove move) throws IllegalMoveException {
 		if (move.getMoveable() instanceof IGameBoardObject) {
@@ -261,7 +261,7 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 					gameBoardObject, move.getDistance());
 			// Objekt von der Karte entfernen
 			clearCollisionMap(objectBoundries);
-			// Zug Prüfen
+			// Zug PrÃ¼fen
 			if (checkCollision(moveBoundries)) {
 				fillCollisionMap(objectBoundries);
 				throw new IllegalMoveException();
@@ -275,11 +275,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Führt den übergebenen Zug aus, sofern es der zuletzt übergebene ist
+	 * FÃ¼hrt den Ã¼bergebenen Zug aus, sofern es der zuletzt Ã¼bergebene ist
 	 * 
 	 * @param move
 	 * @throws IllegalMoveException
-	 *             Wenn der Zug nicht der zuvor überprüfte ist
+	 *             Wenn der Zug nicht der zuvor Ã¼berprÃ¼fte ist
 	 */
 	public void doMove(IMove move) throws IllegalMoveException {
 		if (move.equals(lastCheckedMove)) {
@@ -294,11 +294,11 @@ public class CollisionDetector implements ICollisionDetector, Serializable {
 	}
 
 	/**
-	 * Überprüft ob das übergebene Objekt den spezifizierten Punkt berührt
+	 * ÃœberprÃ¼ft ob das Ã¼bergebene Objekt den spezifizierten Punkt berÃ¼hrt
 	 * 
 	 * @param gameBoardObject
 	 * @param point
-	 * @return True bei Berührung
+	 * @return True bei BerÃ¼hrung
 	 */
 	public boolean hitPoint(IGameBoardObject gameBoardObject, Point point) {
 		try {
