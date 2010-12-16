@@ -20,9 +20,6 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
 
 public class StandardCar extends AbstractMoveable implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4355928368405991476L;
 
 	public StandardCar(Boolean[][] collisionMap, Point point,
@@ -31,7 +28,7 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+
 	public void move(int distance) throws IllegalMoveException {
 
 		if (distance != 0) {
@@ -58,17 +55,17 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 						currentPosition.y);
 				break;
 			}
-			
+
 			super.setPosition(currentPosition);
-			
+
 		} else {
 			throw new IllegalMoveException();
 		}
 	}
+
 	
-	@Override
 	public void checkMove(int distance) throws IllegalMoveException {
-	}	
+	}
 
 	@Override
 	public int hashCode() {

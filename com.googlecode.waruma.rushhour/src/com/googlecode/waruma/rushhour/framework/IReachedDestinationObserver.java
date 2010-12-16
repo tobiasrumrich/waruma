@@ -9,4 +9,13 @@ public interface IReachedDestinationObserver {
 	 *            IPlayer-Objekt, welches das Ziel erreicht hat
 	 */
 	public void updateReachedDestination(IPlayer player);
+
+	/**
+	 * fügt einen IPlayer in die Liste der observierten IPlayers hinzu und
+	 * registriert sich beim Player
+	 * 
+	 * @param player
+	 *            zu observierender IPlayer
+	 */
+	public void addPlayer(IPlayer player);
 }
