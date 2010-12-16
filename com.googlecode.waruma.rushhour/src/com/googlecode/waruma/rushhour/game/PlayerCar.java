@@ -135,6 +135,8 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 * Entfernt alle Observer aus der Liste
 	 */
 	public void unregisterAllObservers(){
+		if(observers == null)
+			observers = new HashSet<IReachedDestinationObserver>();
 		observers.clear();
 	}
 

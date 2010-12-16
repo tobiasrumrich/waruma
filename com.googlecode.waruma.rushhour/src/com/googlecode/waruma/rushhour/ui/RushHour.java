@@ -100,10 +100,9 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	private void buildWindow() {
-		shell = new Shell();
+		shell = new Shell(SWT.CLOSE | SWT.MIN);
+		shell.setSize(725, 500);
 
-		shell.setSize(900, 700);
-		shell.setMinimumSize(725, 500);
 		shell.setText("RushHour by WARUMa");
 		shell.setLayout(null);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -130,7 +129,7 @@ public class RushHour implements IGameWonObserver {
 				String selected = fileDialog.open();
 				try {
 					if (selected != null) {
-						initializeNewGame(selected);
+						boardCreationControler = initializeNewGame(selected);
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
@@ -162,7 +161,8 @@ public class RushHour implements IGameWonObserver {
 					}
 				} catch (IOException ex) {
 					MessageBox messageBox = new MessageBox(shell);
-					messageBox.setMessage("Der Spielstand konnte nicht gespeichert werden. Bitte überprüfen Sie den angegebenen Pfad.");
+					messageBox
+							.setMessage("Der Spielstand konnte nicht gespeichert werden. Bitte überprüfen Sie den angegebenen Pfad.");
 					messageBox.setText("Fehler beim Speichern der Datei");
 					messageBox.open();
 				}
@@ -212,10 +212,18 @@ public class RushHour implements IGameWonObserver {
 		}
 	}
 
-	protected void initializeNewGame(String fileName) throws IOException {
+	protected RushHourBoardCreationController initializeNewGame(String fileName)
+			throws IOException {
+
+		Collection<IGameBoardObject> carsFromController = new ArrayList<IGameBoardObject>();
+		RushHourBoardCreationController controller = new RushHourBoardCreationController();
+		// Designer
+		controller.loadGameBoard(fileName);
+		carsFromController = controller.getGameBoardObjects();
+
 		tabFolder.setSelection(0);
 		gameMode = true;
-		
+
 		if (abstractGameBoardWidget.getGoalField() != null) {
 			abstractGameBoardWidget.removeHighlight(abstractGameBoardWidget
 					.getGoalField());
@@ -227,41 +235,28 @@ public class RushHour implements IGameWonObserver {
 
 		carPool.clear();
 
-		Collection<IGameBoardObject> carsFromController = new ArrayList<IGameBoardObject>();
-		if (gameMode) {
-			// Designer
-			boardCreationControler.loadGameBoard(fileName);
-			carsFromController = boardCreationControler.getGameBoardObjects();
-		} else {
-			// GamePlay
-			gameplayControler.loadGame(fileName);
-			carsFromController = gameplayControler.getCars();
-		}
-
 		for (IGameBoardObject boardObject : carsFromController) {
 			CarWidget abstractCarWidget = new CarWidget(shell, this,
 					boardObject);
-			
+
 			abstractCarWidget.knownInController = true;
 
-			if (gameMode) {
-				if (boardObject instanceof IPlayer) {
-					abstractCarWidget
-							.updateRushHourListener(new DesignerPlayerCarMouseListener(
-									this, abstractCarWidget));
-				} else {
-					abstractCarWidget
-							.updateRushHourListener(new DesignerCarMouseListener(
-									this, abstractCarWidget));
-				}
+			if (boardObject instanceof IPlayer) {
+				abstractCarWidget
+						.updateRushHourListener(new DesignerPlayerCarMouseListener(
+								this, abstractCarWidget));
 			} else {
-					
+				abstractCarWidget
+						.updateRushHourListener(new DesignerCarMouseListener(
+								this, abstractCarWidget));
 			}
 
 			carPool.add(abstractCarWidget);
 			abstractCarWidget.moveAbove(mainComposite);
-
 		}
+		
+		return controller;
+
 	}
 
 	private void switchToGameplay() {
@@ -321,17 +316,18 @@ public class RushHour implements IGameWonObserver {
 	}
 
 	public void doMoveFromSolver() {
-		if(moveQueue != null && !moveQueue.isEmpty()){
+		if (moveQueue != null && !moveQueue.isEmpty()) {
 			IMove move = moveQueue.poll();
-			IGameBoardObject gameBoardObject = (IGameBoardObject) move.getMoveable();
+			IGameBoardObject gameBoardObject = (IGameBoardObject) move
+					.getMoveable();
 			try {
 				gameplayControler.moveCar(gameBoardObject, move.getDistance());
 			} catch (IllegalMoveException e) {
 				gamePlayWidget.showForthButton(false);
 			}
-			
+
 			for (CarWidget car : carPool) {
-				if(car.gameObject.equals(gameBoardObject)){
+				if (car.gameObject.equals(gameBoardObject)) {
 					car.moveCarInUi();
 					gamePlayWidget.showBackButton(true);
 				}
@@ -340,10 +336,11 @@ public class RushHour implements IGameWonObserver {
 			gamePlayWidget.showForthButton(false);
 		}
 	}
-	
+
 	public void updateMoveCount() {
-		gamePlayWidget.lblMoves.setText(gameplayControler.getMoveCount().toString());
-		
+		gamePlayWidget.lblMoves.setText(gameplayControler.getMoveCount()
+				.toString());
+
 	}
 
 	public void solveGameBoard() {
@@ -360,7 +357,7 @@ public class RushHour implements IGameWonObserver {
 			}
 		}
 	}
-	
+
 	private void initializeAvailableCarImages() {
 		carFactory = new UICarFactory();
 		carFactory.scanDirectory("./src" + IMAGEBASEPATH);
@@ -458,7 +455,6 @@ public class RushHour implements IGameWonObserver {
 
 			@Override
 			public void controlMoved(ControlEvent arg0) {
-				resizeToDefinition();
 			}
 		});
 
@@ -467,10 +463,11 @@ public class RushHour implements IGameWonObserver {
 	@Override
 	public void updateGameWon() {
 		gameWon = true;
-		GameWonNotifier gameWonWindow = new GameWonNotifier(this, gameplayControler.elapsedGameTime(),
+		GameWonNotifier gameWonWindow = new GameWonNotifier(this,
+				gameplayControler.elapsedGameTime(),
 				gameplayControler.getMoveCount() + 1);
 		gameWonWindow.open();
-		
+
 	}
 
 	private void resizeToDefinition() {
@@ -490,10 +487,5 @@ public class RushHour implements IGameWonObserver {
 		mainComposite.setBounds(12, 10, shell.getBounds().width - 30,
 				shell.getBounds().height - 65);
 	}
-
-	
-
-
-	
 
 }

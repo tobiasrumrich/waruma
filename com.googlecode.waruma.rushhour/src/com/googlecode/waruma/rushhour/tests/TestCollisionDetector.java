@@ -2,6 +2,8 @@ package com.googlecode.waruma.rushhour.tests;
 
 import java.awt.Point;
 
+import org.eclipse.swt.graphics.Rectangle;
+
 import junit.framework.TestCase;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalBoardPositionException;
@@ -330,6 +332,86 @@ public class TestCollisionDetector extends TestCase {
 		assertTrue(exceptionThrown);
 	}
 
+	public void testValidTileWithNull(){
+		boolean thrownException = false;
+		try{
+			rushHourCollisionDetector.validTile(null);
+		} catch (IllegalArgumentException e) {
+			thrownException = true;
+		}
+		
+		assertTrue(thrownException);
+		
+	}
+	
+	public void testRotateGameBoardObject() throws IllegalBoardPositionException{
+		moveable1.setPosition(new Point(1,3));
+		moveable1.setOrientation(Orientation.SOUTH);
+		
+		moveable2.setPosition(new Point(2,3));
+		moveable2.setOrientation(Orientation.NORTH);
+		
+		rushHourCollisionDetector.addGameBoardObject(moveable1);
+		rushHourCollisionDetector.addGameBoardObject(moveable2);
+		
+		boolean exceptionThrown = false;
+		try{
+			rushHourCollisionDetector.rotateGameBoardObject(moveable1, Orientation.EAST);
+		} catch(IllegalBoardPositionException e){
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+		
+		exceptionThrown = false;
+		try{
+			rushHourCollisionDetector.rotateGameBoardObject(moveable1, Orientation.WEST);
+		} catch(IllegalBoardPositionException e){
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+		
+		exceptionThrown = false;
+		try{
+			rushHourCollisionDetector.rotateGameBoardObject(null, Orientation.SOUTH);
+		} catch(IllegalBoardPositionException e){
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+		
+		exceptionThrown = false;
+		try{
+			rushHourCollisionDetector.rotateGameBoardObject(moveable2, Orientation.WEST);
+		} catch(IllegalBoardPositionException e){
+			exceptionThrown = true;
+		}
+		assertFalse(exceptionThrown);
+		
+	}
+	
+	public void testGetMoveRange() throws IllegalBoardPositionException {
+		moveable1.setPosition(new Point(1,3));
+		moveable1.setOrientation(Orientation.NORTH);
+		
+		moveable2.setPosition(new Point(2,3));
+		moveable2.setOrientation(Orientation.WEST);
+		
+		rushHourCollisionDetector.addGameBoardObject(moveable1);
+		rushHourCollisionDetector.addGameBoardObject(moveable2);
+		
+		Rectangle rect = rushHourCollisionDetector.getMoveRange(moveable1);
+		assertEquals(1, rect.x);
+		assertEquals(5, rect.y);
+		assertEquals(5, rect.width);
+		
+		rect = rushHourCollisionDetector.getMoveRange(moveable2);
+		assertEquals(5, rect.x);
+		assertEquals(3, rect.y);
+		assertEquals(3, rect.width);
+		
+		assertNull(rushHourCollisionDetector.getMoveRange(null));
+		
+	}
+	
 	public void testRemoveGameBoardObject() {
 		moveable1.setPosition(new Point(1, 3));
 		moveable1.setOrientation(Orientation.NORTH);
