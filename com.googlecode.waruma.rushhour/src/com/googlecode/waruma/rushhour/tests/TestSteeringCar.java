@@ -72,6 +72,7 @@ public class TestSteeringCar extends TestCase {
 		}
 		assertTrue(thrownException);
 	}
+	
 
 	// Wir testen, ob wir nicht in zwei unterschiedliche Richtungen fahren
 	// können
@@ -107,5 +108,19 @@ public class TestSteeringCar extends TestCase {
 		assertEquals(collisionMap, car.getCollisionMap());
 		assertEquals(new Point(5, 5), car.getPosition());
 		assertEquals(Orientation.NORTH, car.getOrientation());
+	}
+	
+	
+	// Wir testen, ob wir ein gelocktes Moveable wieder unlocken können.
+	public void testUnlock() throws IllegalMoveException {
+
+		car.move(1);
+		car.unlock();
+		try {
+			car.move(1);
+		} catch (IllegalMoveException e) {
+			thrownException = true;
+		}
+		assertFalse(thrownException);
 	}
 }

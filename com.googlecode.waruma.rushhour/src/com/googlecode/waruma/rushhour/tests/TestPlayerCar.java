@@ -109,4 +109,19 @@ public class TestPlayerCar extends TestCase {
 		assertTrue(mockObserver2.called);
 		assertTrue(car.reachedDestination());
 	}
+	
+	public void testUnregisterAllObserver() throws IllegalMoveException{
+		//Deregistriert alle Observer
+		car.unregisterAllObservers();
+		
+		//Player erreicht das Ziel und benachrichtigt alle Observer
+		car.setOrientation(Orientation.EAST);
+		car.setPosition(new Point(2, 2));
+		car.setDestination(new Point(4, 2));
+		car.move(2);
+		
+		//Observer erhalten keine Benachrichtigung
+		assertFalse(mockObserver1.called);
+		assertFalse(mockObserver2.called);
+	}
 }
