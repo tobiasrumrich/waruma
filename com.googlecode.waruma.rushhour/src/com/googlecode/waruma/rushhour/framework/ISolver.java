@@ -5,7 +5,7 @@ import java.util.List;
 public interface ISolver {
 	
 	/**
-	 * löst das Gameboard und gibt ein Liste von Zügen zurück
+	 * Löst das Spielbrett und gibt die zum Erreichen notwendigen Züge zurück
 	 * 
 	 * @return Liste von IMoves
 	 */
