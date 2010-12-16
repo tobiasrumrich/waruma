@@ -12,6 +12,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -102,7 +103,8 @@ public class RushHour implements IGameWonObserver {
 	private void buildWindow() {
 		shell = new Shell();
 
-		shell.setSize(926, 549);
+		shell.setSize(900, 700);
+		shell.setMinimumSize(725, 500);
 		shell.setText("RushHour by WARUMa");
 		shell.setLayout(null);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -264,6 +266,7 @@ public class RushHour implements IGameWonObserver {
 
 	private void switchToGameplay() {
 		Object gameState = boardCreationControler.getCurrentState();
+		gamePlayWidget.lblMoves.setText("0");
 		this.gameplayControler = new RushHourGameplayControler(gameState);
 		this.gameplayControler.registerGameWon(this);
 		for (CarWidget currentCar : carPool) {
@@ -463,7 +466,7 @@ public class RushHour implements IGameWonObserver {
 	public void updateGameWon() {
 		gameWon = true;
 		GameWonNotifier gameWonWindow = new GameWonNotifier(this, gameplayControler.elapsedGameTime(),
-				gameplayControler.getMoveCount());
+				gameplayControler.getMoveCount() + 1);
 		gameWonWindow.open();
 		
 	}
