@@ -7,6 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * Sorgt für die (De-)Serialisierung von Objekten im Dateisystem
+ * 
+ * @author Tobias Rumrich
+ */
 public class FileSystemObjectStorage implements IObjectStorage {
 	
 	@Override

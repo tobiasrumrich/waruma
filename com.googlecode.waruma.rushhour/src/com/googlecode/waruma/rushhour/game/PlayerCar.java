@@ -17,7 +17,6 @@ import com.googlecode.waruma.rushhour.framework.Orientation;
  * 
  * @author Florian
  */
-
 public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	private static final long serialVersionUID = -5048696909045388704L;
 	private Point destination;
@@ -42,8 +41,8 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 			Orientation orientation, ICollisionDetector collisionDetector) {
 		super(collisionMap, position, orientation);
 		this.collisionDetector = collisionDetector;
-		this.observers = new HashSet<IReachedDestinationObserver>();
-		this.reachedDestination = false;
+		observers = new HashSet<IReachedDestinationObserver>();
+		reachedDestination = false;
 	}
 
 	/**
@@ -68,12 +67,59 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		this.destination = destination;
 	}
 
-	/**
-	 * Führt einen Zug durch
-	 * 
-	 * @param distance
-	 *            Zugweite
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.game.StandardCar#equals(java.lang.Object)
 	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		PlayerCar other = (PlayerCar) obj;
+		if (destination == null) {
+			if (other.destination != null) {
+				return false;
+			}
+		} else if (!destination.equals(other.destination)) {
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.IPlayer#getDestination()
+	 */
+	@Override
+	public Point getDestination() {
+		return destination;
+	}
+
+	/*
+	 * Einfache Implementierung, die unabhängig von der Destination den HashCode
+	 * des PlayersCar bestimmt (non-Javadoc)
+	 * 
+	 * @see com.googlecode.waruma.rushhour.game.StandardCar#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 75503;
+		int result = prime * super.hashCode();
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.game.StandardCar#move(int)
+	 */
+	@Override
 	public void move(int distance) throws IllegalMoveException {
 		super.move(distance);
 		if (collisionDetector.hitPoint(this, destination)) {
@@ -84,15 +130,26 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 		}
 	}
 
-	/**
-	 * Registriert einen IReachedDestinationObserver bei dem PlayerCar
-	 * 
-	 * @param eventTarget
-	 *            Observer
+	/*
+	 * (non-Javadoc)
+	 * @see com.googlecode.waruma.rushhour.framework.IPlayer#reachedDestination()
 	 */
+	@Override
+	public boolean reachedDestination() {
+		return reachedDestination;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.waruma.rushhour.framework.IPlayer#registerReachedDestination
+	 * (com.googlecode.waruma.rushhour.framework.IReachedDestinationObserver)
+	 */
+	@Override
 	public void registerReachedDestination(
 			IReachedDestinationObserver eventTarget) {
-		if(observers == null){
+		if (observers == null) {
 			observers = new HashSet<IReachedDestinationObserver>();
 		}
 		observers.add(eventTarget);
@@ -106,47 +163,6 @@ public class PlayerCar extends StandardCar implements IPlayer, Serializable {
 	 */
 	public void setDestination(Point destination) {
 		this.destination = destination;
-	}
-
-	/**
-	 * Gibt das Ziel des PlayerCars zurück
-	 * 
-	 * @return Zielpunkt
-	 */
-	public Point getDestination() {
-		return this.destination;
-	}
-	
-	/**
-	 * Gibt an ob das Auto sein Ziel erreicht hat
-	 * @return True bei Erreichen
-	 */
-	public boolean reachedDestination(){
-		return this.reachedDestination;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 75503;
-		int result = prime* super.hashCode();
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PlayerCar other = (PlayerCar) obj;
-		if (destination == null) {
-			if (other.destination != null)
-				return false;
-		} else if (!destination.equals(other.destination))
-			return false;
-		return true;
 	}
 
 }

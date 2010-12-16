@@ -2,10 +2,15 @@ package com.googlecode.waruma.rushhour.framework;
 
 import java.awt.Point;
 
+/**
+ * Schnittstelle für Spielerobjekte
+ * 
+ * @author Florian
+ */
 public interface IPlayer {
 
 	/**
-	 * registriert einen Observer
+	 * Registriert einen Observer
 	 * 
 	 * @param eventTarget
 	 *            zu registrierender IReachedDestinationObserver
@@ -16,7 +21,7 @@ public interface IPlayer {
 	public Point getDestination();
 
 	/**
-	 * gibt zurück, ob ein IPlayer sein Ziel erreicht hat
+	 * Gibt zurück, ob ein IPlayer sein Ziel erreicht hat
 	 * 
 	 * @return true, wenn IPlayer sein Ziel erreicht hat
 	 */

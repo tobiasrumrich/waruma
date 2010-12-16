@@ -4,14 +4,14 @@ import java.awt.Point;
 
 import junit.framework.TestCase;
 
-import com.googlecode.waruma.rushhour.framework.AdditionalFunctionality;
+import com.googlecode.waruma.rushhour.framework.AbstractAdditionalFunctionality;
 import com.googlecode.waruma.rushhour.framework.Orientation;
 import com.googlecode.waruma.rushhour.game.CollisionDetector;
 import com.googlecode.waruma.rushhour.game.PlayerCar;
 
 public class TestAdditionalFunctionality extends TestCase {
 
-	AdditionalFunctionality aFunc;
+	AbstractAdditionalFunctionality aFunc;
 	
 	protected void setUp() {
 		
@@ -19,7 +19,7 @@ public class TestAdditionalFunctionality extends TestCase {
 		CollisionDetector collisionDetector = new CollisionDetector(6);
 		PlayerCar car = new PlayerCar(collisionMap, new Point(5, 5), Orientation.NORTH, collisionDetector);
 		
-		aFunc = new AdditionalFunctionality(car);
+		aFunc = new AbstractAdditionalFunctionality(car);
 	}
 	
 	public void testGetCollisionMap() {
