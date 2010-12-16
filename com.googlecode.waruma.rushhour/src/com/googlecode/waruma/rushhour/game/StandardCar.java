@@ -28,7 +28,7 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-
+	@Override
 	public void move(int distance) throws IllegalMoveException {
 
 		if (distance != 0) {
@@ -63,7 +63,7 @@ public class StandardCar extends AbstractMoveable implements Serializable {
 		}
 	}
 
-	
+	@Override
 	public void checkMove(int distance) throws IllegalMoveException {
 	}
 
