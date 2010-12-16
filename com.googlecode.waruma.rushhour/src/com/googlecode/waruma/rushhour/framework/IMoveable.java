@@ -2,6 +2,11 @@ package com.googlecode.waruma.rushhour.framework;
 
 import com.googlecode.waruma.rushhour.exceptions.IllegalMoveException;
 
+/**
+ * 
+ * 
+ * @author Florian
+ */
 public interface IMoveable {
 
 	/**
